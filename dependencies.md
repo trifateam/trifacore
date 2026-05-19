@@ -1,12 +1,19 @@
 # ANALISIS DEPENDENCY / PACKAGE LARAVEL
-## SISTEM INFORMASI MANAJEMEN OPERASIONAL DAN TRANSAKSI PETERNAKAN "TRIFACORE" BERBASIS WEB
+## SISTEM INFORMASI MANAJEMEN OPERASIONAL DAN SISTEM PETERNAKAN "TRIFACORE" BERBASIS WEB
 
 **Dosen Pengampu:**
 * Defni, S.Si., M.Kom
 * Mutia Rahmi Dewi, S.Kom., M.Kom
 
-**Disusun Oleh:**
-* Kelompok 3
+### Disusun Oleh
+
+**Kelompok 3**
+1. Muhammad Ghalib Syabandi
+2. Muhammad Ridho Syaputra
+3. Nabila Mudika Putri
+4. Wildan Hafidh
+5. Rafif Dirangga Martin
+
 
 **PROGRAM STUDI TEKNOLOGI REKAYASA PERANGKAT LUNAK**
 **JURUSAN TEKNOLOGI INFORMASI**
