@@ -6,7 +6,7 @@
 * Mutia Rahmi Dewi, S.Kom., M.Kom
 
 **Disusun Oleh:**
-* Kelompok 2
+* Kelompok 3
 
 **PROGRAM STUDI TEKNOLOGI REKAYASA PERANGKAT LUNAK**
 **JURUSAN TEKNOLOGI INFORMASI**
