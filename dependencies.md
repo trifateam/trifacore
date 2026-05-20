@@ -1,5 +1,5 @@
 # ANALISIS DEPENDENCY / PACKAGE LARAVEL
-## SISTEM INFORMASI MANAJEMEN OPERASIONAL DAN SISTEM PETERNAKAN "TRIFACORE" BERBASIS WEB
+## TriFaCore - Sistem Informasi Manajemen Peternakan Ayam Petelur “Trifa Farm”.
 
 **Dosen Pengampu:**
 * Defni, S.Si., M.Kom
