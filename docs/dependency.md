@@ -4,7 +4,7 @@ Dokumen ini menjelaskan dependency proyek TriFaCore berdasarkan kebutuhan sistem
 
 ## Identitas
 
-* **Nama proyek:** Sistem Informasi Manajemen Peternakan Ayam Petelur "Trifa Farm" (TriFaCore)
+* **Nama proyek:** TriFaCore - Sistem Informasi Manajemen Peternakan Ayam Petelur "Trifa Farm"
 * **Framework utama:** Laravel 13
 * **Tujuan:** Mengidentifikasi dependency/package Laravel yang digunakan maupun yang direncanakan untuk mendukung pengembangan sistem, menjelaskan kegunaannya menggunakan pendekatan 5W+1H, serta menganalisis dampaknya terhadap evolusi perangkat lunak.
 
