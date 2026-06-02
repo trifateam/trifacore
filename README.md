@@ -89,8 +89,7 @@ docs/
 ├── installation.md
 ├── features.md
 ├── dependency.md
-├── database-erd.md
-├── ai-integration.md
+├── refactoring.md
 └── github-actions.md
 ```
 
@@ -109,11 +108,11 @@ Rencana screenshot minimal:
 
 | Dokumen | Deskripsi |
 | :--- | :--- |
-| [docs/installation.md](docs/installation.md) | Panduan instalasi lokal, setup environment, dan troubleshooting |
-| [docs/features.md](docs/features.md) | Dokumentasi Use Case, Business Rule, dan alur kerja aplikasi |
-| [docs/dependency.md](docs/dependency.md) | Dokumentasi package pihak ketiga (Frontend & Backend) |
-| [docs/database-erd.md](docs/database-erd.md) | Dokumentasi struktur ERD, relational schema, dan kamus data sistem |
-| [docs/ai-integration.md](docs/ai-integration.md) | Panduan API endpoint untuk integrasi model peramalan Machine Learning |
+| [docs/installation.md](docs/installation.md) | Panduan instalasi lokal, setup database, dan troubleshooting |
+| [docs/features.md](docs/features.md) | Dokumentasi Use Case dan alur kerja fitur aplikasi |
+| [docs/dependency.md](docs/dependency.md) | Dokumentasi package Laravel pihak ketiga beserta analisa risikonya |
+| [docs/refactoring.md](docs/refactoring.md) | Catatan refactoring dan perbaikan struktur kode |
+| [docs/github-actions.md](docs/github-actions.md) | Rencana workflow CI/CD untuk repositori |
 | [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan proyek dan evolusi sistem dari seluruh tim |
 
 ## Tim Pengembang (Kelompok 3 - PBL TRIFATEAM)
