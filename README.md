@@ -1,58 +1,130 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TriFaCore - Sistem Informasi Manajemen Peternakan Ayam Petelur "Trifa Farm"
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Deskripsi Proyek
+Proyek ini bertujuan untuk mengembangkan TriFaCore, sebuah Sistem Informasi Manajemen Peternakan Berbasis Web sebagai solusi digital untuk digitalisasi pencatatan operasional pada UMKM peternakan ayam petelur (Mitra: Trifa Farm). Sistem ini mengintegrasikan pengelolaan data operasional harian secara *real-time* dan dipadukan dengan teknologi *Artificial Intelligence* (AI) berbasis *Time Series Forecasting* serta *Linear Regression* untuk memprediksi produksi telur.
 
-## About Laravel
+Dokumentasi proyek disusun agar aplikasi mudah dipasang, dipelihara, dikembangkan, dan digunakan sebagai dasar kolaborasi tim. Proyek ini juga dirancang untuk mendukung pencapaian SDGs 8 (Pekerjaan Layak dan Pertumbuhan Ekonomi) melalui mentransformasi manajemen UMKM peternakan menjadi lebih modern, efisien, dan transparan.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tujuan Proyek
+- Mengembangkan aplikasi manajemen peternakan berbasis web untuk mendigitalisasi pencatatan produksi, inventaris, dan transaksi keuangan.
+- Mengimplementasikan teknologi AI untuk memprediksi hasil produksi telur harian dan mendeteksi potensi penurunan hasil panen secara dini dengan target akurasi minimal 80%.
+- Menyediakan *dashboard* interaktif untuk memonitor metrik penting peternakan seperti HDP (*Hen Day Production*) dan FCR (*Feed Conversion Ratio*) secara *real-time*.
+- Menyajikan rekapitulasi laporan keuangan (pemasukan, pengeluaran, laba-rugi) secara otomatis untuk mendukung pengambilan keputusan bisnis mitra.
+- Membangun struktur kode dan ekosistem perangkat lunak yang *scalable* agar mudah dipelihara serta dikembangkan secara kolaboratif.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Masalah Yang Diselesaikan
+- Proses pencatatan produksi telur, inventaris pakan, dan keuangan yang sebelumnya masih manual (menggunakan buku tulis) sehingga rentan hilang, terselip, atau rusak.
+- Kesulitan dan lamanya waktu yang dibutuhkan manajemen untuk menghitung laporan laba-rugi operasional secara akurat.
+- Tidak tersedianya perangkat visual (grafik) untuk menganalisis pola atau tren fluktuasi produksi telur dari waktu ke waktu.
+- Ketidakmampuan pemilik usaha dalam memperkirakan risiko penurunan produksi di masa depan, yang menyulitkan perencanaan distribusi dan mitigasi risiko.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Target Pengguna
+- **Karyawan (Pegawai):** Bertindak sebagai operator lapangan yang bertugas menginput data harian seperti jumlah panen telur (berdasarkan *grade*), penggunaan dan pembelian stok pakan, serta mencatat transaksi penjualan.
+- **Pemilik Usaha (Owner):** Memantau laporan kinerja bisnis dari jarak jauh melalui *dashboard* interaktif, melihat laporan keuangan otomatis, serta menganalisis hasil rekomendasi dan grafik prediksi AI.
+- **Admin Sistem:** Mengelola hak akses pengguna (RBAC), memelihara fungsionalitas sistem, dan mengelola entitas *Master Data* (Data Kandang, Data Pelanggan, Data Inventaris).
 
-## Learning Laravel
+## Fitur Utama
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Sisi Operasional & Transaksi (Karyawan)
+- **Pencatatan Produksi Telur:** Menginput jumlah hasil panen harian berdasarkan *grade* (RB, MB, MK, Pecah/Rusak).
+- **Manajemen Stok Pakan:** Mencatat barang masuk (pembelian pakan/obat) dan riwayat konsumsi harian untuk populasi ayam.
+- **Manajemen Penjualan:** Mencatat transaksi penjualan telur ke pelanggan atau pengepul dan merilis struk/nota penjualan.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Sisi Pemantauan & Bisnis (Owner & Admin)
+- **Halaman Profil Publik (Landing Page):** Tampilan representasi digital dan *branding* profil Trifa Farm.
+- **Autentikasi Multi-Role:** Login dan Logout dengan pembatasan hak akses *dashboard* berdasarkan peran.
+- **Dashboard Monitoring Real-Time:** Menampilkan ringkasan metrik statistik populasi ayam, perbandingan pemasukan vs pengeluaran, dan grafik produksi (HDP & FCR).
+- **Laporan Keuangan & Export:** Sistem kalkulasi otomatis untuk menghasilkan arsip laporan laba-rugi operasional (*export* ke PDF/Excel).
+- **AI Production Forecasting (Fitur Cerdas):** Visualisasi prediksi tren produksi telur menggunakan *Linear Regression* pada *dashboard*, dilengkapi dengan sistem notifikasi/alert peringatan jika terdeteksi anomali penurunan produksi.
+- **Manajemen Master Data:** Kelola Kandang, Kelola Pelanggan, dan Kelola Barang Gudang (Admin).
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Tech Stack
+- **Framework & Language:** Laravel 13 / PHP 8.3+
+- **AI / Machine Learning API:** Python (Flask / FastAPI)
+- **Database:** MySQL / MariaDB
+- **Frontend:** Tailwind CSS, Blade Templates, Alpine.js
+- **Build Tool:** Vite, Node.js & NPM
+- **Dependency / Packages:**
+  - `barryvdh/laravel-dompdf` (Cetak PDF rekap laporan keuangan & produksi)
+  - `blade-ui-kit/blade-heroicons` (Integrasi ikon UI)
+  - `maatwebsite/excel` (Export/Import laporan format spreadsheet)
+  - `spatie/laravel-activitylog` (Audit trail/Riwayat log aktivitas *user*)
+  - `Chart.js` (Visualisasi metrik *dashboard* dan AI Forecasting)
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Instalasi Singkat
 
 ```bash
-composer require laravel/boost --dev
+# Kloning repositori
+git clone https://github.com/trifateam/trifacore.git
+cd trifacore
 
-php artisan boost:install
+# Install dependensi backend & frontend
+composer install
+npm install
+
+# Salin environment file & buat key
+cp .env.example .env
+php artisan key:generate
+
+# Link storage & jalankan migrasi beserta seeders
+php artisan storage:link
+php artisan migrate --seed
+
+# Build aset frontend & jalankan server lokal
+npm run build
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+> [!NOTE]
+> **Catatan Windows PowerShell:** Jika `npm` atau `npx` diblokir karena *execution policy*, gunakan `npm.cmd` dan `npx.cmd`.
 
-## Contributing
+Dokumentasi instalasi lengkap tersedia di [docs/installation.md](docs/installation.md).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Struktur Dokumentasi
 
-## Code of Conduct
+```plaintext
+README.md
+CHANGELOG.md
+docs/
+├── installation.md
+├── features.md
+├── dependency.md
+├── database-erd.md
+├── ai-integration.md
+└── github-actions.md
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Screenshot Proyek
 
-## Security Vulnerabilities
+Screenshot aplikasi akan ditambahkan setelah halaman siap digunakan dan telah diverifikasi.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Rencana screenshot minimal:
+- Halaman Landing Page representasi usaha Trifa Farm.
+- Halaman Login dengan UI responsif.
+- Halaman Dashboard pemantauan Owner (Grafik tren, HDP, FCR, dan Prediksi AI).
+- Halaman formulir input produksi harian Karyawan.
+- Halaman laporan laba-rugi keuangan otomatis.
 
-## License
+## Documentation
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Dokumen | Deskripsi |
+| :--- | :--- |
+| [docs/installation.md](docs/installation.md) | Panduan instalasi lokal, setup environment, dan troubleshooting |
+| [docs/features.md](docs/features.md) | Dokumentasi Use Case, Business Rule, dan alur kerja aplikasi |
+| [docs/dependency.md](docs/dependency.md) | Dokumentasi package pihak ketiga (Frontend & Backend) |
+| [docs/database-erd.md](docs/database-erd.md) | Dokumentasi struktur ERD, relational schema, dan kamus data sistem |
+| [docs/ai-integration.md](docs/ai-integration.md) | Panduan API endpoint untuk integrasi model peramalan Machine Learning |
+| [CHANGELOG.md](CHANGELOG.md) | Riwayat perubahan proyek dan evolusi sistem dari seluruh tim |
+
+## Tim Pengembang (Kelompok 3 - PBL TRIFATEAM)
+
+| Nama | NIM | Peran Proyek |
+| :--- | :---: | :--- |
+| Muhammad Ghalib Syabandi | 2411083024 | Project Manager |
+| Nabila Mudika Putri | 2411081036 | System Analyst |
+| Muhammad Ridho Syaputra | 2411081041 | Lead Programmer |
+| Wildan Hafidh | 2411082034 | AI Specialist |
+| Rafif Dirangga Martin | 2411082040 | Quality Assurance |
+
+## Repository
+Repositori ini digunakan sebagai pusat manajemen versi (version control), kolaborasi penulisan kode, penyimpanan dokumentasi teknis, serta pencatatan riwayat evolusi perangkat lunak (changelog) dari awal pengembangan hingga rilis final. Tautan repositori: https://github.com/trifateam/trifacore.git
