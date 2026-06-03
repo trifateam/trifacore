@@ -55,4 +55,24 @@ class Pengguna extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function pelanggan()
+    {
+        return $this->hasMany(Pelanggan::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    public function supplier()
+    {
+        return $this->hasMany(Supplier::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    public function barang()
+    {
+        return $this->hasMany(Barang::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    public function kandang()
+    {
+        return $this->hasMany(Kandang::class, 'id_pengguna', 'id_pengguna');
+    }
 }
