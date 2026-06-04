@@ -17,7 +17,7 @@
             DASHBOARD
         </a>
 
-        @if(in_array(auth()->user()->role ?? '', ['admin', 'pegawai_kandang']))
+        @role('Admin', 'Pegawai Kandang')
         <div class="border-t border-gray-700 my-2 mx-2"></div>
         <!-- Pencatatan Harian (Admin, Pegawai Kandang) -->
         <div x-data="{ open: {{ request()->is('pencatatan*') ? 'true' : 'false' }} }">
@@ -44,9 +44,9 @@
                 </div>
             </div>
         </div>
-        @endif
+        @endrole
 
-        @if(in_array(auth()->user()->role ?? '', ['admin', 'owner', 'sales']))
+        @role('Admin', 'Owner', 'Sales')
         <div class="border-t border-gray-700 my-2 mx-2"></div>
         <!-- Manajemen Transaksi (Admin, Owner, Sales) -->
         <div x-data="{ open: {{ request()->is('transaksi*') ? 'true' : 'false' }} }">
@@ -70,9 +70,9 @@
                 </div>
             </div>
         </div>
-        @endif
+        @endrole
 
-        @if(in_array(auth()->user()->role ?? '', ['admin', 'owner']))
+        @role('Admin', 'Owner')
         <div class="border-t border-gray-700 my-2 mx-2"></div>
         <!-- Kandang Operasional (Admin, Owner) -->
         <a href="/kandang-operasional" class="flex items-center px-4 py-2.5 text-sm rounded-lg mx-2 transition-colors {{ request()->is('kandang-operasional*') ? 'bg-indigo-600/20 text-indigo-400 border-r-2 border-indigo-500' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
@@ -81,9 +81,9 @@
             </svg>
             KANDANG
         </a>
-        @endif
+        @endrole
 
-        @if(in_array(auth()->user()->role ?? '', ['admin', 'owner', 'pegawai_gudang']))
+        @role('Admin', 'Owner', 'Pegawai Gudang')
         <div class="border-t border-gray-700 my-2 mx-2"></div>
         <!-- Gudang (Admin, Owner, Pegawai Gudang) -->
         <a href="/gudang" class="flex items-center px-4 py-2.5 text-sm rounded-lg mx-2 transition-colors {{ request()->is('gudang*') ? 'bg-indigo-600/20 text-indigo-400 border-r-2 border-indigo-500' : 'text-gray-300 hover:bg-gray-800 hover:text-white' }}">
@@ -92,9 +92,9 @@
             </svg>
             GUDANG
         </a>
-        @endif
+        @endrole
 
-        @if(in_array(auth()->user()->role ?? '', ['admin', 'owner']))
+        @role('Admin', 'Owner')
         <div class="border-t border-gray-700 my-2 mx-2"></div>
         <!-- Master Data (Admin, Owner) -->
         <div x-data="{ open: {{ request()->is('master-data*') ? 'true' : 'false' }} }">
@@ -192,7 +192,7 @@
                 </div>
             </div>
         </div>
-        @endif
+        @endrole
 
     </nav>
 </aside>
