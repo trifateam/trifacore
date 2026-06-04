@@ -75,4 +75,15 @@ class Pengguna extends Authenticatable
     {
         return $this->hasMany(Kandang::class, 'id_pengguna', 'id_pengguna');
     }
+
+    /**
+     * Cek apakah pengguna memiliki salah satu role yang diberikan.
+     *
+     * @param  string  ...$roles
+     * @return bool
+     */
+    public function hasRole(string ...$roles): bool
+    {
+        return in_array($this->role, $roles);
+    }
 }
