@@ -21,4 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    if (config('app.debug')) {
+        Route::get('/dev/components', function () {
+            return view('dev.components');
+        })->name('dev.components');
+    }
 });
