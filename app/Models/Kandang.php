@@ -25,4 +25,14 @@ class Kandang extends Model
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna', 'id_pengguna');
     }
+
+    public function suhuKandang()
+    {
+        return $this->hasMany(SuhuKandang::class, 'id_kandang', 'id_kandang');
+    }
+
+    public function produksiPupukKandang()
+    {
+        return $this->hasMany(ProduksiPupukKandang::class, 'id_kandang', 'id_kandang');
+    }
 }
