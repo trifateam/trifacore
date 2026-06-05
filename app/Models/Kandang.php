@@ -26,6 +26,11 @@ class Kandang extends Model
         return $this->belongsTo(Pengguna::class, 'id_pengguna', 'id_pengguna');
     }
 
+    public function batches()
+    {
+        return $this->hasMany(Batch::class, 'id_kandang', 'id_kandang');
+    }
+
     public function suhuKandang()
     {
         return $this->hasMany(SuhuKandang::class, 'id_kandang', 'id_kandang');

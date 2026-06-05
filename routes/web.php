@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MasterData\KandangController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
@@ -61,7 +62,7 @@ Route::middleware('auth')->group(function () {
 
         // Master Data
         Route::prefix('master-data')->name('master-data.')->group(function () {
-            Route::get('/kandang', fn () => view('master-data.kandang'))->name('kandang');
+            Route::resource('kandang', KandangController::class)->except(['create', 'show', 'edit']);
             Route::get('/barang', fn () => view('master-data.barang'))->name('barang');
             Route::get('/supplier', fn () => view('master-data.supplier'))->name('supplier');
             Route::get('/pegawai', fn () => view('master-data.pegawai'))->name('pegawai');
