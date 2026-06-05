@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,7 +64,7 @@ Route::middleware('auth')->group(function () {
         // Master Data
         Route::prefix('master-data')->name('master-data.')->group(function () {
             Route::resource('kandang', KandangController::class)->except(['create', 'show', 'edit']);
-            Route::get('/barang', fn () => view('master-data.barang'))->name('barang');
+            Route::resource('barang', BarangController::class)->except(['create', 'show', 'edit']);
             Route::get('/supplier', fn () => view('master-data.supplier'))->name('supplier');
             Route::get('/pegawai', fn () => view('master-data.pegawai'))->name('pegawai');
             Route::get('/pelanggan', fn () => view('master-data.pelanggan'))->name('pelanggan');
