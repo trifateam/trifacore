@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
+use App\Http\Controllers\MasterData\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
@@ -65,7 +66,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('master-data')->name('master-data.')->group(function () {
             Route::resource('kandang', KandangController::class)->except(['create', 'show', 'edit']);
             Route::resource('barang', BarangController::class)->except(['create', 'show', 'edit']);
-            Route::get('/supplier', fn () => view('master-data.supplier'))->name('supplier');
+            Route::resource('supplier', SupplierController::class)->except(['create', 'show', 'edit']);
             Route::get('/pegawai', fn () => view('master-data.pegawai'))->name('pegawai');
             Route::get('/pelanggan', fn () => view('master-data.pelanggan'))->name('pelanggan');
             Route::get('/rekening', fn () => view('master-data.rekening'))->name('rekening');
