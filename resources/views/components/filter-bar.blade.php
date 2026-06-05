@@ -12,4 +12,4 @@
             <x-button type="button" variant="secondary" href="{{ url()->current() }}">Reset</x-button>
         @endif
     </div>
-</form
+</form>

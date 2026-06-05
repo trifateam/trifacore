@@ -35,4 +35,4 @@
     .table-hoverable tr:hover {
         background-color: #eef2ff80;
     }
-</style
+</style>
