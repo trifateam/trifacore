@@ -13,7 +13,9 @@ use App\Http\Controllers\MasterData\SupplierController;
 use App\Http\Controllers\Pencatatan\DeplesiController;
 use App\Http\Controllers\Pencatatan\KonsumsiPakanController;
 use App\Http\Controllers\Pencatatan\KonsumsiVitaminController;
+use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
+use App\Http\Controllers\Pencatatan\SuhuKandangController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
@@ -56,8 +58,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/deplesi', [DeplesiController::class, 'index'])->name('deplesi.index');
         Route::get('/deplesi/{batch}/create', [DeplesiController::class, 'create'])->name('deplesi.create');
         Route::post('/deplesi/{batch}', [DeplesiController::class, 'store'])->name('deplesi.store');
-        Route::get('/suhu', fn () => view('pencatatan.suhu'))->name('suhu');
-        Route::get('/pupuk', fn () => view('pencatatan.pupuk'))->name('pupuk');
+        Route::get('/suhu', [SuhuKandangController::class, 'index'])->name('suhu.index');
+        Route::get('/suhu/{kandang}/create', [SuhuKandangController::class, 'create'])->name('suhu.create');
+        Route::post('/suhu/{kandang}', [SuhuKandangController::class, 'store'])->name('suhu.store');
+        Route::get('/pupuk', [ProduksiPupukController::class, 'index'])->name('pupuk.index');
+        Route::get('/pupuk/{kandang}/create', [ProduksiPupukController::class, 'create'])->name('pupuk.create');
+        Route::post('/pupuk/{kandang}', [ProduksiPupukController::class, 'store'])->name('pupuk.store');
         Route::get('/riwayat', fn () => view('pencatatan.riwayat'))->name('riwayat');
     });
 
