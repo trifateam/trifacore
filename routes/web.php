@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KandangOperasionalController;
 use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
@@ -93,7 +94,8 @@ Route::middleware('auth')->group(function () {
 
     // ── Gudang: Admin, Owner, Pegawai Gudang ──
     Route::middleware('role:Admin,Owner,Pegawai Gudang')->prefix('gudang')->name('gudang.')->group(function () {
-        Route::get('/', fn () => view('gudang.index'))->name('index');
+        Route::get('/', [GudangController::class, 'index'])->name('index');
+        Route::post('/adjust/{barang}', [GudangController::class, 'adjust'])->name('adjust');
     });
 
     // ── Admin & Owner Only: Master Data, Keuangan, Laporan, Pengaturan ──
