@@ -7,6 +7,7 @@ use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KandangOperasionalController;
 use App\Http\Controllers\Keuangan\BiayaOperasionalController;
 use App\Http\Controllers\Keuangan\BukuKasController;
+use App\Http\Controllers\Keuangan\BukuPiutangController;
 use App\Http\Controllers\Keuangan\BukuUtangController;
 use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
@@ -122,7 +123,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/buku-kas', [BukuKasController::class, 'index'])->name('buku-kas');
             Route::get('/buku-utang', [BukuUtangController::class, 'index'])->name('buku-utang');
             Route::post('/buku-utang/lunasi/{hutang}', [BukuUtangController::class, 'lunasi'])->name('buku-utang.lunasi');
-            Route::get('/buku-piutang', fn () => view('keuangan.buku-piutang'))->name('buku-piutang');
+            Route::get('/buku-piutang', [BukuPiutangController::class, 'index'])->name('buku-piutang');
+            Route::post('/buku-piutang/lunasi/{piutang}', [BukuPiutangController::class, 'lunasi'])->name('buku-piutang.lunasi');
         });
 
         // Laporan
