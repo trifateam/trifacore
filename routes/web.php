@@ -15,6 +15,7 @@ use App\Http\Controllers\Pencatatan\KonsumsiPakanController;
 use App\Http\Controllers\Pencatatan\KonsumsiVitaminController;
 use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
+use App\Http\Controllers\Pencatatan\RiwayatController;
 use App\Http\Controllers\Pencatatan\SuhuKandangController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,7 +65,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/pupuk', [ProduksiPupukController::class, 'index'])->name('pupuk.index');
         Route::get('/pupuk/{kandang}/create', [ProduksiPupukController::class, 'create'])->name('pupuk.create');
         Route::post('/pupuk/{kandang}', [ProduksiPupukController::class, 'store'])->name('pupuk.store');
-        Route::get('/riwayat', fn () => view('pencatatan.riwayat'))->name('riwayat');
+        Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+        Route::delete('/riwayat/{type}/{id}', [RiwayatController::class, 'destroy'])->name('riwayat.destroy');
     });
 
     // ── Manajemen Transaksi: Admin, Owner, Sales ──
