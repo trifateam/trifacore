@@ -16,9 +16,10 @@ use App\Http\Controllers\Pencatatan\KonsumsiVitaminController;
 use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
 use App\Http\Controllers\Pencatatan\RiwayatController;
-use App\Http\Controllers\Pencatatan\SuhuKandangController;
 use App\Http\Controllers\Transaksi\PembelianController;
 use App\Http\Controllers\Transaksi\PenjualanController;
+use App\Http\Controllers\Transaksi\RiwayatPembelianController;
+use App\Http\Controllers\Transaksi\RiwayatPenjualanController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
@@ -79,8 +80,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');
         Route::get('/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
         Route::post('/pembelian', [PembelianController::class, 'store'])->name('pembelian.store');
-        Route::get('/riwayat-penjualan', fn () => view('transaksi.riwayat-penjualan'))->name('riwayat-penjualan');
-        Route::get('/riwayat-pembelian', fn () => view('transaksi.riwayat-pembelian'))->name('riwayat-pembelian');
+        Route::get('/riwayat-penjualan', [RiwayatPenjualanController::class, 'index'])->name('riwayat-penjualan');
+        Route::get('/riwayat-pembelian', [RiwayatPembelianController::class, 'index'])->name('riwayat-pembelian');
     });
 
     // ── Kandang Operasional: Admin, Owner ──
