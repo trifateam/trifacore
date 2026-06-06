@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GudangController;
 use App\Http\Controllers\KandangOperasionalController;
 use App\Http\Controllers\Keuangan\BiayaOperasionalController;
+use App\Http\Controllers\Keuangan\BukuKasController;
 use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
 use App\Http\Controllers\MasterData\KategoriBiayaController;
@@ -117,7 +118,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('keuangan')->name('keuangan.')->group(function () {
             Route::get('/biaya-operasional', [BiayaOperasionalController::class, 'index'])->name('biaya-operasional.index');
             Route::post('/biaya-operasional', [BiayaOperasionalController::class, 'store'])->name('biaya-operasional.store');
-            Route::get('/buku-kas', fn () => view('keuangan.buku-kas'))->name('buku-kas');
+            Route::get('/buku-kas', [BukuKasController::class, 'index'])->name('buku-kas');
             Route::get('/buku-utang', fn () => view('keuangan.buku-utang'))->name('buku-utang');
             Route::get('/buku-piutang', fn () => view('keuangan.buku-piutang'))->name('buku-piutang');
         });
