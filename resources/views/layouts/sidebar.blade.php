@@ -64,7 +64,7 @@
             <div x-show="open" x-collapse style="display: none;">
                 <div class="py-1 space-y-1">
                     <a href="/transaksi/penjualan" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('transaksi/penjualan*') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Transaksi Penjualan</a>
-                    <a href="/transaksi/pembelian" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('transaksi/pembelian') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Transaksi Pembelian</a>
+                    <a href="/transaksi/pembelian" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('transaksi/pembelian*') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Transaksi Pembelian</a>
                     <a href="/transaksi/riwayat-penjualan" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('transaksi/riwayat-penjualan') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Riwayat Penjualan</a>
                     <a href="/transaksi/riwayat-pembelian" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('transaksi/riwayat-pembelian') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Riwayat Pembelian</a>
                 </div>
