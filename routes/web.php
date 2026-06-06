@@ -5,8 +5,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
+use App\Http\Controllers\MasterData\KategoriBiayaController;
 use App\Http\Controllers\MasterData\PegawaiController;
 use App\Http\Controllers\MasterData\PelangganController;
+use App\Http\Controllers\MasterData\RekeningController;
 use App\Http\Controllers\MasterData\SupplierController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,8 +73,8 @@ Route::middleware('auth')->group(function () {
             Route::resource('supplier', SupplierController::class)->except(['create', 'show', 'edit']);
             Route::resource('pegawai', PegawaiController::class)->except(['create', 'show', 'edit']);
             Route::resource('pelanggan', PelangganController::class)->except(['create', 'show', 'edit']);
-            Route::get('/rekening', fn () => view('master-data.rekening'))->name('rekening');
-            Route::get('/kategori-biaya', fn () => view('master-data.kategori-biaya'))->name('kategori-biaya');
+            Route::resource('rekening', RekeningController::class)->except(['create', 'show', 'edit']);
+            Route::resource('kategori-biaya', KategoriBiayaController::class)->except(['create', 'show', 'edit']);
         });
 
         // Management Keuangan
