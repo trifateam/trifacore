@@ -79,4 +79,32 @@ class StokBarangService
             $this->kurangiStokTelur($namaJenis, abs($selisih));
         }
     }
+
+    /**
+     * Mengurangi stok pakan di tabel barang berdasarkan ID barang
+     *
+     * @param int $id_barang
+     * @param float $jumlah_kg
+     * @return Barang
+     * @throws \Exception
+     */
+    public function kurangiStokPakan(int $id_barang, float $jumlah_kg)
+    {
+        if ($jumlah_kg <= 0) return null;
+
+        $barang = Barang::find($id_barang);
+
+        if (!$barang) {
+            throw new \Exception("Master data barang pakan tidak ditemukan.");
+        }
+
+        if ($barang->stok_barang < $jumlah_kg) {
+            throw new \Exception("Stok pakan tidak cukup. Tersedia: " . number_format($barang->stok_barang, 2) . " kg");
+        }
+
+        $barang->stok_barang -= $jumlah_kg;
+        $barang->save();
+
+        return $barang;
+    }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\MasterData\PegawaiController;
 use App\Http\Controllers\MasterData\PelangganController;
 use App\Http\Controllers\MasterData\RekeningController;
 use App\Http\Controllers\MasterData\SupplierController;
+use App\Http\Controllers\Pencatatan\KonsumsiPakanController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,7 +44,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/produksi-telur/{batch}/{produksi}/edit', [ProduksiTelurController::class, 'edit'])->name('produksi-telur.edit');
         Route::put('/produksi-telur/{batch}/{produksi}', [ProduksiTelurController::class, 'update'])->name('produksi-telur.update');
 
-        Route::get('/konsumsi-pakan', fn () => view('pencatatan.konsumsi-pakan'))->name('konsumsi-pakan');
+        Route::get('/konsumsi-pakan', [KonsumsiPakanController::class, 'index'])->name('konsumsi-pakan.index');
+        Route::get('/konsumsi-pakan/{batch}/create', [KonsumsiPakanController::class, 'create'])->name('konsumsi-pakan.create');
+        Route::post('/konsumsi-pakan/{batch}', [KonsumsiPakanController::class, 'store'])->name('konsumsi-pakan.store');
+        
         Route::get('/konsumsi-vitamin', fn () => view('pencatatan.konsumsi-vitamin'))->name('konsumsi-vitamin');
         Route::get('/deplesi', fn () => view('pencatatan.deplesi'))->name('deplesi');
         Route::get('/suhu', fn () => view('pencatatan.suhu'))->name('suhu');
