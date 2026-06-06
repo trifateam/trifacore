@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KandangOperasionalController;
 use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
 use App\Http\Controllers\MasterData\KategoriBiayaController;
@@ -86,7 +87,8 @@ Route::middleware('auth')->group(function () {
 
     // ── Kandang Operasional: Admin, Owner ──
     Route::middleware('role:Admin,Owner')->prefix('kandang-operasional')->name('kandang-operasional.')->group(function () {
-        Route::get('/', fn () => view('kandang-operasional.index'))->name('index');
+        Route::get('/', [KandangOperasionalController::class, 'index'])->name('index');
+        Route::post('/assign/{batch}', [KandangOperasionalController::class, 'assign'])->name('assign');
     });
 
     // ── Gudang: Admin, Owner, Pegawai Gudang ──
