@@ -1,0 +1,147 @@
+@extends('layouts.app')
+
+@section('content')
+    <x-breadcrumb :items="[
+        ['label' => 'Dashboard', 'url' => route('dashboard')],
+        ['label' => 'Transaksi'],
+        ['label' => 'Riwayat Pembelian'],
+    ]" />
+
+    <x-page-header title="Riwayat Pembelian" subtitle="Lihat dan filter semua log transaksi pembelian (Material & Pullet)" />
+
+    {{-- Summary Bar --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+        <x-stat-card title="Jumlah Transaksi" :value="$totalTransaksi . ' Nota'" icon="document-text" color="blue" />
+        <x-stat-card title="Total Pembelian" :value="'Rp ' . number_format($totalNominal, 0, ',', '.')" icon="currency-dollar" color="orange" />
+        <x-stat-card title="Total Tempo (Belum Lunas)" :value="'Rp ' . number_format($totalTempo, 0, ',', '.')" icon="clock" color="red" />
+    </div>
+
+    {{-- Filter Bar --}}
+    <x-card class="mb-6 border border-gray-200">
+        <div class="p-5">
+            <form method="GET" action="{{ route('transaksi.riwayat-pembelian') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Dari Tanggal</label>
+                    <input type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Sampai Tanggal</label>
+                    <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Supplier</label>
+                    <select name="id_supplier" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <option value="">-- Semua Supplier --</option>
+                        @foreach($suppliers as $s)
+                            <option value="{{ $s->id_supplier }}" {{ request('id_supplier') == $s->id_supplier ? 'selected' : '' }}>{{ $s->nama_supplier }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="flex gap-2">
+                    <div class="flex-1">
+                        <label class="block text-xs font-medium text-gray-700 mb-1">Status Pembayaran</label>
+                        <select name="status_pembayaran" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="">-- Semua Status --</option>
+                            <option value="Lunas" {{ request('status_pembayaran') == 'Lunas' ? 'selected' : '' }}>Lunas</option>
+                            <option value="Tempo" {{ request('status_pembayaran') == 'Tempo' ? 'selected' : '' }}>Tempo (Belum Lunas)</option>
+                            <option value="Lunas Sebagian" {{ request('status_pembayaran') == 'Lunas Sebagian' ? 'selected' : '' }}>Lunas Sebagian</option>
+                        </select>
+                    </div>
+                    <div class="pt-5">
+                        <x-button type="submit" variant="primary" class="h-9 px-4 flex items-center justify-center">
+                            Filter
+                        </x-button>
+                    </div>
+                    <div class="pt-5">
+                        <a href="{{ route('transaksi.riwayat-pembelian') }}" class="h-9 px-4 inline-flex items-center justify-center border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Reset</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </x-card>
+
+    {{-- Tabel Riwayat --}}
+    <x-card class="border border-gray-200" x-data="riwayatTable()">
+        <div class="overflow-x-auto">
+            <x-table :headers="['No. Nota', 'Waktu Pembelian', 'Supplier', 'Kategori', 'Total (Rp)', 'Status', 'Aksi']">
+                @forelse($alpineData as $index => $item)
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item['no_faktur'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item['tanggal'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item['supplier'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">{{ $item['kategori'] }}</span>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 text-right">
+                                Rp {{ number_format($item['total'], 0, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                <x-badge :variant="$item['badge']">{{ $item['status'] }}</x-badge>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+                                <button type="button" @click="openDetailModal({{ $index }})" class="text-indigo-600 hover:text-indigo-900 mx-1">Detail</button>
+                                
+                                @if($item['status'] === 'Belum Lunas' || $item['status'] === 'Lunas Sebagian')
+                                    <span class="text-gray-300 mx-1">|</span>
+                                    <a href="{{ route('keuangan.buku-utang') }}" class="text-orange-600 hover:text-orange-900 mx-1 font-bold">Lunasi</a>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7" class="px-6 py-10">
+                                <x-empty-state 
+                                    icon="inbox" 
+                                    title="Data Tidak Ditemukan" 
+                                    description="Tidak ada riwayat pembelian yang sesuai dengan filter Anda." 
+                                />
+                            </td>
+                        </tr>
+                    @endforelse
+            </x-table>
+        </div>
+
+        @if($pembelians->hasPages())
+            <div class="p-4 border-t border-gray-200">
+                {{ $pembelians->links() }}
+            </div>
+        @endif
+
+        {{-- Include Modal Partial --}}
+        @include('transaksi.partials._detail_modal')
+
+    </x-card>
+@endsection
+
+@section('scripts')
+<script>
+    function riwayatTable() {
+        return {
+            isModalOpen: false,
+            selectedData: null,
+            allData: @json($alpineData),
+
+            openDetailModal(index) {
+                this.selectedData = this.allData[index];
+                this.isModalOpen = true;
+                document.body.style.overflow = 'hidden';
+            },
+
+            closeDetailModal() {
+                this.isModalOpen = false;
+                setTimeout(() => { this.selectedData = null; }, 300);
+                document.body.style.overflow = 'auto';
+            },
+
+            formatRupiah(number) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(number || 0);
+            }
+        }
+    }
+</script>
+@endsection
