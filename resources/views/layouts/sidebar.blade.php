@@ -36,7 +36,7 @@
                 <div class="py-1 space-y-1">
                     <a href="/pencatatan/produksi-telur" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pencatatan/produksi-telur') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Produksi Telur</a>
                     <a href="/pencatatan/konsumsi-pakan" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pencatatan/konsumsi-pakan') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Konsumsi Pakan</a>
-                    <a href="/pencatatan/konsumsi-vitamin" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pencatatan/konsumsi-vitamin') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Konsumsi Vitamin</a>
+                    <a href="/pencatatan/konsumsi-vitamin" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pencatatan/konsumsi-vitamin*') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Konsumsi Vitamin</a>
                     <a href="/pencatatan/deplesi" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pencatatan/deplesi') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Kematian/Afkir (Deplesi)</a>
                     <a href="/pencatatan/suhu" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pencatatan/suhu') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Suhu Lingkungan</a>
                     <a href="/pencatatan/pupuk" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pencatatan/pupuk') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Produksi Pupuk</a>

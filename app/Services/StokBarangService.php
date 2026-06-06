@@ -107,4 +107,32 @@ class StokBarangService
 
         return $barang;
     }
+
+    /**
+     * Mengurangi stok vitamin di tabel barang berdasarkan ID barang
+     *
+     * @param int $id_barang
+     * @param float $jumlah
+     * @return Barang
+     * @throws \Exception
+     */
+    public function kurangiStokVitamin(int $id_barang, float $jumlah)
+    {
+        if ($jumlah <= 0) return null;
+
+        $barang = Barang::find($id_barang);
+
+        if (!$barang) {
+            throw new \Exception("Master data barang vitamin tidak ditemukan.");
+        }
+
+        if ($barang->stok_barang < $jumlah) {
+            throw new \Exception("Stok vitamin tidak cukup. Tersedia: " . number_format($barang->stok_barang, 2) . " " . ($barang->satuan ?? 'unit'));
+        }
+
+        $barang->stok_barang -= $jumlah;
+        $barang->save();
+
+        return $barang;
+    }
 }
