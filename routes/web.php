@@ -17,6 +17,7 @@ use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
 use App\Http\Controllers\Pencatatan\RiwayatController;
 use App\Http\Controllers\Pencatatan\SuhuKandangController;
+use App\Http\Controllers\Transaksi\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard');
@@ -71,7 +72,9 @@ Route::middleware('auth')->group(function () {
 
     // ── Manajemen Transaksi: Admin, Owner, Sales ──
     Route::middleware('role:Admin,Owner,Sales')->prefix('transaksi')->name('transaksi.')->group(function () {
-        Route::get('/penjualan', fn () => view('transaksi.penjualan'))->name('penjualan');
+        Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
+        Route::get('/penjualan/create', [PenjualanController::class, 'create'])->name('penjualan.create');
+        Route::post('/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
         Route::get('/pembelian', fn () => view('transaksi.pembelian'))->name('pembelian');
         Route::get('/riwayat-penjualan', fn () => view('transaksi.riwayat-penjualan'))->name('riwayat-penjualan');
         Route::get('/riwayat-pembelian', fn () => view('transaksi.riwayat-pembelian'))->name('riwayat-pembelian');
