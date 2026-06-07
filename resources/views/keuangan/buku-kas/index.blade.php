@@ -65,7 +65,7 @@
         {{-- Total Kas Masuk --}}
         <x-stat-card 
             title="Total Kas Masuk" 
-            :value="'Rp ' . number_format($totalMasuk, 0, ',', '.')"
+            :value="\App\Helpers\RupiahFormatter::format($totalMasuk)"
             icon="arrow-down-tray"
             color="green"
         />
@@ -73,7 +73,7 @@
         {{-- Total Kas Keluar --}}
         <x-stat-card 
             title="Total Kas Keluar" 
-            :value="'Rp ' . number_format($totalKeluar, 0, ',', '.')"
+            :value="\App\Helpers\RupiahFormatter::format($totalKeluar)"
             icon="arrow-up-tray"
             color="red"
         />
@@ -81,7 +81,7 @@
         {{-- Net --}}
         <x-stat-card 
             title="Net (Masuk - Keluar)" 
-            :value="'Rp ' . number_format(abs($net), 0, ',', '.')"
+            :value="\App\Helpers\RupiahFormatter::format(abs($net))"
             icon="scale"
             :color="$net >= 0 ? 'green' : 'red'"
             :trend="$net >= 0 ? 'up' : 'down'"
@@ -91,7 +91,7 @@
         {{-- Saldo Awal Periode --}}
         <x-stat-card 
             title="Saldo Awal Periode" 
-            :value="'Rp ' . number_format(abs($saldoAwal), 0, ',', '.')"
+            :value="\App\Helpers\RupiahFormatter::format(abs($saldoAwal))"
             icon="banknotes"
             color="blue"
         />
@@ -99,7 +99,7 @@
         {{-- Saldo Akhir Periode --}}
         <x-stat-card 
             title="Saldo Akhir Periode" 
-            :value="'Rp ' . number_format(abs($saldoAkhir), 0, ',', '.')"
+            :value="\App\Helpers\RupiahFormatter::format(abs($saldoAkhir))"
             icon="wallet"
             color="purple"
         />
@@ -155,7 +155,7 @@
 
                         {{-- Nominal --}}
                         <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-right {{ $kas->jenis === 'Masuk' ? 'text-emerald-600' : 'text-red-600' }}">
-                            {{ $kas->jenis === 'Masuk' ? '+' : '-' }} Rp {{ number_format($kas->nominal, 0, ',', '.') }}
+                            {{ $kas->jenis === 'Masuk' ? '+' : '-' }} @rupiah($kas->nominal)
                         </td>
 
                         {{-- Rekening --}}

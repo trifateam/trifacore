@@ -126,15 +126,7 @@ class TransaksiPembelianService
             $tanggalFormat = $tanggalBeli->format('Ymd');
             
             // Generate Kode Batch: BTC-YYYYMMDD-XX
-            $lastBatch = Batch::where('kode_batch', 'like', "BTC-{$tanggalFormat}-%")
-                ->lockForUpdate()
-                ->orderBy('kode_batch', 'desc')
-                ->first();
-
-            $nextBatchNum = $lastBatch
-                ? str_pad((int) substr($lastBatch->kode_batch, -2) + 1, 2, '0', STR_PAD_LEFT)
-                : '01';
-            $kodeBatch = "BTC-{$tanggalFormat}-{$nextBatchNum}";
+            $kodeBatch = \App\Helpers\CodeGenerator::generate('BTC', 'batch', 'kode_batch');
             
             $namaBatch = "Batch {$data['jenis_ayam']} " . $tanggalBeli->translatedFormat('d M Y');
 
@@ -167,16 +159,7 @@ class TransaksiPembelianService
 
     private function generateNoFakturBeli()
     {
-        $tanggalKode = Carbon::today()->format('Ymd');
-        $lastRecord = Pembelian::where('no_faktur_beli', 'like', "PB-{$tanggalKode}-%")
-            ->lockForUpdate()
-            ->orderBy('no_faktur_beli', 'desc')
-            ->first();
-
-        $nextNumber = $lastRecord
-            ? str_pad((int) substr($lastRecord->no_faktur_beli, -2) + 1, 2, '0', STR_PAD_LEFT)
-            : '01';
-        return "PB-{$tanggalKode}-{$nextNumber}";
+        return \App\Helpers\CodeGenerator::generate('PB', 'pembelian', 'no_faktur_beli');
     }
 
     private function prosesPembayaran(Pembelian $pembelian, $metode, $idAkunKas, $userId)
@@ -196,16 +179,10 @@ class TransaksiPembelianService
             $akun->save();
 
             // Entry Buku Kas
-            $tanggalKode = Carbon::today()->format('Ymd');
-            $lastJurnal = BukuKas::where('kode_jurnal', 'like', "BK-{$tanggalKode}-%")
-                ->orderBy('kode_jurnal', 'desc')
-                ->first();
-            $nextJurnalNum = $lastJurnal
-                ? str_pad((int) substr($lastJurnal->kode_jurnal, -2) + 1, 2, '0', STR_PAD_LEFT)
-                : '01';
+            $kodeJurnal = \App\Helpers\CodeGenerator::generate('BK', 'buku_kas', 'kode_jurnal', 4);
 
             BukuKas::create([
-                'kode_jurnal' => "BK-{$tanggalKode}-{$nextJurnalNum}",
+                'kode_jurnal' => $kodeJurnal,
                 'id_akun' => $akun->id_akun,
                 'id_pengguna' => $userId,
                 'tanggal_transaksi' => Carbon::now(),

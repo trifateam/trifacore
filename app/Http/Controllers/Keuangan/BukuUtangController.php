@@ -93,9 +93,7 @@ class BukuUtangController extends Controller
                 $nominal = $request->nominal;
 
                 // Generate no_kuitansi_hutang: BHU-YYYYMMDD-XX
-                $datePrefix = date('Ymd');
-                $countToday = PembayaranHutang::whereDate('created_at', date('Y-m-d'))->count() + 1;
-                $noKuitansi = 'BHU-' . $datePrefix . '-' . str_pad($countToday, 2, '0', STR_PAD_LEFT);
+                $noKuitansi = \App\Helpers\CodeGenerator::generate('BHU', 'pembayaran_hutang', 'no_kuitansi_hutang');
 
                 // Simpan ke pembayaran_hutang
                 $pembayaran = PembayaranHutang::create([
@@ -127,8 +125,7 @@ class BukuUtangController extends Controller
                 $akunLock->save();
 
                 // Buat entry buku_kas
-                $countJurnalToday = BukuKas::whereDate('created_at', date('Y-m-d'))->count() + 1;
-                $kodeJurnal = 'JRN-' . $datePrefix . '-' . str_pad($countJurnalToday, 4, '0', STR_PAD_LEFT);
+                $kodeJurnal = \App\Helpers\CodeGenerator::generate('JRN', 'buku_kas', 'kode_jurnal', 4);
 
                 BukuKas::create([
                     'kode_jurnal' => $kodeJurnal,

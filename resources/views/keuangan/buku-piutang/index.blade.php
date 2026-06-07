@@ -27,7 +27,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
         <x-stat-card 
             title="Total Piutang Belum Lunas" 
-            :value="'Rp ' . number_format($totalPiutangBelumLunas, 0, ',', '.')"
+            :value="\App\Helpers\RupiahFormatter::format($totalPiutangBelumLunas)"
             icon="banknotes"
             color="blue"
         />
@@ -136,12 +136,12 @@
 
                         {{-- Total Piutang --}}
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 text-right">
-                            Rp {{ number_format($p->jumlah_piutang, 0, ',', '.') }}
+                            @rupiah($p->jumlah_piutang)
                         </td>
 
                         {{-- Sisa Piutang --}}
                         <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-right {{ $p->sisa_piutang > 0 ? 'text-blue-600' : 'text-emerald-600' }}">
-                            Rp {{ number_format($p->sisa_piutang, 0, ',', '.') }}
+                            @rupiah($p->sisa_piutang)
                         </td>
 
                         {{-- Jatuh Tempo --}}
@@ -306,7 +306,7 @@
                         <option value="">-- Pilih Rekening --</option>
                         @foreach($akunKas as $akun)
                             <option value="{{ $akun->id_akun }}">
-                                {{ $akun->nama_akun }} (Saldo: Rp {{ number_format($akun->saldo, 0, ',', '.') }})
+                                {{ $akun->nama_akun }} (Saldo: @rupiah($akun->saldo))
                             </option>
                         @endforeach
                     </select>

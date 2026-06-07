@@ -88,7 +88,7 @@
                             <select name="id_akun" id="id_akun" required class="w-full rounded-md border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 sm:text-sm">
                                 <option value="">-- Pilih Rekening --</option>
                                 @foreach($akunKas as $akun)
-                                    <option value="{{ $akun->id_akun }}">{{ $akun->nama_akun }} (Saldo: Rp {{ number_format($akun->saldo, 0, ',', '.') }})</option>
+                                    <option value="{{ $akun->id_akun }}">{{ $akun->nama_akun }} (Saldo: @rupiah($akun->saldo))</option>
                                 @endforeach
                             </select>
                         </div>
@@ -116,7 +116,7 @@
                     </div>
                     <div>
                         <p class="text-sm font-medium text-red-800 uppercase tracking-wide">Total Pengeluaran Bulan Ini</p>
-                        <p class="text-3xl font-black text-red-600 mt-1">Rp {{ number_format($totalBulanIni, 0, ',', '.') }}</p>
+                        <p class="text-3xl font-black text-red-600 mt-1">@rupiah($totalBulanIni)</p>
                     </div>
                 </div>
             </x-card>
@@ -146,7 +146,7 @@
                                     {{ $op->akunKas->nama_akun ?? '-' }}
                                 </td>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-red-600 text-right">
-                                    Rp {{ number_format($op->biaya_operasional, 0, ',', '.') }}
+                                    @rupiah($op->biaya_operasional)
                                 </td>
                             </tr>
                         @empty

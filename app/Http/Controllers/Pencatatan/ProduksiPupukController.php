@@ -70,16 +70,7 @@ class ProduksiPupukController extends Controller
         }
 
         // Generate kode: PP-YYYYMMDD-XX
-        $tanggalKode = Carbon::today()->format('Ymd');
-        $lastRecord = ProduksiPupukKandang::where('kode_pupuk', 'like', "PP-{$tanggalKode}-%")
-            ->orderBy('kode_pupuk', 'desc')
-            ->first();
-
-        $nextNumber = $lastRecord
-            ? str_pad((int) substr($lastRecord->kode_pupuk, -2) + 1, 2, '0', STR_PAD_LEFT)
-            : '01';
-
-        $kodePupuk = "PP-{$tanggalKode}-{$nextNumber}";
+        $kodePupuk = \App\Helpers\CodeGenerator::generate('PP', 'produksi_pupuk_kandang', 'kode_pupuk');
 
         DB::beginTransaction();
         try {

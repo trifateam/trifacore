@@ -96,19 +96,7 @@ class KonsumsiVitaminController extends Controller
         $waktuPemberian = $request->waktu_pemberian ?: Carbon::now()->format('H:i');
 
         // Generate Kode Vitamin: KV-YYYYMMDD-XX
-        $tanggalKode = Carbon::today()->format('Ymd');
-        $lastRecord = KonsumsiVitamin::where('kode_vitamin', 'like', "KV-{$tanggalKode}-%")
-            ->orderBy('kode_vitamin', 'desc')
-            ->first();
-
-        if ($lastRecord) {
-            $lastNumber = (int) substr($lastRecord->kode_vitamin, -2);
-            $nextNumber = str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
-        } else {
-            $nextNumber = '01';
-        }
-
-        $kodeVitamin = "KV-{$tanggalKode}-{$nextNumber}";
+        $kodeVitamin = \App\Helpers\CodeGenerator::generate('KV', 'konsumsi_vitamin', 'kode_vitamin');
 
         DB::beginTransaction();
         try {

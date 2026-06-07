@@ -55,9 +55,7 @@ class BiayaOperasionalController extends Controller
         try {
             DB::transaction(function () use ($request) {
                 // Generate kode operasional
-                $datePrefix = date('Ymd', strtotime($request->tanggal_operasional));
-                $countToday = Operasional::whereDate('created_at', date('Y-m-d'))->count() + 1;
-                $kodeOperasional = 'OP-' . $datePrefix . '-' . str_pad($countToday, 2, '0', STR_PAD_LEFT);
+                $kodeOperasional = \App\Helpers\CodeGenerator::generate('OP', 'operasional', 'kode_operasional');
 
                 // Create Operasional
                 $operasional = Operasional::create([
@@ -76,8 +74,7 @@ class BiayaOperasionalController extends Controller
                 $akun->save();
 
                 // Create entry di Buku Kas
-                $countJurnalToday = BukuKas::whereDate('created_at', date('Y-m-d'))->count() + 1;
-                $kodeJurnal = 'JRN-' . $datePrefix . '-' . str_pad($countJurnalToday, 4, '0', STR_PAD_LEFT);
+                $kodeJurnal = \App\Helpers\CodeGenerator::generate('JRN', 'buku_kas', 'kode_jurnal', 4);
 
                 BukuKas::create([
                     'kode_jurnal' => $kodeJurnal,

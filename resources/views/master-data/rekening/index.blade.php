@@ -59,7 +59,7 @@
                     <td class="px-4 py-3 text-sm text-gray-700">{{ $rekening->no_rekening ?? '-' }}</td>
                     <td class="px-4 py-3 text-sm text-gray-700">{{ $rekening->nama_pemilik ?? '-' }}</td>
                     <td class="px-4 py-3 text-sm font-medium text-gray-900 whitespace-nowrap">
-                        Rp {{ number_format($rekening->saldo, 0, ',', '.') }}
+                        @rupiah($rekening->saldo)
                     </td>
                     <td class="px-4 py-3 text-sm">
                         @if($rekening->is_active)

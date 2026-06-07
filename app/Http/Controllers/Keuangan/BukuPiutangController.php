@@ -88,9 +88,7 @@ class BukuPiutangController extends Controller
                 $nominal = $request->nominal;
 
                 // Generate no_kuitansi_piutang: BPI-YYYYMMDD-XX
-                $datePrefix = date('Ymd');
-                $countToday = PembayaranPiutang::whereDate('created_at', date('Y-m-d'))->count() + 1;
-                $noKuitansi = 'BPI-' . $datePrefix . '-' . str_pad($countToday, 2, '0', STR_PAD_LEFT);
+                $noKuitansi = \App\Helpers\CodeGenerator::generate('BPI', 'pembayaran_piutang', 'no_kuitansi_piutang');
 
                 // Simpan ke pembayaran_piutang
                 $pembayaran = PembayaranPiutang::create([
@@ -122,8 +120,7 @@ class BukuPiutangController extends Controller
                 $akunLock->save();
 
                 // Buat entry buku_kas (jenis='Masuk')
-                $countJurnalToday = BukuKas::whereDate('created_at', date('Y-m-d'))->count() + 1;
-                $kodeJurnal = 'JRN-' . $datePrefix . '-' . str_pad($countJurnalToday, 4, '0', STR_PAD_LEFT);
+                $kodeJurnal = \App\Helpers\CodeGenerator::generate('JRN', 'buku_kas', 'kode_jurnal', 4);
 
                 BukuKas::create([
                     'kode_jurnal' => $kodeJurnal,

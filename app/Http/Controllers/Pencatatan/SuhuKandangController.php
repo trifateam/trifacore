@@ -94,16 +94,7 @@ class SuhuKandangController extends Controller
         }
 
         // Generate kode: SK-YYYYMMDD-XX
-        $tanggalKode = Carbon::today()->format('Ymd');
-        $lastRecord = SuhuKandang::where('kode_suhu', 'like', "SK-{$tanggalKode}-%")
-            ->orderBy('kode_suhu', 'desc')
-            ->first();
-
-        $nextNumber = $lastRecord
-            ? str_pad((int) substr($lastRecord->kode_suhu, -2) + 1, 2, '0', STR_PAD_LEFT)
-            : '01';
-
-        $kodeSuhu = "SK-{$tanggalKode}-{$nextNumber}";
+        $kodeSuhu = \App\Helpers\CodeGenerator::generate('SK', 'suhu_kandang', 'kode_suhu');
 
         DB::beginTransaction();
         try {
