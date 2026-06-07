@@ -16,6 +16,7 @@ use App\Http\Controllers\MasterData\PegawaiController;
 use App\Http\Controllers\MasterData\PelangganController;
 use App\Http\Controllers\MasterData\RekeningController;
 use App\Http\Controllers\MasterData\SupplierController;
+use App\Http\Controllers\Laporan\CetakProduksiController;
 use App\Http\Controllers\Laporan\LabaRugiController;
 use App\Http\Controllers\Laporan\ProduksiPerformaController;
 use App\Http\Controllers\Pencatatan\DeplesiController;
@@ -135,7 +136,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/produksi-performa/generate', [ProduksiPerformaController::class, 'generate'])->name('produksi-performa.generate');
             Route::get('/laba-rugi', [LabaRugiController::class, 'index'])->name('laba-rugi');
             Route::get('/laba-rugi/generate', [LabaRugiController::class, 'generate'])->name('laba-rugi.generate');
-            Route::get('/cetak/produksi-telur', fn () => view('laporan.cetak.produksi-telur'))->name('cetak.produksi-telur');
+            Route::get('/cetak/produksi-telur', [CetakProduksiController::class, 'index'])->name('cetak.produksi-telur');
+            Route::get('/cetak/produksi-telur/preview', [CetakProduksiController::class, 'preview'])->name('cetak.produksi-telur.preview');
+            Route::get('/cetak/produksi-telur/pdf', [CetakProduksiController::class, 'pdf'])->name('cetak.produksi-telur.pdf');
             Route::get('/cetak/penjualan-telur', fn () => view('laporan.cetak.penjualan-telur'))->name('cetak.penjualan-telur');
             Route::get('/cetak/pembelian-pakan', fn () => view('laporan.cetak.pembelian-pakan'))->name('cetak.pembelian-pakan');
         });
