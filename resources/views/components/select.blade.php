@@ -41,6 +41,8 @@
             <option value="" disabled @selected(is_null($currentValue) || $currentValue === '')>{{ $placeholder }}</option>
         @endif
         
+        {{ $slot }}
+
         @foreach($options as $option)
             <option value="{{ is_array($option) ? $option['value'] : $option }}" @selected($currentValue == (is_array($option) ? $option['value'] : $option))>
                 {{ is_array($option) ? $option['label'] : $option }}
