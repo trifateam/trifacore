@@ -45,6 +45,8 @@ class PegawaiController extends Controller
             'role' => $request->role,
         ]);
 
+        \App\Services\AuditService::log('Menambah pegawai baru: ' . $request->nama_lengkap);
+
         return redirect()->route('master-data.pegawai.index')
             ->with('success', 'Data pegawai berhasil ditambahkan.');
     }
@@ -69,6 +71,8 @@ class PegawaiController extends Controller
 
         $pegawai->update($data);
 
+        \App\Services\AuditService::log('Mengedit pegawai: ' . $request->nama_lengkap);
+
         return redirect()->route('master-data.pegawai.index')
             ->with('success', 'Data pegawai berhasil diperbarui.');
     }
@@ -92,6 +96,7 @@ class PegawaiController extends Controller
         $pegawai->update(['is_active' => !$pegawai->is_active]);
 
         $status = $pegawai->is_active ? 'diaktifkan' : 'dinonaktifkan';
+        \App\Services\AuditService::log('Mengubah status pegawai: ' . $pegawai->nama_lengkap . ' menjadi ' . $status);
 
         return redirect()->route('master-data.pegawai.index')
             ->with('success', "Pegawai \"{$pegawai->nama_lengkap}\" berhasil {$status}.");

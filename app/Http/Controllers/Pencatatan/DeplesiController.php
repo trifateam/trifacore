@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Deplesi;
 use App\Models\Kandang;
-use App\Models\RiwayatAktivitas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -142,10 +141,7 @@ class DeplesiController extends Controller
             }
             $detailText = implode(', ', $detailParts);
 
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Mencatat deplesi (Kandang: {$kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$totalDeplesi} ekor ({$detailText}). Populasi tersisa: {$kandang->populasi_saat_ini} ekor.",
-            ]);
+            \App\Services\AuditService::log("Mencatat deplesi (Kandang: {$kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$totalDeplesi} ekor ({$detailText}). Populasi tersisa: {$kandang->populasi_saat_ini} ekor.");
 
             DB::commit();
 

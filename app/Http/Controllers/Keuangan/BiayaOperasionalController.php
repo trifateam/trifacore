@@ -7,7 +7,6 @@ use App\Models\AkunKas;
 use App\Models\BukuKas;
 use App\Models\KategoriBiaya;
 use App\Models\Operasional;
-use App\Models\RiwayatAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -89,10 +88,7 @@ class BiayaOperasionalController extends Controller
                 ]);
 
                 // Catat aktivitas
-                RiwayatAktivitas::create([
-                    'id_pengguna' => Auth::id(),
-                    'aktivitas' => "Mencatat biaya operasional '{$request->nama_pengeluaran}' sebesar Rp" . number_format($request->biaya_operasional, 0, ',', '.')
-                ]);
+                \App\Services\AuditService::log("Mencatat biaya operasional '{$request->nama_pengeluaran}' sebesar Rp" . number_format($request->biaya_operasional, 0, ',', '.'));
             });
 
             return redirect()->route('keuangan.biaya-operasional.index')->with('success', 'Biaya operasional berhasil dicatat.');

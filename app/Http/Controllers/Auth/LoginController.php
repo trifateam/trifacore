@@ -28,6 +28,8 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+            
+            \App\Services\AuditService::log("Login berhasil oleh " . Auth::user()->username);
 
             return redirect()->intended('/dashboard');
         }
@@ -42,6 +44,10 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
+        if (Auth::check()) {
+            \App\Services\AuditService::log("Logout oleh " . Auth::user()->username);
+        }
+        
         Auth::logout();
 
         $request->session()->invalidate();

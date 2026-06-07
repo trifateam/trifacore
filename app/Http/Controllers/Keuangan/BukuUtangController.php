@@ -7,7 +7,6 @@ use App\Models\AkunKas;
 use App\Models\BukuKas;
 use App\Models\Hutang;
 use App\Models\PembayaranHutang;
-use App\Models\RiwayatAktivitas;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -141,10 +140,7 @@ class BukuUtangController extends Controller
 
                 // Catat riwayat aktivitas
                 $supplierName = $hutang->pembelian->supplier->nama_supplier ?? 'Unknown';
-                RiwayatAktivitas::create([
-                    'id_pengguna' => Auth::id(),
-                    'aktivitas' => "Melunasi utang {$supplierName} (Nota: {$hutang->pembelian->no_faktur_beli}) sebesar Rp" . number_format($nominal, 0, ',', '.'),
-                ]);
+                \App\Services\AuditService::log("Melunasi utang {$supplierName} (Nota: {$hutang->pembelian->no_faktur_beli}) sebesar Rp" . number_format($nominal, 0, ',', '.'));
             });
 
             return redirect()->route('keuangan.buku-utang')->with('success', 'Pelunasan utang berhasil diproses.');

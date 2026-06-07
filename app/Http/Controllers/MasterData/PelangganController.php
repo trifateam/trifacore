@@ -49,6 +49,8 @@ class PelangganController extends Controller
             'is_active' => $request->is_active,
         ]);
 
+        \App\Services\AuditService::log('Menambah pelanggan baru: ' . $request->nama_lengkap);
+
         return redirect()->route('master-data.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil ditambahkan.');
     }
@@ -67,6 +69,8 @@ class PelangganController extends Controller
             'alamat' => $request->alamat,
             'is_active' => $request->is_active,
         ]);
+
+        \App\Services\AuditService::log('Mengedit pelanggan: ' . $request->nama_lengkap);
 
         return redirect()->route('master-data.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil diperbarui.');
@@ -89,7 +93,10 @@ class PelangganController extends Controller
                 ->with('error', "Pelanggan \"{$pelanggan->nama_lengkap}\" tidak bisa dihapus karena masih memiliki transaksi penjualan. Sebaiknya non-aktifkan saja.");
         }
 
+        $pelangganName = $pelanggan->nama_lengkap;
         $pelanggan->delete();
+
+        \App\Services\AuditService::log('Menghapus pelanggan: ' . $pelangganName);
 
         return redirect()->route('master-data.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil dihapus.');

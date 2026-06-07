@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Kandang;
 use App\Models\ProduksiPupukKandang;
-use App\Models\RiwayatAktivitas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -95,10 +94,7 @@ class ProduksiPupukController extends Controller
                 }
             }
 
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Mencatat produksi pupuk kandang ({$kandang->nama_kandang}): {$request->jumlah_karung} karung, {$request->total_berat_kg} kg.{$stokInfo}",
-            ]);
+            \App\Services\AuditService::log("Mencatat produksi pupuk kandang ({$kandang->nama_kandang}): {$request->jumlah_karung} karung, {$request->total_berat_kg} kg.{$stokInfo}");
 
             DB::commit();
 

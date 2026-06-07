@@ -9,7 +9,6 @@ use App\Models\DetailPenjualan;
 use App\Models\Kandang;
 use App\Models\Penjualan;
 use App\Models\Piutang;
-use App\Models\RiwayatAktivitas;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -124,10 +123,7 @@ class TransaksiPenjualanService
 
             // 5. Catat Riwayat Aktivitas
             $itemSummary = implode(', ', $rincianText);
-            RiwayatAktivitas::create([
-                'id_pengguna' => $userId,
-                'aktivitas' => "Mencatat transaksi penjualan {$data['kategori_penjualan']} ({$noFaktur}): {$itemSummary} senilai Rp" . number_format($penjualan->total_harga, 0, ',', '.'),
-            ]);
+            \App\Services\AuditService::log("Mencatat transaksi penjualan {$data['kategori_penjualan']} ({$noFaktur}): {$itemSummary} senilai Rp" . number_format($penjualan->total_harga, 0, ',', '.'));
 
             return $penjualan;
         });

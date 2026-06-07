@@ -38,6 +38,8 @@ class KategoriBiayaController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
+        \App\Services\AuditService::log('Menambah kategori biaya baru: ' . $request->nama_kategori);
+
         return redirect()->route('master-data.kategori-biaya.index')
             ->with('success', 'Kategori biaya berhasil ditambahkan.');
     }
@@ -53,6 +55,8 @@ class KategoriBiayaController extends Controller
             'nama_kategori' => $request->nama_kategori,
             'keterangan' => $request->keterangan,
         ]);
+
+        \App\Services\AuditService::log('Mengedit kategori biaya: ' . $request->nama_kategori);
 
         return redirect()->route('master-data.kategori-biaya.index')
             ->with('success', 'Kategori biaya berhasil diperbarui.');
@@ -75,7 +79,10 @@ class KategoriBiayaController extends Controller
                 ->with('error', "Kategori \"{$kategori->nama_kategori}\" tidak bisa dihapus karena sudah digunakan dalam biaya operasional.");
         }
 
+        $kategoriName = $kategori->nama_kategori;
         $kategori->delete();
+
+        \App\Services\AuditService::log('Menghapus kategori biaya: ' . $kategoriName);
 
         return redirect()->route('master-data.kategori-biaya.index')
             ->with('success', 'Kategori biaya berhasil dihapus.');

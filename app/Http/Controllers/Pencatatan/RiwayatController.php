@@ -9,7 +9,6 @@ use App\Models\KonsumsiPakan;
 use App\Models\KonsumsiVitamin;
 use App\Models\ProduksiPupukKandang;
 use App\Models\ProduksiTelur;
-use App\Models\RiwayatAktivitas;
 use App\Models\SuhuKandang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -243,10 +242,7 @@ class RiwayatController extends Controller
                     throw new \Exception('Jenis pencatatan tidak valid.');
             }
 
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Menghapus pencatatan {$info}. Alasan: {$request->alasan}",
-            ]);
+            \App\Services\AuditService::log("Menghapus pencatatan {$info}. Alasan: {$request->alasan}");
 
             return back()->with('success', "Pencatatan {$info} berhasil dihapus.");
 

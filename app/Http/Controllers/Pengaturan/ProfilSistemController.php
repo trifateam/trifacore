@@ -62,6 +62,8 @@ class ProfilSistemController extends Controller
             $this->settingService->set('logo_path', $path);
         }
 
+        \App\Services\AuditService::log('Mengubah pengaturan profil sistem');
+
         return redirect()->back()->with('success', 'Profil sistem berhasil diperbarui!');
     }
 }

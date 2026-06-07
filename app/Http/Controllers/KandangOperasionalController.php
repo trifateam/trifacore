@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\Kandang;
-use App\Models\RiwayatAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -117,10 +116,7 @@ class KandangOperasionalController extends Controller
                 $kandang->save();
 
                 // Catat aktivitas
-                RiwayatAktivitas::create([
-                    'id_pengguna' => Auth::id(),
-                    'aktivitas' => "Menempatkan {$jumlahAssign} ekor pullet (Batch: {$assignedBatchKode}) ke {$kandang->nama_kandang}."
-                ]);
+                \App\Services\AuditService::log("Menempatkan {$jumlahAssign} ekor pullet (Batch: {$assignedBatchKode}) ke {$kandang->nama_kandang}.");
             });
 
             return redirect()->route('kandang-operasional.index')

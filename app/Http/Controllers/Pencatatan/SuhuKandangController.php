@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Pencatatan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kandang;
-use App\Models\RiwayatAktivitas;
 use App\Models\SuhuKandang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -109,11 +108,8 @@ class SuhuKandangController extends Controller
                 'kelembaban' => $request->kelembaban,
             ]);
 
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Mencatat suhu kandang ({$kandang->nama_kandang}): {$request->suhu}°C" .
-                    ($request->kelembaban ? ", kelembaban {$request->kelembaban}%" : "") . ".",
-            ]);
+            \App\Services\AuditService::log("Mencatat suhu kandang ({$kandang->nama_kandang}): {$request->suhu}°C" .
+                    ($request->kelembaban ? ", kelembaban {$request->kelembaban}%" : "") . ".");
 
             DB::commit();
 

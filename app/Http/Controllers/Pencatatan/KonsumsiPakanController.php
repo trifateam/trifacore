@@ -7,7 +7,6 @@ use App\Models\Barang;
 use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\KonsumsiPakan;
-use App\Models\RiwayatAktivitas;
 use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -133,10 +132,7 @@ class KonsumsiPakanController extends Controller
             ]);
 
             // Catat Riwayat Aktivitas
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Mencatat konsumsi pakan (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->jumlah_pakan_kg} kg {$barangPakan->nama_barang}.",
-            ]);
+            \App\Services\AuditService::log("Mencatat konsumsi pakan (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->jumlah_pakan_kg} kg {$barangPakan->nama_barang}.");
 
             DB::commit();
 

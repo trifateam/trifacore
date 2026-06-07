@@ -8,7 +8,6 @@ use App\Models\BukuKas;
 use App\Models\Pelanggan;
 use App\Models\PembayaranPiutang;
 use App\Models\Piutang;
-use App\Models\RiwayatAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -136,10 +135,7 @@ class BukuPiutangController extends Controller
 
                 // Catat riwayat aktivitas
                 $pelangganName = $piutang->penjualan->pelanggan->nama_lengkap ?? 'Unknown';
-                RiwayatAktivitas::create([
-                    'id_pengguna' => Auth::id(),
-                    'aktivitas' => "Menerima pelunasan piutang {$pelangganName} (Nota: {$piutang->penjualan->no_faktur_jual}) sebesar Rp" . number_format($nominal, 0, ',', '.'),
-                ]);
+                \App\Services\AuditService::log("Menerima pelunasan piutang {$pelangganName} (Nota: {$piutang->penjualan->no_faktur_jual}) sebesar Rp" . number_format($nominal, 0, ',', '.'));
             });
 
             return redirect()->route('keuangan.buku-piutang')->with('success', 'Pelunasan piutang berhasil diproses.');

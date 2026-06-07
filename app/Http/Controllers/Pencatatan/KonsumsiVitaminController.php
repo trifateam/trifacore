@@ -7,7 +7,6 @@ use App\Models\Barang;
 use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\KonsumsiVitamin;
-use App\Models\RiwayatAktivitas;
 use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -117,10 +116,7 @@ class KonsumsiVitaminController extends Controller
 
             // Catat Riwayat Aktivitas
             $metodeTeks = $request->metode_pemberian ? " via {$request->metode_pemberian}" : "";
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Mencatat konsumsi vitamin (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->total_penggunaan} {$barangVitamin->satuan} {$barangVitamin->nama_barang}{$metodeTeks}.",
-            ]);
+            \App\Services\AuditService::log("Mencatat konsumsi vitamin (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->total_penggunaan} {$barangVitamin->satuan} {$barangVitamin->nama_barang}{$metodeTeks}.");
 
             DB::commit();
 
