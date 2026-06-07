@@ -92,7 +92,7 @@ class TransaksiPenjualanService
                 $akun = AkunKas::lockForUpdate()->findOrFail($data['id_akun_kas']);
                 
                 // Tambah saldo
-                $akun->saldo_sekarang += $penjualan->total_harga;
+                $akun->saldo += $penjualan->total_harga;
                 $akun->save();
 
                 // Entry Buku Kas

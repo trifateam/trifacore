@@ -164,11 +164,10 @@ class TransaksiPembelianService
 
             $akun = AkunKas::lockForUpdate()->findOrFail($idAkunKas);
             
-            // Kurangi saldo
-            if ($akun->saldo_sekarang < $pembelian->total_pembelian) {
+            if ($akun->saldo < $pembelian->total_pembelian) {
                 throw new \Exception("Saldo kas tidak mencukupi untuk pembayaran lunas.");
             }
-            $akun->saldo_sekarang -= $pembelian->total_pembelian;
+            $akun->saldo -= $pembelian->total_pembelian;
             $akun->save();
 
             // Entry Buku Kas

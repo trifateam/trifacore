@@ -2,55 +2,60 @@
 
 namespace Database\Seeders;
 
-use App\Models\Pengguna;
 use Illuminate\Database\Seeder;
+use App\Models\Pengguna;
 use Illuminate\Support\Facades\Hash;
 
 class PenggunaSeeder extends Seeder
 {
     /**
-     * Seed data default pengguna untuk setiap role.
+     * Run the database seeds.
      */
     public function run(): void
     {
+        // Bersihkan data pengguna sebelumnya jika ada, agar bersih (opsional)
+        Pengguna::query()->delete();
+
         $users = [
             [
-                'nama_lengkap' => 'Administrator',
-                'username'     => 'admin',
-                'password'     => Hash::make('password'),
-                'role'         => 'Admin',
+                'username' => 'admin',
+                'password' => Hash::make('password123'),
+                'nama_lengkap' => 'Administrator System',
+                'role' => 'Admin',
+                'is_active' => true,
             ],
             [
-                'nama_lengkap' => 'Pemilik Peternakan',
-                'username'     => 'owner',
-                'password'     => Hash::make('password'),
-                'role'         => 'Owner',
+                'username' => 'owner',
+                'password' => Hash::make('password123'),
+                'nama_lengkap' => 'Bapak Budi (Owner)',
+                'role' => 'Owner',
+                'is_active' => true,
             ],
             [
-                'nama_lengkap' => 'Pegawai Kandang 1',
-                'username'     => 'pegawai1',
-                'password'     => Hash::make('password'),
-                'role'         => 'Pegawai Kandang',
+                'username' => 'sales',
+                'password' => Hash::make('password123'),
+                'nama_lengkap' => 'Agus Sales',
+                'role' => 'Sales',
+                'is_active' => true,
             ],
             [
-                'nama_lengkap' => 'Sales 1',
-                'username'     => 'sales1',
-                'password'     => Hash::make('password'),
-                'role'         => 'Sales',
+                'username' => 'kandang_a',
+                'password' => Hash::make('password123'),
+                'nama_lengkap' => 'Joko Kandang',
+                'role' => 'Pegawai Kandang',
+                'is_active' => true,
             ],
             [
-                'nama_lengkap' => 'Pegawai Gudang 1',
-                'username'     => 'gudang1',
-                'password'     => Hash::make('password'),
-                'role'         => 'Pegawai Gudang',
+                'username' => 'gudang1',
+                'password' => Hash::make('password123'),
+                'nama_lengkap' => 'Bambang Gudang',
+                'role' => 'Pegawai Gudang',
+                'is_active' => true,
             ],
         ];
 
         foreach ($users as $user) {
-            Pengguna::updateOrCreate(
-                ['username' => $user['username']],
-                $user
-            );
+            Pengguna::create($user);
         }
     }
 }

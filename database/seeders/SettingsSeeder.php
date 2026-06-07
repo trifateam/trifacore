@@ -7,20 +7,21 @@ use App\Models\Setting;
 
 class SettingsSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
+        Setting::query()->delete();
         $settings = [
-            ['key' => 'nama_peternakan', 'value' => 'TriFaCore Farm'],
-            ['key' => 'alamat', 'value' => 'Jl. Contoh Peternakan No. 123, Desa Sukamaju, Kecamatan Peternakan'],
+            ['key' => 'nama_peternakan', 'value' => 'CV Berkah Unggas Mandiri'],
+            ['key' => 'alamat', 'value' => 'Jl. Peternakan Raya No. 1, Kab. Bogor, Jawa Barat'],
             ['key' => 'no_telp', 'value' => '081234567890'],
-            ['key' => 'email', 'value' => 'info@trifacore.com'],
-            ['key' => 'nama_pemilik', 'value' => 'Bpk. Ahmad Peternak'],
-            ['key' => 'jabatan_pemilik', 'value' => 'Owner'],
-            ['key' => 'visi_misi', 'value' => 'Menjadi peternakan ayam petelur terdepan dengan inovasi teknologi dan manajemen modern.'],
+            ['key' => 'email', 'value' => 'info@berkahunggas.com'],
+            ['key' => 'nama_pemilik', 'value' => 'Bapak Budi Hartanto'],
+            ['key' => 'jabatan_pemilik', 'value' => 'Direktur Utama'],
+            ['key' => 'visi_misi', 'value' => 'Menjadi penyedia produk perunggasan terbaik dan terpercaya di Indonesia dengan mengutamakan kualitas, kesehatan ternak, dan keberlanjutan.'],
         ];
 
-        foreach ($settings as $setting) {
-            Setting::updateOrCreate(['key' => $setting['key']], ['value' => $setting['value']]);
+        foreach ($settings as $set) {
+            Setting::create($set);
         }
     }
 }

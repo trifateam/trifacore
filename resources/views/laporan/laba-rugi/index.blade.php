@@ -143,80 +143,97 @@
 
 @push('scripts')
 <script>
-    function generateReport() {
-        const form = document.getElementById('filter-form');
-        const formData = new FormData(form);
-        const searchParams = new URLSearchParams(formData);
+    async function generateReport() {
+        try {
+            const form = document.getElementById('filter-form');
+            const formData = new FormData(form);
+            const searchParams = new URLSearchParams(formData);
 
-        const bulanSelect = document.querySelector('select[name="bulan"]');
-        const tahunSelect = document.querySelector('select[name="tahun"]');
-        const bulanText = bulanSelect.options[bulanSelect.selectedIndex].text;
-        const tahunText = tahunSelect.options[tahunSelect.selectedIndex].text;
+            const bulanSelect = document.querySelector('select[name="bulan"]');
+            const tahunSelect = document.querySelector('select[name="tahun"]');
+            const bulanText = bulanSelect.options[bulanSelect.selectedIndex].text;
+            const tahunText = tahunSelect.options[tahunSelect.selectedIndex].text;
 
-        document.getElementById('loading').classList.remove('hidden');
-        document.getElementById('report-content').classList.add('hidden');
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('report-content').classList.add('hidden');
 
-        fetch(`{{ route('laporan.laba-rugi.generate') }}?${searchParams.toString()}`)
-            .then(response => response.json())
-            .then(data => {
-                
-                document.getElementById('periode-label').innerText = `Periode: ${bulanText} ${tahunText}`;
+            const response = await fetch(`{{ route('laporan.laba-rugi.generate') }}?${searchParams.toString()}`, {
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
 
-                // Section A
-                document.getElementById('in_telur').innerText = data.kas_masuk.penjualan_telur;
-                document.getElementById('in_afkir').innerText = data.kas_masuk.penjualan_afkir;
-                document.getElementById('in_pupuk').innerText = data.kas_masuk.penjualan_pupuk;
-                document.getElementById('in_piutang').innerText = data.kas_masuk.pelunasan_piutang;
-                document.getElementById('in_total').innerText = data.kas_masuk.total;
+            const textData = await response.text();
+            let data;
+            try {
+                data = JSON.parse(textData);
+            } catch (e) {
+                console.error("Non-JSON Response:", textData);
+                throw new Error("Respons server tidak valid.");
+            }
 
-                // Section B
-                document.getElementById('out_pakan').innerText = data.kas_keluar.pembelian_pakan;
-                document.getElementById('out_vitamin').innerText = data.kas_keluar.pembelian_vitamin;
-                document.getElementById('out_pullet').innerText = data.kas_keluar.pembelian_pullet;
-                document.getElementById('out_hutang').innerText = data.kas_keluar.pelunasan_hutang;
-                document.getElementById('out_total').innerText = data.kas_keluar.total;
+            if (!response.ok) {
+                throw new Error(data.message || `HTTP Error ${response.status}`);
+            }
+            
+            document.getElementById('periode-label').innerText = `Periode: ${bulanText} ${tahunText}`;
 
-                const opsTbody = document.getElementById('ops_breakdown');
-                opsTbody.innerHTML = '';
-                if(data.kas_keluar.operasional_breakdown.length > 0) {
-                    data.kas_keluar.operasional_breakdown.forEach(item => {
-                        opsTbody.innerHTML += `
-                            <tr>
-                                <td class="py-2 px-4 text-gray-500 pl-12 text-sm">→ ${item.kategori}</td>
-                                <td class="py-2 px-4 text-right font-medium text-gray-700 text-sm">${item.total}</td>
-                            </tr>
-                        `;
-                    });
-                } else {
-                    opsTbody.innerHTML = `
+            // Section A
+            document.getElementById('in_telur').innerText = data.kas_masuk.penjualan_telur;
+            document.getElementById('in_afkir').innerText = data.kas_masuk.penjualan_afkir;
+            document.getElementById('in_pupuk').innerText = data.kas_masuk.penjualan_pupuk;
+            document.getElementById('in_piutang').innerText = data.kas_masuk.pelunasan_piutang;
+            document.getElementById('in_total').innerText = data.kas_masuk.total;
+
+            // Section B
+            document.getElementById('out_pakan').innerText = data.kas_keluar.pembelian_pakan;
+            document.getElementById('out_vitamin').innerText = data.kas_keluar.pembelian_vitamin;
+            document.getElementById('out_pullet').innerText = data.kas_keluar.pembelian_pullet;
+            document.getElementById('out_hutang').innerText = data.kas_keluar.pelunasan_hutang;
+            document.getElementById('out_total').innerText = data.kas_keluar.total;
+
+            const opsTbody = document.getElementById('ops_breakdown');
+            opsTbody.innerHTML = '';
+            if(data.kas_keluar.operasional_breakdown.length > 0) {
+                data.kas_keluar.operasional_breakdown.forEach(item => {
+                    opsTbody.innerHTML += `
                         <tr>
-                            <td class="py-2 px-4 text-gray-400 pl-12 text-sm italic" colspan="2">Tidak ada biaya operasional bulan ini</td>
+                            <td class="py-2 px-4 text-gray-500 pl-12 text-sm">→ ${item.kategori}</td>
+                            <td class="py-2 px-4 text-right font-medium text-gray-700 text-sm">${item.total}</td>
                         </tr>
                     `;
-                }
+                });
+            } else {
+                opsTbody.innerHTML = `
+                    <tr>
+                        <td class="py-2 px-4 text-gray-400 pl-12 text-sm italic" colspan="2">Tidak ada biaya operasional bulan ini</td>
+                    </tr>
+                `;
+            }
 
-                // Section C
-                const netEl = document.getElementById('net_profit');
-                netEl.innerText = data.bottom_line.net;
-                
-                if(data.bottom_line.net_raw > 0) {
-                    netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-green-100 text-green-700';
-                } else if(data.bottom_line.net_raw < 0) {
-                    netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-red-100 text-red-700';
-                } else {
-                    netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-gray-100 text-gray-700';
-                }
+            // Section C
+            const netEl = document.getElementById('net_profit');
+            netEl.innerText = data.bottom_line.net;
+            
+            if(data.bottom_line.net_raw > 0) {
+                netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-green-100 text-green-700';
+            } else if(data.bottom_line.net_raw < 0) {
+                netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-red-100 text-red-700';
+            } else {
+                netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-gray-100 text-gray-700';
+            }
 
-                document.getElementById('profit_margin').innerText = data.bottom_line.margin;
+            document.getElementById('profit_margin').innerText = data.bottom_line.margin;
 
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('report-content').classList.remove('hidden');
-            })
-            .catch(error => {
-                console.error('Error fetching report:', error);
-                document.getElementById('loading').classList.add('hidden');
-                alert('Terjadi kesalahan saat menyusun laporan Laba Rugi.');
-            });
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('report-content').classList.remove('hidden');
+
+        } catch (error) {
+            console.error('Error fetching report:', error);
+            document.getElementById('loading').classList.add('hidden');
+            alert('Terjadi kesalahan: ' + error.message);
+        }
     }
 
     // Load initial data

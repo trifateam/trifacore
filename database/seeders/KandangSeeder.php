@@ -1,0 +1,47 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use App\Models\Kandang;
+use App\Models\Pengguna;
+
+class KandangSeeder extends Seeder
+{
+    public function run(): void
+    {
+        Kandang::query()->delete();
+        $admin = Pengguna::where('role', 'Admin')->first();
+
+        $data = [
+            [
+                'id_pengguna' => $admin->id_pengguna ?? 1,
+                'nama_kandang' => 'Kandang A (Utama)',
+                'kapasitas_kandang' => 3000,
+                'populasi_saat_ini' => 0, // Akan diisi Batch
+                'tahun_masuk' => 2024,
+                'is_active' => true,
+            ],
+            [
+                'id_pengguna' => $admin->id_pengguna ?? 1,
+                'nama_kandang' => 'Kandang B (Cadangan)',
+                'kapasitas_kandang' => 3000,
+                'populasi_saat_ini' => 0, // Akan diisi Batch
+                'tahun_masuk' => 2025,
+                'is_active' => true,
+            ],
+            [
+                'id_pengguna' => $admin->id_pengguna ?? 1,
+                'nama_kandang' => 'Kandang C (Karantina)',
+                'kapasitas_kandang' => 2000,
+                'populasi_saat_ini' => 0,
+                'tahun_masuk' => 2025,
+                'is_active' => true,
+            ],
+        ];
+
+        foreach ($data as $item) {
+            Kandang::create($item);
+        }
+    }
+}

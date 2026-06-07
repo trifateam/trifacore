@@ -14,7 +14,7 @@ class RiwayatPenjualanController extends Controller
         $pelanggans = Pelanggan::all();
 
         // Base Query
-        $query = Penjualan::with(['pelanggan', 'pengguna', 'details.barang', 'piutang'])
+        $query = Penjualan::with(['pelanggan', 'pengguna', 'detailPenjualan.barang', 'piutang'])
             ->orderBy('tanggal_penjualan', 'desc');
 
         // Apply Filters
@@ -88,7 +88,7 @@ class RiwayatPenjualanController extends Controller
                 'badge' => $badge,
                 'catatan' => $p->catatan,
                 'sisa_piutang' => $p->piutang ? $p->piutang->sisa_piutang : 0,
-                'details' => $p->details->map(function ($d) {
+                'details' => $p->detailPenjualan->map(function ($d) {
                     return [
                         'nama_barang' => $d->barang ? $d->barang->nama_barang : 'Ayam Afkir', // fallback if null
                         'kuantitas' => $d->kuantitas,
