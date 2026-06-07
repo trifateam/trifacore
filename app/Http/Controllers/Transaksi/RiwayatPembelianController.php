@@ -14,7 +14,7 @@ class RiwayatPembelianController extends Controller
         $suppliers = Supplier::all();
 
         // Base Query
-        $query = Pembelian::with(['supplier', 'pengguna', 'details.barang', 'hutang'])
+        $query = Pembelian::with(['supplier', 'pengguna', 'detailPembelian.barang', 'hutang'])
             ->orderBy('tanggal_pembelian', 'desc');
 
         // Apply Filters
@@ -85,7 +85,7 @@ class RiwayatPembelianController extends Controller
                 'badge' => $badge,
                 'catatan' => $p->catatan,
                 'sisa_hutang' => $p->hutang ? $p->hutang->sisa_hutang : 0,
-                'details' => $p->details->map(function ($d) {
+                'details' => $p->detailPembelian->map(function ($d) {
                     return [
                         'nama_barang' => $d->barang ? $d->barang->nama_barang : 'Barang Terhapus',
                         'kuantitas' => $d->kuantitas,

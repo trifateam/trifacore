@@ -36,10 +36,10 @@ class LabaRugiController extends Controller
 
         // --- ARUS KAS MASUK ---
 
-        // Penjualan Cash (metode_pembayaran != 'Tempo')
+        // Penjualan Cash (metode_pembayaran == 'LUNAS')
         $penjualanCash = Penjualan::whereMonth('tanggal_penjualan', $bulan)
             ->whereYear('tanggal_penjualan', $tahun)
-            ->where('metode_pembayaran', '!=', 'Tempo')
+            ->where('metode_pembayaran', 'LUNAS')
             ->select('kategori_penjualan', DB::raw('SUM(total_harga) as total'))
             ->groupBy('kategori_penjualan')
             ->pluck('total', 'kategori_penjualan')
@@ -59,10 +59,10 @@ class LabaRugiController extends Controller
 
         // --- ARUS KAS KELUAR ---
 
-        // Pembelian Cash (metode_pembayaran != 'Tempo')
+        // Pembelian Cash (metode_pembayaran == 'LUNAS')
         $pembelianCash = Pembelian::whereMonth('tanggal_pembelian', $bulan)
             ->whereYear('tanggal_pembelian', $tahun)
-            ->where('metode_pembayaran', '!=', 'Tempo')
+            ->where('metode_pembayaran', 'LUNAS')
             ->select('kategori_pembelian', DB::raw('SUM(total_pembelian) as total'))
             ->groupBy('kategori_pembelian')
             ->pluck('total', 'kategori_pembelian')
