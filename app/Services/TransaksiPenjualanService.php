@@ -30,16 +30,7 @@ class TransaksiPenjualanService
             $userId = Auth::id();
             
             // 1. Generate Nomor Faktur: PJ-YYYYMMDD-XX
-            $tanggalKode = Carbon::today()->format('Ymd');
-            $lastRecord = Penjualan::where('no_faktur_jual', 'like', "PJ-{$tanggalKode}-%")
-                ->lockForUpdate()
-                ->orderBy('no_faktur_jual', 'desc')
-                ->first();
-
-            $nextNumber = $lastRecord
-                ? str_pad((int) substr($lastRecord->no_faktur_jual, -2) + 1, 2, '0', STR_PAD_LEFT)
-                : '01';
-            $noFaktur = "PJ-{$tanggalKode}-{$nextNumber}";
+            $noFaktur = \App\Helpers\CodeGenerator::generate('PJ', 'penjualan', 'no_faktur_jual');
 
             // 2. Simpan Header Penjualan
             $penjualan = Penjualan::create([
@@ -106,15 +97,10 @@ class TransaksiPenjualanService
                 $akun->save();
 
                 // Entry Buku Kas
-                $lastJurnal = BukuKas::where('kode_jurnal', 'like', "BK-{$tanggalKode}-%")
-                    ->orderBy('kode_jurnal', 'desc')
-                    ->first();
-                $nextJurnalNum = $lastJurnal
-                    ? str_pad((int) substr($lastJurnal->kode_jurnal, -2) + 1, 2, '0', STR_PAD_LEFT)
-                    : '01';
+                $kodeJurnal = \App\Helpers\CodeGenerator::generate('BK', 'buku_kas', 'kode_jurnal', 4);
 
                 BukuKas::create([
-                    'kode_jurnal' => "BK-{$tanggalKode}-{$nextJurnalNum}",
+                    'kode_jurnal' => $kodeJurnal,
                     'id_akun' => $akun->id_akun,
                     'id_pengguna' => $userId,
                     'tanggal_transaksi' => Carbon::now(),

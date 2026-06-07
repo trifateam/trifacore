@@ -30,7 +30,9 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/helpers.php"
+            "app/helpers.php",
+            "app/Helpers/CodeGenerator.php",
+            "app/Helpers/RupiahFormatter.php"
         ]
     },
     "autoload-dev": {

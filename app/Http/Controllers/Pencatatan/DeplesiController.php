@@ -113,19 +113,7 @@ class DeplesiController extends Controller
         }
 
         // Generate Kode Deplesi: DP-YYYYMMDD-XX
-        $tanggalKode = Carbon::today()->format('Ymd');
-        $lastRecord = Deplesi::where('kode_deplesi', 'like', "DP-{$tanggalKode}-%")
-            ->orderBy('kode_deplesi', 'desc')
-            ->first();
-
-        if ($lastRecord) {
-            $lastNumber = (int) substr($lastRecord->kode_deplesi, -2);
-            $nextNumber = str_pad($lastNumber + 1, 2, '0', STR_PAD_LEFT);
-        } else {
-            $nextNumber = '01';
-        }
-
-        $kodeDeplesi = "DP-{$tanggalKode}-{$nextNumber}";
+        $kodeDeplesi = \App\Helpers\CodeGenerator::generate('DP', 'deplesi', 'kode_deplesi');
 
         DB::beginTransaction();
         try {

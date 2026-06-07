@@ -174,7 +174,7 @@
             <tr>
                 <td class="label">Total Penjualan Bulan</td>
                 <td>:</td>
-                <td class="value">Rp {{ number_format($totalPenjualan, 2, ',', '.') }}</td>
+                <td class="value">@rupiah($totalPenjualan)</td>
             </tr>
             <tr>
                 <td class="label">Total Qty Terjual</td>
@@ -184,7 +184,7 @@
             <tr>
                 <td class="label">Rata-rata Harga</td>
                 <td>:</td>
-                <td class="value">Rp {{ number_format($rataHarga, 2, ',', '.') }}</td>
+                <td class="value">@rupiah($rataHarga)</td>
             </tr>
         </table>
     </div>

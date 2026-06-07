@@ -113,9 +113,9 @@ class KonsumsiPakanController extends Controller
         // Default waktu ke saat ini jika kosong
         $waktuPemberian = $request->waktu_pemberian ?: Carbon::now()->format('H:i');
         
-        // Generate Kode Pakan: KP-YYYYMMDD-IDBATCH-SESI
+        // Generate Kode Pakan: KP-YYYYMMDD-XX
         $sesiKe = $jumlahSesiHariIni + 1;
-        $kodePakan = 'KP-' . Carbon::today()->format('Ymd') . '-' . $id_batch . '-S' . $sesiKe;
+        $kodePakan = \App\Helpers\CodeGenerator::generate('KP', 'konsumsi_pakan', 'kode_pakan');
 
         DB::beginTransaction();
         try {

@@ -55,7 +55,7 @@
                         </span>
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-700">{{ $barang->satuan }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-700">Rp {{ number_format($barang->harga, 0, ',', '.') }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">@rupiah($barang->harga)</td>
                     <td class="px-4 py-3 text-sm">
                         <div class="flex items-center space-x-3">
                             <span title="Dapat Dijual">

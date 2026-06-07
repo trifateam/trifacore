@@ -33,5 +33,14 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('role', function (string ...$roles) {
             return auth()->check() && in_array(auth()->user()->role, $roles);
         });
+
+        /*
+        |----------------------------------------------------------------------
+        | Custom Blade Directive: @rupiah
+        |----------------------------------------------------------------------
+        */
+        Blade::directive('rupiah', function ($expression) {
+            return "<?php echo \App\Helpers\RupiahFormatter::format($expression); ?>";
+        });
     }
 }

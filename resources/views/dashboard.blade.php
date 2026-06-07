@@ -48,7 +48,7 @@
         @if($showSaldoKas)
         <x-stat-card
             title="Saldo Kas Total"
-            :value="'Rp ' . number_format($saldoKas, 0, ',', '.')"
+            :value="\App\Helpers\RupiahFormatter::format($saldoKas)"
             icon="banknotes"
             color="yellow"
         />
@@ -83,7 +83,7 @@
                         </div>
                         <span class="text-sm font-medium text-emerald-800">Total Kas Masuk</span>
                     </div>
-                    <span class="text-lg font-bold text-emerald-700">Rp {{ number_format($kasMasuk, 0, ',', '.') }}</span>
+                    <span class="text-lg font-bold text-emerald-700">@rupiah($kasMasuk)</span>
                 </div>
 
                 {{-- Kas Keluar --}}
@@ -96,7 +96,7 @@
                         </div>
                         <span class="text-sm font-medium text-red-800">Total Kas Keluar</span>
                     </div>
-                    <span class="text-lg font-bold text-red-700">Rp {{ number_format($kasKeluar, 0, ',', '.') }}</span>
+                    <span class="text-lg font-bold text-red-700">@rupiah($kasKeluar)</span>
                 </div>
 
                 {{-- Net --}}
@@ -110,7 +110,7 @@
                         <span class="text-sm font-medium {{ $kasNet >= 0 ? 'text-blue-800' : 'text-amber-800' }}">Net Arus Kas</span>
                     </div>
                     <span class="text-lg font-bold {{ $kasNet >= 0 ? 'text-blue-700' : 'text-amber-700' }}">
-                        {{ $kasNet >= 0 ? '+' : '-' }} Rp {{ number_format(abs($kasNet), 0, ',', '.') }}
+                        {{ $kasNet >= 0 ? '+' : '-' }} @rupiah(abs($kasNet))
                     </span>
                 </div>
             </div>

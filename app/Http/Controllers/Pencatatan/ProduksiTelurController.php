@@ -110,8 +110,8 @@ class ProduksiTelurController extends Controller
             return back()->with('error', 'Pencatatan produksi telur untuk batch ini pada hari ini sudah dilakukan.');
         }
 
-        // Generate Kode Produksi: PT-YYYYMMDD-IDBATCH
-        $kodeProduksi = 'PT-' . Carbon::today()->format('Ymd') . '-' . $id_batch;
+        // Generate Kode Produksi: PT-YYYYMMDD-XX
+        $kodeProduksi = \App\Helpers\CodeGenerator::generate('PT', 'produksi_telur', 'kode_produksi');
 
         DB::beginTransaction();
         try {

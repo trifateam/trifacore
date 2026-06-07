@@ -122,7 +122,7 @@
                                         <option value="">-- Pilih Rekening --</option>
                                         @foreach($akunKas as $akun)
                                             <option value="{{ $akun->id_akun }}" {{ old('id_akun_kas') == $akun->id_akun ? 'selected' : '' }}>
-                                                {{ $akun->nama_akun }} (Saldo: Rp {{ number_format($akun->saldo_sekarang, 0, ',', '.') }})
+                                                {{ $akun->nama_akun }} (Saldo: @rupiah($akun->saldo_sekarang))
                                             </option>
                                         @endforeach
                                     </select>

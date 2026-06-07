@@ -174,7 +174,7 @@
             <tr>
                 <td class="label">Total Pembelian Bulan</td>
                 <td>:</td>
-                <td class="value">Rp {{ number_format($totalPembelian, 2, ',', '.') }}</td>
+                <td class="value">@rupiah($totalPembelian)</td>
             </tr>
             <tr>
                 <td class="label">Total Qty Dibeli</td>
@@ -184,7 +184,7 @@
             <tr>
                 <td class="label">Rata-rata Harga/Kg</td>
                 <td>:</td>
-                <td class="value">Rp {{ number_format($rataHarga, 2, ',', '.') }}</td>
+                <td class="value">@rupiah($rataHarga)</td>
             </tr>
         </table>
     </div>

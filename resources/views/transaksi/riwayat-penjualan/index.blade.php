@@ -12,8 +12,8 @@
     {{-- Summary Bar --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
         <x-stat-card title="Jumlah Transaksi" :value="$totalTransaksi . ' Nota'" icon="document-text" color="blue" />
-        <x-stat-card title="Total Penjualan" :value="'Rp ' . number_format($totalNominal, 0, ',', '.')" icon="currency-dollar" color="green" />
-        <x-stat-card title="Total Tempo (Belum Lunas)" :value="'Rp ' . number_format($totalTempo, 0, ',', '.')" icon="clock" color="yellow" />
+        <x-stat-card title="Total Penjualan" :value="\App\Helpers\RupiahFormatter::format($totalNominal)" icon="currency-dollar" color="green" />
+        <x-stat-card title="Total Tempo (Belum Lunas)" :value="\App\Helpers\RupiahFormatter::format($totalTempo)" icon="clock" color="yellow" />
     </div>
 
     {{-- Filter Bar --}}
@@ -82,7 +82,7 @@
                                 <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">{{ $item['kategori'] }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 text-right">
-                                Rp {{ number_format($item['total'], 0, ',', '.') }}
+                                @rupiah($item['total'])
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 <x-badge :variant="$item['badge']">{{ $item['status'] }}</x-badge>
