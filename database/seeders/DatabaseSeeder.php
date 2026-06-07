@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PenggunaSeeder::class,
             MasterDataSeeder::class,
             BatchSeeder::class,
+            SettingsSeeder::class,
         ]);
     }
 }
