@@ -16,6 +16,7 @@ use App\Http\Controllers\MasterData\PegawaiController;
 use App\Http\Controllers\MasterData\PelangganController;
 use App\Http\Controllers\MasterData\RekeningController;
 use App\Http\Controllers\MasterData\SupplierController;
+use App\Http\Controllers\Pengaturan\ProfilSistemController;
 use App\Http\Controllers\Laporan\CetakPembelianController;
 use App\Http\Controllers\Laporan\CetakPenjualanController;
 use App\Http\Controllers\Laporan\CetakProduksiController;
@@ -151,7 +152,8 @@ Route::middleware('auth')->group(function () {
 
         // Pengaturan
         Route::prefix('pengaturan')->name('pengaturan.')->group(function () {
-            Route::get('/profil-sistem', fn () => view('pengaturan.profil-sistem'))->name('profil-sistem');
+            Route::get('/profil-sistem', [ProfilSistemController::class, 'index'])->name('profil-sistem');
+            Route::post('/profil-sistem', [ProfilSistemController::class, 'update'])->name('profil-sistem.update');
         });
     });
 });
