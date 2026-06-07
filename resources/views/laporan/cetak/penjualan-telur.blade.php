@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Laporan Produksi Telur - {{ $kandang->nama_kandang }}</title>
+    <title>Laporan Penjualan Telur</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -122,47 +122,48 @@
     @include('laporan.cetak._kop_surat')
 
     <div class="title">
-        <h2>Laporan Produksi Telur - {{ $kandang->nama_kandang }}</h2>
+        <h2>Laporan Penjualan Telur</h2>
         @php
             $namaBulan = \Carbon\Carbon::createFromFormat('n', $bulan)->translatedFormat('F');
         @endphp
         <p>Periode: {{ $namaBulan }} {{ $tahun }}</p>
+        @if($pelanggan)
+            <p>Pelanggan: {{ $pelanggan->nama_lengkap }}</p>
+        @else
+            <p>Pelanggan: Semua Pelanggan</p>
+        @endif
     </div>
 
     <table class="table-data">
         <thead>
             <tr>
                 <th width="5%">No</th>
-                <th width="12%">Tanggal</th>
-                <th>RB</th>
-                <th>MB</th>
-                <th>MK</th>
-                <th>Pecah</th>
-                <th>Total Telur</th>
-                <th>Mati</th>
-                <th>Afkir</th>
-                <th>Populasi</th>
-                <th>HDP %</th>
+                <th width="12%">No. Nota</th>
+                <th width="10%">Tanggal</th>
+                <th class="text-left">Pelanggan</th>
+                <th class="text-left">Jenis Telur</th>
+                <th width="8%">Qty</th>
+                <th width="12%">Harga/Unit</th>
+                <th width="12%">Total (Rp)</th>
+                <th width="10%">Status</th>
             </tr>
         </thead>
         <tbody>
-            @forelse($dailyData as $index => $row)
+            @forelse($detailData as $index => $row)
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
+                    <td class="text-center">{{ $row['no_nota'] }}</td>
                     <td class="text-center">{{ $row['tanggal'] }}</td>
-                    <td>{{ number_format($row['rb'], 0, ',', '.') }}</td>
-                    <td>{{ number_format($row['mb'], 0, ',', '.') }}</td>
-                    <td>{{ number_format($row['mk'], 0, ',', '.') }}</td>
-                    <td>{{ number_format($row['pecah'], 0, ',', '.') }}</td>
-                    <td style="font-weight: bold;">{{ number_format($row['total_telur'], 0, ',', '.') }}</td>
-                    <td>{{ number_format($row['mati'], 0, ',', '.') }}</td>
-                    <td>{{ number_format($row['afkir'], 0, ',', '.') }}</td>
-                    <td>{{ number_format($row['populasi'], 0, ',', '.') }}</td>
-                    <td>{{ $row['hdp'] }}%</td>
+                    <td class="text-left">{{ $row['pelanggan'] }}</td>
+                    <td class="text-left">{{ $row['jenis_telur'] }}</td>
+                    <td>{{ number_format($row['qty'], 2, ',', '.') }}</td>
+                    <td>{{ number_format($row['harga_unit'], 2, ',', '.') }}</td>
+                    <td style="font-weight: bold;">{{ number_format($row['total'], 2, ',', '.') }}</td>
+                    <td class="text-center">{{ $row['status'] }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="11" class="text-center">Tidak ada data untuk periode ini.</td>
+                    <td colspan="9" class="text-center">Tidak ada data penjualan telur untuk periode ini.</td>
                 </tr>
             @endforelse
         </tbody>
@@ -171,29 +172,19 @@
     <div class="summary-box">
         <table>
             <tr>
-                <td class="label">Total Produksi Bulan</td>
+                <td class="label">Total Penjualan Bulan</td>
                 <td>:</td>
-                <td class="value">{{ number_format($totalProduksiBulan, 0, ',', '.') }} butir</td>
+                <td class="value">Rp {{ number_format($totalPenjualan, 2, ',', '.') }}</td>
             </tr>
             <tr>
-                <td class="label">Rata-rata HDP</td>
+                <td class="label">Total Qty Terjual</td>
                 <td>:</td>
-                <td class="value">{{ $rataHDP }}%</td>
+                <td class="value">{{ number_format($totalQty, 2, ',', '.') }} butir/kg</td>
             </tr>
             <tr>
-                <td class="label">Total Mortalitas Bulan</td>
+                <td class="label">Rata-rata Harga</td>
                 <td>:</td>
-                <td class="value">{{ number_format($totalMortalitasBulan, 0, ',', '.') }} ekor</td>
-            </tr>
-            <tr>
-                <td class="label">Populasi Awal Bulan</td>
-                <td>:</td>
-                <td class="value">{{ number_format($populasiAwalBulan, 0, ',', '.') }} ekor</td>
-            </tr>
-            <tr>
-                <td class="label">Populasi Akhir Bulan</td>
-                <td>:</td>
-                <td class="value">{{ number_format($populasiAkhirBulan, 0, ',', '.') }} ekor</td>
+                <td class="value">Rp {{ number_format($rataHarga, 2, ',', '.') }}</td>
             </tr>
         </table>
     </div>
