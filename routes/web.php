@@ -16,6 +16,7 @@ use App\Http\Controllers\MasterData\PegawaiController;
 use App\Http\Controllers\MasterData\PelangganController;
 use App\Http\Controllers\MasterData\RekeningController;
 use App\Http\Controllers\MasterData\SupplierController;
+use App\Http\Controllers\Laporan\LabaRugiController;
 use App\Http\Controllers\Laporan\ProduksiPerformaController;
 use App\Http\Controllers\Pencatatan\DeplesiController;
 use App\Http\Controllers\Pencatatan\KonsumsiPakanController;
@@ -132,7 +133,8 @@ Route::middleware('auth')->group(function () {
         Route::prefix('laporan')->name('laporan.')->group(function () {
             Route::get('/produksi-performa', [ProduksiPerformaController::class, 'index'])->name('produksi-performa');
             Route::get('/produksi-performa/generate', [ProduksiPerformaController::class, 'generate'])->name('produksi-performa.generate');
-            Route::get('/laba-rugi', fn () => view('laporan.laba-rugi'))->name('laba-rugi');
+            Route::get('/laba-rugi', [LabaRugiController::class, 'index'])->name('laba-rugi');
+            Route::get('/laba-rugi/generate', [LabaRugiController::class, 'generate'])->name('laba-rugi.generate');
             Route::get('/cetak/produksi-telur', fn () => view('laporan.cetak.produksi-telur'))->name('cetak.produksi-telur');
             Route::get('/cetak/penjualan-telur', fn () => view('laporan.cetak.penjualan-telur'))->name('cetak.penjualan-telur');
             Route::get('/cetak/pembelian-pakan', fn () => view('laporan.cetak.pembelian-pakan'))->name('cetak.pembelian-pakan');
