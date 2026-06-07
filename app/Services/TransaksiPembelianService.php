@@ -9,7 +9,6 @@ use App\Models\BukuKas;
 use App\Models\DetailPembelian;
 use App\Models\Hutang;
 use App\Models\Pembelian;
-use App\Models\RiwayatAktivitas;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -70,10 +69,7 @@ class TransaksiPembelianService
 
             // 5. Catat Riwayat Aktivitas
             $itemSummary = implode(', ', $rincianText);
-            RiwayatAktivitas::create([
-                'id_pengguna' => $userId,
-                'aktivitas' => "Mencatat pembelian Material ({$noFaktur}): {$itemSummary} senilai Rp" . number_format($pembelian->total_pembelian, 0, ',', '.'),
-            ]);
+            \App\Services\AuditService::log("Mencatat pembelian Material ({$noFaktur}): {$itemSummary} senilai Rp" . number_format($pembelian->total_pembelian, 0, ',', '.'));
 
             return $pembelian;
         });
@@ -148,10 +144,7 @@ class TransaksiPembelianService
             $this->prosesPembayaran($pembelian, $data['metode_pembayaran'], $data['id_akun_kas'] ?? null, $userId);
 
             // 6. Catat Riwayat
-            RiwayatAktivitas::create([
-                'id_pengguna' => $userId,
-                'aktivitas' => "Mencatat pembelian Pullet ({$data['jenis_ayam']}, {$data['jumlah_awal']} ekor). Batch baru tercipta: {$kodeBatch}.",
-            ]);
+            \App\Services\AuditService::log("Mencatat pembelian Pullet ({$data['jenis_ayam']}, {$data['jumlah_awal']} ekor). Batch baru tercipta: {$kodeBatch}.");
 
             return $pembelian;
         });

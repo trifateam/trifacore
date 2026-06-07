@@ -28,6 +28,7 @@ use App\Http\Controllers\Pencatatan\KonsumsiVitaminController;
 use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
 use App\Http\Controllers\Pencatatan\RiwayatController;
+use App\Http\Controllers\RiwayatAktivitasController;
 use App\Http\Controllers\Transaksi\PembelianController;
 use App\Http\Controllers\Transaksi\PenjualanController;
 use App\Http\Controllers\Transaksi\RiwayatPembelianController;
@@ -155,5 +156,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/profil-sistem', [ProfilSistemController::class, 'index'])->name('profil-sistem');
             Route::post('/profil-sistem', [ProfilSistemController::class, 'update'])->name('profil-sistem.update');
         });
+
+        // Riwayat Aktivitas Sistem
+        Route::get('/riwayat-aktivitas', [RiwayatAktivitasController::class, 'index'])->name('riwayat-aktivitas.index');
     });
 });

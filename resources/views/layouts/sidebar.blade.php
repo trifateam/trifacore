@@ -189,6 +189,7 @@
             <div x-show="open" x-collapse style="display: none;">
                 <div class="py-1 space-y-1">
                     <a href="/pengaturan/profil-sistem" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('pengaturan/profil-sistem') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Profil & Sistem</a>
+                    <a href="/riwayat-aktivitas" class="block pl-12 pr-4 py-2 text-sm {{ request()->is('riwayat-aktivitas') ? 'text-indigo-400' : 'text-gray-400 hover:text-white' }}">Riwayat Aktivitas Sistem</a>
                 </div>
             </div>
         </div>

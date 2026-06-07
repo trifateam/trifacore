@@ -52,6 +52,8 @@ class BarangController extends Controller
             'dapat_dijual' => $request->dapat_dijual,
             'dapat_dibeli' => $request->dapat_dibeli,
         ]);
+        
+        \App\Services\AuditService::log('Menambah barang baru: ' . $request->nama_barang);
 
         return redirect()->route('master-data.barang.index')
             ->with('success', 'Data barang berhasil ditambahkan.');
@@ -75,6 +77,8 @@ class BarangController extends Controller
             'dapat_dijual' => $request->dapat_dijual,
             'dapat_dibeli' => $request->dapat_dibeli,
         ]);
+        
+        \App\Services\AuditService::log('Mengedit barang: ' . $request->nama_barang);
 
         return redirect()->route('master-data.barang.index')
             ->with('success', 'Data barang berhasil diperbarui.');
@@ -98,7 +102,10 @@ class BarangController extends Controller
                 ->with('error', "Barang \"{$barang->nama_barang}\" tidak bisa dihapus karena sudah digunakan dalam transaksi.");
         }
 
+        $barangName = $barang->nama_barang;
         $barang->delete();
+
+        \App\Services\AuditService::log('Menghapus barang: ' . $barangName);
 
         return redirect()->route('master-data.barang.index')
             ->with('success', 'Data barang berhasil dihapus.');

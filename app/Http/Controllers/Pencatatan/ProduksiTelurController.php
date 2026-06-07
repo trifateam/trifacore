@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\ProduksiTelur;
-use App\Models\RiwayatAktivitas;
 use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -134,10 +133,7 @@ class ProduksiTelurController extends Controller
             ]);
 
             // Catat Riwayat Aktivitas
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Mencatat produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sejumlah {$totalTelur} butir.",
-            ]);
+            \App\Services\AuditService::log("Mencatat produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sejumlah {$totalTelur} butir.");
 
             DB::commit();
 
@@ -199,10 +195,7 @@ class ProduksiTelurController extends Controller
             ]);
 
             // Catat Riwayat Aktivitas
-            RiwayatAktivitas::create([
-                'id_pengguna' => Auth::id(),
-                'aktivitas' => "Mengedit data produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) menjadi {$totalTelur} butir.",
-            ]);
+            \App\Services\AuditService::log("Mengedit data produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) menjadi {$totalTelur} butir.");
 
             DB::commit();
 

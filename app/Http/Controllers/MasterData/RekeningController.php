@@ -55,6 +55,8 @@ class RekeningController extends Controller
             'is_active' => $request->is_active,
         ]);
 
+        \App\Services\AuditService::log('Menambah rekening baru: ' . $request->nama_akun);
+
         return redirect()->route('master-data.rekening.index')
             ->with('success', 'Data rekening berhasil ditambahkan.');
     }
@@ -75,6 +77,8 @@ class RekeningController extends Controller
             'is_active' => $request->is_active,
             // Saldo tidak diubah saat edit
         ]);
+
+        \App\Services\AuditService::log('Mengedit rekening: ' . $request->nama_akun);
 
         return redirect()->route('master-data.rekening.index')
             ->with('success', 'Data rekening berhasil diperbarui.');

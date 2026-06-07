@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\LogPenyesuaianStok;
-use App\Models\RiwayatAktivitas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -128,10 +127,7 @@ class GudangController extends Controller
                 $barang->save();
 
                 // Catat Aktivitas
-                RiwayatAktivitas::create([
-                    'id_pengguna' => Auth::id(),
-                    'aktivitas' => "Melakukan stock opname pada barang '{$barang->nama_barang}' (Dari {$stokLama} menjadi {$stokBaru}). Alasan: {$request->alasan}"
-                ]);
+                \App\Services\AuditService::log("Melakukan stock opname pada barang '{$barang->nama_barang}' (Dari {$stokLama} menjadi {$stokBaru}). Alasan: {$request->alasan}");
             });
 
             return redirect()->route('gudang.index')->with('success', 'Berhasil melakukan penyesuaian stok.');

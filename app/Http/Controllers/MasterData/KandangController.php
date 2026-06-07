@@ -43,6 +43,8 @@ class KandangController extends Controller
             'is_active' => $request->is_active,
         ]);
 
+        \App\Services\AuditService::log('Menambah kandang baru: ' . $request->nama_kandang);
+
         return redirect()->route('master-data.kandang.index')
             ->with('success', 'Data kandang berhasil ditambahkan.');
     }
@@ -60,6 +62,8 @@ class KandangController extends Controller
             'tahun_masuk' => $request->tahun_masuk,
             'is_active' => $request->is_active,
         ]);
+
+        \App\Services\AuditService::log('Mengedit kandang: ' . $request->nama_kandang);
 
         return redirect()->route('master-data.kandang.index')
             ->with('success', 'Data kandang berhasil diperbarui.');
@@ -83,8 +87,11 @@ class KandangController extends Controller
         }
 
         // Soft delete: set is_active = false
+        $kandangName = $kandang->nama_kandang;
         $kandang->update(['is_active' => false]);
         $kandang->delete();
+
+        \App\Services\AuditService::log('Menghapus kandang: ' . $kandangName);
 
         return redirect()->route('master-data.kandang.index')
             ->with('success', 'Data kandang berhasil dihapus.');
