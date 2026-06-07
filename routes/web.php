@@ -16,6 +16,7 @@ use App\Http\Controllers\MasterData\PegawaiController;
 use App\Http\Controllers\MasterData\PelangganController;
 use App\Http\Controllers\MasterData\RekeningController;
 use App\Http\Controllers\MasterData\SupplierController;
+use App\Http\Controllers\Laporan\CetakPembelianController;
 use App\Http\Controllers\Laporan\CetakPenjualanController;
 use App\Http\Controllers\Laporan\CetakProduksiController;
 use App\Http\Controllers\Laporan\LabaRugiController;
@@ -143,7 +144,9 @@ Route::middleware('auth')->group(function () {
             Route::get('/cetak/penjualan-telur', [CetakPenjualanController::class, 'index'])->name('cetak.penjualan-telur');
             Route::get('/cetak/penjualan-telur/preview', [CetakPenjualanController::class, 'preview'])->name('cetak.penjualan-telur.preview');
             Route::get('/cetak/penjualan-telur/pdf', [CetakPenjualanController::class, 'pdf'])->name('cetak.penjualan-telur.pdf');
-            Route::get('/cetak/pembelian-pakan', fn () => view('laporan.cetak.pembelian-pakan'))->name('cetak.pembelian-pakan');
+            Route::get('/cetak/pembelian-pakan', [CetakPembelianController::class, 'index'])->name('cetak.pembelian-pakan');
+            Route::get('/cetak/pembelian-pakan/preview', [CetakPembelianController::class, 'preview'])->name('cetak.pembelian-pakan.preview');
+            Route::get('/cetak/pembelian-pakan/pdf', [CetakPembelianController::class, 'pdf'])->name('cetak.pembelian-pakan.pdf');
         });
 
         // Pengaturan
