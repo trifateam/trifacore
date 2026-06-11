@@ -28,6 +28,7 @@ use App\Http\Controllers\Pencatatan\KonsumsiVitaminController;
 use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
 use App\Http\Controllers\Pencatatan\RiwayatController;
+use App\Http\Controllers\Pencatatan\SuhuKandangController;
 use App\Http\Controllers\RiwayatAktivitasController;
 use App\Http\Controllers\Transaksi\PembelianController;
 use App\Http\Controllers\Transaksi\PenjualanController;
