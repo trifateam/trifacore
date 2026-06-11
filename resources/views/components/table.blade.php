@@ -33,6 +33,6 @@
         background-color: #f9fafb;
     }
     .table-hoverable tr:hover {
-        background-color: #eef2ff80;
+        background-color: rgba(255,153,0,0.05);
     }
 </style>

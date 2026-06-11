@@ -19,12 +19,26 @@
     };
 
     $variantClasses = match($variant) {
-        'primary' => 'bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-indigo-500',
+        'primary' => 'text-white focus:ring-[#ffc800]',
         'secondary' => 'bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-400',
         'danger' => 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
-        'success' => 'bg-emerald-600 hover:bg-emerald-700 text-white focus:ring-emerald-500',
-        'warning' => 'bg-amber-500 hover:bg-amber-600 text-white focus:ring-amber-500',
-        default => 'bg-indigo-600 hover:bg-indigo-700 text-white focus:ring-indigo-500',
+        'success' => 'text-white focus:ring-[#95e214]',
+        'warning' => 'text-gray-900 focus:ring-[#fff700]',
+        default => 'text-white focus:ring-[#ffc800]',
+    };
+
+    $variantStyles = match($variant) {
+        'primary' => 'background-color: #ff9900;',
+        'success' => 'background-color: #72ce27;',
+        'warning' => 'background-color: #ffe000;',
+        default => '',
+    };
+
+    $variantHoverStyles = match($variant) {
+        'primary' => 'onmouseover="this.style.backgroundColor=\'#e68a00\'" onmouseout="this.style.backgroundColor=\'#ff9900\'"',
+        'success' => 'onmouseover="this.style.backgroundColor=\'#5fb31e\'" onmouseout="this.style.backgroundColor=\'#72ce27\'"',
+        'warning' => 'onmouseover="this.style.backgroundColor=\'#ffc800\'" onmouseout="this.style.backgroundColor=\'#ffe000\'"',
+        default => '',
     };
 
     $widthClass = $fullWidth ? 'w-full' : '';
@@ -33,14 +47,14 @@
 @endphp
 
 @if($href)
-    <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
+    <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }} style="{{ $variantStyles }}" {!! $variantHoverStyles !!}>
         @if($icon)
             <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-5 h-5 mr-2 -ml-1" />
         @endif
         {{ $slot }}
     </a>
 @else
-    <button type="{{ $type }}" @disabled($disabled) {{ $attributes->merge(['class' => $classes]) }}>
+    <button type="{{ $type }}" @disabled($disabled) {{ $attributes->merge(['class' => $classes]) }} style="{{ $variantStyles }}" {!! $variantHoverStyles !!}>
         @if($icon)
             <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-5 h-5 mr-2 -ml-1" />
         @endif

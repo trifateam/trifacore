@@ -10,7 +10,7 @@
 
 @php
     $hasError = $errors->has($name);
-    $inputClass = 'w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm';
+    $inputClass = 'w-full rounded-lg border-gray-300 shadow-sm focus:border-[#ff9900] focus:ring-[#ff9900] text-sm';
     
     if ($hasError) {
         $inputClass = 'w-full rounded-lg border-red-500 focus:border-red-500 focus:ring-red-500 text-sm text-red-900';

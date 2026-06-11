@@ -16,7 +16,7 @@
     <!-- Right side (User Info) -->
     <div class="flex items-center space-x-4">
         <!-- Role Badge -->
-        <span class="hidden md:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 uppercase">
+        <span class="hidden md:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium uppercase" style="background-color: rgba(255,200,0,0.2); color: #ff9900;">
             {{ str_replace('_', ' ', auth()->user()->role ?? 'Guest') }}
         </span>
 
@@ -24,7 +24,7 @@
         <div x-data="{ dropdownOpen: false }" class="relative">
             <button @click="dropdownOpen = !dropdownOpen" class="flex items-center space-x-2 text-sm focus:outline-none">
                 <span class="font-medium text-gray-700">{{ auth()->user()->name ?? 'User' }}</span>
-                <div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white font-bold uppercase">
+                <div class="h-8 w-8 rounded-full flex items-center justify-center text-white font-bold uppercase" style="background-color: #ff9900;">
                     {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
                 </div>
                 <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -45,7 +45,7 @@
                  style="display: none;">
                  
                 <div class="px-4 py-2 text-xs text-gray-500 border-b border-gray-100 md:hidden">
-                    Role: <span class="uppercase font-medium text-indigo-600">{{ str_replace('_', ' ', auth()->user()->role ?? 'Guest') }}</span>
+                    Role: <span class="uppercase font-medium" style="color: #ff9900;">{{ str_replace('_', ' ', auth()->user()->role ?? 'Guest') }}</span>
                 </div>
 
                 <a href="/pengaturan/profil-sistem" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profil & Sistem</a>
