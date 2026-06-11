@@ -32,20 +32,24 @@ jobs:
             echo "Pull Request sudah ada."
           fi
 
-          echo "Menunggu 5 detik agar GitHub memproses status Pull Request..."
-          sleep 5
+          echo "Mengambil branch main dari remote agar gh pr merge tidak error saat cleanup..."
+          git fetch origin main:main || true
 
           echo "Melakukan Merge Pull Request dan Menghapus Branch..."
-          # Jalankan merge. Jika gagal (misal karena local git error), kita abaikan dulu
-          gh pr merge ${GITHUB_REF_NAME} --squash --delete-branch || true
-          
-          # Verifikasi apakah benar-benar sudah ter-merge di server GitHub
-          PR_STATE=$(gh pr view ${GITHUB_REF_NAME} --json state --jq '.state' || echo "UNKNOWN")
-          
-          if [ "$PR_STATE" == "MERGED" ]; then
-             echo "✅ Pull Request BERHASIL di-merge di server (mengabaikan error Git lokal)."
-             exit 0
-          else
-             echo "❌ Pull Request GAGAL di-merge. Status saat ini: $PR_STATE"
-             exit 1
+          # Karena GitHub butuh beberapa detik untuk mengecek konflik (mergeability), kita gunakan sistem retry
+          MERGE_SUCCESS=false
+          for i in {1..5}; do
+            echo "Mencoba merge (Percobaan $i)..."
+            if gh pr merge ${GITHUB_REF_NAME} --squash --delete-branch; then
+              echo "✅ Pull Request berhasil di-merge!"
+              MERGE_SUCCESS=true
+              break
+            fi
+            echo "Belum bisa di-merge (Mungkin GitHub sedang mengecek konflik). Menunggu 5 detik..."
+            sleep 5
+          done
+
+          if [ "$MERGE_SUCCESS" = false ]; then
+            echo "❌ Pull Request GAGAL di-merge setelah 5x percobaan."
+            exit 1
           fi
