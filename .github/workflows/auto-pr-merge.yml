@@ -27,11 +27,25 @@ jobs:
           
           if [ "$PR_EXISTS" -eq "0" ]; then
             echo "Membuat Pull Request..."
-            gh pr create -B main -H ${GITHUB_REF_NAME} --title "Auto PR: ${GITHUB_REF_NAME}" --body "Pull request ini dibuat dan di-merge secara otomatis oleh GitHub Actions saat terjadi push ke branch ${GITHUB_REF_NAME}."
+            gh pr create -B main -H ${GITHUB_REF_NAME} --title "Auto PR: ${GITHUB_REF_NAME}" --body "Pull request ini dibuat dan di-merge secara otomatis oleh GitHub Actions." || echo "Gagal membuat PR, mungkin tidak ada perubahan."
           else
             echo "Pull Request sudah ada."
           fi
 
+          echo "Menunggu 5 detik agar GitHub memproses status Pull Request..."
+          sleep 5
+
           echo "Melakukan Merge Pull Request dan Menghapus Branch..."
-          # Menggunakan squash merge. Jika Anda lebih suka merge commit biasa, ganti --squash menjadi --merge
-          gh pr merge ${GITHUB_REF_NAME} --squash --delete-branch
+          # Jalankan merge. Jika gagal (misal karena local git error), kita abaikan dulu
+          gh pr merge ${GITHUB_REF_NAME} --squash --delete-branch || true
+          
+          # Verifikasi apakah benar-benar sudah ter-merge di server GitHub
+          PR_STATE=$(gh pr view ${GITHUB_REF_NAME} --json state --jq '.state' || echo "UNKNOWN")
+          
+          if [ "$PR_STATE" == "MERGED" ]; then
+             echo "✅ Pull Request BERHASIL di-merge di server (mengabaikan error Git lokal)."
+             exit 0
+          else
+             echo "❌ Pull Request GAGAL di-merge. Status saat ini: $PR_STATE"
+             exit 1
+          fi
