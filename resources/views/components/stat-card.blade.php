@@ -9,19 +9,28 @@
 
 @php
     $colorClasses = match($color) {
-        'blue' => 'bg-blue-100 text-blue-600',
-        'green' => 'bg-emerald-100 text-emerald-600',
+        'blue' => '',
+        'green' => '',
         'red' => 'bg-red-100 text-red-600',
-        'yellow' => 'bg-amber-100 text-amber-600',
-        'purple' => 'bg-purple-100 text-purple-600',
-        default => 'bg-blue-100 text-blue-600',
+        'yellow' => '',
+        'purple' => '',
+        default => '',
+    };
+
+    $colorStyles = match($color) {
+        'blue' => 'background-color: rgba(255,200,0,0.2); color: #ff9900;',
+        'green' => 'background-color: rgba(184,245,0,0.2); color: #72ce27;',
+        'yellow' => 'background-color: rgba(255,224,0,0.2); color: #ffc800;',
+        'purple' => 'background-color: rgba(149,226,20,0.2); color: #95e214;',
+        default => 'background-color: rgba(255,200,0,0.2); color: #ff9900;',
     };
 
     $trendClasses = '';
+    $trendStyle = '';
     $trendIcon = '';
     
     if ($trend === 'up') {
-        $trendClasses = 'text-emerald-600 bg-emerald-100';
+        $trendStyle = 'color: #72ce27; background-color: rgba(184,245,0,0.2);';
         $trendIcon = '<svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>';
     } elseif ($trend === 'down') {
         $trendClasses = 'text-red-600 bg-red-100';
@@ -33,7 +42,7 @@
     <div class="flex items-center justify-between mb-4">
         <h3 class="text-sm font-medium text-gray-500">{{ $title }}</h3>
         @if($icon)
-            <div class="p-2 rounded-lg {{ $colorClasses }}">
+            <div class="p-2 rounded-lg {{ $colorClasses }}" style="{{ $colorStyles }}">
                 <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-5 h-5" />
             </div>
         @endif
@@ -42,7 +51,7 @@
     <div class="flex items-baseline space-x-2">
         <div class="text-2xl font-bold text-gray-900">{{ $value }}</div>
         @if($trend && $trendValue)
-            <span class="inline-flex items-baseline px-2 py-0.5 rounded-full text-xs font-medium md:mt-2 lg:mt-0 {{ $trendClasses }}">
+            <span class="inline-flex items-baseline px-2 py-0.5 rounded-full text-xs font-medium md:mt-2 lg:mt-0 {{ $trendClasses }}" style="{{ $trendStyle }}">
                 {!! $trendIcon !!}
                 {{ $trendValue }}
             </span>
