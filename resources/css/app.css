@@ -119,3 +119,37 @@
    ═══════════════════════════════════════ */
 .dark .even-zebra tr:nth-child(even) { background-color: rgba(255,255,255,0.03); }
 .dark .table-hoverable tr:hover { background-color: rgba(245,158,11,0.08); }
+
+/* ═══════════════════════════════════════
+   GLOBAL FORM DARK MODE (Tailwind Forms Fallback)
+   ═══════════════════════════════════════ */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark input[type="date"],
+.dark input[type="datetime-local"],
+.dark input[type="search"],
+.dark select,
+.dark textarea {
+    background-color: #374151; /* bg-gray-700 */
+    border-color: #4b5563;     /* border-gray-600 */
+    color: #f3f4f6;            /* text-gray-100 */
+}
+
+.dark input[type="text"]::placeholder,
+.dark input[type="email"]::placeholder,
+.dark input[type="password"]::placeholder,
+.dark input[type="number"]::placeholder,
+.dark input[type="date"]::placeholder,
+.dark input[type="datetime-local"]::placeholder,
+.dark input[type="search"]::placeholder,
+.dark select::placeholder,
+.dark textarea::placeholder {
+    color: #9ca3af;            /* text-gray-400 */
+}
+
+.dark select option {
+    background-color: #374151;
+    color: #f3f4f6;
+}

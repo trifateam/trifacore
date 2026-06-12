@@ -13,7 +13,7 @@
         
         {{-- Pembelian Material Gudang --}}
         <a href="{{ route('transaksi.pembelian.create', ['jenis' => 'material']) }}" class="group block h-full">
-            <x-card class="h-full flex flex-col items-center justify-center p-10 text-center border-2 border-transparent hover:border-blue-400 hover:shadow-xl transition-all duration-300 bg-gradient-to-b from-white to-blue-50">
+            <x-card class="h-full flex flex-col items-center justify-center p-10 text-center border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-xl transition-all duration-300">
                 <div class="w-24 h-24 rounded-full bg-blue-100 dark:bg-blue-900/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <span class="text-5xl">📦</span>
                 </div>
@@ -30,8 +30,8 @@
 
         {{-- Pembelian Pullet Ayam --}}
         <a href="{{ route('transaksi.pembelian.create', ['jenis' => 'pullet']) }}" class="group block h-full">
-            <x-card class="h-full flex flex-col items-center justify-center p-10 text-center border-2 border-transparent hover:border-orange-400 hover:shadow-xl transition-all duration-300 bg-gradient-to-b from-white to-orange-50">
-                <div class="w-24 h-24 rounded-full bg-orange-100 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+            <x-card class="h-full flex flex-col items-center justify-center p-10 text-center border border-gray-200 dark:border-gray-700 hover:border-orange-400 dark:hover:border-orange-500 hover:shadow-xl transition-all duration-300">
+                <div class="w-24 h-24 rounded-full bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <span class="text-5xl">🐣</span>
                 </div>
                 <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">Pullet (Bibit Ayam)</h3>
