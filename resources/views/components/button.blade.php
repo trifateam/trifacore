@@ -20,10 +20,10 @@
 
     $variantClasses = match($variant) {
         'primary' => 'text-white focus:ring-[#ffc800]',
-        'secondary' => 'bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-400',
+        'secondary' => 'bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-100 focus:ring-gray-400',
         'danger' => 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
         'success' => 'text-white focus:ring-[#95e214]',
-        'warning' => 'text-gray-900 focus:ring-[#fff700]',
+        'warning' => 'text-gray-900 dark:text-gray-100 focus:ring-[#fff700]',
         default => 'text-white focus:ring-[#ffc800]',
     };
 

@@ -43,7 +43,7 @@
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        <p class="mt-4 text-gray-500">Menyusun laporan Laba Rugi...</p>
+        <p class="mt-4 text-gray-500 dark:text-gray-400">Menyusun laporan Laba Rugi...</p>
     </div>
 
     <!-- Report Content -->
@@ -51,31 +51,31 @@
         
         <x-card class="max-w-4xl mx-auto">
             <div class="text-center mb-8 border-b pb-4">
-                <h2 class="text-2xl font-bold text-gray-800 uppercase">Laporan Laba Rugi</h2>
-                <p class="text-gray-500 mt-1" id="periode-label">Periode: -</p>
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 uppercase">Laporan Laba Rugi</h2>
+                <p class="text-gray-500 dark:text-gray-400 mt-1" id="periode-label">Periode: -</p>
             </div>
 
             <!-- SECTION A: ARUS KAS MASUK -->
             <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-800 border-b border-gray-200 pb-2 mb-4 bg-gray-50 px-4 py-2 rounded-t-md">Pendapatan / Arus Kas Masuk</h3>
+                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 bg-gray-50 dark:bg-gray-700/50 px-4 py-2 rounded-t-md">Pendapatan / Arus Kas Masuk</h3>
                 
                 <table class="w-full text-sm">
                     <tbody class="divide-y divide-gray-100">
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Penjualan Telur</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="in_telur">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Penjualan Telur</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="in_telur">Rp 0</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Penjualan Ayam Afkir</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="in_afkir">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Penjualan Ayam Afkir</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="in_afkir">Rp 0</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Penjualan Pupuk Kandang</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="in_pupuk">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Penjualan Pupuk Kandang</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="in_pupuk">Rp 0</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Pelunasan Piutang Bulan Ini</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="in_piutang">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Pelunasan Piutang Bulan Ini</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="in_piutang">Rp 0</td>
                         </tr>
                     </tbody>
                     <tfoot>
@@ -89,37 +89,37 @@
 
             <!-- SECTION B: ARUS KAS KELUAR -->
             <div class="mb-8">
-                <h3 class="text-lg font-bold text-gray-800 border-b border-gray-200 pb-2 mb-4 bg-gray-50 px-4 py-2 rounded-t-md">Pengeluaran / Arus Kas Keluar</h3>
+                <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 pb-2 mb-4 bg-gray-50 dark:bg-gray-700/50 px-4 py-2 rounded-t-md">Pengeluaran / Arus Kas Keluar</h3>
                 
                 <table class="w-full text-sm">
                     <tbody class="divide-y divide-gray-100">
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Pembelian Pakan</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="out_pakan">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Pembelian Pakan</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="out_pakan">Rp 0</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Pembelian Vitamin</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="out_vitamin">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Pembelian Vitamin</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="out_vitamin">Rp 0</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Pembelian Pullet</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="out_pullet">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Pembelian Pullet</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="out_pullet">Rp 0</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 text-gray-600 pl-8">Pelunasan Hutang Bulan Ini</td>
-                            <td class="py-3 px-4 text-right font-medium text-gray-900" id="out_hutang">Rp 0</td>
+                            <td class="py-3 px-4 text-gray-600 dark:text-gray-400 pl-8">Pelunasan Hutang Bulan Ini</td>
+                            <td class="py-3 px-4 text-right font-medium text-gray-900 dark:text-gray-100" id="out_hutang">Rp 0</td>
                         </tr>
                         <tr>
-                            <td class="py-3 px-4 font-semibold text-gray-700 bg-gray-50" colspan="2">Biaya Operasional:</td>
+                            <td class="py-3 px-4 font-semibold text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/50" colspan="2">Biaya Operasional:</td>
                         </tr>
                     </tbody>
                     <tbody id="ops_breakdown" class="divide-y divide-gray-100">
                         <!-- Breakdown injected here -->
                     </tbody>
                     <tfoot>
-                        <tr class="bg-red-50">
-                            <td class="py-4 px-4 font-bold text-red-800 uppercase border-t border-red-200">Total Kas Keluar</td>
-                            <td class="py-4 px-4 text-right font-bold text-red-800 text-lg border-t border-red-200" id="out_total">Rp 0</td>
+                        <tr class="bg-red-50 dark:bg-red-900/30">
+                            <td class="py-4 px-4 font-bold text-red-800 dark:text-red-300 uppercase border-t border-red-200 dark:border-red-800">Total Kas Keluar</td>
+                            <td class="py-4 px-4 text-right font-bold text-red-800 dark:text-red-300 text-lg border-t border-red-200 dark:border-red-800" id="out_total">Rp 0</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -128,12 +128,12 @@
             <!-- SECTION C: BOTTOM LINE -->
             <div class="border-t-2 border-gray-800 pt-6 mt-8">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold uppercase tracking-wider text-gray-900">Net Profit / Loss</h3>
+                    <h3 class="text-xl font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">Net Profit / Loss</h3>
                     <div id="net_profit" class="text-2xl font-black px-4 py-2 rounded-lg">Rp 0</div>
                 </div>
                 <div class="flex justify-between items-center">
-                    <span class="text-gray-600 font-medium">Profit Margin</span>
-                    <span id="profit_margin" class="text-lg font-bold text-gray-900 bg-gray-100 px-3 py-1 rounded">0%</span>
+                    <span class="text-gray-600 dark:text-gray-400 font-medium">Profit Margin</span>
+                    <span id="profit_margin" class="text-lg font-bold text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded">0%</span>
                 </div>
             </div>
 
@@ -199,8 +199,8 @@
                 data.kas_keluar.operasional_breakdown.forEach(item => {
                     opsTbody.innerHTML += `
                         <tr>
-                            <td class="py-2 px-4 text-gray-500 pl-12 text-sm">→ ${item.kategori}</td>
-                            <td class="py-2 px-4 text-right font-medium text-gray-700 text-sm">${item.total}</td>
+                            <td class="py-2 px-4 text-gray-500 dark:text-gray-400 pl-12 text-sm">→ ${item.kategori}</td>
+                            <td class="py-2 px-4 text-right font-medium text-gray-700 dark:text-gray-300 text-sm">${item.total}</td>
                         </tr>
                     `;
                 });
@@ -219,9 +219,9 @@
             if(data.bottom_line.net_raw > 0) {
                 netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-green-100 text-green-700';
             } else if(data.bottom_line.net_raw < 0) {
-                netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-red-100 text-red-700';
+                netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400';
             } else {
-                netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-gray-100 text-gray-700';
+                netEl.className = 'text-2xl font-black px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300';
             }
 
             document.getElementById('profit_margin').innerText = data.bottom_line.margin;

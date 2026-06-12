@@ -8,11 +8,11 @@
     $variantClasses = match($variant) {
         'success' => '',
         'warning' => '',
-        'danger' => 'bg-red-100 text-red-800',
+        'danger' => 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300',
         'info' => '',
         'purple' => '',
-        'gray' => 'bg-gray-100 text-gray-800',
-        default => 'bg-gray-100 text-gray-800',
+        'gray' => 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+        default => 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
     };
 
     $variantStyles = match($variant) {

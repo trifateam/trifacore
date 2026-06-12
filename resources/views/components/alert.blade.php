@@ -6,11 +6,11 @@
 
 @php
     $typeClasses = match($type) {
-        'success' => 'bg-emerald-50 border-emerald-500 text-emerald-800',
-        'error' => 'bg-red-50 border-red-500 text-red-800',
-        'warning' => 'bg-amber-50 border-amber-500 text-amber-800',
-        'info' => 'bg-blue-50 border-blue-500 text-blue-800',
-        default => 'bg-blue-50 border-blue-500 text-blue-800',
+        'success' => 'bg-emerald-50 dark:bg-emerald-900/30 border-emerald-500 text-emerald-800 dark:text-emerald-300',
+        'error' => 'bg-red-50 dark:bg-red-900/30 border-red-500 text-red-800 dark:text-red-300',
+        'warning' => 'bg-amber-50 dark:bg-amber-900/30 border-amber-500 text-amber-800 dark:text-amber-300',
+        'info' => 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-800 dark:text-blue-300',
+        default => 'bg-blue-50 dark:bg-blue-900/30 border-blue-500 text-blue-800 dark:text-blue-300',
     };
     
     $icon = match($type) {

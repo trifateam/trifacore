@@ -14,15 +14,15 @@
         <form method="POST" action="{{ route('pencatatan.konsumsi-vitamin.store', $batch->id_batch) }}">
             @csrf
 
-            <x-card class="mb-6 border border-gray-200">
+            <x-card class="mb-6 border border-gray-200 dark:border-gray-700">
                 {{-- Header Info --}}
-                <div class="p-6 bg-gray-50 border-b border-gray-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="p-6 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Informasi Kandang & Batch</h3>
-                        <p class="mt-1 text-lg font-bold text-gray-900">{{ $batch->kandang->nama_kandang }} &mdash; {{ $batch->nama_batch }}</p>
+                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Informasi Kandang & Batch</h3>
+                        <p class="mt-1 text-lg font-bold text-gray-900 dark:text-gray-100">{{ $batch->kandang->nama_kandang }} &mdash; {{ $batch->nama_batch }}</p>
                     </div>
                     <div class="text-left md:text-right">
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Tanggal</h3>
+                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal</h3>
                         <p class="mt-1 text-lg font-bold text-violet-600">
                             {{ \Carbon\Carbon::parse($hariIni)->translatedFormat('d F Y') }}
                         </p>
@@ -35,11 +35,11 @@
                             
                             {{-- Dropdown Jenis Vitamin --}}
                             <div>
-                                <label for="id_barang" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="id_barang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Jenis Vitamin <span class="text-red-500">*</span>
                                 </label>
                                 <select name="id_barang" id="id_barang" required
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('id_barang') ? 'border-red-500' : '' }}">
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('id_barang') ? 'border-red-500' : '' }}">
                                     <option value="" disabled selected>-- Pilih Jenis Vitamin --</option>
                                     @foreach($vitaminList as $vitamin)
                                         <option value="{{ $vitamin->id_barang }}" {{ old('id_barang') == $vitamin->id_barang ? 'selected' : '' }}>
@@ -47,75 +47,75 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('id_barang') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                <p class="mt-1 text-xs text-gray-500">Hanya menampilkan barang dengan kategori 'Vitamin'.</p>
+                                @error('id_barang') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Hanya menampilkan barang dengan kategori 'Vitamin'.</p>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 {{-- Input Dosis --}}
                                 <div>
-                                    <label for="dosis" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="dosis" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Dosis per Ayam
                                     </label>
                                     <div class="relative rounded-md shadow-sm">
                                         <input type="number" step="0.01" min="0" name="dosis" id="dosis"
                                             value="{{ old('dosis') }}" placeholder="0.00"
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('dosis') ? 'border-red-500' : '' }}">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('dosis') ? 'border-red-500' : '' }}">
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                            <span class="text-gray-500 sm:text-sm">dosis</span>
+                                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">dosis</span>
                                         </div>
                                     </div>
-                                    @error('dosis') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                    <p class="mt-1 text-xs text-gray-500">Jumlah dosis per ekor ayam (opsional).</p>
+                                    @error('dosis') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Jumlah dosis per ekor ayam (opsional).</p>
                                 </div>
 
                                 {{-- Input Total Penggunaan --}}
                                 <div>
-                                    <label for="total_penggunaan" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="total_penggunaan" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Total Penggunaan <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative rounded-md shadow-sm">
                                         <input type="number" step="0.01" min="0.01" name="total_penggunaan" id="total_penggunaan" required
                                             value="{{ old('total_penggunaan') }}" placeholder="0.00"
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('total_penggunaan') ? 'border-red-500' : '' }}">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('total_penggunaan') ? 'border-red-500' : '' }}">
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                            <span class="text-gray-500 sm:text-sm">unit</span>
+                                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">unit</span>
                                         </div>
                                     </div>
-                                    @error('total_penggunaan') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                    <p class="mt-1 text-xs text-gray-500">Total vitamin terpakai (dalam satuan barang).</p>
+                                    @error('total_penggunaan') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Total vitamin terpakai (dalam satuan barang).</p>
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 {{-- Dropdown Metode Pemberian --}}
                                 <div>
-                                    <label for="metode_pemberian" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="metode_pemberian" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Metode Pemberian
                                     </label>
                                     <select name="metode_pemberian" id="metode_pemberian"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('metode_pemberian') ? 'border-red-500' : '' }}">
+                                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('metode_pemberian') ? 'border-red-500' : '' }}">
                                         <option value="" {{ old('metode_pemberian') == '' ? 'selected' : '' }}>-- Tidak Ditentukan --</option>
                                         <option value="Air Minum" {{ old('metode_pemberian') == 'Air Minum' ? 'selected' : '' }}>Air Minum</option>
                                         <option value="Pakan" {{ old('metode_pemberian') == 'Pakan' ? 'selected' : '' }}>Pakan</option>
                                         <option value="Suntik" {{ old('metode_pemberian') == 'Suntik' ? 'selected' : '' }}>Suntik</option>
                                     </select>
-                                    @error('metode_pemberian') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                    <p class="mt-1 text-xs text-gray-500">Cara pemberian vitamin (opsional).</p>
+                                    @error('metode_pemberian') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Cara pemberian vitamin (opsional).</p>
                                 </div>
 
                                 {{-- Input Waktu Pemberian --}}
                                 <div>
-                                    <label for="waktu_pemberian" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="waktu_pemberian" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Waktu Pemberian
                                     </label>
                                     <div class="relative rounded-md shadow-sm">
                                         <input type="time" name="waktu_pemberian" id="waktu_pemberian" 
                                             value="{{ old('waktu_pemberian', \Carbon\Carbon::now()->format('H:i')) }}" 
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('waktu_pemberian') ? 'border-red-500' : '' }}">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('waktu_pemberian') ? 'border-red-500' : '' }}">
                                     </div>
-                                    @error('waktu_pemberian') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                    <p class="mt-1 text-xs text-gray-500">Kosongkan untuk menggunakan waktu saat ini.</p>
+                                    @error('waktu_pemberian') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Kosongkan untuk menggunakan waktu saat ini.</p>
                                 </div>
                             </div>
 

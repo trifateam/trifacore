@@ -14,15 +14,15 @@
         <form method="POST" action="{{ route('pencatatan.pupuk.store', $kandang->id_kandang) }}">
             @csrf
 
-            <x-card class="mb-6 border border-gray-200">
-                <div class="p-6 bg-gray-50 border-b border-gray-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <x-card class="mb-6 border border-gray-200 dark:border-gray-700">
+                <div class="p-6 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Kandang</h3>
-                        <p class="mt-1 text-lg font-bold text-gray-900">{{ $kandang->nama_kandang }}</p>
+                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kandang</h3>
+                        <p class="mt-1 text-lg font-bold text-gray-900 dark:text-gray-100">{{ $kandang->nama_kandang }}</p>
                     </div>
                     <div class="text-left md:text-right">
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Tanggal</h3>
-                        <p class="mt-1 text-lg font-bold text-amber-600">
+                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal</h3>
+                        <p class="mt-1 text-lg font-bold text-amber-600 dark:text-amber-500">
                             {{ \Carbon\Carbon::parse($hariIni)->translatedFormat('d F Y') }}
                         </p>
                     </div>
@@ -34,46 +34,46 @@
 
                             {{-- Tanggal Kumpul --}}
                             <div>
-                                <label for="tanggal_kumpul" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="tanggal_kumpul" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Tanggal Kumpul <span class="text-red-500">*</span>
                                 </label>
                                 <input type="date" name="tanggal_kumpul" id="tanggal_kumpul" required
                                     value="{{ old('tanggal_kumpul', $hariIni) }}"
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('tanggal_kumpul') ? 'border-red-500' : '' }}">
-                                @error('tanggal_kumpul') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('tanggal_kumpul') ? 'border-red-500' : '' }}">
+                                @error('tanggal_kumpul') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 {{-- Jumlah Karung --}}
                                 <div>
-                                    <label for="jumlah_karung" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="jumlah_karung" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Jumlah Karung <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative rounded-md shadow-sm">
                                         <input type="number" step="1" min="0" name="jumlah_karung" id="jumlah_karung" required
                                             value="{{ old('jumlah_karung', 0) }}" placeholder="0"
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-20 {{ $errors->has('jumlah_karung') ? 'border-red-500' : '' }}">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-20 {{ $errors->has('jumlah_karung') ? 'border-red-500' : '' }}">
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                            <span class="text-gray-500 sm:text-sm">karung</span>
+                                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">karung</span>
                                         </div>
                                     </div>
-                                    @error('jumlah_karung') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    @error('jumlah_karung') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                                 </div>
 
                                 {{-- Total Berat --}}
                                 <div>
-                                    <label for="total_berat_kg" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="total_berat_kg" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Total Berat <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative rounded-md shadow-sm">
                                         <input type="number" step="0.01" min="0" name="total_berat_kg" id="total_berat_kg" required
                                             value="{{ old('total_berat_kg', 0) }}" placeholder="0.00"
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-12 {{ $errors->has('total_berat_kg') ? 'border-red-500' : '' }}">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-12 {{ $errors->has('total_berat_kg') ? 'border-red-500' : '' }}">
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                            <span class="text-gray-500 sm:text-sm">Kg</span>
+                                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">Kg</span>
                                         </div>
                                     </div>
-                                    @error('total_berat_kg') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    @error('total_berat_kg') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                                 </div>
                             </div>
                         </div>

@@ -17,20 +17,20 @@
     </div>
 
     {{-- Filter Bar --}}
-    <x-card class="mb-6 border border-gray-200">
+    <x-card class="mb-6 border border-gray-200 dark:border-gray-700">
         <div class="p-5">
             <form method="GET" action="{{ route('transaksi.riwayat-pembelian') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Dari Tanggal</label>
-                    <input type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Dari Tanggal</label>
+                    <input type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Sampai Tanggal</label>
-                    <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Sampai Tanggal</label>
+                    <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Supplier</label>
-                    <select name="id_supplier" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Supplier</label>
+                    <select name="id_supplier" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="">-- Semua Supplier --</option>
                         @foreach($suppliers as $s)
                             <option value="{{ $s->id_supplier }}" {{ request('id_supplier') == $s->id_supplier ? 'selected' : '' }}>{{ $s->nama_supplier }}</option>
@@ -39,8 +39,8 @@
                 </div>
                 <div class="flex gap-2">
                     <div class="flex-1">
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Status Pembayaran</label>
-                        <select name="status_pembayaran" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Status Pembayaran</label>
+                        <select name="status_pembayaran" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             <option value="">-- Semua Status --</option>
                             <option value="Lunas" {{ request('status_pembayaran') == 'Lunas' ? 'selected' : '' }}>Lunas</option>
                             <option value="Tempo" {{ request('status_pembayaran') == 'Tempo' ? 'selected' : '' }}>Tempo (Belum Lunas)</option>
@@ -53,7 +53,7 @@
                         </x-button>
                     </div>
                     <div class="pt-5">
-                        <a href="{{ route('transaksi.riwayat-pembelian') }}" class="h-9 px-4 inline-flex items-center justify-center border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Reset</a>
+                        <a href="{{ route('transaksi.riwayat-pembelian') }}" class="h-9 px-4 inline-flex items-center justify-center border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-700/50">Reset</a>
                     </div>
                 </div>
             </form>
@@ -61,18 +61,18 @@
     </x-card>
 
     {{-- Tabel Riwayat --}}
-    <x-card class="border border-gray-200" x-data="riwayatTable()">
+    <x-card class="border border-gray-200 dark:border-gray-700" x-data="riwayatTable()">
         <div class="overflow-x-auto">
             <x-table :headers="['No. Nota', 'Waktu Pembelian', 'Supplier', 'Kategori', 'Total (Rp)', 'Status', 'Aksi']">
                 @forelse($alpineData as $index => $item)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item['no_faktur'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item['tanggal'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item['supplier'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">{{ $item['kategori'] }}</span>
+                        <tr class="hover:bg-gray-50 dark:bg-gray-700/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $item['no_faktur'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $item['tanggal'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $item['supplier'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">{{ $item['kategori'] }}</span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 text-right">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100 text-right">
                                 @rupiah($item['total'])
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -102,7 +102,7 @@
         </div>
 
         @if($pembelians->hasPages())
-            <div class="p-4 border-t border-gray-200">
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                 {{ $pembelians->links() }}
             </div>
         @endif

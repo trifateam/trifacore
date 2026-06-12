@@ -11,7 +11,7 @@
     $colorClasses = match($color) {
         'blue' => '',
         'green' => '',
-        'red' => 'bg-red-100 text-red-600',
+        'red' => 'bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-500',
         'yellow' => '',
         'purple' => '',
         default => '',
@@ -33,14 +33,14 @@
         $trendStyle = 'color: #72ce27; background-color: rgba(184,245,0,0.2);';
         $trendIcon = '<svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>';
     } elseif ($trend === 'down') {
-        $trendClasses = 'text-red-600 bg-red-100';
+        $trendClasses = 'text-red-600 dark:text-red-500 bg-red-100 dark:bg-red-900/50';
         $trendIcon = '<svg class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>';
     }
 @endphp
 
-<div {{ $attributes->merge(['class' => 'bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col']) }}>
+<div {{ $attributes->merge(['class' => 'bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 flex flex-col']) }}>
     <div class="flex items-center justify-between mb-4">
-        <h3 class="text-sm font-medium text-gray-500">{{ $title }}</h3>
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $title }}</h3>
         @if($icon)
             <div class="p-2 rounded-lg {{ $colorClasses }}" style="{{ $colorStyles }}">
                 <x-dynamic-component :component="'heroicon-o-'.$icon" class="w-5 h-5" />
@@ -49,7 +49,7 @@
     </div>
     
     <div class="flex items-baseline space-x-2">
-        <div class="text-2xl font-bold text-gray-900">{{ $value }}</div>
+        <div class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ $value }}</div>
         @if($trend && $trendValue)
             <span class="inline-flex items-baseline px-2 py-0.5 rounded-full text-xs font-medium md:mt-2 lg:mt-0 {{ $trendClasses }}" style="{{ $trendStyle }}">
                 {!! $trendIcon !!}

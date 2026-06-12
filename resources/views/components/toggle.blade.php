@@ -21,11 +21,11 @@
     >
         <span 
             aria-hidden="true" 
-            class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
+            class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out"
             :class="checked ? 'translate-x-5' : 'translate-x-0'"
         ></span>
     </button>
-    <label class="ml-3 block text-sm font-medium text-gray-700 cursor-pointer" @click="if(!{{ $disabled ? 'true' : 'false' }}) checked = !checked">
+    <label class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer" @click="if(!{{ $disabled ? 'true' : 'false' }}) checked = !checked">
         {{ $label }}
     </label>
 </div>

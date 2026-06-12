@@ -17,20 +17,20 @@
     </div>
 
     {{-- Filter Bar --}}
-    <x-card class="mb-6 border border-gray-200">
+    <x-card class="mb-6 border border-gray-200 dark:border-gray-700">
         <div class="p-5">
             <form method="GET" action="{{ route('transaksi.riwayat-penjualan') }}" class="grid grid-cols-1 md:grid-cols-5 gap-4 items-end">
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Dari Tanggal</label>
-                    <input type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Dari Tanggal</label>
+                    <input type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Sampai Tanggal</label>
-                    <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Sampai Tanggal</label>
+                    <input type="date" name="tanggal_akhir" value="{{ request('tanggal_akhir') }}" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Pelanggan</label>
-                    <select name="id_pelanggan" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Pelanggan</label>
+                    <select name="id_pelanggan" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="">-- Semua Pelanggan --</option>
                         @foreach($pelanggans as $p)
                             <option value="{{ $p->id_pelanggan }}" {{ request('id_pelanggan') == $p->id_pelanggan ? 'selected' : '' }}>{{ $p->nama_pelanggan }}</option>
@@ -38,8 +38,8 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Kategori</label>
-                    <select name="kategori_penjualan" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Kategori</label>
+                    <select name="kategori_penjualan" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="">-- Semua Kategori --</option>
                         <option value="telur" {{ request('kategori_penjualan') == 'telur' ? 'selected' : '' }}>Telur</option>
                         <option value="afkir" {{ request('kategori_penjualan') == 'afkir' ? 'selected' : '' }}>Ayam Afkir</option>
@@ -48,8 +48,8 @@
                 </div>
                 <div class="flex gap-2">
                     <div class="flex-1">
-                        <label class="block text-xs font-medium text-gray-700 mb-1">Status</label>
-                        <select name="status_pembayaran" class="w-full text-sm rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                        <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                        <select name="status_pembayaran" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                             <option value="">-- Semua Status --</option>
                             <option value="Lunas" {{ request('status_pembayaran') == 'Lunas' ? 'selected' : '' }}>Lunas</option>
                             <option value="Tempo" {{ request('status_pembayaran') == 'Tempo' ? 'selected' : '' }}>Tempo (Belum Lunas)</option>
@@ -62,7 +62,7 @@
                         </x-button>
                     </div>
                     <div class="pt-5">
-                        <a href="{{ route('transaksi.riwayat-penjualan') }}" class="h-9 px-4 inline-flex items-center justify-center border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">Reset</a>
+                        <a href="{{ route('transaksi.riwayat-penjualan') }}" class="h-9 px-4 inline-flex items-center justify-center border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-700/50">Reset</a>
                     </div>
                 </div>
             </form>
@@ -70,18 +70,18 @@
     </x-card>
 
     {{-- Tabel Riwayat --}}
-    <x-card class="border border-gray-200" x-data="riwayatTable()">
+    <x-card class="border border-gray-200 dark:border-gray-700" x-data="riwayatTable()">
         <div class="overflow-x-auto">
             <x-table :headers="['No. Nota', 'Waktu Penjualan', 'Pelanggan', 'Kategori', 'Total (Rp)', 'Status', 'Aksi']">
                 @forelse($alpineData as $index => $item)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $item['no_faktur'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item['tanggal'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item['pelanggan'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">{{ $item['kategori'] }}</span>
+                        <tr class="hover:bg-gray-50 dark:bg-gray-700/50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $item['no_faktur'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $item['tanggal'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $item['pelanggan'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">{{ $item['kategori'] }}</span>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 text-right">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100 text-right">
                                 @rupiah($item['total'])
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
@@ -92,7 +92,7 @@
                                 
                                 @if($item['status'] === 'Belum Lunas' || $item['status'] === 'Lunas Sebagian')
                                     <span class="text-gray-300 mx-1">|</span>
-                                    <a href="{{ route('keuangan.buku-piutang') }}" class="text-blue-600 hover:text-blue-900 mx-1 font-bold">Lunasi</a>
+                                    <a href="{{ route('keuangan.buku-piutang') }}" class="text-blue-600 dark:text-blue-500 hover:text-blue-900 mx-1 font-bold">Lunasi</a>
                                 @endif
                             </td>
                         </tr>
@@ -111,7 +111,7 @@
         </div>
 
         @if($penjualans->hasPages())
-            <div class="p-4 border-t border-gray-200">
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                 {{ $penjualans->links() }}
             </div>
         @endif

@@ -12,11 +12,11 @@
     @if($kandangData->count() > 0)
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($kandangData as $kandang)
-                <x-card class="flex flex-col h-full border border-gray-200 hover:shadow-lg transition-shadow duration-200">
+                <x-card class="flex flex-col h-full border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-shadow duration-200">
                     <div class="p-5 flex-1">
                         <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-xl font-bold text-gray-900">{{ $kandang['nama_kandang'] }}</h3>
-                            <div class="p-2 bg-amber-50 text-amber-600 rounded-lg">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ $kandang['nama_kandang'] }}</h3>
+                            <div class="p-2 bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-500 rounded-lg">
                                 <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                                 </svg>
@@ -25,8 +25,8 @@
 
                         <div class="space-y-2 mb-6">
                             <div class="flex justify-between text-sm">
-                                <span class="text-gray-500">Populasi Saat Ini</span>
-                                <span class="font-medium text-gray-900">{{ number_format($kandang['populasi_saat_ini'], 0, ',', '.') }} ekor</span>
+                                <span class="text-gray-500 dark:text-gray-400">Populasi Saat Ini</span>
+                                <span class="font-medium text-gray-900 dark:text-gray-100">{{ number_format($kandang['populasi_saat_ini'], 0, ',', '.') }} ekor</span>
                             </div>
                         </div>
 

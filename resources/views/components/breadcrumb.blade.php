@@ -2,7 +2,7 @@
     'items' => [],
 ])
 
-<nav class="flex text-sm text-gray-500 mb-6" aria-label="Breadcrumb">
+<nav class="flex text-sm text-gray-500 dark:text-gray-400 mb-6" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
         @foreach($items as $item)
             <li class="inline-flex items-center">
@@ -13,14 +13,14 @@
                 @endif
                 
                 @if(isset($item['url']) && !$loop->last)
-                    <a href="{{ $item['url'] }}" class="inline-flex items-center font-medium hover:text-indigo-600 transition-colors">
+                    <a href="{{ $item['url'] }}" class="inline-flex items-center font-medium hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
                         @if($loop->first)
                             <x-dynamic-component component="heroicon-s-home" class="w-4 h-4 mr-2.5" />
                         @endif
                         {{ $item['label'] }}
                     </a>
                 @else
-                    <span class="inline-flex items-center font-medium text-gray-900">
+                    <span class="inline-flex items-center font-medium text-gray-900 dark:text-gray-100">
                         @if($loop->first)
                             <x-dynamic-component component="heroicon-s-home" class="w-4 h-4 mr-2.5" />
                         @endif

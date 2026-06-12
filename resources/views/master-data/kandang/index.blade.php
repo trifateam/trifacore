@@ -34,19 +34,19 @@
         <x-table :headers="['No', 'Nama Kandang', 'Kapasitas', 'Populasi Saat Ini', 'Tahun Masuk', 'Status', 'Aksi']">
             @foreach($kandangs as $index => $kandang)
                 <tr>
-                    <td class="px-4 py-3 text-sm text-gray-700">
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
                         {{ $kandangs->firstItem() + $index }}
                     </td>
-                    <td class="px-4 py-3 text-sm font-medium text-gray-900">
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
                         {{ $kandang->nama_kandang }}
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-700">
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
                         {{ number_format($kandang->kapasitas_kandang, 0, ',', '.') }} ekor
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-700">
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
                         {{ number_format($kandang->populasi_saat_ini, 0, ',', '.') }} ekor
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-700">
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
                         {{ $kandang->tahun_masuk }}
                     </td>
                     <td class="px-4 py-3 text-sm">
@@ -145,7 +145,7 @@
                 />
             </x-form-section>
 
-            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-tambah-kandang')">
                     Batal
                 </x-button>
@@ -166,7 +166,7 @@
             @method('PUT')
             <x-form-section title="Informasi Kandang" description="Perbarui data kandang">
                 <div class="mb-4">
-                    <label for="edit_nama_kandang" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="edit_nama_kandang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Nama Kandang <span class="text-red-500">*</span>
                     </label>
                     <div class="relative rounded-md shadow-sm">
@@ -176,17 +176,17 @@
                             id="edit_nama_kandang"
                             placeholder="Contoh: Kandang A1"
                             required
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm"
+                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm"
                         >
                     </div>
-                    <p class="mt-1 text-sm text-gray-500">Maksimal 50 karakter, harus unik</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Maksimal 50 karakter, harus unik</p>
                     @error('nama_kandang')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label for="edit_kapasitas_kandang" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="edit_kapasitas_kandang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Kapasitas Maksimal <span class="text-red-500">*</span>
                     </label>
                     <div class="relative rounded-md shadow-sm">
@@ -196,20 +196,20 @@
                             id="edit_kapasitas_kandang"
                             placeholder="Contoh: 5000"
                             required
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm pr-12"
+                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm pr-12"
                         >
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                            <span class="text-gray-500 sm:text-sm">ekor</span>
+                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">ekor</span>
                         </div>
                     </div>
-                    <p class="mt-1 text-sm text-gray-500">Jumlah ayam maksimal yang dapat ditampung</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Jumlah ayam maksimal yang dapat ditampung</p>
                     @error('kapasitas_kandang')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label for="edit_tahun_masuk" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="edit_tahun_masuk" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Tahun Masuk <span class="text-red-500">*</span>
                     </label>
                     <div class="relative rounded-md shadow-sm">
@@ -219,35 +219,35 @@
                             id="edit_tahun_masuk"
                             placeholder="Contoh: {{ date('Y') }}"
                             required
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm"
+                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm"
                         >
                     </div>
-                    <p class="mt-1 text-sm text-gray-500">Tahun mulai operasi (2000 - {{ date('Y') }})</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Tahun mulai operasi (2000 - {{ date('Y') }})</p>
                     @error('tahun_masuk')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label for="edit_is_active" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="edit_is_active" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Status <span class="text-red-500">*</span>
                     </label>
                     <select
                         name="is_active"
                         id="edit_is_active"
                         required
-                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
                     >
                         <option value="1">Aktif</option>
                         <option value="0">Non-Aktif</option>
                     </select>
                     @error('is_active')
-                        <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
             </x-form-section>
 
-            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-edit-kandang')">
                     Batal
                 </x-button>

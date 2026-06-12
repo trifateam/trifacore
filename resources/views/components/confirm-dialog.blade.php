@@ -38,22 +38,22 @@
             x-transition:leave="ease-in duration-200"
             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-            class="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg"
+            class="relative transform overflow-hidden rounded-xl bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg"
         >
-            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div class="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                 <div class="sm:flex sm:items-start">
-                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                        <x-dynamic-component component="heroicon-o-exclamation-triangle" class="h-6 w-6 text-red-600" />
+                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 sm:mx-0 sm:h-10 sm:w-10">
+                        <x-dynamic-component component="heroicon-o-exclamation-triangle" class="h-6 w-6 text-red-600 dark:text-red-500" />
                     </div>
                     <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                        <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">{{ $title }}</h3>
+                        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-gray-100" id="modal-title">{{ $title }}</h3>
                         <div class="mt-2">
-                            <p class="text-sm text-gray-500">{{ $message }}</p>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $message }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <form :action="actionUrl" method="POST" class="inline-block w-full sm:w-auto sm:ml-3">
                     @csrf
                     @method('DELETE')
@@ -61,7 +61,7 @@
                         {{ $confirmLabel }}
                     </x-button>
                 </form>
-                <button type="button" @click="show = false" class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
+                <button type="button" @click="show = false" class="mt-3 inline-flex w-full justify-center rounded-lg bg-white dark:bg-gray-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-500 hover:bg-gray-50 dark:bg-gray-700/50 dark:hover:bg-gray-500 sm:mt-0 sm:w-auto">
                     Batal
                 </button>
             </div>
