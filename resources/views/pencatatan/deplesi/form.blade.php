@@ -14,25 +14,25 @@
         <form method="POST" action="{{ route('pencatatan.deplesi.store', $batch->id_batch) }}" @submit="return validateForm()">
             @csrf
 
-            <x-card class="mb-6 border border-gray-200">
+            <x-card class="mb-6 border border-gray-200 dark:border-gray-700">
                 {{-- Header Info --}}
-                <div class="p-6 bg-gray-50 border-b border-gray-200">
+                <div class="p-6 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Informasi Kandang & Batch</h3>
-                            <p class="mt-1 text-lg font-bold text-gray-900">{{ $batch->kandang->nama_kandang }} &mdash; {{ $batch->nama_batch }}</p>
+                            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Informasi Kandang & Batch</h3>
+                            <p class="mt-1 text-lg font-bold text-gray-900 dark:text-gray-100">{{ $batch->kandang->nama_kandang }} &mdash; {{ $batch->nama_batch }}</p>
                         </div>
                         <div class="text-left md:text-right">
-                            <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Tanggal</h3>
-                            <p class="mt-1 text-lg font-bold text-red-600">
+                            <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal</h3>
+                            <p class="mt-1 text-lg font-bold text-red-600 dark:text-red-500">
                                 {{ \Carbon\Carbon::parse($hariIni)->translatedFormat('d F Y') }}
                             </p>
                         </div>
                     </div>
-                    <div class="mt-4 p-3 bg-white rounded-lg border border-gray-200">
+                    <div class="mt-4 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                         <div class="flex items-center justify-between">
-                            <span class="text-sm font-medium text-gray-600">Populasi Saat Ini</span>
-                            <span class="text-xl font-bold text-gray-900">{{ number_format($populasiSaatIni, 0, ',', '.') }} <span class="text-sm font-normal text-gray-500">ekor</span></span>
+                            <span class="text-sm font-medium text-gray-600 dark:text-gray-400">Populasi Saat Ini</span>
+                            <span class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ number_format($populasiSaatIni, 0, ',', '.') }} <span class="text-sm font-normal text-gray-500 dark:text-gray-400">ekor</span></span>
                         </div>
                     </div>
                 </div>
@@ -43,54 +43,54 @@
 
                             {{-- Jumlah Ayam Mati --}}
                             <div>
-                                <label for="jml_mati" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="jml_mati" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Jumlah Ayam Mati <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative rounded-md shadow-sm">
                                     <input type="number" step="1" min="0" name="jml_mati" id="jml_mati" required
                                         x-model.number="jmlMati"
                                         value="{{ old('jml_mati', 0) }}"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('jml_mati') ? 'border-red-500' : '' }}">
+                                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('jml_mati') ? 'border-red-500' : '' }}">
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                        <span class="text-gray-500 sm:text-sm">ekor</span>
+                                        <span class="text-gray-500 dark:text-gray-400 sm:text-sm">ekor</span>
                                     </div>
                                 </div>
-                                @error('jml_mati') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('jml_mati') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             {{-- Jumlah Ayam Afkir --}}
                             <div>
-                                <label for="jml_afkir" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="jml_afkir" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Jumlah Ayam Afkir/Cacat <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative rounded-md shadow-sm">
                                     <input type="number" step="1" min="0" name="jml_afkir" id="jml_afkir" required
                                         x-model.number="jmlAfkir"
                                         value="{{ old('jml_afkir', 0) }}"
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('jml_afkir') ? 'border-red-500' : '' }}">
+                                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('jml_afkir') ? 'border-red-500' : '' }}">
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                        <span class="text-gray-500 sm:text-sm">ekor</span>
+                                        <span class="text-gray-500 dark:text-gray-400 sm:text-sm">ekor</span>
                                     </div>
                                 </div>
-                                @error('jml_afkir') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                @error('jml_afkir') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             {{-- Total Deplesi (auto-calculated) --}}
-                            <div class="p-4 rounded-lg border-2" :class="totalDeplesi > {{ $populasiSaatIni }} ? 'bg-red-50 border-red-300' : (totalDeplesi > 0 ? 'bg-amber-50 border-amber-300' : 'bg-gray-50 border-gray-200')">
+                            <div class="p-4 rounded-lg border-2" :class="totalDeplesi > {{ $populasiSaatIni }} ? 'bg-red-50 dark:bg-red-900/30 border-red-300' : (totalDeplesi > 0 ? 'bg-amber-50 dark:bg-amber-900/30 border-amber-300' : 'bg-gray-50 dark:bg-gray-700/50 border-gray-200 dark:border-gray-700')">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        <span class="text-sm font-semibold text-gray-700">Total Deplesi</span>
-                                        <p class="text-xs text-gray-500 mt-0.5">Mati + Afkir (otomatis)</p>
+                                        <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Total Deplesi</span>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Mati + Afkir (otomatis)</p>
                                     </div>
-                                    <span class="text-2xl font-bold" :class="totalDeplesi > {{ $populasiSaatIni }} ? 'text-red-600' : 'text-gray-900'" x-text="totalDeplesi + ' ekor'"></span>
+                                    <span class="text-2xl font-bold" :class="totalDeplesi > {{ $populasiSaatIni }} ? 'text-red-600 dark:text-red-500' : 'text-gray-900 dark:text-gray-100'" x-text="totalDeplesi + ' ekor'"></span>
                                 </div>
                                 <template x-if="totalDeplesi > {{ $populasiSaatIni }}">
-                                    <p class="mt-2 text-sm text-red-600 font-medium">
+                                    <p class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium">
                                         ⚠ Total deplesi (<span x-text="totalDeplesi"></span> ekor) melebihi populasi saat ini ({{ number_format($populasiSaatIni, 0, ',', '.') }} ekor)
                                     </p>
                                 </template>
                                 <template x-if="totalDeplesi > 0 && totalDeplesi <= {{ $populasiSaatIni }}">
-                                    <p class="mt-2 text-sm text-amber-700">
+                                    <p class="mt-2 text-sm text-amber-700 dark:text-amber-400">
                                         Populasi setelah deplesi: <strong x-text="({{ $populasiSaatIni }} - totalDeplesi) + ' ekor'"></strong>
                                     </p>
                                 </template>
@@ -100,7 +100,7 @@
                     </x-form-section>
 
                     {{-- Warning Notice --}}
-                    <div class="mt-6 p-4 rounded-lg bg-red-50 border border-red-200">
+                    <div class="mt-6 p-4 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
                         <div class="flex">
                             <div class="flex-shrink-0">
                                 <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -108,8 +108,8 @@
                                 </svg>
                             </div>
                             <div class="ml-3">
-                                <h3 class="text-sm font-medium text-red-800">Perhatian Penting</h3>
-                                <div class="mt-2 text-sm text-red-700">
+                                <h3 class="text-sm font-medium text-red-800 dark:text-red-300">Perhatian Penting</h3>
+                                <div class="mt-2 text-sm text-red-700 dark:text-red-400">
                                     <p>Menyimpan form ini akan secara otomatis <strong>mengurangi populasi kandang</strong>. Data deplesi hanya dapat dicatat <strong>1x per hari per batch</strong>. Pastikan jumlah sudah benar sebelum menyimpan.</p>
                                 </div>
                             </div>

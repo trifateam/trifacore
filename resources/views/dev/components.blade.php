@@ -51,7 +51,7 @@
 
     <x-form-section title="7. Card" description="Basic card layout">
         <x-card title="Data Kandang" subtitle="Informasi kandang utama">
-            <p class="text-gray-600">Konten card...</p>
+            <p class="text-gray-600 dark:text-gray-400">Konten card...</p>
             <x-slot:footer>
                 <div class="text-right">
                     <x-button>Simpan</x-button>
@@ -89,7 +89,7 @@
                 </x-table-cell>
             </tr>
         </x-table>
-        <div class="mt-4 text-sm text-gray-500">Note: Pagination uses standard Laravel views styled with Tailwind.</div>
+        <div class="mt-4 text-sm text-gray-500 dark:text-gray-400">Note: Pagination uses standard Laravel views styled with Tailwind.</div>
     </x-form-section>
 
     <x-form-section title="11. Badges">
@@ -115,7 +115,7 @@
         <x-button @click="$dispatch('open-modal-demo')">Open Modal Demo</x-button>
         
         <x-modal id="demo" title="Contoh Modal">
-            <p class="text-gray-600">Ini adalah isi dari modal dialog.</p>
+            <p class="text-gray-600 dark:text-gray-400">Ini adalah isi dari modal dialog.</p>
             <x-slot:footer>
                 <x-button variant="secondary" @click="$dispatch('close-modal-demo')">Batal</x-button>
                 <x-button>Simpan</x-button>

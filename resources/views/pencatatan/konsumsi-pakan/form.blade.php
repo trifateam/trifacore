@@ -14,17 +14,17 @@
         <form method="POST" action="{{ route('pencatatan.konsumsi-pakan.store', $batch->id_batch) }}">
             @csrf
 
-            <x-card class="mb-6 border border-gray-200">
-                <div class="p-6 bg-gray-50 border-b border-gray-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <x-card class="mb-6 border border-gray-200 dark:border-gray-700">
+                <div class="p-6 bg-gray-50 dark:bg-gray-700/50 border-b border-gray-200 dark:border-gray-700 flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Informasi Kandang & Batch</h3>
-                        <p class="mt-1 text-lg font-bold text-gray-900">{{ $batch->kandang->nama_kandang }} &mdash; {{ $batch->nama_batch }}</p>
+                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Informasi Kandang & Batch</h3>
+                        <p class="mt-1 text-lg font-bold text-gray-900 dark:text-gray-100">{{ $batch->kandang->nama_kandang }} &mdash; {{ $batch->nama_batch }}</p>
                     </div>
                     <div class="text-left md:text-right">
-                        <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">Tanggal & Sesi</h3>
-                        <p class="mt-1 text-lg font-bold text-emerald-600">
+                        <h3 class="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal & Sesi</h3>
+                        <p class="mt-1 text-lg font-bold text-emerald-600 dark:text-emerald-500">
                             {{ \Carbon\Carbon::parse($hariIni)->translatedFormat('d F Y') }}
-                            <span class="text-sm font-medium bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full ml-2">Sesi {{ $jumlahSesiHariIni + 1 }}</span>
+                            <span class="text-sm font-medium bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 px-2 py-0.5 rounded-full ml-2">Sesi {{ $jumlahSesiHariIni + 1 }}</span>
                         </p>
                     </div>
                 </div>
@@ -34,11 +34,11 @@
                         <div class="space-y-5">
                             
                             <div>
-                                <label for="id_barang" class="block text-sm font-medium text-gray-700 mb-1">
+                                <label for="id_barang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     Jenis Pakan <span class="text-red-500">*</span>
                                 </label>
                                 <select name="id_barang" id="id_barang" required
-                                    class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('id_barang') ? 'border-red-500' : '' }}">
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('id_barang') ? 'border-red-500' : '' }}">
                                     <option value="" disabled selected>-- Pilih Jenis Pakan --</option>
                                     @foreach($pakanList as $pakan)
                                         <option value="{{ $pakan->id_barang }}" {{ old('id_barang') == $pakan->id_barang ? 'selected' : '' }}>
@@ -46,37 +46,37 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                @error('id_barang') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                <p class="mt-1 text-xs text-gray-500">Hanya menampilkan barang dengan kategori 'Pakan'.</p>
+                                @error('id_barang') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Hanya menampilkan barang dengan kategori 'Pakan'.</p>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div>
-                                    <label for="jumlah_pakan_kg" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="jumlah_pakan_kg" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Berat Pakan (Kg) <span class="text-red-500">*</span>
                                     </label>
                                     <div class="relative rounded-md shadow-sm">
                                         <input type="number" step="0.01" min="0.01" name="jumlah_pakan_kg" id="jumlah_pakan_kg" required
                                             value="{{ old('jumlah_pakan_kg') }}" 
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-12 {{ $errors->has('jumlah_pakan_kg') ? 'border-red-500' : '' }}">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-12 {{ $errors->has('jumlah_pakan_kg') ? 'border-red-500' : '' }}">
                                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                                            <span class="text-gray-500 sm:text-sm">Kg</span>
+                                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">Kg</span>
                                         </div>
                                     </div>
-                                    @error('jumlah_pakan_kg') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                                    @error('jumlah_pakan_kg') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                                 </div>
 
                                 <div>
-                                    <label for="waktu_pemberian" class="block text-sm font-medium text-gray-700 mb-1">
+                                    <label for="waktu_pemberian" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                         Waktu Pemberian
                                     </label>
                                     <div class="relative rounded-md shadow-sm">
                                         <input type="time" name="waktu_pemberian" id="waktu_pemberian" 
                                             value="{{ old('waktu_pemberian', \Carbon\Carbon::now()->format('H:i')) }}" 
-                                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('waktu_pemberian') ? 'border-red-500' : '' }}">
+                                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm {{ $errors->has('waktu_pemberian') ? 'border-red-500' : '' }}">
                                     </div>
-                                    @error('waktu_pemberian') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                                    <p class="mt-1 text-xs text-gray-500">Kosongkan untuk menggunakan waktu saat ini.</p>
+                                    @error('waktu_pemberian') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Kosongkan untuk menggunakan waktu saat ini.</p>
                                 </div>
                             </div>
 

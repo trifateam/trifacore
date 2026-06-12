@@ -74,42 +74,42 @@
             @else
             <div class="space-y-4">
                 {{-- Kas Masuk --}}
-                <div class="flex items-center justify-between p-4 rounded-lg bg-emerald-50 border border-emerald-200">
+                <div class="flex items-center justify-between p-4 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800">
                     <div class="flex items-center space-x-3">
-                        <div class="p-2 rounded-lg bg-emerald-100">
-                            <svg class="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/50">
+                            <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m0-16l-4 4m4-4l4 4" />
                             </svg>
                         </div>
-                        <span class="text-sm font-medium text-emerald-800">Total Kas Masuk</span>
+                        <span class="text-sm font-medium text-emerald-800 dark:text-emerald-300">Total Kas Masuk</span>
                     </div>
-                    <span class="text-lg font-bold text-emerald-700">@rupiah($kasMasuk)</span>
+                    <span class="text-lg font-bold text-emerald-700 dark:text-emerald-400">@rupiah($kasMasuk)</span>
                 </div>
 
                 {{-- Kas Keluar --}}
-                <div class="flex items-center justify-between p-4 rounded-lg bg-red-50 border border-red-200">
+                <div class="flex items-center justify-between p-4 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
                     <div class="flex items-center space-x-3">
-                        <div class="p-2 rounded-lg bg-red-100">
-                            <svg class="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <div class="p-2 rounded-lg bg-red-100 dark:bg-red-900/50">
+                            <svg class="w-5 h-5 text-red-600 dark:text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 20V4m0 16l4-4m-4 4l-4-4" />
                             </svg>
                         </div>
-                        <span class="text-sm font-medium text-red-800">Total Kas Keluar</span>
+                        <span class="text-sm font-medium text-red-800 dark:text-red-300">Total Kas Keluar</span>
                     </div>
-                    <span class="text-lg font-bold text-red-700">@rupiah($kasKeluar)</span>
+                    <span class="text-lg font-bold text-red-700 dark:text-red-400">@rupiah($kasKeluar)</span>
                 </div>
 
                 {{-- Net --}}
-                <div class="flex items-center justify-between p-4 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-50 border border-blue-200' : 'bg-amber-50 border border-amber-200' }}">
+                <div class="flex items-center justify-between p-4 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800' : 'bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800' }}">
                     <div class="flex items-center space-x-3">
-                        <div class="p-2 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-100' : 'bg-amber-100' }}">
-                            <svg class="w-5 h-5 {{ $kasNet >= 0 ? 'text-blue-600' : 'text-amber-600' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <div class="p-2 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-100 dark:bg-blue-900/50' : 'bg-amber-100 dark:bg-amber-900/50' }}">
+                            <svg class="w-5 h-5 {{ $kasNet >= 0 ? 'text-blue-600 dark:text-blue-500' : 'text-amber-600 dark:text-amber-500' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                             </svg>
                         </div>
-                        <span class="text-sm font-medium {{ $kasNet >= 0 ? 'text-blue-800' : 'text-amber-800' }}">Net Arus Kas</span>
+                        <span class="text-sm font-medium {{ $kasNet >= 0 ? 'text-blue-800 dark:text-blue-300' : 'text-amber-800 dark:text-amber-300' }}">Net Arus Kas</span>
                     </div>
-                    <span class="text-lg font-bold {{ $kasNet >= 0 ? 'text-blue-700' : 'text-amber-700' }}">
+                    <span class="text-lg font-bold {{ $kasNet >= 0 ? 'text-blue-700 dark:text-blue-400' : 'text-amber-700 dark:text-amber-400' }}">
                         {{ $kasNet >= 0 ? '+' : '-' }} @rupiah(abs($kasNet))
                     </span>
                 </div>
@@ -127,9 +127,9 @@
                 <x-table :headers="['Nama Barang', 'Stok Saat Ini', 'Stok Minimum', 'Status']">
                     @foreach($barangKritis as $barang)
                     <tr>
-                        <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $barang->nama_barang }}</td>
-                        <td class="px-4 py-3 text-sm text-gray-600">{{ number_format($barang->stok_barang, 0) }} {{ $barang->satuan }}</td>
-                        <td class="px-4 py-3 text-sm text-gray-600">{{ number_format($barang->stok_minimum, 0) }} {{ $barang->satuan }}</td>
+                        <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $barang->nama_barang }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ number_format($barang->stok_barang, 0) }} {{ $barang->satuan }}</td>
+                        <td class="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">{{ number_format($barang->stok_minimum, 0) }} {{ $barang->satuan }}</td>
                         <td class="px-4 py-3">
                             <x-badge variant="danger" dot>Kritis</x-badge>
                         </td>

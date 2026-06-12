@@ -52,7 +52,7 @@
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
-        <p class="mt-4 text-gray-500">Memuat data laporan...</p>
+        <p class="mt-4 text-gray-500 dark:text-gray-400">Memuat data laporan...</p>
     </div>
 
     <!-- Report Content -->
@@ -108,19 +108,19 @@
                 <x-table>
                     <thead>
                         <tr>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kandang</th>
-                            <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Batch</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">RB</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">MB</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">MK</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Pecah</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider text-indigo-600 font-bold">Total</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Populasi</th>
-                            <th class="px-6 py-3 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">HDP %</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kandang</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Batch</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">RB</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">MB</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">MK</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pecah</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider text-indigo-600 font-bold">Total</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Populasi</th>
+                            <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700/50 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">HDP %</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody" class="bg-white divide-y divide-gray-200">
+                    <tbody id="tableBody" class="bg-white dark:bg-gray-800 divide-y divide-gray-200">
                         <!-- Data rows injected here -->
                     </tbody>
                 </x-table>
@@ -231,24 +231,24 @@
         tbody.innerHTML = '';
         
         if (tableData.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="10" class="px-6 py-4 text-center text-sm text-gray-500">Tidak ada data untuk periode ini</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="10" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">Tidak ada data untuk periode ini</td></tr>`;
             return;
         }
 
         tableData.forEach(row => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${row.tanggal}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${row.kandang}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${row.batch}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${row.rb}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${row.mb}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${row.mk}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${row.pecah}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">${row.tanggal}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${row.kandang}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${row.batch}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">${row.rb}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">${row.mb}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">${row.mk}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">${row.pecah}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-indigo-600 text-right">${row.total}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">${row.populasi}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.hdp >= 80 ? 'bg-green-100 text-green-800' : (row.hdp >= 60 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800')}">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">${row.populasi}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 text-right">
+                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${row.hdp >= 80 ? 'bg-green-100 text-green-800' : (row.hdp >= 60 ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-300')}">
                         ${row.hdp}%
                     </span>
                 </td>

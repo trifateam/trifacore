@@ -1,198 +1,130 @@
-<aside class="fixed left-0 top-0 h-screen w-64 bg-gradient-to-b from-gray-900 to-gray-950 text-gray-300 overflow-y-auto z-30 transition-transform duration-300 flex flex-col"
+<aside class="sidebar-panel"
        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'">
-    
-    <!-- Logo -->
-    <div class="py-5 px-6 flex items-center shrink-0">
-        <span class="text-xl font-bold text-white">Tri<span style="color: #ff9900;">Fa</span>Core</span>
-    </div>
 
-    <!-- Navigation -->
-    <nav class="flex-1 px-2 py-4 space-y-1 pb-20">
-        
-        <!-- Dashboard (Semua Role) -->
-        <a href="/dashboard" class="flex items-center px-4 py-2.5 text-sm rounded-lg mx-2 transition-colors {{ request()->is('dashboard') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-300 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('dashboard') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <svg class="w-5 h-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    {{-- ═══════════════════════════════════════════════════════════ --}}
+    {{-- SECTION 1: Navigation (Scrollable)                         --}}
+    {{-- ═══════════════════════════════════════════════════════════ --}}
+    <nav class="sidebar-nav">
+
+
+        {{-- Dashboard (Semua Role) --}}
+        <a href="/dashboard" class="sidebar-dashboard-link {{ request()->is('dashboard') ? 'sidebar-dashboard-active' : 'sidebar-dashboard-default' }}">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
-            DASHBOARD
+            <span>Dashboard</span>
         </a>
 
         @role('Admin', 'Pegawai Kandang')
-        <!-- Group: Pencatatan Harian -->
-        <div class="border-t border-gray-700/50 my-3 mx-2"></div>
-        <div class="px-4 mx-2 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #72ce27;">Pencatatan Harian</span>
-        </div>
-        <a href="/pencatatan/produksi-telur" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pencatatan/produksi-telur') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pencatatan/produksi-telur') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pencatatan/produksi-telur') ? '#ff9900' : '#6b7280' }};"></span>
-            Produksi Telur
-        </a>
-        <a href="/pencatatan/konsumsi-pakan" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pencatatan/konsumsi-pakan') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pencatatan/konsumsi-pakan') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pencatatan/konsumsi-pakan') ? '#ff9900' : '#6b7280' }};"></span>
-            Konsumsi Pakan
-        </a>
-        <a href="/pencatatan/konsumsi-vitamin" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pencatatan/konsumsi-vitamin*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pencatatan/konsumsi-vitamin*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pencatatan/konsumsi-vitamin*') ? '#ff9900' : '#6b7280' }};"></span>
-            Konsumsi Vitamin
-        </a>
-        <a href="/pencatatan/deplesi" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pencatatan/deplesi*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pencatatan/deplesi*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pencatatan/deplesi*') ? '#ff9900' : '#6b7280' }};"></span>
-            Kematian/Afkir (Deplesi)
-        </a>
-        <a href="/pencatatan/suhu" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pencatatan/suhu*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pencatatan/suhu*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pencatatan/suhu*') ? '#ff9900' : '#6b7280' }};"></span>
-            Suhu Lingkungan
-        </a>
-        <a href="/pencatatan/pupuk" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pencatatan/pupuk*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pencatatan/pupuk*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pencatatan/pupuk*') ? '#ff9900' : '#6b7280' }};"></span>
-            Produksi Pupuk
-        </a>
-        <a href="/pencatatan/riwayat" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pencatatan/riwayat*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pencatatan/riwayat*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pencatatan/riwayat*') ? '#ff9900' : '#6b7280' }};"></span>
-            Riwayat Recording
-        </a>
+        {{-- Group: Pencatatan Harian --}}
+        <x-sidebar-dropdown label="Pencatatan Harian" color="#16a34a" :active="request()->is('pencatatan/*')">
+            <x-slot:icon>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+                </svg>
+            </x-slot:icon>
+            <x-sidebar-nav-item href="/pencatatan/produksi-telur" :active="request()->is('pencatatan/produksi-telur')">Produksi Telur</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/pencatatan/konsumsi-pakan" :active="request()->is('pencatatan/konsumsi-pakan')">Konsumsi Pakan</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/pencatatan/konsumsi-vitamin" :active="request()->is('pencatatan/konsumsi-vitamin*')">Konsumsi Vitamin</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/pencatatan/deplesi" :active="request()->is('pencatatan/deplesi*')">Kematian/Afkir (Deplesi)</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/pencatatan/suhu" :active="request()->is('pencatatan/suhu*')">Suhu Lingkungan</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/pencatatan/pupuk" :active="request()->is('pencatatan/pupuk*')">Produksi Pupuk</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/pencatatan/riwayat" :active="request()->is('pencatatan/riwayat*')">Riwayat Recording</x-sidebar-nav-item>
+        </x-sidebar-dropdown>
         @endrole
 
         @role('Admin', 'Owner', 'Sales')
-        <!-- Group: Manajemen Transaksi -->
-        <div class="border-t border-gray-700/50 my-3 mx-2"></div>
-        <div class="px-4 mx-2 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #95e214;">Manajemen Transaksi</span>
-        </div>
-        <a href="/transaksi/penjualan" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('transaksi/penjualan*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('transaksi/penjualan*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('transaksi/penjualan*') ? '#ff9900' : '#6b7280' }};"></span>
-            Transaksi Penjualan
-        </a>
-        <a href="/transaksi/pembelian" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('transaksi/pembelian*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('transaksi/pembelian*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('transaksi/pembelian*') ? '#ff9900' : '#6b7280' }};"></span>
-            Transaksi Pembelian
-        </a>
-        <a href="/transaksi/riwayat-penjualan" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('transaksi/riwayat-penjualan') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('transaksi/riwayat-penjualan') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('transaksi/riwayat-penjualan') ? '#ff9900' : '#6b7280' }};"></span>
-            Riwayat Penjualan
-        </a>
-        <a href="/transaksi/riwayat-pembelian" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('transaksi/riwayat-pembelian') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('transaksi/riwayat-pembelian') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('transaksi/riwayat-pembelian') ? '#ff9900' : '#6b7280' }};"></span>
-            Riwayat Pembelian
-        </a>
+        {{-- Group: Manajemen Transaksi --}}
+        <x-sidebar-dropdown label="Manajemen Transaksi" color="#2563eb" :active="request()->is('transaksi/*')">
+            <x-slot:icon>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                </svg>
+            </x-slot:icon>
+            <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Transaksi Penjualan</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Transaksi Pembelian</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Riwayat Penjualan</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Riwayat Pembelian</x-sidebar-nav-item>
+        </x-sidebar-dropdown>
         @endrole
 
         @role('Admin', 'Owner')
-        <!-- Group: Operasional -->
-        <div class="border-t border-gray-700/50 my-3 mx-2"></div>
-        <div class="px-4 mx-2 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #b8f500;">Operasional</span>
-        </div>
-        <a href="/kandang-operasional" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('kandang-operasional*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('kandang-operasional*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('kandang-operasional*') ? '#ff9900' : '#6b7280' }};"></span>
-            Kandang
-        </a>
-        @endrole
-
-        @role('Admin', 'Owner', 'Pegawai Gudang')
-        <a href="/gudang" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('gudang*') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('gudang*') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('gudang*') ? '#ff9900' : '#6b7280' }};"></span>
-            Gudang
-        </a>
+        {{-- Group: Operasional --}}
+        <x-sidebar-dropdown label="Operasional" color="#7c3aed" :active="request()->is('kandang-operasional*') || request()->is('gudang*')">
+            <x-slot:icon>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.1-3.04A1.5 1.5 0 005 13.5v5.25a1.5 1.5 0 001.32 1.49l7.5.94a1.5 1.5 0 001.68-1.49V13.5a1.5 1.5 0 00-1.32-1.49l-2.76-.34zM17.5 7.64l-5.1-3.04A1.5 1.5 0 0011 5.87v5.25a1.5 1.5 0 001.32 1.49l7.5.94a1.5 1.5 0 001.68-1.49V5.87a1.5 1.5 0 00-1.32-1.49l-2.68-.34z" />
+                </svg>
+            </x-slot:icon>
+            <x-sidebar-nav-item href="/kandang-operasional" :active="request()->is('kandang-operasional*')">Kandang</x-sidebar-nav-item>
+            @endrole
+            @role('Admin', 'Owner', 'Pegawai Gudang')
+            <x-sidebar-nav-item href="/gudang" :active="request()->is('gudang*')">Gudang</x-sidebar-nav-item>
+        </x-sidebar-dropdown>
         @endrole
 
         @role('Admin', 'Owner')
-        <!-- Group: Master Data -->
-        <div class="border-t border-gray-700/50 my-3 mx-2"></div>
-        <div class="px-4 mx-2 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #ffc800;">Master Data</span>
-        </div>
-        <a href="/master-data/kandang" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('master-data/kandang') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('master-data/kandang') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('master-data/kandang') ? '#ff9900' : '#6b7280' }};"></span>
-            Data Kandang
-        </a>
-        <a href="/master-data/barang" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('master-data/barang') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('master-data/barang') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('master-data/barang') ? '#ff9900' : '#6b7280' }};"></span>
-            Data Barang/Item
-        </a>
-        <a href="/master-data/supplier" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('master-data/supplier') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('master-data/supplier') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('master-data/supplier') ? '#ff9900' : '#6b7280' }};"></span>
-            Data Supplier
-        </a>
-        <a href="/master-data/pegawai" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('master-data/pegawai') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('master-data/pegawai') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('master-data/pegawai') ? '#ff9900' : '#6b7280' }};"></span>
-            Data Pegawai
-        </a>
-        <a href="/master-data/pelanggan" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('master-data/pelanggan') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('master-data/pelanggan') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('master-data/pelanggan') ? '#ff9900' : '#6b7280' }};"></span>
-            Data Pelanggan
-        </a>
-        <a href="/master-data/rekening" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('master-data/rekening') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('master-data/rekening') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('master-data/rekening') ? '#ff9900' : '#6b7280' }};"></span>
-            Data Rekening Kas/Bank
-        </a>
-        <a href="/master-data/kategori-biaya" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('master-data/kategori-biaya') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('master-data/kategori-biaya') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('master-data/kategori-biaya') ? '#ff9900' : '#6b7280' }};"></span>
-            Data Kategori Biaya
-        </a>
+        {{-- Group: Master Data --}}
+        <x-sidebar-dropdown label="Master Data" color="#d97706" :active="request()->is('master-data/*')">
+            <x-slot:icon>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                </svg>
+            </x-slot:icon>
+            <x-sidebar-nav-item href="/master-data/kandang" :active="request()->is('master-data/kandang')">Data Kandang</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/master-data/barang" :active="request()->is('master-data/barang')">Data Barang/Item</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/master-data/supplier" :active="request()->is('master-data/supplier')">Data Supplier</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/master-data/pegawai" :active="request()->is('master-data/pegawai')">Data Pegawai</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/master-data/pelanggan" :active="request()->is('master-data/pelanggan')">Data Pelanggan</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/master-data/rekening" :active="request()->is('master-data/rekening')">Data Rekening Kas/Bank</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/master-data/kategori-biaya" :active="request()->is('master-data/kategori-biaya')">Data Kategori Biaya</x-sidebar-nav-item>
+        </x-sidebar-dropdown>
 
-        <!-- Group: Management Keuangan -->
-        <div class="border-t border-gray-700/50 my-3 mx-2"></div>
-        <div class="px-4 mx-2 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #ffe000;">Management Keuangan</span>
-        </div>
-        <a href="/keuangan/biaya-operasional" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('keuangan/biaya-operasional') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('keuangan/biaya-operasional') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('keuangan/biaya-operasional') ? '#ff9900' : '#6b7280' }};"></span>
-            Biaya Operasional
-        </a>
-        <a href="/keuangan/buku-kas" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('keuangan/buku-kas') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('keuangan/buku-kas') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('keuangan/buku-kas') ? '#ff9900' : '#6b7280' }};"></span>
-            Buku Kas
-        </a>
-        <a href="/keuangan/buku-utang" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('keuangan/buku-utang') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('keuangan/buku-utang') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('keuangan/buku-utang') ? '#ff9900' : '#6b7280' }};"></span>
-            Buku Utang
-        </a>
-        <a href="/keuangan/buku-piutang" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('keuangan/buku-piutang') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('keuangan/buku-piutang') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('keuangan/buku-piutang') ? '#ff9900' : '#6b7280' }};"></span>
-            Buku Piutang
-        </a>
+        {{-- Group: Management Keuangan --}}
+        <x-sidebar-dropdown label="Management Keuangan" color="#0891b2" :active="request()->is('keuangan/*')">
+            <x-slot:icon>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                </svg>
+            </x-slot:icon>
+            <x-sidebar-nav-item href="/keuangan/biaya-operasional" :active="request()->is('keuangan/biaya-operasional')">Biaya Operasional</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/keuangan/buku-kas" :active="request()->is('keuangan/buku-kas')">Buku Kas</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/keuangan/buku-utang" :active="request()->is('keuangan/buku-utang')">Buku Utang</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/keuangan/buku-piutang" :active="request()->is('keuangan/buku-piutang')">Buku Piutang</x-sidebar-nav-item>
+        </x-sidebar-dropdown>
 
-        <!-- Group: Laporan -->
-        <div class="border-t border-gray-700/50 my-3 mx-2"></div>
-        <div class="px-4 mx-2 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #fff700;">Laporan</span>
-        </div>
-        <a href="/laporan/produksi-performa" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('laporan/produksi-performa') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('laporan/produksi-performa') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('laporan/produksi-performa') ? '#ff9900' : '#6b7280' }};"></span>
-            Produksi & Performa
-        </a>
-        <a href="/laporan/laba-rugi" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('laporan/laba-rugi') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('laporan/laba-rugi') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('laporan/laba-rugi') ? '#ff9900' : '#6b7280' }};"></span>
-            Laporan Laba Rugi
-        </a>
-        <a href="/laporan/cetak/produksi-telur" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('laporan/cetak/produksi-telur') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('laporan/cetak/produksi-telur') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('laporan/cetak/produksi-telur') ? '#ff9900' : '#6b7280' }};"></span>
-            Cetak Produksi Telur
-        </a>
-        <a href="/laporan/cetak/penjualan-telur" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('laporan/cetak/penjualan-telur') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('laporan/cetak/penjualan-telur') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('laporan/cetak/penjualan-telur') ? '#ff9900' : '#6b7280' }};"></span>
-            Cetak Penjualan Telur
-        </a>
-        <a href="/laporan/cetak/pembelian-pakan" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('laporan/cetak/pembelian-pakan') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('laporan/cetak/pembelian-pakan') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('laporan/cetak/pembelian-pakan') ? '#ff9900' : '#6b7280' }};"></span>
-            Cetak Pembelian Pakan
-        </a>
+        {{-- Group: Laporan --}}
+        <x-sidebar-dropdown label="Laporan" color="#059669" :active="request()->is('laporan/*')">
+            <x-slot:icon>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+                </svg>
+            </x-slot:icon>
+            <x-sidebar-nav-item href="/laporan/produksi-performa" :active="request()->is('laporan/produksi-performa')">Produksi & Performa</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/laporan/laba-rugi" :active="request()->is('laporan/laba-rugi')">Laporan Laba Rugi</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/laporan/cetak/produksi-telur" :active="request()->is('laporan/cetak/produksi-telur')">Cetak Produksi Telur</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/laporan/cetak/penjualan-telur" :active="request()->is('laporan/cetak/penjualan-telur')">Cetak Penjualan Telur</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/laporan/cetak/pembelian-pakan" :active="request()->is('laporan/cetak/pembelian-pakan')">Cetak Pembelian Pakan</x-sidebar-nav-item>
+        </x-sidebar-dropdown>
 
-        <!-- Group: Pengaturan -->
-        <div class="border-t border-gray-700/50 my-3 mx-2"></div>
-        <div class="px-4 mx-2 mb-1">
-            <span class="text-[10px] font-bold uppercase tracking-widest" style="color: #ff9900;">Pengaturan</span>
-        </div>
-        <a href="/pengaturan/profil-sistem" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('pengaturan/profil-sistem') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('pengaturan/profil-sistem') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('pengaturan/profil-sistem') ? '#ff9900' : '#6b7280' }};"></span>
-            Profil & Sistem
-        </a>
-        <a href="/riwayat-aktivitas" class="flex items-center px-4 py-2 text-sm rounded-lg mx-2 transition-colors {{ request()->is('riwayat-aktivitas') ? 'text-[#ff9900] border-l-2 border-[#ff9900]' : 'text-gray-400 hover:bg-gray-800 hover:text-[#ffc800]' }}" style="{{ request()->is('riwayat-aktivitas') ? 'background-color: rgba(255,153,0,0.15);' : '' }}">
-            <span class="w-1.5 h-1.5 rounded-full mr-3 shrink-0" style="background-color: {{ request()->is('riwayat-aktivitas') ? '#ff9900' : '#6b7280' }};"></span>
-            Riwayat Aktivitas Sistem
-        </a>
+        {{-- Group: Pengaturan --}}
+        <x-sidebar-dropdown label="Pengaturan" color="#dc2626" :active="request()->is('pengaturan/*') || request()->is('riwayat-aktivitas')">
+            <x-slot:icon>
+                <svg class="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </x-slot:icon>
+            <x-sidebar-nav-item href="/pengaturan/profil-sistem" :active="request()->is('pengaturan/profil-sistem')">Profil & Sistem</x-sidebar-nav-item>
+            <x-sidebar-nav-item href="/riwayat-aktivitas" :active="request()->is('riwayat-aktivitas')">Riwayat Aktivitas Sistem</x-sidebar-nav-item>
+        </x-sidebar-dropdown>
         @endrole
 
     </nav>
+
+    {{-- ═══════════════════════════════════════════════════════════ --}}
+    {{-- SECTION 3: Timestamp (Fixed Bottom)                        --}}
+    {{-- ═══════════════════════════════════════════════════════════ --}}
+    <x-sidebar-timestamp />
+
 </aside>

@@ -3,7 +3,7 @@
     'method' => 'GET',
 ])
 
-<form action="{{ $action }}" method="{{ $method }}" {{ $attributes->merge(['class' => 'bg-white rounded-xl border border-gray-200 p-4 mb-6 flex flex-wrap gap-4 items-end']) }}>
+<form action="{{ $action }}" method="{{ $method }}" {{ $attributes->merge(['class' => 'bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 mb-6 flex flex-wrap gap-4 items-end']) }}>
     {{ $slot }}
     
     <div class="mb-4 flex space-x-2">

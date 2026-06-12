@@ -67,15 +67,15 @@
     {{-- ══════════════════════════════════════════ --}}
     {{-- TABEL DAFTAR UTANG                        --}}
     {{-- ══════════════════════════════════════════ --}}
-    <x-card class="border border-gray-200">
-        <div class="px-5 py-4 border-b border-gray-200 bg-white flex items-center justify-between">
+    <x-card class="border border-gray-200 dark:border-gray-700">
+        <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-between">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <h3 class="text-lg font-bold text-gray-900">Daftar Utang</h3>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">Daftar Utang</h3>
             </div>
-            <span class="text-sm text-gray-500">{{ $hutangs->total() }} data</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $hutangs->total() }} data</span>
         </div>
 
         <div class="overflow-x-auto">
@@ -99,15 +99,15 @@
                         }
 
                         $tempoClasses = match($tempoIndicator) {
-                            'overdue' => 'text-red-600 font-bold',
-                            'warning' => 'text-amber-600 font-semibold',
-                            'safe' => 'text-emerald-600',
-                            default => 'text-gray-500',
+                            'overdue' => 'text-red-600 dark:text-red-500 font-bold',
+                            'warning' => 'text-amber-600 dark:text-amber-500 font-semibold',
+                            'safe' => 'text-emerald-600 dark:text-emerald-500',
+                            default => 'text-gray-500 dark:text-gray-400',
                         };
 
                         $tempoBg = match($tempoIndicator) {
-                            'overdue' => 'bg-red-50',
-                            'warning' => 'bg-amber-50',
+                            'overdue' => 'bg-red-50 dark:bg-red-900/30',
+                            'warning' => 'bg-amber-50 dark:bg-amber-900/30',
                             default => '',
                         };
 
@@ -120,27 +120,27 @@
                     @endphp
                     <tr class="{{ $tempoBg }}">
                         {{-- No. Nota --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-700">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-700 dark:text-gray-300">
                             {{ $h->pembelian->no_faktur_beli ?? '-' }}
                         </td>
 
                         {{-- Tanggal Pembelian --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $h->pembelian->tanggal_pembelian ? \Carbon\Carbon::parse($h->pembelian->tanggal_pembelian)->translatedFormat('d M Y') : '-' }}
                         </td>
 
                         {{-- Supplier --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                             {{ $h->pembelian->supplier->nama_supplier ?? '-' }}
                         </td>
 
                         {{-- Total Utang --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 text-right">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 text-right">
                             @rupiah($h->jumlah_hutang)
                         </td>
 
                         {{-- Sisa Utang --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-right {{ $h->sisa_hutang > 0 ? 'text-red-600' : 'text-emerald-600' }}">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-right {{ $h->sisa_hutang > 0 ? 'text-red-600 dark:text-red-500' : 'text-emerald-600 dark:text-emerald-500' }}">
                             @rupiah($h->sisa_hutang)
                         </td>
 
@@ -209,7 +209,7 @@
         </div>
 
         @if($hutangs->hasPages())
-            <div class="p-4 border-t border-gray-200">
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                 {{ $hutangs->links() }}
             </div>
         @endif
@@ -250,39 +250,39 @@
             <div class="space-y-3 mb-6">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">No. Nota</label>
-                        <p class="mt-1 text-sm font-semibold text-gray-900" x-text="noNota"></p>
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">No. Nota</label>
+                        <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100" x-text="noNota"></p>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">Supplier</label>
-                        <p class="mt-1 text-sm font-semibold text-gray-900" x-text="supplierName"></p>
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Supplier</label>
+                        <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100" x-text="supplierName"></p>
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">Total Utang</label>
-                        <p class="mt-1 text-sm font-bold text-gray-700">Rp <span x-text="totalUtang"></span></p>
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Utang</label>
+                        <p class="mt-1 text-sm font-bold text-gray-700 dark:text-gray-300">Rp <span x-text="totalUtang"></span></p>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium text-gray-500 uppercase tracking-wide">Sisa Utang</label>
-                        <p class="mt-1 text-sm font-bold text-red-600">Rp <span x-text="sisaUtangFormatted"></span></p>
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Sisa Utang</label>
+                        <p class="mt-1 text-sm font-bold text-red-600 dark:text-red-500">Rp <span x-text="sisaUtangFormatted"></span></p>
                     </div>
                 </div>
             </div>
 
-            <hr class="mb-4 border-gray-200">
+            <hr class="mb-4 border-gray-200 dark:border-gray-700">
 
             {{-- Form Pelunasan --}}
             <form :action="'/keuangan/buku-utang/lunasi/' + hutangId" method="POST" class="space-y-4">
                 @csrf
 
                 <div>
-                    <label for="modal_nominal" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="modal_nominal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Nominal Pelunasan <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
                         <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <span class="text-gray-500 sm:text-sm">Rp</span>
+                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">Rp</span>
                         </div>
                         <input 
                             type="number" 
@@ -294,11 +294,11 @@
                             :max="sisaUtang"
                             required
                             placeholder="Masukkan nominal..."
-                            class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-10 font-bold"
+                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-10 font-bold"
                         >
                     </div>
                     <div class="flex justify-between mt-1">
-                        <p class="text-xs text-gray-500">Maks: Rp <span x-text="sisaUtangFormatted"></span></p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Maks: Rp <span x-text="sisaUtangFormatted"></span></p>
                         <button type="button" @click="nominal = sisaUtang; checkSaldo();" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
                             Lunasi Semua
                         </button>
@@ -306,7 +306,7 @@
                 </div>
 
                 <div>
-                    <label for="modal_id_akun" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="modal_id_akun" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Dari Rekening/Kas <span class="text-red-500">*</span>
                     </label>
                     <select 
@@ -314,7 +314,7 @@
                         id="modal_id_akun" 
                         required
                         @change="checkSaldo()"
-                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
+                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
                     >
                         <option value="">-- Pilih Rekening --</option>
                         @foreach($akunKas as $akun)
@@ -326,12 +326,12 @@
                 </div>
 
                 {{-- Saldo Warning --}}
-                <div x-show="saldoWarning" x-transition class="rounded-lg p-3 bg-amber-50 border border-amber-200">
+                <div x-show="saldoWarning" x-transition class="rounded-lg p-3 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800">
                     <div class="flex items-center">
                         <svg class="w-5 h-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
-                        <p class="text-sm text-amber-700 font-medium">Saldo rekening tidak mencukupi untuk nominal ini.</p>
+                        <p class="text-sm text-amber-700 dark:text-amber-400 font-medium">Saldo rekening tidak mencukupi untuk nominal ini.</p>
                     </div>
                 </div>
 

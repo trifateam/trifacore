@@ -26,9 +26,9 @@
         <x-table :headers="['No', 'Nama Lengkap', 'Username', 'Role', 'Status', 'Aksi']">
             @foreach($pegawais as $index => $pegawai)
                 <tr>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $pegawais->firstItem() + $index }}</td>
-                    <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $pegawai->nama_lengkap }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-700 font-mono">{{ $pegawai->username }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $pegawais->firstItem() + $index }}</td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $pegawai->nama_lengkap }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 font-mono">{{ $pegawai->username }}</td>
                     <td class="px-4 py-3 text-sm">
                         @php
                             $badgeVariant = match($pegawai->role) {
@@ -106,7 +106,7 @@
                         ]" />
                 </div>
             </x-form-section>
-            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-tambah-pegawai')">Batal</x-button>
                 <x-button variant="primary" type="submit">
                     <svg class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
@@ -124,28 +124,28 @@
             <x-form-section title="Informasi Pegawai" description="Perbarui data pegawai">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                     <div class="mb-4">
-                        <label for="edit_nama_lengkap" class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
-                        <input type="text" name="nama_lengkap" id="edit_nama_lengkap" required maxlength="100" placeholder="Contoh: Budi Santoso" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                        <p class="mt-1 text-sm text-gray-500">Maksimal 100 karakter</p>
+                        <label for="edit_nama_lengkap" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama_lengkap" id="edit_nama_lengkap" required maxlength="100" placeholder="Contoh: Budi Santoso" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Maksimal 100 karakter</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
-                        <input type="text" id="edit_username" disabled readonly class="w-full rounded-lg border-gray-300 shadow-sm text-sm bg-gray-100 cursor-not-allowed text-gray-500">
-                        <p class="mt-1 text-sm text-gray-500">Username tidak dapat diubah setelah dibuat</p>
+                        <label for="edit_username" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username</label>
+                        <input type="text" id="edit_username" disabled readonly class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm text-sm bg-gray-100 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Username tidak dapat diubah setelah dibuat</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_password" class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
-                        <input type="password" name="password" id="edit_password" minlength="8" placeholder="Kosongkan jika tidak diubah" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                        <p class="mt-1 text-sm text-gray-500">Minimal 8 karakter. Kosongkan jika tidak ingin mengubah password.</p>
+                        <label for="edit_password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password Baru</label>
+                        <input type="password" name="password" id="edit_password" minlength="8" placeholder="Kosongkan jika tidak diubah" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Minimal 8 karakter. Kosongkan jika tidak ingin mengubah password.</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_password_confirmation" class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password Baru</label>
-                        <input type="password" name="password_confirmation" id="edit_password_confirmation" minlength="8" placeholder="Ulangi password baru" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                        <p class="mt-1 text-sm text-gray-500">Harus sama dengan password baru</p>
+                        <label for="edit_password_confirmation" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Konfirmasi Password Baru</label>
+                        <input type="password" name="password_confirmation" id="edit_password_confirmation" minlength="8" placeholder="Ulangi password baru" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Harus sama dengan password baru</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_role" class="block text-sm font-medium text-gray-700 mb-1">Role <span class="text-red-500">*</span></label>
-                        <select name="role" id="edit_role" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <label for="edit_role" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Role <span class="text-red-500">*</span></label>
+                        <select name="role" id="edit_role" required class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
                             <option value="Admin">Admin</option>
                             <option value="Owner">Owner</option>
                             <option value="Pegawai Kandang">Pegawai Kandang</option>
@@ -155,7 +155,7 @@
                     </div>
                 </div>
             </x-form-section>
-            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-edit-pegawai')">Batal</x-button>
                 <x-button variant="primary" type="submit">
                     <svg class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>

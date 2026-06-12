@@ -26,9 +26,9 @@
         <x-table :headers="['No', 'Nama Kategori', 'Keterangan', 'Aksi']">
             @foreach($kategoris as $index => $kategori)
                 <tr>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $kategoris->firstItem() + $index }}</td>
-                    <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $kategori->nama_kategori }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $kategori->keterangan ?? '-' }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $kategoris->firstItem() + $index }}</td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $kategori->nama_kategori }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $kategori->keterangan ?? '-' }}</td>
                     <td class="px-4 py-3 text-sm">
                         <div class="flex items-center space-x-2">
                             <x-button variant="secondary" size="sm"
@@ -84,13 +84,13 @@
             <x-form-section title="Informasi Kategori" description="Perbarui nama dan keterangan kategori">
                 <div class="space-y-4">
                     <div class="mb-4">
-                        <label for="edit_nama_kategori" class="block text-sm font-medium text-gray-700 mb-1">Nama Kategori <span class="text-red-500">*</span></label>
-                        <input type="text" name="nama_kategori" id="edit_nama_kategori" required maxlength="100" placeholder="Contoh: Listrik" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
+                        <label for="edit_nama_kategori" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Kategori <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama_kategori" id="edit_nama_kategori" required maxlength="100" placeholder="Contoh: Listrik" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
                     </div>
                     
                     <div class="mb-4">
-                        <label for="edit_keterangan" class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
-                        <textarea name="keterangan" id="edit_keterangan" rows="3" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm"></textarea>
+                        <label for="edit_keterangan" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Keterangan</label>
+                        <textarea name="keterangan" id="edit_keterangan" rows="3" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm"></textarea>
                     </div>
                 </div>
             </x-form-section>

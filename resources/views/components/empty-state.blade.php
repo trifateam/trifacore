@@ -7,10 +7,10 @@
 ])
 
 <div {{ $attributes->merge(['class' => 'text-center py-12 px-4']) }}>
-    <x-dynamic-component :component="'heroicon-o-'.$icon" class="mx-auto h-12 w-12 text-gray-400" />
-    <h3 class="mt-2 text-sm font-semibold text-gray-900">{{ $message }}</h3>
+    <x-dynamic-component :component="'heroicon-o-'.$icon" class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-500 dark:text-gray-400" />
+    <h3 class="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">{{ $message }}</h3>
     @if($description)
-        <p class="mt-1 text-sm text-gray-500">{{ $description }}</p>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ $description }}</p>
     @endif
     @if($actionLabel && $actionUrl)
         <div class="mt-6">

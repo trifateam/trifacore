@@ -43,8 +43,8 @@
         <x-table :headers="['No', 'Nama Akun', 'Kategori', 'No. Rekening', 'Nama Pemilik', 'Saldo', 'Status', 'Aksi']">
             @foreach($rekenings as $index => $rekening)
                 <tr>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $rekenings->firstItem() + $index }}</td>
-                    <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $rekening->nama_akun }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $rekenings->firstItem() + $index }}</td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $rekening->nama_akun }}</td>
                     <td class="px-4 py-3 text-sm">
                         @php
                             $badgeVariant = match($rekening->kategori_akun) {
@@ -56,9 +56,9 @@
                         @endphp
                         <x-badge :variant="$badgeVariant">{{ $rekening->kategori_akun }}</x-badge>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $rekening->no_rekening ?? '-' }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $rekening->nama_pemilik ?? '-' }}</td>
-                    <td class="px-4 py-3 text-sm font-medium text-gray-900 whitespace-nowrap">
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $rekening->no_rekening ?? '-' }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $rekening->nama_pemilik ?? '-' }}</td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap">
                         @rupiah($rekening->saldo)
                     </td>
                     <td class="px-4 py-3 text-sm">
@@ -141,13 +141,13 @@
             <x-form-section title="Informasi Rekening" description="Perbarui data akun kas atau bank">
                 <div class="space-y-4">
                     <div class="mb-4">
-                        <label for="edit_nama_akun" class="block text-sm font-medium text-gray-700 mb-1">Nama Bank/Kas <span class="text-red-500">*</span></label>
-                        <input type="text" name="nama_akun" id="edit_nama_akun" required maxlength="50" placeholder="Contoh: BCA Utama" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
+                        <label for="edit_nama_akun" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Bank/Kas <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama_akun" id="edit_nama_akun" required maxlength="50" placeholder="Contoh: BCA Utama" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
                     </div>
 
                     <div class="mb-4">
-                        <label for="edit_kategori_akun" class="block text-sm font-medium text-gray-700 mb-1">Kategori Akun <span class="text-red-500">*</span></label>
-                        <select name="kategori_akun" id="edit_kategori_akun" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm" onchange="document.getElementById('edit_no_rekening_group').style.display = this.value === 'Tunai' ? 'none' : 'block'">
+                        <label for="edit_kategori_akun" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kategori Akun <span class="text-red-500">*</span></label>
+                        <select name="kategori_akun" id="edit_kategori_akun" required class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm" onchange="document.getElementById('edit_no_rekening_group').style.display = this.value === 'Tunai' ? 'none' : 'block'">
                             <option value="Bank">Bank</option>
                             <option value="Tunai">Tunai</option>
                             <option value="E-Wallet">E-Wallet</option>
@@ -155,23 +155,23 @@
                     </div>
 
                     <div class="mb-4" id="edit_no_rekening_group">
-                        <label for="edit_no_rekening" class="block text-sm font-medium text-gray-700 mb-1">Nomor Rekening</label>
-                        <input type="text" name="no_rekening" id="edit_no_rekening" maxlength="50" placeholder="Contoh: 1234567890" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
-                        <p class="mt-1 text-sm text-gray-500">Wajib diisi untuk Bank/E-Wallet</p>
+                        <label for="edit_no_rekening" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nomor Rekening</label>
+                        <input type="text" name="no_rekening" id="edit_no_rekening" maxlength="50" placeholder="Contoh: 1234567890" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Wajib diisi untuk Bank/E-Wallet</p>
                     </div>
 
                     <div class="mb-4">
-                        <label for="edit_nama_pemilik" class="block text-sm font-medium text-gray-700 mb-1">Nama Pemilik (Atas Nama) <span class="text-red-500">*</span></label>
-                        <input type="text" name="nama_pemilik" id="edit_nama_pemilik" required maxlength="100" placeholder="Contoh: PT TriFaCore" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
+                        <label for="edit_nama_pemilik" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Pemilik (Atas Nama) <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama_pemilik" id="edit_nama_pemilik" required maxlength="100" placeholder="Contoh: PT TriFaCore" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm">
                     </div>
 
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Saldo Saat Ini</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Saldo Saat Ini</label>
                         <div class="relative rounded-md shadow-sm">
-                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="text-gray-500 sm:text-sm">Rp</span></div>
-                            <input type="text" id="edit_saldo_display" disabled class="w-full rounded-lg border-gray-300 bg-gray-100 cursor-not-allowed text-gray-500 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm pl-12">
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="text-gray-500 dark:text-gray-400 sm:text-sm">Rp</span></div>
+                            <input type="text" id="edit_saldo_display" disabled class="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm pl-12">
                         </div>
-                        <p class="mt-1 text-sm text-gray-500">Saldo hanya berubah otomatis melalui transaksi.</p>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Saldo hanya berubah otomatis melalui transaksi.</p>
                     </div>
 
                     <div class="pt-2" x-data="{ active: true }" x-ref="editToggle">
@@ -180,9 +180,9 @@
                             <button type="button" role="switch" :aria-checked="active.toString()" @click="active = !active"
                                 class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                                 :class="active ? 'bg-indigo-600' : 'bg-gray-200'">
-                                <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" :class="active ? 'translate-x-5' : 'translate-x-0'"></span>
+                                <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out" :class="active ? 'translate-x-5' : 'translate-x-0'"></span>
                             </button>
-                            <label class="ml-3 block text-sm font-medium text-gray-700 cursor-pointer" @click="active = !active">Status Aktif</label>
+                            <label class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer" @click="active = !active">Status Aktif</label>
                         </div>
                     </div>
                 </div>

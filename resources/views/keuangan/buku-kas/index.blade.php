@@ -108,15 +108,15 @@
     {{-- ══════════════════════════════════════════ --}}
     {{-- TABEL LEDGER MUTASI                       --}}
     {{-- ══════════════════════════════════════════ --}}
-    <x-card class="border border-gray-200">
-        <div class="px-5 py-4 border-b border-gray-200 bg-white flex items-center justify-between">
+    <x-card class="border border-gray-200 dark:border-gray-700">
+        <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-between">
             <div class="flex items-center">
                 <svg class="w-5 h-5 text-indigo-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <h3 class="text-lg font-bold text-gray-900">Ledger Mutasi Kas</h3>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">Ledger Mutasi Kas</h3>
             </div>
-            <span class="text-sm text-gray-500">{{ $bukuKas->total() }} transaksi</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $bukuKas->total() }} transaksi</span>
         </div>
 
         <div class="overflow-x-auto">
@@ -124,7 +124,7 @@
                 @forelse($bukuKas as $kas)
                     <tr>
                         {{-- Tanggal --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ \Carbon\Carbon::parse($kas->tanggal_transaksi)->translatedFormat('d M Y') }}
                             <div class="text-xs text-gray-400 mt-0.5">
                                 {{ \Carbon\Carbon::parse($kas->tanggal_transaksi)->format('H:i') }}
@@ -132,12 +132,12 @@
                         </td>
 
                         {{-- Kode Jurnal --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-700">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-700 dark:text-gray-300">
                             {{ $kas->kode_jurnal }}
                         </td>
 
                         {{-- Deskripsi/Keterangan --}}
-                        <td class="px-4 py-3 text-sm text-gray-900 max-w-xs truncate" title="{{ $kas->keterangan }}">
+                        <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100 max-w-xs truncate" title="{{ $kas->keterangan }}">
                             {{ $kas->keterangan ?? '-' }}
                             @if($kas->tipe_referensi)
                                 <div class="text-xs text-gray-400 mt-0.5">
@@ -154,17 +154,17 @@
                         </td>
 
                         {{-- Nominal --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-right {{ $kas->jenis === 'Masuk' ? 'text-emerald-600' : 'text-red-600' }}">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-right {{ $kas->jenis === 'Masuk' ? 'text-emerald-600 dark:text-emerald-500' : 'text-red-600 dark:text-red-500' }}">
                             {{ $kas->jenis === 'Masuk' ? '+' : '-' }} @rupiah($kas->nominal)
                         </td>
 
                         {{-- Rekening --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
                             {{ $kas->akunKas->nama_akun ?? '-' }}
                         </td>
 
                         {{-- Pencatat --}}
-                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                             {{ $kas->pengguna->nama_pengguna ?? '-' }}
                         </td>
                     </tr>
@@ -182,7 +182,7 @@
         </div>
 
         @if($bukuKas->hasPages())
-            <div class="p-4 border-t border-gray-200">
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
                 {{ $bukuKas->links() }}
             </div>
         @endif

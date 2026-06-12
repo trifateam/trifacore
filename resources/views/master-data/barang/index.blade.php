@@ -33,8 +33,8 @@
         <x-table :headers="['No', 'Nama Barang', 'Kategori', 'SKU', 'Stok', 'Satuan', 'Harga', 'Jual/Beli', 'Aksi']">
             @foreach($barangs as $index => $barang)
                 <tr>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $barangs->firstItem() + $index }}</td>
-                    <td class="px-4 py-3 text-sm font-medium text-gray-900">{{ $barang->nama_barang }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $barangs->firstItem() + $index }}</td>
+                    <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">{{ $barang->nama_barang }}</td>
                     <td class="px-4 py-3 text-sm">
                         @php
                             $badgeVariant = match($barang->kategori_barang) {
@@ -48,14 +48,14 @@
                         @endphp
                         <x-badge :variant="$badgeVariant">{{ $barang->kategori_barang }}</x-badge>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-500">{{ $barang->sku ?? '-' }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-700">
-                        <span class="{{ $barang->stok_barang <= $barang->stok_minimum && $barang->stok_minimum > 0 ? 'text-red-600 font-semibold' : '' }}">
+                    <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{{ $barang->sku ?? '-' }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                        <span class="{{ $barang->stok_barang <= $barang->stok_minimum && $barang->stok_minimum > 0 ? 'text-red-600 dark:text-red-500 font-semibold' : '' }}">
                             {{ number_format($barang->stok_barang, 0, ',', '.') }}
                         </span>
                     </td>
-                    <td class="px-4 py-3 text-sm text-gray-700">{{ $barang->satuan }}</td>
-                    <td class="px-4 py-3 text-sm text-gray-700">@rupiah($barang->harga)</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $barang->satuan }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">@rupiah($barang->harga)</td>
                     <td class="px-4 py-3 text-sm">
                         <div class="flex items-center space-x-3">
                             <span title="Dapat Dijual">
@@ -143,7 +143,7 @@
                     <x-toggle name="dapat_dibeli" label="Dapat Dibeli" :checked="false" />
                 </div>
             </x-form-section>
-            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-tambah-barang')">Batal</x-button>
                 <x-button variant="primary" type="submit">
                     <svg class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
@@ -161,13 +161,13 @@
             <x-form-section title="Informasi Barang" description="Perbarui data barang">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                     <div class="mb-4">
-                        <label for="edit_nama_barang" class="block text-sm font-medium text-gray-700 mb-1">Nama Barang <span class="text-red-500">*</span></label>
-                        <input type="text" name="nama_barang" id="edit_nama_barang" required maxlength="100" placeholder="Contoh: Telur Ayam" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                        <p class="mt-1 text-sm text-gray-500">Maksimal 100 karakter, harus unik</p>
+                        <label for="edit_nama_barang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nama Barang <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama_barang" id="edit_nama_barang" required maxlength="100" placeholder="Contoh: Telur Ayam" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Maksimal 100 karakter, harus unik</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_kategori_barang" class="block text-sm font-medium text-gray-700 mb-1">Kategori <span class="text-red-500">*</span></label>
-                        <select name="kategori_barang" id="edit_kategori_barang" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <label for="edit_kategori_barang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kategori <span class="text-red-500">*</span></label>
+                        <select name="kategori_barang" id="edit_kategori_barang" required class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
                             <option value="Telur">Telur</option>
                             <option value="Pakan">Pakan</option>
                             <option value="Vitamin">Vitamin</option>
@@ -177,13 +177,13 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_sku" class="block text-sm font-medium text-gray-700 mb-1">SKU / Kode</label>
-                        <input type="text" name="sku" id="edit_sku" maxlength="50" placeholder="Contoh: TLR-001" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                        <p class="mt-1 text-sm text-gray-500">Opsional, harus unik jika diisi</p>
+                        <label for="edit_sku" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">SKU / Kode</label>
+                        <input type="text" name="sku" id="edit_sku" maxlength="50" placeholder="Contoh: TLR-001" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Opsional, harus unik jika diisi</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_satuan" class="block text-sm font-medium text-gray-700 mb-1">Satuan <span class="text-red-500">*</span></label>
-                        <select name="satuan" id="edit_satuan" required class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <label for="edit_satuan" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Satuan <span class="text-red-500">*</span></label>
+                        <select name="satuan" id="edit_satuan" required class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
                             <option value="butir">Butir</option>
                             <option value="kg">Kilogram (kg)</option>
                             <option value="karung">Karung</option>
@@ -194,22 +194,22 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Stok Saat Ini</label>
-                        <input type="text" id="edit_stok_display" disabled class="w-full rounded-lg border-gray-300 shadow-sm text-sm bg-gray-100 cursor-not-allowed text-gray-500">
-                        <p class="mt-1 text-sm text-gray-500">Stok hanya berubah via transaksi/opname</p>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stok Saat Ini</label>
+                        <input type="text" id="edit_stok_display" disabled class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm text-sm bg-gray-100 dark:bg-gray-700 cursor-not-allowed text-gray-500 dark:text-gray-400">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Stok hanya berubah via transaksi/opname</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_stok_minimum" class="block text-sm font-medium text-gray-700 mb-1">Stok Minimum <span class="text-red-500">*</span></label>
-                        <input type="number" name="stok_minimum" id="edit_stok_minimum" required min="0" placeholder="0" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
-                        <p class="mt-1 text-sm text-gray-500">Batas alert stok kritis</p>
+                        <label for="edit_stok_minimum" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stok Minimum <span class="text-red-500">*</span></label>
+                        <input type="number" name="stok_minimum" id="edit_stok_minimum" required min="0" placeholder="0" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm">
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Batas alert stok kritis</p>
                     </div>
                     <div class="mb-4">
-                        <label for="edit_harga" class="block text-sm font-medium text-gray-700 mb-1">Harga Default <span class="text-red-500">*</span></label>
+                        <label for="edit_harga" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Harga Default <span class="text-red-500">*</span></label>
                         <div class="relative rounded-md shadow-sm">
-                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="text-gray-500 sm:text-sm">Rp</span></div>
-                            <input type="number" name="harga" id="edit_harga" required min="0" placeholder="0" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-12">
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"><span class="text-gray-500 dark:text-gray-400 sm:text-sm">Rp</span></div>
+                            <input type="number" name="harga" id="edit_harga" required min="0" placeholder="0" class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-12">
                         </div>
-                        <p class="mt-1 text-sm text-gray-500">Harga satuan default</p>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Harga satuan default</p>
                     </div>
                 </div>
                 <div class="flex items-center space-x-8 mt-2" x-data="{ jual: false, beli: false }" x-ref="editToggles">
@@ -218,22 +218,22 @@
                         <button type="button" role="switch" :aria-checked="jual.toString()" @click="jual = !jual"
                             class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                             :class="jual ? 'bg-indigo-600' : 'bg-gray-200'">
-                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" :class="jual ? 'translate-x-5' : 'translate-x-0'"></span>
+                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out" :class="jual ? 'translate-x-5' : 'translate-x-0'"></span>
                         </button>
-                        <label class="ml-3 block text-sm font-medium text-gray-700 cursor-pointer" @click="jual = !jual">Dapat Dijual</label>
+                        <label class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer" @click="jual = !jual">Dapat Dijual</label>
                     </div>
                     <div class="flex items-center">
                         <input type="hidden" name="dapat_dibeli" :value="beli ? '1' : '0'">
                         <button type="button" role="switch" :aria-checked="beli.toString()" @click="beli = !beli"
                             class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
                             :class="beli ? 'bg-indigo-600' : 'bg-gray-200'">
-                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" :class="beli ? 'translate-x-5' : 'translate-x-0'"></span>
+                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out" :class="beli ? 'translate-x-5' : 'translate-x-0'"></span>
                         </button>
-                        <label class="ml-3 block text-sm font-medium text-gray-700 cursor-pointer" @click="beli = !beli">Dapat Dibeli</label>
+                        <label class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer" @click="beli = !beli">Dapat Dibeli</label>
                     </div>
                 </div>
             </x-form-section>
-            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+            <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-edit-barang')">Batal</x-button>
                 <x-button variant="primary" type="submit">
                     <svg class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>

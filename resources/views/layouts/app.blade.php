@@ -11,14 +11,19 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
 
+    <!-- Prevent dark mode flash (runs before CSS/JS load) -->
+    <script>
+        if (localStorage.getItem('darkMode') === 'true' ||
+            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    <!-- Alpine (Fallback if not in app.js via Vite) -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body class="font-sans antialiased text-gray-900 bg-gray-100" x-data="{ sidebarOpen: false }">
-    <div class="flex min-h-screen bg-gray-100">
+<body class="font-sans antialiased text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 dark:text-gray-100" x-data="darkMode()">
+    <div class="flex min-h-screen">
         
         <!-- Sidebar -->
         @include('layouts.sidebar')
@@ -49,7 +54,6 @@
         </div>
     </div>
     <!-- UI Polish Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('js/form-handler.js') }}"></script>
     <script src="{{ asset('js/rupiah-formatter.js') }}"></script>
     @yield('scripts')
