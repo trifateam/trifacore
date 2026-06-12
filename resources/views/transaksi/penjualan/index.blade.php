@@ -13,7 +13,7 @@
         
         {{-- Penjualan Telur --}}
         <a href="{{ route('transaksi.penjualan.create', ['jenis' => 'telur']) }}" class="group block h-full">
-            <x-card class="h-full flex flex-col items-center justify-center p-8 text-center border-2 border-transparent hover:border-amber-400 hover:shadow-xl transition-all duration-300 bg-gradient-to-b from-white to-amber-50">
+            <x-card class="h-full flex flex-col items-center justify-center p-8 text-center border border-gray-200 dark:border-gray-700 hover:border-amber-400 dark:hover:border-amber-500 hover:shadow-xl transition-all duration-300">
                 <div class="w-20 h-20 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <span class="text-4xl">🥚</span>
                 </div>
@@ -30,7 +30,7 @@
 
         {{-- Penjualan Ayam Afkir --}}
         <a href="{{ route('transaksi.penjualan.create', ['jenis' => 'afkir']) }}" class="group block h-full">
-            <x-card class="h-full flex flex-col items-center justify-center p-8 text-center border-2 border-transparent hover:border-red-400 hover:shadow-xl transition-all duration-300 bg-gradient-to-b from-white to-red-50">
+            <x-card class="h-full flex flex-col items-center justify-center p-8 text-center border border-gray-200 dark:border-gray-700 hover:border-red-400 dark:hover:border-red-500 hover:shadow-xl transition-all duration-300">
                 <div class="w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <span class="text-4xl">🐔</span>
                 </div>
@@ -47,7 +47,7 @@
 
         {{-- Penjualan Pupuk --}}
         <a href="{{ route('transaksi.penjualan.create', ['jenis' => 'pupuk']) }}" class="group block h-full">
-            <x-card class="h-full flex flex-col items-center justify-center p-8 text-center border-2 border-transparent hover:border-emerald-400 hover:shadow-xl transition-all duration-300 bg-gradient-to-b from-white to-emerald-50">
+            <x-card class="h-full flex flex-col items-center justify-center p-8 text-center border border-gray-200 dark:border-gray-700 hover:border-emerald-400 dark:hover:border-emerald-500 hover:shadow-xl transition-all duration-300">
                 <div class="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-900/50 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                     <span class="text-4xl">💩</span>
                 </div>
