@@ -29,10 +29,6 @@ Alpine.data('darkMode', () => ({
 window.Alpine = Alpine;
 Alpine.start();
 
-// Chart.js
-import Chart from 'chart.js/auto';
-window.Chart = Chart;
-
-// SweetAlert2
-import Swal from 'sweetalert2';
-window.Swal = Swal;
+// Heavy libraries — loaded async AFTER Alpine is ready (non-blocking)
+import('chart.js/auto').then(m => { window.Chart = m.default; });
+import('sweetalert2').then(m => { window.Swal = m.default; });

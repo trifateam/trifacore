@@ -79,7 +79,7 @@ class RiwayatPenjualanController extends Controller
                 'id' => $p->id_penjualan,
                 'no_faktur' => $p->no_faktur_jual,
                 'tanggal' => \Carbon\Carbon::parse($p->tanggal_penjualan)->translatedFormat('d M Y H:i'),
-                'pelanggan' => $p->pelanggan->nama_pelanggan,
+                'pelanggan' => $p->pelanggan->nama_lengkap,
                 'kasir' => $p->pengguna->nama_lengkap,
                 'kategori' => strtoupper($p->kategori_penjualan),
                 'total' => $p->total_harga,

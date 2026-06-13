@@ -52,7 +52,7 @@
     </button>
 
     {{-- Dropdown Content --}}
-    <div x-show="open" x-collapse x-cloak>
+    <div x-show="open" x-collapse {{ $defaultOpen ? '' : 'x-cloak' }}>
         <div class="sidebar-dropdown-content">
             {{ $slot }}
         </div>

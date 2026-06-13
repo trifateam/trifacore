@@ -33,7 +33,7 @@
                     <select name="id_pelanggan" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                         <option value="">-- Semua Pelanggan --</option>
                         @foreach($pelanggans as $p)
-                            <option value="{{ $p->id_pelanggan }}" {{ request('id_pelanggan') == $p->id_pelanggan ? 'selected' : '' }}>{{ $p->nama_pelanggan }}</option>
+                            <option value="{{ $p->id_pelanggan }}" {{ request('id_pelanggan') == $p->id_pelanggan ? 'selected' : '' }}>{{ $p->nama_lengkap }}</option>
                         @endforeach
                     </select>
                 </div>

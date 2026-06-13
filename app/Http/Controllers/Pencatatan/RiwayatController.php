@@ -13,7 +13,6 @@ use App\Models\SuhuKandang;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Auth;
 
 class RiwayatController extends Controller
 {
@@ -62,13 +61,16 @@ class RiwayatController extends Controller
                 });
             }
             $pakan = $query->get()->map(function ($item) {
-                $waktuStr = $item->waktu_pemberian ? " {$item->waktu_pemberian}" : " 00:00:00";
+                $waktu = Carbon::parse($item->tanggal_konsumsi)->startOfDay();
+                if ($item->waktu_pemberian) {
+                    $waktu->setTimeFromTimeString($item->waktu_pemberian);
+                }
                 return [
                     'id' => $item->id_konsumsi,
                     'type' => 'pakan',
                     'type_label' => 'Konsumsi Pakan',
                     'badge_variant' => 'info',
-                    'waktu' => Carbon::parse($item->tanggal_konsumsi . $waktuStr),
+                    'waktu' => $waktu,
                     'kandang_nama' => $item->batch->kandang->nama_kandang ?? '-',
                     'batch_nama' => $item->batch->nama_batch ?? '-',
                     'ringkasan' => ($item->barang->nama_barang ?? 'Pakan') . ": " . number_format($item->jumlah_pakan_kg, 2) . " kg",
@@ -88,14 +90,17 @@ class RiwayatController extends Controller
                 });
             }
             $vitamin = $query->get()->map(function ($item) {
-                $waktuStr = $item->waktu_pemberian ? " {$item->waktu_pemberian}" : " 00:00:00";
+                $waktu = Carbon::parse($item->tanggal_konsumsi)->startOfDay();
+                if ($item->waktu_pemberian) {
+                    $waktu->setTimeFromTimeString($item->waktu_pemberian);
+                }
                 $metode = $item->metode_pemberian ? ", metode: {$item->metode_pemberian}" : "";
                 return [
                     'id' => $item->id_konsumsi_vitamin,
                     'type' => 'vitamin',
                     'type_label' => 'Konsumsi Vitamin',
                     'badge_variant' => 'info',
-                    'waktu' => Carbon::parse($item->tanggal_konsumsi . $waktuStr),
+                    'waktu' => $waktu,
                     'kandang_nama' => $item->batch->kandang->nama_kandang ?? '-',
                     'batch_nama' => $item->batch->nama_batch ?? '-',
                     'ringkasan' => ($item->barang->nama_barang ?? 'Vitamin') . ": " . number_format($item->dosis, 2) . " dosis{$metode}",
@@ -193,61 +198,5 @@ class RiwayatController extends Controller
 
         return view('pencatatan.riwayat.index', compact('paginatedItems', 'kandangs', 'date', 'kandangId', 'typeFilter'));
     }
-
-    public function destroy(Request $request, $type, $id)
-    {
-        // Fitur hapus hanya untuk Admin
-        if (!Auth::user()->hasRole('Admin')) {
-            abort(403, 'Hanya Admin yang dapat menghapus data.');
-        }
-
-        $request->validate([
-            'alasan' => 'required|string|max:255',
-        ]);
-
-        try {
-            $info = '';
-            switch ($type) {
-                case 'telur':
-                    $record = ProduksiTelur::findOrFail($id);
-                    $info = "Produksi Telur ({$record->kode_produksi})";
-                    $record->delete();
-                    break;
-                case 'pakan':
-                    $record = KonsumsiPakan::findOrFail($id);
-                    $info = "Konsumsi Pakan ({$record->kode_pakan})";
-                    $record->delete();
-                    break;
-                case 'vitamin':
-                    $record = KonsumsiVitamin::findOrFail($id);
-                    $info = "Konsumsi Vitamin ({$record->kode_vitamin})";
-                    $record->delete();
-                    break;
-                case 'deplesi':
-                    $record = Deplesi::findOrFail($id);
-                    $info = "Deplesi ({$record->kode_deplesi})";
-                    $record->delete();
-                    break;
-                case 'suhu':
-                    $record = SuhuKandang::findOrFail($id);
-                    $info = "Suhu Kandang ({$record->kode_suhu})";
-                    $record->delete();
-                    break;
-                case 'pupuk':
-                    $record = ProduksiPupukKandang::findOrFail($id);
-                    $info = "Produksi Pupuk ({$record->kode_pupuk})";
-                    $record->delete();
-                    break;
-                default:
-                    throw new \Exception('Jenis pencatatan tidak valid.');
-            }
-
-            \App\Services\AuditService::log("Menghapus pencatatan {$info}. Alasan: {$request->alasan}");
-
-            return back()->with('success', "Pencatatan {$info} berhasil dihapus.");
-
-        } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
-        }
-    }
 }
+
