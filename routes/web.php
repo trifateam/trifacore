@@ -83,7 +83,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/pupuk/{kandang}/create', [ProduksiPupukController::class, 'create'])->name('pupuk.create');
         Route::post('/pupuk/{kandang}', [ProduksiPupukController::class, 'store'])->name('pupuk.store');
         Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
-        Route::delete('/riwayat/{type}/{id}', [RiwayatController::class, 'destroy'])->name('riwayat.destroy');
     });
 
     // ── Manajemen Transaksi: Admin, Owner, Sales ──

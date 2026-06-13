@@ -7,6 +7,9 @@
 /* Tailwind CSS */
 @import 'tailwindcss';
 
+/* Alpine.js x-cloak support (Tailwind v4 no longer includes this automatically) */
+[x-cloak] { display: none !important; }
+
 /* Tailwind Plugins */
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/typography";

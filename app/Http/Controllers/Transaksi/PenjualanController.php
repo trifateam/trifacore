@@ -58,9 +58,11 @@ class PenjualanController extends Controller
             // Untuk ayam afkir, kita perlu data kandang untuk update populasi
             $kandangs = Kandang::where('is_active', true)->get();
             // Cari master data untuk Ayam Afkir
-            $barangs = Barang::where('kategori_barang', 'Ayam')
-                ->orWhere('nama_barang', 'like', '%Afkir%')
-                ->where('dapat_dijual', true)
+            $barangs = Barang::where('dapat_dijual', true)
+                ->where(function ($query) {
+                    $query->where('kategori_barang', 'Ayam')
+                          ->orWhere('nama_barang', 'like', '%Afkir%');
+                })
                 ->get();
                 
             if ($barangs->isEmpty()) {

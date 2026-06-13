@@ -64,7 +64,7 @@
                                     <option value="">-- Pilih Pelanggan --</option>
                                     @foreach($pelanggans as $p)
                                         <option value="{{ $p->id_pelanggan }}" {{ old('id_pelanggan') == $p->id_pelanggan ? 'selected' : '' }}>
-                                            {{ $p->nama_pelanggan }} ({{ $p->tipe_pelanggan }})
+                                            {{ $p->nama_lengkap }} ({{ $p->kategori ?? 'Umum' }})
                                         </option>
                                     @endforeach
                                 </select>

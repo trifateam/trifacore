@@ -37,7 +37,7 @@
                                     <option value="">-- Pilih Supplier --</option>
                                     @foreach($suppliers as $s)
                                         <option value="{{ $s->id_supplier }}" {{ old('id_supplier') == $s->id_supplier ? 'selected' : '' }}>
-                                            {{ $s->nama_supplier }} ({{ $s->kontak }})
+                                            {{ $s->nama_supplier }} ({{ $s->kontak_supplier ?? '-' }})
                                         </option>
                                     @endforeach
                                 </select>
