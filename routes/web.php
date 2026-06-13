@@ -27,7 +27,7 @@ use App\Http\Controllers\Pencatatan\KonsumsiPakanController;
 use App\Http\Controllers\Pencatatan\KonsumsiVitaminController;
 use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
-use App\Http\Controllers\Pencatatan\RiwayatController;
+use App\Http\Controllers\Pencatatan\RiwayatPencatatanController;
 use App\Http\Controllers\Pencatatan\SuhuKandangController;
 use App\Http\Controllers\RiwayatAktivitasController;
 use App\Http\Controllers\Transaksi\PembelianController;
@@ -82,7 +82,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/pupuk', [ProduksiPupukController::class, 'index'])->name('pupuk.index');
         Route::get('/pupuk/{kandang}/create', [ProduksiPupukController::class, 'create'])->name('pupuk.create');
         Route::post('/pupuk/{kandang}', [ProduksiPupukController::class, 'store'])->name('pupuk.store');
-        Route::get('/riwayat', [RiwayatController::class, 'index'])->name('riwayat.index');
+        // Riwayat per-tabel
+        Route::prefix('riwayat')->name('riwayat.')->group(function () {
+            Route::get('/produksi-telur', [RiwayatPencatatanController::class, 'produksiTelur'])->name('produksi-telur');
+            Route::get('/konsumsi-pakan', [RiwayatPencatatanController::class, 'konsumsiPakan'])->name('konsumsi-pakan');
+            Route::get('/konsumsi-vitamin', [RiwayatPencatatanController::class, 'konsumsiVitamin'])->name('konsumsi-vitamin');
+            Route::get('/deplesi', [RiwayatPencatatanController::class, 'deplesi'])->name('deplesi');
+            Route::get('/suhu', [RiwayatPencatatanController::class, 'suhuKandang'])->name('suhu');
+            Route::get('/pupuk', [RiwayatPencatatanController::class, 'produksiPupuk'])->name('pupuk');
+        });
     });
 
     // ── Manajemen Transaksi: Admin, Owner, Sales ──
