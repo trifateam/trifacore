@@ -23,13 +23,26 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15a2.25 2.25 0 012.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
                 </svg>
             </x-slot:icon>
-            <x-sidebar-nav-item href="/pencatatan/produksi-telur" :active="request()->is('pencatatan/produksi-telur')">Produksi Telur</x-sidebar-nav-item>
-            <x-sidebar-nav-item href="/pencatatan/konsumsi-pakan" :active="request()->is('pencatatan/konsumsi-pakan')">Konsumsi Pakan</x-sidebar-nav-item>
-            <x-sidebar-nav-item href="/pencatatan/konsumsi-vitamin" :active="request()->is('pencatatan/konsumsi-vitamin*')">Konsumsi Vitamin</x-sidebar-nav-item>
-            <x-sidebar-nav-item href="/pencatatan/deplesi" :active="request()->is('pencatatan/deplesi*')">Kematian/Afkir (Deplesi)</x-sidebar-nav-item>
-            <x-sidebar-nav-item href="/pencatatan/suhu" :active="request()->is('pencatatan/suhu*')">Suhu Lingkungan</x-sidebar-nav-item>
-            <x-sidebar-nav-item href="/pencatatan/pupuk" :active="request()->is('pencatatan/pupuk*')">Produksi Pupuk</x-sidebar-nav-item>
-            <x-sidebar-nav-item href="/pencatatan/riwayat" :active="request()->is('pencatatan/riwayat*')">Riwayat Recording</x-sidebar-nav-item>
+
+            {{-- Sub-group: Pencatatan --}}
+            <x-sidebar-nested-dropdown label="Pencatatan" :active="request()->is('pencatatan/produksi-telur*') || request()->is('pencatatan/konsumsi-pakan*') || request()->is('pencatatan/konsumsi-vitamin*') || request()->is('pencatatan/deplesi*') || request()->is('pencatatan/suhu*') || request()->is('pencatatan/pupuk*')">
+                <x-sidebar-nav-item href="/pencatatan/produksi-telur" :active="request()->is('pencatatan/produksi-telur*')">Produksi Telur</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/konsumsi-pakan" :active="request()->is('pencatatan/konsumsi-pakan*')">Konsumsi Pakan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/konsumsi-vitamin" :active="request()->is('pencatatan/konsumsi-vitamin*')">Konsumsi Vitamin</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/deplesi" :active="request()->is('pencatatan/deplesi*')">Kematian/Afkir (Deplesi)</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/suhu" :active="request()->is('pencatatan/suhu*')">Suhu Lingkungan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/pupuk" :active="request()->is('pencatatan/pupuk*')">Produksi Pupuk</x-sidebar-nav-item>
+            </x-sidebar-nested-dropdown>
+
+            {{-- Sub-group: Riwayat --}}
+            <x-sidebar-nested-dropdown label="Riwayat" :active="request()->is('pencatatan/riwayat/*')" :defaultOpen="request()->is('pencatatan/riwayat/*')">
+                <x-sidebar-nav-item href="/pencatatan/riwayat/produksi-telur" :active="request()->is('pencatatan/riwayat/produksi-telur')">Produksi Telur</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/riwayat/konsumsi-pakan" :active="request()->is('pencatatan/riwayat/konsumsi-pakan')">Konsumsi Pakan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/riwayat/konsumsi-vitamin" :active="request()->is('pencatatan/riwayat/konsumsi-vitamin')">Konsumsi Vitamin</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/riwayat/deplesi" :active="request()->is('pencatatan/riwayat/deplesi')">Deplesi</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/riwayat/suhu" :active="request()->is('pencatatan/riwayat/suhu')">Suhu Kandang</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/riwayat/pupuk" :active="request()->is('pencatatan/riwayat/pupuk')">Produksi Pupuk</x-sidebar-nav-item>
+            </x-sidebar-nested-dropdown>
         </x-sidebar-dropdown>
         @endrole
 
