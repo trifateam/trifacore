@@ -23,7 +23,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-900 dark:text-gray-100" x-data="darkMode()">
-    <div class="flex min-h-screen">
+    <div class="min-h-screen">
         
         <!-- Sidebar -->
         @include('layouts.sidebar')
@@ -41,7 +41,7 @@
              style="display: none;"></div>
 
         <!-- Content Area -->
-        <div class="flex-1 flex flex-col min-h-screen w-full md:ml-64 transition-all duration-300">
+        <div class="flex flex-col min-h-screen md:ml-[320px] transition-all duration-300">
             <!-- Navbar -->
             @include('layouts.navbar')
 

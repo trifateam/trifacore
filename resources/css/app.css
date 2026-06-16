@@ -122,16 +122,16 @@
 .dark .sidebar-nav-dot-default { background: #4b5563; }
 .sidebar-nav-item-default:hover .sidebar-nav-dot-default { background: #9ca3af; }
 
-.sidebar-timestamp { @apply shrink-0 px-4 py-3; border-top: 1px solid #f1f5f9; background: #fafbfc; }
-.dark .sidebar-timestamp { border-top-color: #334155; background: #1a2332; }
-.sidebar-timestamp-inner { @apply flex items-center gap-3; }
-.sidebar-timestamp-icon { @apply w-8 h-8 rounded-lg flex items-center justify-center shrink-0; background: #f1f5f9; color: #94a3b8; }
-.dark .sidebar-timestamp-icon { background: #334155; color: #64748b; }
+.sidebar-timestamp { @apply shrink-0 px-2 py-1; }
+.dark .sidebar-timestamp { }
+.sidebar-timestamp-inner { @apply flex items-center gap-2; }
+.sidebar-timestamp-icon { @apply w-7 h-7 rounded-lg flex items-center justify-center shrink-0; background: #f1f5f9; color: #94a3b8; }
+.dark .sidebar-timestamp-icon { background: #374151; color: #9ca3af; }
 .sidebar-timestamp-content { @apply flex flex-col leading-tight; }
-.sidebar-timestamp-date { @apply text-xs font-medium text-gray-600; }
-.dark .sidebar-timestamp-date { @apply text-gray-300; }
-.sidebar-timestamp-time { @apply text-[11px] font-mono tabular-nums; color: #94a3b8; }
-.dark .sidebar-timestamp-time { color: #64748b; }
+.sidebar-timestamp-date { @apply text-[10px] font-medium text-gray-500 uppercase tracking-wider; }
+.dark .sidebar-timestamp-date { @apply text-gray-400; }
+.sidebar-timestamp-time { @apply text-xs font-mono font-bold tabular-nums text-gray-700; }
+.dark .sidebar-timestamp-time { @apply text-gray-200; }
 
 /* ═══════════════════════════════════════
    TABLE DARK MODE
