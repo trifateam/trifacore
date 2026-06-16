@@ -174,22 +174,12 @@
                         {{-- Aksi --}}
                         <td class="px-4 py-3 whitespace-nowrap text-sm">
                             @if($h->status_hutang !== 'Lunas')
-                                <x-button 
-                                    variant="success" 
-                                    size="sm" 
-                                    icon="banknotes"
-                                    @click="
-                                        $dispatch('open-modal-pelunasan-utang');
-                                        hutangId = {{ $h->id_hutang }};
-                                        noNota = '{{ $h->pembelian->no_faktur_beli ?? '-' }}';
-                                        supplierName = '{{ addslashes($h->pembelian->supplier->nama_supplier ?? '-') }}';
-                                        totalUtang = '{{ number_format($h->jumlah_hutang, 0, ',', '.') }}';
-                                        sisaUtang = {{ $h->sisa_hutang }};
-                                        sisaUtangFormatted = '{{ number_format($h->sisa_hutang, 0, ',', '.') }}';
-                                    "
-                                >
+                                <a href="{{ route('keuangan.buku-utang.lunasi.form', $h->id_hutang) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-bold rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors">
+                                    <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
                                     Lunasi
-                                </x-button>
+                                </a>
                             @else
                                 <span class="text-xs text-gray-400 italic">Lunas</span>
                             @endif
@@ -215,135 +205,4 @@
         @endif
     </x-card>
 
-    {{-- ══════════════════════════════════════════ --}}
-    {{-- MODAL PELUNASAN UTANG                     --}}
-    {{-- ══════════════════════════════════════════ --}}
-    <div x-data="{
-        hutangId: null,
-        noNota: '',
-        supplierName: '',
-        totalUtang: '',
-        sisaUtang: 0,
-        sisaUtangFormatted: '',
-        nominal: '',
-        saldoWarning: false,
-        
-        checkSaldo() {
-            const selectedOption = document.querySelector('#modal_id_akun option:checked');
-            if (selectedOption && selectedOption.dataset.saldo && this.nominal) {
-                const saldo = parseFloat(selectedOption.dataset.saldo);
-                this.saldoWarning = parseFloat(this.nominal) > saldo;
-            } else {
-                this.saldoWarning = false;
-            }
-        },
-        
-        validateNominal() {
-            if (parseFloat(this.nominal) > this.sisaUtang) {
-                this.nominal = this.sisaUtang;
-            }
-            this.checkSaldo();
-        }
-    }">
-        <x-modal id="pelunasan-utang" title="Pelunasan Utang" size="lg">
-            {{-- Info Readonly --}}
-            <div class="space-y-3 mb-6">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">No. Nota</label>
-                        <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100" x-text="noNota"></p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Supplier</label>
-                        <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100" x-text="supplierName"></p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Utang</label>
-                        <p class="mt-1 text-sm font-bold text-gray-700 dark:text-gray-300">Rp <span x-text="totalUtang"></span></p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Sisa Utang</label>
-                        <p class="mt-1 text-sm font-bold text-red-600 dark:text-red-500">Rp <span x-text="sisaUtangFormatted"></span></p>
-                    </div>
-                </div>
-            </div>
-
-            <hr class="mb-4 border-gray-200 dark:border-gray-700">
-
-            {{-- Form Pelunasan --}}
-            <form :action="'/keuangan/buku-utang/lunasi/' + hutangId" method="POST" class="space-y-4">
-                @csrf
-
-                <div>
-                    <label for="modal_nominal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Nominal Pelunasan <span class="text-red-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">Rp</span>
-                        </div>
-                        <input 
-                            type="number" 
-                            name="nominal" 
-                            id="modal_nominal"
-                            x-model="nominal"
-                            @input="validateNominal()"
-                            min="1"
-                            :max="sisaUtang"
-                            required
-                            placeholder="Masukkan nominal..."
-                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-10 font-bold"
-                        >
-                    </div>
-                    <div class="flex justify-between mt-1">
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Maks: Rp <span x-text="sisaUtangFormatted"></span></p>
-                        <button type="button" @click="nominal = sisaUtang; checkSaldo();" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
-                            Lunasi Semua
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="modal_id_akun" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Dari Rekening/Kas <span class="text-red-500">*</span>
-                    </label>
-                    <select 
-                        name="id_akun" 
-                        id="modal_id_akun" 
-                        required
-                        @change="checkSaldo()"
-                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                    >
-                        <option value="">-- Pilih Rekening --</option>
-                        @foreach($akunKas as $akun)
-                            <option value="{{ $akun->id_akun }}" data-saldo="{{ $akun->saldo }}">
-                                {{ $akun->nama_akun }} (Saldo: @rupiah($akun->saldo))
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                {{-- Saldo Warning --}}
-                <div x-show="saldoWarning" x-transition class="rounded-lg p-3 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800">
-                    <div class="flex items-center">
-                        <svg class="w-5 h-5 text-amber-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        <p class="text-sm text-amber-700 dark:text-amber-400 font-medium">Saldo rekening tidak mencukupi untuk nominal ini.</p>
-                    </div>
-                </div>
-
-                <x-slot:footer>
-                    <x-button variant="secondary" type="button" @click="$dispatch('close-modal-pelunasan-utang')">
-                        Batal
-                    </x-button>
-                    <x-button variant="success" type="submit" icon="check-circle">
-                        Proses Pelunasan
-                    </x-button>
-                </x-slot:footer>
-            </form>
-        </x-modal>
-    </div>
 @endsection

@@ -65,6 +65,22 @@ class BukuPiutangController extends Controller
     }
 
     /**
+     * Tampilkan form pelunasan piutang di halaman penuh.
+     */
+    public function showLunasiForm($piutang)
+    {
+        $piutang = Piutang::with('penjualan.pelanggan')->findOrFail($piutang);
+
+        if ($piutang->status_piutang === 'Lunas') {
+            return redirect()->route('keuangan.buku-piutang')->with('error', 'Piutang ini sudah lunas.');
+        }
+
+        $akunKas = AkunKas::where('is_active', true)->get();
+
+        return view('keuangan.buku-piutang.lunasi', compact('piutang', 'akunKas'));
+    }
+
+    /**
      * Proses pelunasan piutang (partial atau full).
      * Uang MASUK ke kas (saldo bertambah).
      */

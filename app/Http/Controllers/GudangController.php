@@ -94,6 +94,16 @@ class GudangController extends Controller
     }
 
     /**
+     * Tampilkan form stock opname di halaman penuh.
+     */
+    public function showAdjustForm($id_barang)
+    {
+        $barang = Barang::findOrFail($id_barang);
+
+        return view('gudang.adjust', compact('barang'));
+    }
+
+    /**
      * Proses penyesuaian stok (Stock Opname)
      */
     public function adjust(Request $request, $id_barang)

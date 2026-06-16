@@ -65,6 +65,22 @@ class BukuUtangController extends Controller
     }
 
     /**
+     * Tampilkan form pelunasan utang di halaman penuh.
+     */
+    public function showLunasiForm($hutang)
+    {
+        $hutang = Hutang::with('pembelian.supplier')->findOrFail($hutang);
+
+        if ($hutang->status_hutang === 'Lunas') {
+            return redirect()->route('keuangan.buku-utang')->with('error', 'Utang ini sudah lunas.');
+        }
+
+        $akunKas = AkunKas::where('is_active', true)->get();
+
+        return view('keuangan.buku-utang.lunasi', compact('hutang', 'akunKas'));
+    }
+
+    /**
      * Proses pelunasan utang (partial atau full).
      */
     public function lunasi(Request $request, $hutang)
