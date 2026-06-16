@@ -175,20 +175,12 @@
                         <td class="px-4 py-3 whitespace-nowrap text-sm">
                             @if($p->status_piutang !== 'Lunas')
                                 <x-button 
-                                    variant="primary" 
+                                    variant="warning" 
                                     size="sm" 
                                     icon="banknotes"
-                                    @click="
-                                        $dispatch('open-modal-pelunasan-piutang');
-                                        piutangId = {{ $p->id_piutang }};
-                                        noNota = '{{ $p->penjualan->no_faktur_jual ?? '-' }}';
-                                        pelangganName = '{{ addslashes($p->penjualan->pelanggan->nama_lengkap ?? '-') }}';
-                                        totalPiutang = '{{ number_format($p->jumlah_piutang, 0, ',', '.') }}';
-                                        sisaPiutang = {{ $p->sisa_piutang }};
-                                        sisaPiutangFormatted = '{{ number_format($p->sisa_piutang, 0, ',', '.') }}';
-                                    "
+                                    href="{{ route('keuangan.buku-piutang.lunasi.form', $p->id_piutang) }}"
                                 >
-                                    Lunasi
+                                    Bayar
                                 </x-button>
                             @else
                                 <span class="text-xs text-gray-400 italic">Lunas</span>
@@ -215,115 +207,4 @@
         @endif
     </x-card>
 
-    {{-- ══════════════════════════════════════════ --}}
-    {{-- MODAL PELUNASAN PIUTANG                   --}}
-    {{-- ══════════════════════════════════════════ --}}
-    <div x-data="{
-        piutangId: null,
-        noNota: '',
-        pelangganName: '',
-        totalPiutang: '',
-        sisaPiutang: 0,
-        sisaPiutangFormatted: '',
-        nominal: '',
-        
-        validateNominal() {
-            if (parseFloat(this.nominal) > this.sisaPiutang) {
-                this.nominal = this.sisaPiutang;
-            }
-        }
-    }">
-        <x-modal id="pelunasan-piutang" title="Pelunasan Piutang" size="lg">
-            {{-- Info Readonly --}}
-            <div class="space-y-3 mb-6">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">No. Nota</label>
-                        <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100" x-text="noNota"></p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Pelanggan</label>
-                        <p class="mt-1 text-sm font-semibold text-gray-900 dark:text-gray-100" x-text="pelangganName"></p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Total Piutang</label>
-                        <p class="mt-1 text-sm font-bold text-gray-700 dark:text-gray-300">Rp <span x-text="totalPiutang"></span></p>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Sisa Piutang</label>
-                        <p class="mt-1 text-sm font-bold text-blue-600 dark:text-blue-500">Rp <span x-text="sisaPiutangFormatted"></span></p>
-                    </div>
-                </div>
-            </div>
-
-            <hr class="mb-4 border-gray-200 dark:border-gray-700">
-
-            {{-- Form Pelunasan --}}
-            <form :action="'/keuangan/buku-piutang/lunasi/' + piutangId" method="POST" class="space-y-4">
-                @csrf
-
-                <div>
-                    <label for="modal_nominal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Nominal Pelunasan <span class="text-red-500">*</span>
-                    </label>
-                    <div class="relative">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">Rp</span>
-                        </div>
-                        <input 
-                            type="number" 
-                            name="nominal" 
-                            id="modal_nominal"
-                            x-model="nominal"
-                            @input="validateNominal()"
-                            min="1"
-                            :max="sisaPiutang"
-                            required
-                            placeholder="Masukkan nominal..."
-                            class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm pl-10 font-bold"
-                        >
-                    </div>
-                    <div class="flex justify-between mt-1">
-                        <p class="text-xs text-gray-500 dark:text-gray-400">Maks: Rp <span x-text="sisaPiutangFormatted"></span></p>
-                        <button type="button" @click="nominal = sisaPiutang" class="text-xs text-indigo-600 hover:text-indigo-800 font-medium">
-                            Lunasi Semua
-                        </button>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="modal_id_akun" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Masuk ke Rekening/Kas <span class="text-red-500">*</span>
-                    </label>
-                    <select 
-                        name="id_akun" 
-                        id="modal_id_akun" 
-                        required
-                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                    >
-                        <option value="">-- Pilih Rekening --</option>
-                        @foreach($akunKas as $akun)
-                            <option value="{{ $akun->id_akun }}">
-                                {{ $akun->nama_akun }} (Saldo: @rupiah($akun->saldo))
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="mt-1 text-xs text-emerald-600 dark:text-emerald-500">
-                        💰 Saldo rekening akan bertambah setelah pelunasan.
-                    </p>
-                </div>
-
-                <x-slot:footer>
-                    <x-button variant="secondary" type="button" @click="$dispatch('close-modal-pelunasan-piutang')">
-                        Batal
-                    </x-button>
-                    <x-button variant="primary" type="submit" icon="check-circle">
-                        Proses Pelunasan
-                    </x-button>
-                </x-slot:footer>
-            </form>
-        </x-modal>
-    </div>
 @endsection

@@ -114,6 +114,7 @@ Route::middleware('auth')->group(function () {
     // ── Gudang: Admin, Owner, Pegawai Gudang ──
     Route::middleware('role:Admin,Owner,Pegawai Gudang')->prefix('gudang')->name('gudang.')->group(function () {
         Route::get('/', [GudangController::class, 'index'])->name('index');
+        Route::get('/adjust/{barang}', [GudangController::class, 'showAdjustForm'])->name('adjust.form');
         Route::post('/adjust/{barang}', [GudangController::class, 'adjust'])->name('adjust');
     });
 
@@ -137,8 +138,10 @@ Route::middleware('auth')->group(function () {
             Route::post('/biaya-operasional', [BiayaOperasionalController::class, 'store'])->name('biaya-operasional.store');
             Route::get('/buku-kas', [BukuKasController::class, 'index'])->name('buku-kas');
             Route::get('/buku-utang', [BukuUtangController::class, 'index'])->name('buku-utang');
+            Route::get('/buku-utang/lunasi/{hutang}', [BukuUtangController::class, 'showLunasiForm'])->name('buku-utang.lunasi.form');
             Route::post('/buku-utang/lunasi/{hutang}', [BukuUtangController::class, 'lunasi'])->name('buku-utang.lunasi');
             Route::get('/buku-piutang', [BukuPiutangController::class, 'index'])->name('buku-piutang');
+            Route::get('/buku-piutang/lunasi/{piutang}', [BukuPiutangController::class, 'showLunasiForm'])->name('buku-piutang.lunasi.form');
             Route::post('/buku-piutang/lunasi/{piutang}', [BukuPiutangController::class, 'lunasi'])->name('buku-piutang.lunasi');
         });
 
