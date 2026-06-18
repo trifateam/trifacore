@@ -92,6 +92,13 @@ class DashboardController extends Controller
             ->select('nama_barang', 'stok_barang', 'stok_minimum', 'satuan')
             ->orderByRaw('(stok_minimum - stok_barang) DESC')
             ->get();
+            
+        $pakanKritis = Barang::whereColumn('stok_barang', '<', 'stok_minimum')
+            ->where('stok_minimum', '>', 0)
+            ->where('kategori_barang', 'Pakan')
+            ->select('nama_barang', 'stok_barang', 'stok_minimum', 'satuan')
+            ->orderByRaw('(stok_minimum - stok_barang) DESC')
+            ->get();
 
         return view('dashboard', compact(
             'user',
@@ -107,6 +114,7 @@ class DashboardController extends Controller
             'kasKeluar',
             'kasNet',
             'barangKritis',
+            'pakanKritis',
         ));
     }
 }
