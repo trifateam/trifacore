@@ -9,12 +9,6 @@
         ]" />
     </x-page-header>
 
-    @if(session('success'))
-        <div class="mb-4">
-            <x-alert type="success" :message="session('success')" />
-        </div>
-    @endif
-
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2">
             <x-card title="Konfigurasi Sistem">
