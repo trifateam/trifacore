@@ -178,7 +178,7 @@
                                         <option value="">-- Pilih Rekening --</option>
                                         @foreach($akunKas as $akun)
                                             <option value="{{ $akun->id_akun }}" {{ old('id_akun_kas') == $akun->id_akun ? 'selected' : '' }}>
-                                                {{ $akun->nama_akun }} ({{ $akun->nomor_rekening }})
+                                                {{ $akun->nama_akun }} ({{ $akun->no_rekening }} - a.n. {{ $akun->nama_pemilik }})
                                             </option>
                                         @endforeach
                                     </select>
@@ -189,6 +189,12 @@
                                     <p class="text-xs text-yellow-800">
                                         <span class="font-bold">Info:</span> Transaksi ini akan dicatat sebagai <strong>Piutang</strong> pelanggan. Saldo kas tidak akan bertambah sampai pelunasan dilakukan.
                                     </p>
+                                </div>
+
+                                <div x-show="metodePembayaran === 'PIUTANG'" x-transition>
+                                    <label for="tanggal_jatuh_tempo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal Jatuh Tempo <span class="text-red-500">*</span></label>
+                                    <input type="date" name="tanggal_jatuh_tempo" id="tanggal_jatuh_tempo" :required="metodePembayaran === 'PIUTANG'" value="{{ old('tanggal_jatuh_tempo') }}" class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @error('tanggal_jatuh_tempo') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                                 </div>
 
                                 <hr class="border-gray-200 dark:border-gray-700">

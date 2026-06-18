@@ -69,7 +69,7 @@
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-900 dark:text-gray-100">{{ number_format($item->total_penggunaan, 2) }}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $item->metode_pemberian ?? '-' }}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $item->pengguna->nama_lengkap ?? 'Sistem' }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $item->created_at?->translatedFormat('d M Y H:i') ?? '-' }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $item->created_at?->translatedFormat('d M Y H:i:s') ?? '-' }}</td>
                         </tr>
                     @empty
                         <tr>
