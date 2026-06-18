@@ -41,7 +41,7 @@
              style="display: none;"></div>
 
         <!-- Content Area -->
-        <div class="flex flex-col min-h-screen md:ml-[320px] transition-all duration-300">
+        <div class="flex flex-col min-h-screen md:ml-20 transition-all duration-300">
             <!-- Navbar -->
             @include('layouts.navbar')
 

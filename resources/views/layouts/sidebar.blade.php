@@ -1,5 +1,7 @@
 <aside x-data="sidebarManager()"
-       class="fixed left-0 top-0 h-screen z-30 transition-transform duration-300 flex"
+       @mouseenter="handleSidebarEnter"
+       @mouseleave="handleSidebarLeave"
+       class="fixed left-0 top-0 h-screen z-30 flex"
        :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'">
 
     {{-- ═══════════════════════════════════════════════════════════ --}}
@@ -9,7 +11,8 @@
         
         {{-- Dashboard --}}
         <a href="/dashboard" 
-           @click="setMenu('dashboard', 'Dashboard')"
+           @mouseenter="handleIconHover('dashboard', 'Dashboard')"
+           @click="handleIconClick('dashboard', 'Dashboard', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
            :class="activeMenu === 'dashboard' ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -19,7 +22,8 @@
 
         @role('Admin', 'Pegawai Kandang')
         {{-- Pencatatan Harian --}}
-        <button @click="setMenu('pencatatan', 'Pencatatan Harian')"
+        <button @mouseenter="handleIconHover('pencatatan', 'Pencatatan Harian')"
+           @click="handleIconClick('pencatatan', 'Pencatatan Harian', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="activeMenu === 'pencatatan' ? 'bg-[#4f46e5] text-white shadow-lg shadow-[#4f46e5]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -30,7 +34,8 @@
 
         @role('Admin', 'Owner', 'Sales')
         {{-- Manajemen Transaksi --}}
-        <button @click="setMenu('transaksi', 'Manajemen Transaksi')"
+        <button @mouseenter="handleIconHover('transaksi', 'Manajemen Transaksi')"
+           @click="handleIconClick('transaksi', 'Manajemen Transaksi', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="activeMenu === 'transaksi' ? 'bg-[#2563eb] text-white shadow-lg shadow-[#2563eb]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -41,7 +46,8 @@
 
         @role('Admin', 'Owner', 'Pegawai Gudang')
         {{-- Operasional --}}
-        <button @click="setMenu('operasional', 'Operasional')"
+        <button @mouseenter="handleIconHover('operasional', 'Operasional')"
+           @click="handleIconClick('operasional', 'Operasional', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="activeMenu === 'operasional' ? 'bg-[#7c3aed] text-white shadow-lg shadow-[#7c3aed]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -52,7 +58,8 @@
 
         @role('Admin', 'Owner')
         {{-- Master Data --}}
-        <button @click="setMenu('masterData', 'Master Data')"
+        <button @mouseenter="handleIconHover('masterData', 'Master Data')"
+           @click="handleIconClick('masterData', 'Master Data', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="activeMenu === 'masterData' ? 'bg-[#d97706] text-white shadow-lg shadow-[#d97706]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -61,7 +68,8 @@
         </button>
         
         {{-- Management Keuangan --}}
-        <button @click="setMenu('keuangan', 'Management Keuangan')"
+        <button @mouseenter="handleIconHover('keuangan', 'Management Keuangan')"
+           @click="handleIconClick('keuangan', 'Management Keuangan', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="activeMenu === 'keuangan' ? 'bg-[#0891b2] text-white shadow-lg shadow-[#0891b2]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -70,7 +78,8 @@
         </button>
 
         {{-- Laporan --}}
-        <button @click="setMenu('laporan', 'Laporan')"
+        <button @mouseenter="handleIconHover('laporan', 'Laporan')"
+           @click="handleIconClick('laporan', 'Laporan', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="activeMenu === 'laporan' ? 'bg-[#059669] text-white shadow-lg shadow-[#059669]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -79,7 +88,8 @@
         </button>
 
         {{-- Pengaturan --}}
-        <button @click="setMenu('pengaturan', 'Pengaturan')"
+        <button @mouseenter="handleIconHover('pengaturan', 'Pengaturan')"
+           @click="handleIconClick('pengaturan', 'Pengaturan', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="activeMenu === 'pengaturan' ? 'bg-[#dc2626] text-white shadow-lg shadow-[#dc2626]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
@@ -95,7 +105,8 @@
     {{-- ═══════════════════════════════════════════════════════════ --}}
     {{-- SECTION 2: Right Pane (Submenu Bar)                         --}}
     {{-- ═══════════════════════════════════════════════════════════ --}}
-    <div class="w-60 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 flex flex-col border-r border-gray-200 dark:border-gray-700/60 shadow-xl z-30 sidebar-right-pane transition-colors duration-300">
+    <div class="absolute left-20 top-0 h-full w-60 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-300 flex flex-col border-r border-gray-200 dark:border-gray-700/60 shadow-xl z-20 sidebar-right-pane transform transition-transform duration-300 ease-in-out"
+         :class="isExpanded ? 'translate-x-0' : '-translate-x-full'">
         <div class="px-5 py-5 border-b border-gray-200 dark:border-gray-700/60">
             <h2 class="text-[15px] font-bold tracking-wide text-gray-900 dark:text-white" x-text="menuTitle"></h2>
         </div>
@@ -189,32 +200,79 @@ document.addEventListener('alpine:init', () => {
     Alpine.data('sidebarManager', () => ({
         activeMenu: 'dashboard',
         menuTitle: 'Dashboard',
+        isExpanded: false,
+        isMobile: window.innerWidth < 1024,
+        closeTimeout: null,
         
         init() {
             const path = window.location.pathname;
             
             if (path.startsWith('/pencatatan')) {
-                this.setMenu('pencatatan', 'Pencatatan Harian');
+                this.setInitialMenu('pencatatan', 'Pencatatan Harian');
             } else if (path.startsWith('/transaksi')) {
-                this.setMenu('transaksi', 'Manajemen Transaksi');
+                this.setInitialMenu('transaksi', 'Manajemen Transaksi');
             } else if (path.startsWith('/kandang-operasional') || path.startsWith('/gudang')) {
-                this.setMenu('operasional', 'Operasional');
+                this.setInitialMenu('operasional', 'Operasional');
             } else if (path.startsWith('/master-data')) {
-                this.setMenu('masterData', 'Master Data');
+                this.setInitialMenu('masterData', 'Master Data');
             } else if (path.startsWith('/keuangan')) {
-                this.setMenu('keuangan', 'Management Keuangan');
+                this.setInitialMenu('keuangan', 'Management Keuangan');
             } else if (path.startsWith('/laporan')) {
-                this.setMenu('laporan', 'Laporan');
+                this.setInitialMenu('laporan', 'Laporan');
             } else if (path.startsWith('/pengaturan') || path.startsWith('/riwayat-aktivitas')) {
-                this.setMenu('pengaturan', 'Pengaturan');
+                this.setInitialMenu('pengaturan', 'Pengaturan');
             } else {
-                this.setMenu('dashboard', 'Dashboard');
+                this.setInitialMenu('dashboard', 'Dashboard');
             }
+
+            window.addEventListener('resize', () => {
+                this.isMobile = window.innerWidth < 1024;
+            });
         },
         
-        setMenu(id, title) {
+        setInitialMenu(id, title) {
             this.activeMenu = id;
             this.menuTitle = title;
+        },
+
+        handleIconHover(id, title) {
+            if (this.isMobile) return;
+            clearTimeout(this.closeTimeout);
+            this.activeMenu = id;
+            this.menuTitle = title;
+            this.isExpanded = true;
+        },
+
+        handleIconClick(id, title, e) {
+            if (this.isMobile) {
+                if (this.activeMenu === id && this.isExpanded) {
+                    this.isExpanded = false;
+                } else {
+                    this.activeMenu = id;
+                    this.menuTitle = title;
+                    this.isExpanded = true;
+                    if (id !== 'dashboard') {
+                        e.preventDefault();
+                    }
+                }
+            } else {
+                if (id !== 'dashboard') {
+                    e.preventDefault();
+                }
+            }
+        },
+
+        handleSidebarEnter() {
+            if (this.isMobile) return;
+            clearTimeout(this.closeTimeout);
+            this.isExpanded = true;
+        },
+
+        handleSidebarLeave() {
+            if (this.isMobile) return;
+            this.closeTimeout = setTimeout(() => {
+                this.isExpanded = false;
+            }, 300);
         }
     }))
 })
