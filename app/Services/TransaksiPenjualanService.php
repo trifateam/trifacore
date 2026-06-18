@@ -116,6 +116,7 @@ class TransaksiPenjualanService
                     'jumlah_piutang' => $penjualan->total_harga,
                     'sisa_piutang' => $penjualan->total_harga,
                     'status_piutang' => 'Belum Lunas',
+                    'tanggal_jatuh_tempo' => $data['tanggal_jatuh_tempo'],
                 ]);
             } else {
                 throw new \Exception("Metode pembayaran tidak valid.");
