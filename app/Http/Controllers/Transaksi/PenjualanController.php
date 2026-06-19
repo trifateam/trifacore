@@ -40,8 +40,8 @@ class PenjualanController extends Controller
                 ->with('error', 'Jenis penjualan tidak valid. Silakan pilih dari menu yang tersedia.');
         }
 
-        $pelanggans = Pelanggan::where('is_active', true)->get();
-        $akunKas = AkunKas::where('is_active', true)->get();
+        $pelanggans = Pelanggan::all();
+        $akunKas = AkunKas::all();
         
         $barangs = collect();
         $kandangs = collect();
@@ -56,7 +56,7 @@ class PenjualanController extends Controller
                 ->get();
         } elseif ($jenis === 'afkir') {
             // Untuk ayam afkir, kita perlu data kandang untuk update populasi
-            $kandangs = Kandang::where('is_active', true)->get();
+            $kandangs = Kandang::all();
             // Cari master data untuk Ayam Afkir
             $barangs = Barang::where('dapat_dijual', true)
                 ->where(function ($query) {

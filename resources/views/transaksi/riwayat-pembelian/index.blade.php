@@ -61,27 +61,35 @@
     </x-card>
 
     {{-- Tabel Riwayat --}}
-    <x-card class="border border-gray-200 dark:border-gray-700" x-data="riwayatTable()">
+    <x-card class="border border-gray-200 dark:border-gray-700">
         <div class="overflow-x-auto">
             <x-table :headers="['No. Nota', 'Waktu Pembelian', 'Supplier', 'Kategori', 'Total (Rp)', 'Status', 'Aksi']">
-                @forelse($alpineData as $index => $item)
+                @forelse($pembelians as $p)
+                        @php
+                            $status = 'Lunas';
+                            $badge = 'success';
+                            if ($p->metode_pembayaran === 'TEMPO' && $p->hutang) {
+                                $status = $p->hutang->status_hutang;
+                                $badge = $status === 'Lunas' ? 'success' : ($status === 'Belum Lunas' ? 'warning' : 'info');
+                            }
+                        @endphp
                         <tr class="hover:bg-gray-50 dark:bg-gray-700/50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $item['no_faktur'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $item['tanggal'] }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $item['supplier'] }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $p->no_faktur_beli }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ \Carbon\Carbon::parse($p->tanggal_pembelian)->translatedFormat('d M Y H:i') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $p->supplier->nama_supplier ?? '-' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">{{ $item['kategori'] }}</span>
+                                <span class="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-2 py-1 rounded text-xs">{{ strtoupper($p->kategori_pembelian) }}</span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100 text-right">
-                                @rupiah($item['total'])
+                                @rupiah($p->total_pembelian)
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-center">
-                                <x-badge :variant="$item['badge']">{{ $item['status'] }}</x-badge>
+                                <x-badge :variant="$badge">{{ $status }}</x-badge>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-                                <button type="button" @click="openDetailModal({{ $index }})" class="text-indigo-600 hover:text-indigo-900 mx-1">Detail</button>
+                                <a href="{{ route('transaksi.riwayat-pembelian.show', $p->id_pembelian) }}" class="text-indigo-600 hover:text-indigo-900 mx-1">Detail</a>
                                 
-                                @if($item['status'] === 'Belum Lunas' || $item['status'] === 'Lunas Sebagian')
+                                @if($status === 'Belum Lunas' || $status === 'Lunas Sebagian')
                                     <span class="text-gray-300 mx-1">|</span>
                                     <a href="{{ route('keuangan.buku-utang') }}" class="text-orange-600 hover:text-orange-900 mx-1 font-bold">Lunasi</a>
                                 @endif
@@ -107,41 +115,5 @@
             </div>
         @endif
 
-        {{-- Include Modal Partial --}}
-        @include('transaksi.partials._detail_modal')
-
     </x-card>
-@endsection
-
-@section('scripts')
-<script>
-    function riwayatTable() {
-        return {
-            isModalOpen: false,
-            selectedData: null,
-            allData: @json($alpineData),
-
-            openDetailModal(index) {
-                this.selectedData = this.allData[index];
-                this.isModalOpen = true;
-                document.body.style.overflow = 'hidden';
-            },
-
-            closeDetailModal() {
-                this.isModalOpen = false;
-                setTimeout(() => { this.selectedData = null; }, 300);
-                document.body.style.overflow = 'auto';
-            },
-
-            formatRupiah(number) {
-                return new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                }).format(number || 0);
-            }
-        }
-    }
-</script>
 @endsection

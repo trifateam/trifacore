@@ -16,7 +16,7 @@ class ProduksiPerformaController extends Controller
 {
     public function index()
     {
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
         
         $years = ProduksiTelur::selectRaw('YEAR(tanggal_produksi) as year')
             ->distinct()

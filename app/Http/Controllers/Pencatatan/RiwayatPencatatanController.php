@@ -19,7 +19,7 @@ class RiwayatPencatatanController extends Controller
      */
     public function produksiTelur(Request $request)
     {
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $query = ProduksiTelur::with(['batch.kandang', 'pengguna'])
             ->orderBy('tanggal_produksi', 'desc')
@@ -47,7 +47,7 @@ class RiwayatPencatatanController extends Controller
      */
     public function konsumsiPakan(Request $request)
     {
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $query = KonsumsiPakan::with(['batch.kandang', 'barang', 'pengguna'])
             ->orderBy('tanggal_konsumsi', 'desc')
@@ -75,7 +75,7 @@ class RiwayatPencatatanController extends Controller
      */
     public function konsumsiVitamin(Request $request)
     {
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $query = KonsumsiVitamin::with(['batch.kandang', 'barang', 'pengguna'])
             ->orderBy('tanggal_konsumsi', 'desc')
@@ -103,7 +103,7 @@ class RiwayatPencatatanController extends Controller
      */
     public function deplesi(Request $request)
     {
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $query = Deplesi::with(['batch.kandang', 'pengguna'])
             ->orderBy('tanggal_deplesi', 'desc')
@@ -131,7 +131,7 @@ class RiwayatPencatatanController extends Controller
      */
     public function suhuKandang(Request $request)
     {
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $query = SuhuKandang::with(['kandang', 'pengguna'])
             ->orderBy('tanggal_waktu', 'desc')
@@ -157,7 +157,7 @@ class RiwayatPencatatanController extends Controller
      */
     public function produksiPupuk(Request $request)
     {
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $query = ProduksiPupukKandang::with(['kandang', 'pengguna'])
             ->orderBy('tanggal_kumpul', 'desc')

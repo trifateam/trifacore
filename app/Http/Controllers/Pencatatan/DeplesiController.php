@@ -20,7 +20,7 @@ class DeplesiController extends Controller
     {
         $hariIni = Carbon::today()->toDateString();
 
-        $kandangs = Kandang::where('is_active', true)
+        $kandangs = Kandang::query()
             ->with(['batches' => function ($query) {
                 $query->where('status_batch', 'Aktif');
             }])
@@ -126,6 +126,10 @@ class DeplesiController extends Controller
                 'jml_afkir' => $request->jml_afkir,
             ]);
 
+            // Jika ada ayam afkir, tambahkan ke stok barang Ayam Afkir
+            if ($request->jml_afkir > 0) {
+                app(\App\Services\StokBarangService::class)->tambahStokAyamAfkir($request->jml_afkir);
+            }
             // Kurangi populasi kandang
             $kandang = $batch->kandang;
             $kandang->populasi_saat_ini -= $totalDeplesi;

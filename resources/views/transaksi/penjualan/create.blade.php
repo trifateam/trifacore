@@ -114,7 +114,7 @@
                                     <template x-for="(item, index) in items" :key="item.key">
                                         <tr class="border-b border-gray-100 hover:bg-gray-50 dark:bg-gray-700/50 transition-colors">
                                             <td class="p-3">
-                                                <select :name="`items[${index}][id_barang]`" x-model="item.id_barang" @change="updateItemLimit(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                                <select :name="`items[${index}][id_barang]`" x-model="item.id_barang" @change="updateItemLimit(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                                     <option value="">Pilih Barang...</option>
                                                     <template x-for="b in masterBarang" :key="b.id">
                                                         <option :value="b.id" x-text="`${b.nama} (Stok: ${b.stok} ${b.satuan})`"></option>
@@ -123,10 +123,10 @@
                                                 <p x-show="item.errorStock" class="text-xs text-red-500 mt-1" x-text="item.errorStock"></p>
                                             </td>
                                             <td class="p-3">
-                                                <input type="number" step="0.01" min="0.01" :name="`items[${index}][kuantitas]`" x-model.number="item.kuantitas" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                                <input type="number" step="0.01" min="0.01" :name="`items[${index}][kuantitas]`" x-model.number="item.kuantitas" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
                                             </td>
                                             <td class="p-3">
-                                                <input type="number" step="1" min="1" :name="`items[${index}][harga_satuan]`" x-model.number="item.harga_satuan" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                                <input type="number" step="1" min="1" :name="`items[${index}][harga_satuan]`" x-model.number="item.harga_satuan" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
                                             </td>
                                             <td class="p-3 text-right">
                                                 <span class="font-medium text-gray-900 dark:text-gray-100" x-text="formatRupiah(item.sub_total)"></span>
@@ -156,9 +156,9 @@
                         
                         <div class="p-5">
                             {{-- Struk Preview --}}
-                            <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 mb-6">
-                                <h4 class="text-xs font-bold text-indigo-800 uppercase tracking-wider mb-3">Total Tagihan</h4>
-                                <div class="text-3xl font-bold text-indigo-700" x-text="formatRupiah(grandTotal)">Rp 0</div>
+                            <div class="bg-indigo-50 dark:bg-indigo-900/30 p-4 rounded-lg border border-indigo-100 dark:border-indigo-800 mb-6">
+                                <h4 class="text-xs font-bold text-indigo-800 dark:text-indigo-300 uppercase tracking-wider mb-3">Total Tagihan</h4>
+                                <div class="text-3xl font-bold text-indigo-700 dark:text-indigo-400" x-text="formatRupiah(grandTotal)">Rp 0</div>
                             </div>
 
                             <div class="space-y-4">
@@ -185,8 +185,8 @@
                                     @error('id_akun_kas') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                                 </div>
 
-                                <div x-show="metodePembayaran === 'PIUTANG'" class="p-3 bg-yellow-50 border border-yellow-200 rounded-md" x-transition>
-                                    <p class="text-xs text-yellow-800">
+                                <div x-show="metodePembayaran === 'PIUTANG'" class="p-3 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-md" x-transition>
+                                    <p class="text-xs text-yellow-800 dark:text-yellow-300">
                                         <span class="font-bold">Info:</span> Transaksi ini akan dicatat sebagai <strong>Piutang</strong> pelanggan. Saldo kas tidak akan bertambah sampai pelunasan dilakukan.
                                     </p>
                                 </div>

@@ -21,7 +21,7 @@ class BiayaOperasionalController extends Controller
         $kategoriBiaya = KategoriBiaya::all();
         // Assuming akun_kas table has is_active, let's use all if not. I'll just get all accounts since they are bank accounts.
         // The prompt says "rekening aktif", so let's try `where('is_active', true)`. If error, I'll fix it later. Actually I saw Penjualan used `where('is_active', true)` for AkunKas successfully.
-        $akunKas = AkunKas::where('is_active', true)->get();
+        $akunKas = AkunKas::all();
 
         $operasionals = Operasional::with(['kategoriBiaya', 'akunKas', 'pengguna'])
             ->orderBy('tanggal_operasional', 'desc')

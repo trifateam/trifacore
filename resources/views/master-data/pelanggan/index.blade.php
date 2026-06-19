@@ -49,7 +49,7 @@
                     <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $pelanggan->kontak }}</td>
                     <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300 max-w-xs truncate" title="{{ $pelanggan->alamat }}">{{ Str::limit($pelanggan->alamat, 40) }}</td>
                     <td class="px-4 py-3 text-sm">
-                        @if($pelanggan->is_active)
+                        @if(!$pelanggan->trashed())
                             <x-badge variant="success">Aktif</x-badge>
                         @else
                             <x-badge variant="gray">Non-Aktif</x-badge>
@@ -64,7 +64,6 @@
                                     'kategori' => $pelanggan->kategori,
                                     'kontak' => $pelanggan->kontak,
                                     'alamat' => $pelanggan->alamat,
-                                    'is_active' => $pelanggan->is_active ? '1' : '0',
                                 ]) }})">
                                 <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" /></svg>
                                 Edit
@@ -100,9 +99,7 @@
                         ]" />
                 </div>
                 <x-textarea name="alamat" label="Alamat" placeholder="Masukkan alamat lengkap pelanggan..." :required="true" hint="Alamat lengkap pelanggan" />
-                <div class="flex items-center space-x-8 mt-2">
-                    <x-toggle name="is_active" label="Aktif" :checked="true" />
-                </div>
+
             </x-form-section>
             <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-tambah-pelanggan')">Batal</x-button>
@@ -145,17 +142,7 @@
                     <textarea name="alamat" id="edit_alamat" required rows="3" placeholder="Masukkan alamat lengkap pelanggan..." class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"></textarea>
                     <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Alamat lengkap pelanggan</p>
                 </div>
-                <div class="flex items-center space-x-8 mt-2" x-data="{ aktif: true }" x-ref="editToggle">
-                    <div class="flex items-center">
-                        <input type="hidden" name="is_active" :value="aktif ? '1' : '0'">
-                        <button type="button" role="switch" :aria-checked="aktif.toString()" @click="aktif = !aktif"
-                            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
-                            :class="aktif ? 'bg-indigo-600' : 'bg-gray-200'">
-                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-800 shadow ring-0 transition duration-200 ease-in-out" :class="aktif ? 'translate-x-5' : 'translate-x-0'"></span>
-                        </button>
-                        <label class="ml-3 block text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer" @click="aktif = !aktif">Aktif</label>
-                    </div>
-                </div>
+
             </x-form-section>
             <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-edit-pelanggan')">Batal</x-button>
@@ -190,19 +177,6 @@
         document.getElementById('edit_kontak').value = data.kontak;
         document.getElementById('edit_kategori').value = data.kategori;
         document.getElementById('edit_alamat').value = data.alamat;
-
-        // Set Alpine toggle state
-        const toggleEl = document.querySelector('[x-ref="editToggle"]');
-        if (toggleEl && toggleEl.__x) {
-            toggleEl.__x.$data.aktif = data.is_active === '1';
-        } else {
-            setTimeout(() => {
-                const el = document.querySelector('[x-ref="editToggle"]');
-                if (el && el._x_dataStack) {
-                    el._x_dataStack[0].aktif = data.is_active === '1';
-                }
-            }, 100);
-        }
 
         window.dispatchEvent(new CustomEvent('open-modal-edit-pelanggan'));
     }

@@ -19,7 +19,7 @@ class SuhuKandangController extends Controller
     {
         $hariIni = Carbon::today()->toDateString();
 
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $kandangData = $kandangs->map(function ($kandang) use ($hariIni) {
             $sudahTercatat = SuhuKandang::where('id_kandang', $kandang->id_kandang)

@@ -55,13 +55,13 @@
                         <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div class="md:col-span-2">
                                 <label for="jenis_ayam" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jenis / Breed Ayam <span class="text-red-500">*</span></label>
-                                <input type="text" name="jenis_ayam" id="jenis_ayam" value="{{ old('jenis_ayam') }}" required class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Contoh: Lohmann Brown, Isa Brown, dll">
+                                <input type="text" name="jenis_ayam" id="jenis_ayam" value="{{ old('jenis_ayam') }}" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Contoh: Lohmann Brown, Isa Brown, dll">
                                 @error('jenis_ayam') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             <div>
                                 <label for="umur_masuk" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Umur Masuk (Minggu) <span class="text-red-500">*</span></label>
-                                <input type="number" name="umur_masuk" id="umur_masuk" x-model.number="umur" min="0" max="52" required class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="0">
+                                <input type="number" name="umur_masuk" id="umur_masuk" x-model.number="umur" min="0" max="52" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="0">
                                 
                                 <p x-show="umur > 8" class="mt-1 text-xs text-orange-600 flex items-center" x-transition>
                                     <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
@@ -72,13 +72,13 @@
 
                             <div>
                                 <label for="jumlah_awal" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jumlah Ayam (Ekor) <span class="text-red-500">*</span></label>
-                                <input type="number" name="jumlah_awal" id="jumlah_awal" x-model.number="jumlah" min="1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Contoh: 1000">
+                                <input type="number" name="jumlah_awal" id="jumlah_awal" x-model.number="jumlah" min="1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Contoh: 1000">
                                 @error('jumlah_awal') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             <div class="md:col-span-2">
                                 <label for="harga_per_ekor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Harga Satuan per Ekor (Rp) <span class="text-red-500">*</span></label>
-                                <input type="number" name="harga_per_ekor" id="harga_per_ekor" x-model.number="harga" min="1" step="1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Contoh: 50000">
+                                <input type="number" name="harga_per_ekor" id="harga_per_ekor" x-model.number="harga" min="1" step="1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Contoh: 50000">
                                 @error('harga_per_ekor') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
                         </div>
@@ -100,9 +100,9 @@
                         </div>
                         
                         <div class="p-5">
-                            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200 mb-6">
-                                <h4 class="text-xs font-bold text-orange-800 uppercase tracking-wider mb-3">Total Pengeluaran</h4>
-                                <div class="text-3xl font-bold text-orange-700" x-text="formatRupiah(grandTotal)">Rp 0</div>
+                            <div class="bg-orange-50 dark:bg-orange-900/30 p-4 rounded-lg border border-orange-200 dark:border-orange-800 mb-6">
+                                <h4 class="text-xs font-bold text-orange-800 dark:text-orange-300 uppercase tracking-wider mb-3">Total Pengeluaran</h4>
+                                <div class="text-3xl font-bold text-orange-700 dark:text-orange-400" x-text="formatRupiah(grandTotal)">Rp 0</div>
                             </div>
 
                             <div class="space-y-4">
@@ -122,7 +122,7 @@
                                         <option value="">-- Pilih Rekening --</option>
                                         @foreach($akunKas as $akun)
                                             <option value="{{ $akun->id_akun }}" {{ old('id_akun_kas') == $akun->id_akun ? 'selected' : '' }}>
-                                                {{ $akun->nama_akun }} (Saldo: @rupiah($akun->saldo_sekarang))
+                                                {{ $akun->nama_akun }} ({{ $akun->no_rekening }} - a.n. {{ $akun->nama_pemilik }} | Saldo: @rupiah($akun->saldo))
                                             </option>
                                         @endforeach
                                     </select>
@@ -133,6 +133,12 @@
                                     <p class="text-xs text-red-800 dark:text-red-300">
                                         <span class="font-bold">Info:</span> Transaksi ini akan dicatat sebagai <strong>Hutang</strong> perusahaan. Saldo kas tidak akan berkurang saat ini.
                                     </p>
+                                </div>
+
+                                <div x-show="metodePembayaran === 'TEMPO'" x-transition>
+                                    <label for="tanggal_jatuh_tempo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal Jatuh Tempo <span class="text-red-500">*</span></label>
+                                    <input type="date" name="tanggal_jatuh_tempo" id="tanggal_jatuh_tempo" :required="metodePembayaran === 'TEMPO'" value="{{ old('tanggal_jatuh_tempo') }}" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm">
+                                    @error('tanggal_jatuh_tempo') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                                 </div>
 
                                 <hr class="border-gray-200 dark:border-gray-700">

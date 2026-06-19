@@ -102,12 +102,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
         Route::post('/pembelian', [PembelianController::class, 'store'])->name('pembelian.store');
         Route::get('/riwayat-penjualan', [RiwayatPenjualanController::class, 'index'])->name('riwayat-penjualan');
+        Route::get('/riwayat-penjualan/{id}', [RiwayatPenjualanController::class, 'show'])->name('riwayat-penjualan.show');
         Route::get('/riwayat-pembelian', [RiwayatPembelianController::class, 'index'])->name('riwayat-pembelian');
+        Route::get('/riwayat-pembelian/{id}', [RiwayatPembelianController::class, 'show'])->name('riwayat-pembelian.show');
     });
 
     // ── Kandang Operasional: Admin, Owner ──
     Route::middleware('role:Admin,Owner')->prefix('kandang-operasional')->name('kandang-operasional.')->group(function () {
         Route::get('/', [KandangOperasionalController::class, 'index'])->name('index');
+        Route::get('/assign/{batch}', [KandangOperasionalController::class, 'showAssignForm'])->name('assign.form');
         Route::post('/assign/{batch}', [KandangOperasionalController::class, 'assign'])->name('assign');
     });
 

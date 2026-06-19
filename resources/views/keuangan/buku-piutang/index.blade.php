@@ -9,17 +9,7 @@
 
     <x-page-header title="Buku Piutang" subtitle="Tracking piutang penjualan tempo dan penerimaan pelunasan dari pelanggan." />
 
-    {{-- Flash Messages --}}
-    @if(session('success'))
-        <div class="mb-6">
-            <x-alert type="success">{{ session('success') }}</x-alert>
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="mb-6">
-            <x-alert type="error">{{ session('error') }}</x-alert>
-        </div>
-    @endif
+
 
     {{-- ══════════════════════════════════════════ --}}
     {{-- SUMMARY CARDS                             --}}

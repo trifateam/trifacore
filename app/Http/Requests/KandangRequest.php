@@ -42,10 +42,6 @@ class KandangRequest extends FormRequest
                 'min:2000',
                 'max:' . date('Y'),
             ],
-            'is_active' => [
-                'required',
-                'boolean',
-            ],
         ];
     }
 
@@ -67,8 +63,6 @@ class KandangRequest extends FormRequest
             'tahun_masuk.integer' => 'Tahun masuk harus berupa angka.',
             'tahun_masuk.min' => 'Tahun masuk minimal 2000.',
             'tahun_masuk.max' => 'Tahun masuk tidak boleh melebihi tahun saat ini.',
-            'is_active.required' => 'Status wajib dipilih.',
-            'is_active.boolean' => 'Status tidak valid.',
         ];
     }
 }

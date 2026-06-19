@@ -10,8 +10,13 @@
                         }
                     @endphp
                     @if(file_exists($logo))
+                        @php
+                            $type = pathinfo($logo, PATHINFO_EXTENSION);
+                            $data = file_get_contents($logo);
+                            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+                        @endphp
                         <td width="10%">
-                            <img src="{{ $logo }}" class="logo" alt="Logo">
+                            <img src="{{ $base64 }}" class="logo" alt="Logo">
                         </td>
                     @endif
                 @endif

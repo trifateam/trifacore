@@ -19,7 +19,7 @@ class PelangganController extends Controller
         $search = $request->input('search');
         $kategori = $request->input('kategori');
 
-        $pelanggans = Pelanggan::query()
+        $pelanggans = Pelanggan::query()->withTrashed()
             ->when($search, function ($query, $search) {
                 $query->where('nama_lengkap', 'like', "%{$search}%");
             })
@@ -46,8 +46,6 @@ class PelangganController extends Controller
             'kategori' => $request->kategori,
             'kontak' => $request->kontak,
             'alamat' => $request->alamat,
-            'is_active' => $request->is_active,
-        ]);
 
         \App\Services\AuditService::log('Menambah pelanggan baru: ' . $request->nama_lengkap);
 
@@ -67,8 +65,6 @@ class PelangganController extends Controller
             'kategori' => $request->kategori,
             'kontak' => $request->kontak,
             'alamat' => $request->alamat,
-            'is_active' => $request->is_active,
-        ]);
 
         \App\Services\AuditService::log('Mengedit pelanggan: ' . $request->nama_lengkap);
 

@@ -135,4 +135,32 @@ class StokBarangService
 
         return $barang;
     }
+
+    /**
+     * Menambahkan stok ayam afkir ke tabel barang
+     *
+     * @param int $jumlah
+     * @return Barang
+     * @throws \Exception
+     */
+    public function tambahStokAyamAfkir(int $jumlah)
+    {
+        if ($jumlah <= 0) return null;
+
+        $barang = Barang::where('dapat_dijual', true)
+                ->where(function ($query) {
+                    $query->where('nama_barang', 'like', '%Afkir%')
+                          ->orWhere('kategori_barang', 'Ayam');
+                })
+                ->first();
+
+        if (!$barang) {
+            throw new \Exception("Master data barang untuk \"Ayam Afkir\" tidak ditemukan. Silakan tambahkan terlebih dahulu di menu Data Barang.");
+        }
+
+        $barang->stok_barang += $jumlah;
+        $barang->save();
+
+        return $barang;
+    }
 }

@@ -8,7 +8,7 @@
 
     <x-page-header title="Kandang Operasional" subtitle="Monitor populasi kandang aktif dan kelola penempatan pullet (bibit ayam)" />
 
-    <div x-data="kandangOperasional()" class="mt-6 space-y-10">
+    <div class="mt-6 space-y-10">
 
         {{-- SECTION 1: PULLET BELUM DITEMPATKAN (PENDING) --}}
         <div>
@@ -66,9 +66,9 @@
                                     </div>
                                 </div>
 
-                                <button type="button" @click="openAssignModal({{ $index }})" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-bold rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors">
+                                <a href="{{ route('kandang-operasional.assign.form', $batch->id_batch) }}" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-bold rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors">
                                     Assign ke Kandang
-                                </button>
+                                </a>
                             </div>
                         </x-card>
                     @endforeach
@@ -169,173 +169,4 @@
             </div>
         </div>
 
-        {{-- MODAL ASSIGNMENT --}}
-        <div x-show="isModalOpen" 
-             class="fixed inset-0 z-50 overflow-y-auto" 
-             aria-labelledby="modal-title" 
-             role="dialog" 
-             aria-modal="true"
-             style="display: none;">
-            
-            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div x-show="isModalOpen" 
-                     x-transition:enter="ease-out duration-300" 
-                     x-transition:enter-start="opacity-0" 
-                     x-transition:enter-end="opacity-100" 
-                     x-transition:leave="ease-in duration-200" 
-                     x-transition:leave-start="opacity-100" 
-                     x-transition:leave-end="opacity-0" 
-                     class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" 
-                     @click="closeModal()"
-                     aria-hidden="true"></div>
-
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                
-                <div x-show="isModalOpen" 
-                     x-transition:enter="ease-out duration-300" 
-                     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
-                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" 
-                     x-transition:leave="ease-in duration-200" 
-                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" 
-                     x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
-                     class="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl w-full">
-                    
-                    <form method="POST" :action="getFormAction()">
-                        @csrf
-                        <div class="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                            <div class="sm:flex sm:items-start">
-                                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-orange-100 sm:mx-0 sm:h-10 sm:w-10">
-                                    <svg class="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                                    </svg>
-                                </div>
-                                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                    <h3 class="text-lg leading-6 font-bold text-gray-900 dark:text-gray-100" id="modal-title">
-                                        Assign Pullet ke Kandang
-                                    </h3>
-                                    <div class="mt-2">
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                                            Tempatkan ayam muda (pullet) dari <span class="font-bold text-gray-900 dark:text-gray-100" x-text="selectedBatch ? selectedBatch.nama_batch : ''"></span> ke kandang produksi.
-                                        </p>
-                                        
-                                        <div class="bg-orange-50 p-3 rounded border border-orange-100 mb-4 text-sm flex justify-between items-center">
-                                            <span class="text-orange-800">Sisa Ayam di Batch Ini:</span>
-                                            <span class="font-bold text-orange-900 text-lg" x-text="selectedBatch ? selectedBatch.jumlah_sisa : 0"></span>
-                                        </div>
-
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label for="id_kandang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Pilih Kandang Target <span class="text-red-500">*</span></label>
-                                                <select name="id_kandang" id="id_kandang" x-model="selectedKandangId" @change="checkCapacity" required class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm">
-                                                    <option value="">-- Pilih Kandang --</option>
-                                                    <template x-for="k in kandangsData" :key="k.id_kandang">
-                                                        <option :value="k.id_kandang" x-text="`${k.nama_kandang} (Populasi: ${k.populasi_saat_ini} / Kapasitas: ${k.kapasitas_kandang})`"></option>
-                                                    </template>
-                                                </select>
-                                                
-                                                <p x-show="selectedKandangId && sisaKapasitasTarget !== null" class="mt-1 text-xs" :class="sisaKapasitasTarget <= 0 ? 'text-red-600 dark:text-red-500 font-bold' : 'text-blue-600 dark:text-blue-500'">
-                                                    Sisa Kapasitas Kandang: <span x-text="sisaKapasitasTarget"></span> ekor
-                                                </p>
-                                            </div>
-
-                                            <div>
-                                                <label for="jumlah" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Jumlah Ayam yang Ditempatkan <span class="text-red-500">*</span></label>
-                                                <input type="number" name="jumlah" id="jumlah" x-model.number="assignAmount" min="1" :max="selectedBatch ? selectedBatch.jumlah_sisa : 1" required class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-orange-500 focus:ring-orange-500 sm:text-sm" placeholder="Contoh: 1000">
-                                                
-                                                <p x-show="isOverCapacity" class="mt-1 text-xs text-red-600 dark:text-red-500 font-bold flex items-center">
-                                                    <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                                    Jumlah melebihi sisa kapasitas kandang!
-                                                </p>
-                                                <p x-show="isOverBatch" class="mt-1 text-xs text-red-600 dark:text-red-500 font-bold flex items-center">
-                                                    <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                                    Jumlah melebihi sisa ayam di Batch ini!
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="bg-gray-50 dark:bg-gray-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse border-t border-gray-200 dark:border-gray-700">
-                            <button type="submit" :disabled="isSubmitDisabled" :class="isSubmitDisabled ? 'bg-orange-300 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-700'" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 sm:ml-3 sm:w-auto sm:text-sm transition-colors">
-                                Assign Sekarang
-                            </button>
-                            <button type="button" @click="closeModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-base font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-700/50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
-                                Batal
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-
-    </div>
-@endsection
-
-@section('scripts')
-<script>
-    function kandangOperasional() {
-        return {
-            isModalOpen: false,
-            batchesData: @json($pendingBatches),
-            kandangsData: @json($kandangs),
-            selectedBatch: null,
-            selectedKandangId: '',
-            assignAmount: 0,
-            sisaKapasitasTarget: null,
-
-            openAssignModal(index) {
-                this.selectedBatch = this.batchesData[index];
-                this.selectedKandangId = '';
-                this.assignAmount = this.selectedBatch.jumlah_sisa;
-                this.sisaKapasitasTarget = null;
-                this.isModalOpen = true;
-                document.body.style.overflow = 'hidden';
-            },
-
-            closeModal() {
-                this.isModalOpen = false;
-                setTimeout(() => { 
-                    this.selectedBatch = null; 
-                    this.selectedKandangId = '';
-                }, 300);
-                document.body.style.overflow = 'auto';
-            },
-
-            checkCapacity() {
-                if(!this.selectedKandangId) {
-                    this.sisaKapasitasTarget = null;
-                    return;
-                }
-                const k = this.kandangsData.find(x => x.id_kandang == this.selectedKandangId);
-                if(k) {
-                    this.sisaKapasitasTarget = k.kapasitas_kandang - k.populasi_saat_ini;
-                }
-            },
-
-            get isOverCapacity() {
-                return this.selectedKandangId && this.sisaKapasitasTarget !== null && this.assignAmount > this.sisaKapasitasTarget;
-            },
-
-            get isOverBatch() {
-                return this.selectedBatch && this.assignAmount > this.selectedBatch.jumlah_sisa;
-            },
-
-            get isSubmitDisabled() {
-                return !this.selectedKandangId || 
-                       !this.assignAmount || 
-                       this.assignAmount <= 0 || 
-                       this.isOverCapacity || 
-                       this.isOverBatch;
-            },
-
-            getFormAction() {
-                if(this.selectedBatch) {
-                    return `/kandang-operasional/assign/${this.selectedBatch.id_batch}`;
-                }
-                return '#';
-            }
-        }
-    }
-</script>
 @endsection
