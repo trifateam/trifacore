@@ -15,7 +15,7 @@ class CetakPenjualanController extends Controller
 {
     public function index()
     {
-        $pelanggans = Pelanggan::where('is_active', true)->get();
+        $pelanggans = Pelanggan::all();
         
         $years = Penjualan::where('kategori_penjualan', 'Telur')
             ->selectRaw('YEAR(tanggal_penjualan) as year')

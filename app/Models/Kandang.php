@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kandang extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'kandang';
     protected $primaryKey = 'id_kandang';
@@ -18,7 +19,6 @@ class Kandang extends Model
         'kapasitas_kandang',
         'populasi_saat_ini',
         'tahun_masuk',
-        'is_active',
     ];
 
     public function pengguna()

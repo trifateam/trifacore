@@ -20,7 +20,7 @@ class ProduksiPupukController extends Controller
     {
         $hariIni = Carbon::today()->toDateString();
 
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
 
         $kandangData = $kandangs->map(function ($kandang) use ($hariIni) {
             $sudahTercatat = ProduksiPupukKandang::where('id_kandang', $kandang->id_kandang)

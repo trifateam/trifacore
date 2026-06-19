@@ -19,7 +19,7 @@ class PegawaiController extends Controller
     {
         $search = $request->input('search');
 
-        $pegawais = Pengguna::query()
+        $pegawais = Pengguna::query()->withTrashed()
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_lengkap', 'like', "%{$search}%")
@@ -93,9 +93,14 @@ class PegawaiController extends Controller
         }
 
         // Toggle status aktif
-        $pegawai->update(['is_active' => !$pegawai->is_active]);
+        if ($pegawai->trashed()) {
+            $pegawai->restore();
+            $status = 'diaktifkan';
+        } else {
+            $pegawai->delete();
+            $status = 'dinonaktifkan';
+        }
 
-        $status = $pegawai->is_active ? 'diaktifkan' : 'dinonaktifkan';
         \App\Services\AuditService::log('Mengubah status pegawai: ' . $pegawai->nama_lengkap . ' menjadi ' . $status);
 
         return redirect()->route('master-data.pegawai.index')

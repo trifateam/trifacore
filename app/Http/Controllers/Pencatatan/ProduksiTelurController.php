@@ -28,7 +28,7 @@ class ProduksiTelurController extends Controller
     {
         $hariIni = Carbon::today()->toDateString();
 
-        $kandangs = Kandang::where('is_active', true)
+        $kandangs = Kandang::query()
             ->with(['batches' => function ($query) {
                 $query->where('status_batch', 'Aktif');
             }])

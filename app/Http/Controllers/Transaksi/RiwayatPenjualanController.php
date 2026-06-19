@@ -66,42 +66,15 @@ class RiwayatPenjualanController extends Controller
         // Get Paginated Data
         $penjualans = $query->paginate(15)->withQueryString();
 
-        // Format data for Alpine Modal Injection
-        $alpineData = $penjualans->map(function ($p) {
-            $status = 'Lunas';
-            $badge = 'success';
-            if ($p->metode_pembayaran === 'PIUTANG' && $p->piutang) {
-                $status = $p->piutang->status_piutang;
-                $badge = $status === 'Lunas' ? 'success' : ($status === 'Belum Lunas' ? 'warning' : 'info');
-            }
-
-            return [
-                'id' => $p->id_penjualan,
-                'no_faktur' => $p->no_faktur_jual,
-                'tanggal' => \Carbon\Carbon::parse($p->tanggal_penjualan)->translatedFormat('d M Y H:i'),
-                'pelanggan' => $p->pelanggan->nama_lengkap,
-                'kasir' => $p->pengguna->nama_lengkap,
-                'kategori' => strtoupper($p->kategori_penjualan),
-                'total' => $p->total_harga,
-                'metode' => $p->metode_pembayaran,
-                'status' => $status,
-                'badge' => $badge,
-                'catatan' => $p->catatan,
-                'sisa_piutang' => $p->piutang ? $p->piutang->sisa_piutang : 0,
-                'details' => $p->detailPenjualan->map(function ($d) {
-                    return [
-                        'nama_barang' => $d->barang ? $d->barang->nama_barang : 'Ayam Afkir', // fallback if null
-                        'kuantitas' => $d->kuantitas,
-                        'harga_satuan' => $d->harga_satuan,
-                        'subtotal' => $d->sub_total,
-                    ];
-                })
-            ];
-        });
-
         return view('transaksi.riwayat-penjualan.index', compact(
-            'penjualans', 'pelanggans', 'alpineData', 
+            'penjualans', 'pelanggans',
             'totalTransaksi', 'totalNominal', 'totalTempo'
         ));
+    }
+
+    public function show($id)
+    {
+        $penjualan = Penjualan::with(['pelanggan', 'pengguna', 'detailPenjualan.barang', 'piutang'])->findOrFail($id);
+        return view('transaksi.riwayat-penjualan.show', compact('penjualan'));
     }
 }

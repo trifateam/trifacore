@@ -18,7 +18,7 @@ class KandangController extends Controller
     {
         $search = $request->input('search');
 
-        $kandangs = Kandang::query()
+        $kandangs = Kandang::query()->withTrashed()
             ->when($search, function ($query, $search) {
                 $query->where('nama_kandang', 'like', "%{$search}%");
             })
@@ -40,7 +40,6 @@ class KandangController extends Controller
             'kapasitas_kandang' => $request->kapasitas_kandang,
             'populasi_saat_ini' => 0,
             'tahun_masuk' => $request->tahun_masuk,
-            'is_active' => $request->is_active,
         ]);
 
         \App\Services\AuditService::log('Menambah kandang baru: ' . $request->nama_kandang);
@@ -60,7 +59,6 @@ class KandangController extends Controller
             'nama_kandang' => $request->nama_kandang,
             'kapasitas_kandang' => $request->kapasitas_kandang,
             'tahun_masuk' => $request->tahun_masuk,
-            'is_active' => $request->is_active,
         ]);
 
         \App\Services\AuditService::log('Mengedit kandang: ' . $request->nama_kandang);

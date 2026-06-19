@@ -45,10 +45,6 @@ class PelangganRequest extends FormRequest
                 'string',
                 Rule::in(['Distributor', 'Retail', 'Personal']),
             ],
-            'is_active' => [
-                'required',
-                'boolean',
-            ],
         ];
     }
 
@@ -68,7 +64,6 @@ class PelangganRequest extends FormRequest
             'kontak.max' => 'No. Telp / Kontak maksimal 20 karakter.',
             'kategori.required' => 'Kategori pelanggan wajib dipilih.',
             'kategori.in' => 'Kategori pelanggan tidak valid.',
-            'is_active.required' => 'Status aktif wajib dipilih.',
         ];
     }
 }

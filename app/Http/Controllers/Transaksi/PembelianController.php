@@ -38,7 +38,7 @@ class PembelianController extends Controller
         }
 
         $suppliers = Supplier::all();
-        $akunKas = AkunKas::where('is_active', true)->get();
+        $akunKas = AkunKas::all();
 
         if ($jenis === 'material') {
             // Material: Pakan, Vitamin, Obat, dll yang dapat dibeli
@@ -74,6 +74,7 @@ class PembelianController extends Controller
             'id_supplier' => 'required|exists:supplier,id_supplier',
             'metode_pembayaran' => 'required|in:LUNAS,TEMPO',
             'id_akun_kas' => 'required_if:metode_pembayaran,LUNAS',
+            'tanggal_jatuh_tempo' => 'required_if:metode_pembayaran,TEMPO|date',
             
             'items' => 'required|array|min:1',
             'items.*.id_barang' => 'required|exists:barang,id_barang',
@@ -101,6 +102,7 @@ class PembelianController extends Controller
             'id_supplier' => $request->id_supplier,
             'metode_pembayaran' => $request->metode_pembayaran,
             'id_akun_kas' => $request->id_akun_kas,
+            'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
             'catatan' => $request->catatan,
             'total_pembelian' => $totalPembelian,
         ];
@@ -121,6 +123,7 @@ class PembelianController extends Controller
             'id_supplier' => 'required|exists:supplier,id_supplier',
             'metode_pembayaran' => 'required|in:LUNAS,TEMPO',
             'id_akun_kas' => 'required_if:metode_pembayaran,LUNAS',
+            'tanggal_jatuh_tempo' => 'required_if:metode_pembayaran,TEMPO|date',
             
             'jenis_ayam' => 'required|string|max:50',
             'umur_masuk' => 'required|integer|min:0|max:52',
@@ -134,6 +137,7 @@ class PembelianController extends Controller
             'id_supplier' => $request->id_supplier,
             'metode_pembayaran' => $request->metode_pembayaran,
             'id_akun_kas' => $request->id_akun_kas,
+            'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
             'catatan' => $request->catatan,
             'total_pembelian' => $totalPembelian,
             

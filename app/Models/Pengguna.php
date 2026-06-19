@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class Pengguna extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     /**
      * Nama tabel yang digunakan model ini.
@@ -33,7 +34,6 @@ class Pengguna extends Authenticatable
         'username',
         'password',
         'role',
-        'is_active',
     ];
 
     /**

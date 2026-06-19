@@ -20,7 +20,7 @@ class DashboardController extends Controller
         // ── 1. Summary Cards ──────────────────────────────────────
 
         // Total Populasi Ayam: SUM(populasi_saat_ini) dari semua kandang aktif
-        $totalPopulasi = Kandang::where('is_active', true)->sum('populasi_saat_ini');
+        $totalPopulasi = Kandang::sum('populasi_saat_ini');
 
         // Produksi Telur Hari Ini
         $today = Carbon::today();
@@ -38,7 +38,7 @@ class DashboardController extends Controller
         $saldoKas = null;
         $showSaldoKas = !$user->hasRole('Pegawai Kandang', 'Sales', 'Pegawai Gudang');
         if ($showSaldoKas) {
-            $saldoKas = AkunKas::where('is_active', true)->sum('saldo');
+            $saldoKas = AkunKas::sum('saldo');
         }
 
         // ── 2. Grafik Tren Produksi 7 Hari Terakhir ──────────────

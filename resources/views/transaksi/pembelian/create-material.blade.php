@@ -81,7 +81,7 @@
                                     <template x-for="(item, index) in items" :key="item.key">
                                         <tr class="border-b border-gray-100 hover:bg-gray-50 dark:bg-gray-700/50 transition-colors">
                                             <td class="p-3">
-                                                <select :name="`items[${index}][id_barang]`" x-model="item.id_barang" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                                <select :name="`items[${index}][id_barang]`" x-model="item.id_barang" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
                                                     <option value="">Pilih Barang...</option>
                                                     <template x-for="b in masterBarang" :key="b.id">
                                                         <option :value="b.id" x-text="`${b.nama} (${b.satuan})`"></option>
@@ -89,10 +89,10 @@
                                                 </select>
                                             </td>
                                             <td class="p-3">
-                                                <input type="number" step="0.01" min="0.01" :name="`items[${index}][kuantitas]`" x-model.number="item.kuantitas" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                                <input type="number" step="0.01" min="0.01" :name="`items[${index}][kuantitas]`" x-model.number="item.kuantitas" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
                                             </td>
                                             <td class="p-3">
-                                                <input type="number" step="1" min="1" :name="`items[${index}][harga_satuan]`" x-model.number="item.harga_satuan" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                                <input type="number" step="1" min="1" :name="`items[${index}][harga_satuan]`" x-model.number="item.harga_satuan" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
                                             </td>
                                             <td class="p-3 text-right">
                                                 <span class="font-medium text-gray-900 dark:text-gray-100" x-text="formatRupiah(item.sub_total)"></span>
@@ -149,7 +149,7 @@
                                         <option value="">-- Pilih Rekening --</option>
                                         @foreach($akunKas as $akun)
                                             <option value="{{ $akun->id_akun }}" {{ old('id_akun_kas') == $akun->id_akun ? 'selected' : '' }}>
-                                                {{ $akun->nama_akun }} (Saldo: @rupiah($akun->saldo_sekarang))
+                                                {{ $akun->nama_akun }} ({{ $akun->no_rekening }} - a.n. {{ $akun->nama_pemilik }} | Saldo: @rupiah($akun->saldo))
                                             </option>
                                         @endforeach
                                     </select>
@@ -160,6 +160,12 @@
                                     <p class="text-xs text-red-800 dark:text-red-300">
                                         <span class="font-bold">Info:</span> Transaksi ini akan dicatat sebagai <strong>Hutang</strong> perusahaan. Saldo kas tidak akan berkurang saat ini.
                                     </p>
+                                </div>
+
+                                <div x-show="metodePembayaran === 'TEMPO'" x-transition>
+                                    <label for="tanggal_jatuh_tempo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tanggal Jatuh Tempo <span class="text-red-500">*</span></label>
+                                    <input type="date" name="tanggal_jatuh_tempo" id="tanggal_jatuh_tempo" :required="metodePembayaran === 'TEMPO'" value="{{ old('tanggal_jatuh_tempo') }}" class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                    @error('tanggal_jatuh_tempo') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                                 </div>
 
                                 <hr class="border-gray-200 dark:border-gray-700">

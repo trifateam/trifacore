@@ -27,10 +27,24 @@ class KandangOperasionalController extends Controller
                 // Hanya batch yang aktif atau selesai di kandang tersebut
                 $query->whereIn('status_batch', ['Aktif', 'Selesai']);
             }])
-            ->where('is_active', true)
+            ->whereNull('deleted_at')
             ->get();
 
         return view('kandang-operasional.index', compact('pendingBatches', 'kandangs'));
+    }
+
+    public function showAssignForm($id_batch)
+    {
+        $batch = Batch::with('supplier')->findOrFail($id_batch);
+        
+        if ($batch->status_batch !== 'Pending') {
+            return redirect()->route('kandang-operasional.index')
+                ->with('error', 'Batch ini sudah tidak dalam status Pending.');
+        }
+
+        $kandangs = Kandang::whereNull('deleted_at')->get();
+
+        return view('kandang-operasional.assign', compact('batch', 'kandangs'));
     }
 
     /**

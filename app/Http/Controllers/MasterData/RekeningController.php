@@ -18,7 +18,7 @@ class RekeningController extends Controller
         $kategori = $request->input('kategori');
         $status = $request->input('status');
 
-        $rekenings = AkunKas::query()
+        $rekenings = AkunKas::query()->withTrashed()
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_akun', 'like', "%{$search}%")
@@ -30,7 +30,11 @@ class RekeningController extends Controller
                 $query->where('kategori_akun', $kategori);
             })
             ->when($status !== null && $status !== '', function ($query) use ($status) {
-                $query->where('is_active', $status);
+                if ($status == '1') {
+                    $query->whereNull('deleted_at');
+                } else {
+                    $query->whereNotNull('deleted_at');
+                }
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10)

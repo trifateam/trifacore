@@ -23,7 +23,7 @@ class BukuUtangController extends Controller
         $suppliers = Supplier::orderBy('nama_supplier')->get();
 
         // Akun kas aktif untuk modal pelunasan
-        $akunKas = AkunKas::where('is_active', true)->get();
+        $akunKas = AkunKas::all();
 
         // Base query — join pembelian + supplier
         $query = Hutang::with(['pembelian.supplier']);
@@ -75,7 +75,7 @@ class BukuUtangController extends Controller
             return redirect()->route('keuangan.buku-utang')->with('error', 'Utang ini sudah lunas.');
         }
 
-        $akunKas = AkunKas::where('is_active', true)->get();
+        $akunKas = AkunKas::all();
 
         return view('keuangan.buku-utang.lunasi', compact('hutang', 'akunKas'));
     }

@@ -47,10 +47,6 @@ class RekeningRequest extends FormRequest
                 'string',
                 'max:100',
             ],
-            'is_active' => [
-                'required',
-                'boolean',
-            ],
         ];
 
         // Saldo awal hanya saat tambah (store), bukan saat edit (update)
@@ -86,7 +82,6 @@ class RekeningRequest extends FormRequest
             'saldo.required' => 'Saldo awal wajib diisi.',
             'saldo.numeric' => 'Saldo awal harus berupa angka.',
             'saldo.min' => 'Saldo awal tidak boleh kurang dari 0.',
-            'is_active.required' => 'Status aktif wajib diisi.',
         ];
     }
 }

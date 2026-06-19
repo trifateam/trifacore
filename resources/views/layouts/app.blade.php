@@ -57,5 +57,6 @@
     <script src="{{ asset('js/form-handler.js') }}"></script>
     <script src="{{ asset('js/rupiah-formatter.js') }}"></script>
     @yield('scripts')
+    @stack('scripts')
 </body>
 </html>

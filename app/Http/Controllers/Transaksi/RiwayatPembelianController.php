@@ -63,42 +63,15 @@ class RiwayatPembelianController extends Controller
         // Get Paginated Data
         $pembelians = $query->paginate(15)->withQueryString();
 
-        // Format data for Alpine Modal Injection
-        $alpineData = $pembelians->map(function ($p) {
-            $status = 'Lunas';
-            $badge = 'success';
-            if ($p->metode_pembayaran === 'TEMPO' && $p->hutang) {
-                $status = $p->hutang->status_hutang;
-                $badge = $status === 'Lunas' ? 'success' : ($status === 'Belum Lunas' ? 'warning' : 'info');
-            }
-
-            return [
-                'id' => $p->id_pembelian,
-                'no_faktur' => $p->no_faktur_beli,
-                'tanggal' => \Carbon\Carbon::parse($p->tanggal_pembelian)->translatedFormat('d M Y H:i'),
-                'supplier' => $p->supplier->nama_supplier,
-                'kasir' => $p->pengguna->nama_lengkap,
-                'kategori' => strtoupper($p->kategori_pembelian),
-                'total' => $p->total_pembelian,
-                'metode' => $p->metode_pembayaran,
-                'status' => $status,
-                'badge' => $badge,
-                'catatan' => $p->catatan,
-                'sisa_hutang' => $p->hutang ? $p->hutang->sisa_hutang : 0,
-                'details' => $p->detailPembelian->map(function ($d) {
-                    return [
-                        'nama_barang' => $d->barang ? $d->barang->nama_barang : 'Barang Terhapus',
-                        'kuantitas' => $d->kuantitas,
-                        'harga_satuan' => $d->harga_satuan,
-                        'subtotal' => $d->subtotal, // column name in detail_pembelian is subtotal (no underscore)
-                    ];
-                })
-            ];
-        });
-
         return view('transaksi.riwayat-pembelian.index', compact(
-            'pembelians', 'suppliers', 'alpineData', 
+            'pembelians', 'suppliers',
             'totalTransaksi', 'totalNominal', 'totalTempo'
         ));
+    }
+
+    public function show($id)
+    {
+        $pembelian = Pembelian::with(['supplier', 'pengguna', 'detailPembelian.barang', 'hutang'])->findOrFail($id);
+        return view('transaksi.riwayat-pembelian.show', compact('pembelian'));
     }
 }

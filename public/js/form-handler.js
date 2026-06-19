@@ -6,10 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     forms.forEach(form => {
         form.addEventListener('submit', function (e) {
             // Skip forms managed by Alpine.js (they have their own submit handler)
-            // Detected by: form or parent having x-data, or form having @submit / x-on:submit
-            const isAlpineManaged = form.closest('[x-data]') || 
-                                     form.hasAttribute('x-data') ||
-                                     form.hasAttribute('@submit') ||
+            // Detected by: form having @submit / x-on:submit
+            const isAlpineManaged = form.hasAttribute('@submit') ||
                                      form.hasAttribute('x-on:submit');
             if (isAlpineManaged) {
                 return; // Let Alpine.js handle it

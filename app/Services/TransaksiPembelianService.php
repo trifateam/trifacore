@@ -65,7 +65,7 @@ class TransaksiPembelianService
             }
 
             // 4. Logika Pembayaran (Lunas vs Tempo)
-            $this->prosesPembayaran($pembelian, $data['metode_pembayaran'], $data['id_akun_kas'] ?? null, $userId);
+            $this->prosesPembayaran($pembelian, $data['metode_pembayaran'], $data['id_akun_kas'] ?? null, $userId, $data['tanggal_jatuh_tempo'] ?? null);
 
             // 5. Catat Riwayat Aktivitas
             $itemSummary = implode(', ', $rincianText);
@@ -141,7 +141,7 @@ class TransaksiPembelianService
             ]);
 
             // 5. Logika Pembayaran
-            $this->prosesPembayaran($pembelian, $data['metode_pembayaran'], $data['id_akun_kas'] ?? null, $userId);
+            $this->prosesPembayaran($pembelian, $data['metode_pembayaran'], $data['id_akun_kas'] ?? null, $userId, $data['tanggal_jatuh_tempo'] ?? null);
 
             // 6. Catat Riwayat
             \App\Services\AuditService::log("Mencatat pembelian Pullet ({$data['jenis_ayam']}, {$data['jumlah_awal']} ekor). Batch baru tercipta: {$kodeBatch}.");
@@ -155,7 +155,7 @@ class TransaksiPembelianService
         return \App\Helpers\CodeGenerator::generate('PB', 'pembelian', 'no_faktur_beli');
     }
 
-    private function prosesPembayaran(Pembelian $pembelian, $metode, $idAkunKas, $userId)
+    private function prosesPembayaran(Pembelian $pembelian, $metode, $idAkunKas, $userId, $tanggalJatuhTempo = null)
     {
         if ($metode === 'LUNAS') {
             if (empty($idAkunKas)) {
@@ -191,6 +191,7 @@ class TransaksiPembelianService
                 'jumlah_hutang' => $pembelian->total_pembelian,
                 'sisa_hutang' => $pembelian->total_pembelian,
                 'status_hutang' => 'Belum Lunas',
+                'tanggal_jatuh_tempo' => $tanggalJatuhTempo,
             ]);
         } else {
             throw new \Exception("Metode pembayaran tidak valid.");

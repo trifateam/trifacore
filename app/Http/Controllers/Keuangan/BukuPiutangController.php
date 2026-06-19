@@ -23,7 +23,7 @@ class BukuPiutangController extends Controller
         $pelanggans = Pelanggan::orderBy('nama_lengkap')->get();
 
         // Akun kas aktif untuk modal pelunasan
-        $akunKas = AkunKas::where('is_active', true)->get();
+        $akunKas = AkunKas::all();
 
         // Base query — join penjualan + pelanggan
         $query = Piutang::with(['penjualan.pelanggan']);
@@ -75,7 +75,7 @@ class BukuPiutangController extends Controller
             return redirect()->route('keuangan.buku-piutang')->with('error', 'Piutang ini sudah lunas.');
         }
 
-        $akunKas = AkunKas::where('is_active', true)->get();
+        $akunKas = AkunKas::all();
 
         return view('keuangan.buku-piutang.lunasi', compact('piutang', 'akunKas'));
     }

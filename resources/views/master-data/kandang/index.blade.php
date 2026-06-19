@@ -50,7 +50,7 @@
                         {{ $kandang->tahun_masuk }}
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        @if($kandang->is_active)
+                        @if(!$kandang->trashed())
                             <x-badge variant="success" dot>Aktif</x-badge>
                         @else
                             <x-badge variant="gray" dot>Non-Aktif</x-badge>
@@ -66,7 +66,6 @@
                                     'nama_kandang' => $kandang->nama_kandang,
                                     'kapasitas_kandang' => $kandang->kapasitas_kandang,
                                     'tahun_masuk' => $kandang->tahun_masuk,
-                                    'is_active' => $kandang->is_active ? '1' : '0',
                                 ]) }})"
                             >
                                 <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -133,16 +132,7 @@
                     hint="Tahun mulai operasi (2000 - {{ date('Y') }})"
                 />
 
-                <x-select
-                    name="is_active"
-                    label="Status"
-                    :required="true"
-                    :options="[
-                        ['value' => '1', 'label' => 'Aktif'],
-                        ['value' => '0', 'label' => 'Non-Aktif'],
-                    ]"
-                    selected="1"
-                />
+
             </x-form-section>
 
             <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -228,23 +218,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="edit_is_active" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Status <span class="text-red-500">*</span>
-                    </label>
-                    <select
-                        name="is_active"
-                        id="edit_is_active"
-                        required
-                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm"
-                    >
-                        <option value="1">Aktif</option>
-                        <option value="0">Non-Aktif</option>
-                    </select>
-                    @error('is_active')
-                        <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
-                    @enderror
-                </div>
+
             </x-form-section>
 
             <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -286,7 +260,6 @@
         document.getElementById('edit_nama_kandang').value = data.nama_kandang;
         document.getElementById('edit_kapasitas_kandang').value = data.kapasitas_kandang;
         document.getElementById('edit_tahun_masuk').value = data.tahun_masuk;
-        document.getElementById('edit_is_active').value = data.is_active;
 
         // Open modal
         window.dispatchEvent(new CustomEvent('open-modal-edit-kandang'));

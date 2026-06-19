@@ -165,7 +165,7 @@
 
                         {{-- Pencatat --}}
                         <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                            {{ $kas->pengguna->nama_pengguna ?? '-' }}
+                            {{ $kas->pengguna->nama_lengkap ?? '-' }}
                         </td>
                     </tr>
                 @empty
