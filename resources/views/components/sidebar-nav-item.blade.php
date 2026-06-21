@@ -20,6 +20,5 @@
     href="{{ $href }}" 
     class="sidebar-nav-item {{ $active ? 'sidebar-nav-item-active' : 'sidebar-nav-item-default' }}"
 >
-    <span class="sidebar-nav-dot {{ $active ? 'sidebar-nav-dot-active' : 'sidebar-nav-dot-default' }}"></span>
     <span class="truncate">{{ $slot }}</span>
 </a>

@@ -46,6 +46,7 @@ class PelangganController extends Controller
             'kategori' => $request->kategori,
             'kontak' => $request->kontak,
             'alamat' => $request->alamat,
+        ]);
 
         \App\Services\AuditService::log('Menambah pelanggan baru: ' . $request->nama_lengkap);
 
@@ -65,6 +66,7 @@ class PelangganController extends Controller
             'kategori' => $request->kategori,
             'kontak' => $request->kontak,
             'alamat' => $request->alamat,
+        ]);
 
         \App\Services\AuditService::log('Mengedit pelanggan: ' . $request->nama_lengkap);
 

@@ -44,16 +44,38 @@
         </button>
         @endrole
 
-        @role('Admin', 'Owner', 'Pegawai Gudang')
-        {{-- Operasional --}}
-        <button @mouseenter="handleIconHover('operasional', 'Operasional')"
-           @click="handleIconClick('operasional', 'Operasional', $event)"
+        {{-- Riwayat --}}
+        <button @mouseenter="handleIconHover('riwayat', 'Riwayat')"
+           @click="handleIconClick('riwayat', 'Riwayat', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
-           :class="activeMenu === 'operasional' ? 'bg-[#7c3aed] text-white shadow-lg shadow-[#7c3aed]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
+           :class="activeMenu === 'riwayat' ? 'bg-[#8b5cf6] text-white shadow-lg shadow-[#8b5cf6]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.1-3.04A1.5 1.5 0 005 13.5v5.25a1.5 1.5 0 001.32 1.49l7.5.94a1.5 1.5 0 001.68-1.49V13.5a1.5 1.5 0 00-1.32-1.49l-2.76-.34zM17.5 7.64l-5.1-3.04A1.5 1.5 0 0011 5.87v5.25a1.5 1.5 0 001.32 1.49l7.5.94a1.5 1.5 0 001.68-1.49V5.87a1.5 1.5 0 00-1.32-1.49l-2.68-.34z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         </button>
+
+        @role('Admin', 'Owner', 'Pegawai Gudang')
+        {{-- Kandang --}}
+        <a href="/kandang-operasional"
+           @mouseenter="handleIconHover('kandang', 'Kandang')"
+           @click="handleIconClick('kandang', 'Kandang', $event)"
+           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
+           :class="activeMenu === 'kandang' ? 'bg-[#7c3aed] text-white shadow-lg shadow-[#7c3aed]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
+            </svg>
+        </a>
+
+        {{-- Gudang --}}
+        <a href="/gudang"
+           @mouseenter="handleIconHover('gudang', 'Gudang')"
+           @click="handleIconClick('gudang', 'Gudang', $event)"
+           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
+           :class="activeMenu === 'gudang' ? 'bg-[#0d9488] text-white shadow-lg shadow-[#0d9488]/30' : 'text-gray-400 hover:text-gray-200 hover:bg-gray-800'">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+            </svg>
+        </a>
         @endrole
 
         @role('Admin', 'Owner')
@@ -119,18 +141,26 @@
             </div>
 
             @role('Admin', 'Pegawai Kandang')
-            <div x-show="activeMenu === 'pencatatan'" x-cloak class="space-y-4">
+            <div x-show="activeMenu === 'pencatatan'" x-cloak>
+                <x-sidebar-nav-item href="/pencatatan/produksi-telur" :active="request()->is('pencatatan/produksi-telur*')">Produksi Telur</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/konsumsi-pakan" :active="request()->is('pencatatan/konsumsi-pakan*')">Konsumsi Pakan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/konsumsi-vitamin" :active="request()->is('pencatatan/konsumsi-vitamin*')">Konsumsi Vitamin</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/deplesi" :active="request()->is('pencatatan/deplesi*')">Kematian/Afkir (Deplesi)</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/suhu" :active="request()->is('pencatatan/suhu*')">Suhu Lingkungan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/pencatatan/pupuk" :active="request()->is('pencatatan/pupuk*')">Produksi Pupuk</x-sidebar-nav-item>
+            </div>
+            @endrole
+
+            @role('Admin', 'Owner', 'Sales')
+            <div x-show="activeMenu === 'transaksi'" x-cloak>
+                <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Transaksi Penjualan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Transaksi Pembelian</x-sidebar-nav-item>
+            </div>
+            @endrole
+
+            <div x-show="activeMenu === 'riwayat'" x-cloak class="space-y-4">
                 <div>
                     <div class="px-4 mb-2 mt-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pencatatan</div>
-                    <x-sidebar-nav-item href="/pencatatan/produksi-telur" :active="request()->is('pencatatan/produksi-telur*')">Produksi Telur</x-sidebar-nav-item>
-                    <x-sidebar-nav-item href="/pencatatan/konsumsi-pakan" :active="request()->is('pencatatan/konsumsi-pakan*')">Konsumsi Pakan</x-sidebar-nav-item>
-                    <x-sidebar-nav-item href="/pencatatan/konsumsi-vitamin" :active="request()->is('pencatatan/konsumsi-vitamin*')">Konsumsi Vitamin</x-sidebar-nav-item>
-                    <x-sidebar-nav-item href="/pencatatan/deplesi" :active="request()->is('pencatatan/deplesi*')">Kematian/Afkir (Deplesi)</x-sidebar-nav-item>
-                    <x-sidebar-nav-item href="/pencatatan/suhu" :active="request()->is('pencatatan/suhu*')">Suhu Lingkungan</x-sidebar-nav-item>
-                    <x-sidebar-nav-item href="/pencatatan/pupuk" :active="request()->is('pencatatan/pupuk*')">Produksi Pupuk</x-sidebar-nav-item>
-                </div>
-                <div>
-                    <div class="px-4 mb-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Riwayat Recording</div>
                     <x-sidebar-nav-item href="/pencatatan/riwayat/produksi-telur" :active="request()->is('pencatatan/riwayat/produksi-telur')">Produksi Telur</x-sidebar-nav-item>
                     <x-sidebar-nav-item href="/pencatatan/riwayat/konsumsi-pakan" :active="request()->is('pencatatan/riwayat/konsumsi-pakan')">Konsumsi Pakan</x-sidebar-nav-item>
                     <x-sidebar-nav-item href="/pencatatan/riwayat/konsumsi-vitamin" :active="request()->is('pencatatan/riwayat/konsumsi-vitamin')">Konsumsi Vitamin</x-sidebar-nav-item>
@@ -138,24 +168,20 @@
                     <x-sidebar-nav-item href="/pencatatan/riwayat/suhu" :active="request()->is('pencatatan/riwayat/suhu')">Suhu Kandang</x-sidebar-nav-item>
                     <x-sidebar-nav-item href="/pencatatan/riwayat/pupuk" :active="request()->is('pencatatan/riwayat/pupuk')">Produksi Pupuk</x-sidebar-nav-item>
                 </div>
+                <div>
+                    <div class="px-4 mb-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Transaksi</div>
+                    <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Penjualan</x-sidebar-nav-item>
+                    <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Pembelian</x-sidebar-nav-item>
+                </div>
             </div>
-            @endrole
-
-            @role('Admin', 'Owner', 'Sales')
-            <div x-show="activeMenu === 'transaksi'" x-cloak>
-                <div class="px-4 mb-2 mt-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Transaksi</div>
-                <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Transaksi Penjualan</x-sidebar-nav-item>
-                <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Transaksi Pembelian</x-sidebar-nav-item>
-                <div class="px-4 mb-2 mt-4 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Riwayat</div>
-                <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Riwayat Penjualan</x-sidebar-nav-item>
-                <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Riwayat Pembelian</x-sidebar-nav-item>
-            </div>
-            @endrole
 
             @role('Admin', 'Owner', 'Pegawai Gudang')
-            <div x-show="activeMenu === 'operasional'" x-cloak>
-                <x-sidebar-nav-item href="/kandang-operasional" :active="request()->is('kandang-operasional*')">Kandang</x-sidebar-nav-item>
-                <x-sidebar-nav-item href="/gudang" :active="request()->is('gudang*')">Gudang</x-sidebar-nav-item>
+            <div x-show="activeMenu === 'kandang'" x-cloak>
+                <x-sidebar-nav-item href="/kandang-operasional" :active="request()->is('kandang-operasional*')">Kandang Operasional</x-sidebar-nav-item>
+            </div>
+
+            <div x-show="activeMenu === 'gudang'" x-cloak>
+                <x-sidebar-nav-item href="/gudang" :active="request()->is('gudang*')">Manajemen Gudang</x-sidebar-nav-item>
             </div>
             @endrole
 
@@ -207,12 +233,18 @@ document.addEventListener('alpine:init', () => {
         init() {
             const path = window.location.pathname;
             
-            if (path.startsWith('/pencatatan')) {
+            if (path.startsWith('/pencatatan/riwayat')) {
+                this.setInitialMenu('riwayat', 'Riwayat');
+            } else if (path.startsWith('/transaksi/riwayat')) {
+                this.setInitialMenu('riwayat', 'Riwayat');
+            } else if (path.startsWith('/pencatatan')) {
                 this.setInitialMenu('pencatatan', 'Pencatatan Harian');
             } else if (path.startsWith('/transaksi')) {
                 this.setInitialMenu('transaksi', 'Manajemen Transaksi');
-            } else if (path.startsWith('/kandang-operasional') || path.startsWith('/gudang')) {
-                this.setInitialMenu('operasional', 'Operasional');
+            } else if (path.startsWith('/kandang-operasional')) {
+                this.setInitialMenu('kandang', 'Kandang');
+            } else if (path.startsWith('/gudang')) {
+                this.setInitialMenu('gudang', 'Gudang');
             } else if (path.startsWith('/master-data')) {
                 this.setInitialMenu('masterData', 'Master Data');
             } else if (path.startsWith('/keuangan')) {
@@ -244,6 +276,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         handleIconClick(id, title, e) {
+            const directLinks = ['dashboard', 'kandang', 'gudang'];
             if (this.isMobile) {
                 if (this.activeMenu === id && this.isExpanded) {
                     this.isExpanded = false;
@@ -251,12 +284,12 @@ document.addEventListener('alpine:init', () => {
                     this.activeMenu = id;
                     this.menuTitle = title;
                     this.isExpanded = true;
-                    if (id !== 'dashboard') {
+                    if (!directLinks.includes(id)) {
                         e.preventDefault();
                     }
                 }
             } else {
-                if (id !== 'dashboard') {
+                if (!directLinks.includes(id)) {
                     e.preventDefault();
                 }
             }
