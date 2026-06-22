@@ -462,7 +462,7 @@
                         </div>
                         <div
                             class="flex items-center gap-2 px-4 py-3 rounded-2xl bg-[#FFC72C]/10 border border-[#FFC72C]/20">
-                            <span class="text-2xl font-extrabold text-[#FFC72C]">500+</span>
+                            <span class="text-2xl font-extrabold text-[#FFC72C]">300+</span>
                             <span class="text-xs font-medium text-gray-600 dark:text-gray-400">Pelanggan<br>Setia</span>
                         </div>
                     </div>
@@ -549,7 +549,7 @@
                                 <span class="text-xs font-bold text-[#FFC72C] uppercase tracking-wider">2025 —
                                     Sekarang</span>
                                 <h4 class="font-bold text-base mt-1 mb-2">Trifafarm Terus Berkembang 🚀</h4>
-                                <p class="text-sm text-gray-600 dark:text-gray-400">Melayani 500+ pelanggan aktif dari
+                                <p class="text-sm text-gray-600 dark:text-gray-400">Melayani 300+ pelanggan aktif dari
                                     rumah tangga, pedagang, hingga pelaku usaha kuliner dan pertanian di Padang dan
                                     sekitarnya.</p>
                             </div>

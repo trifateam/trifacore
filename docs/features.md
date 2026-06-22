@@ -11,12 +11,12 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 ### 1. Landing Page (Profil Publik)
 | Komponen | Deskripsi |
 | :--- | :--- |
-| **Status** | ⏳ On Progress |
+| **Status** | ✅ Sudah Ada |
 | **Tujuan Fitur** | Tampilan representasi digital dan *branding* profil Trifa Farm bagi pengunjung web |
 | **Aktor** | Pengunjung Publik |
 | **Alur Fitur** | Akses URL utama &rarr; lihat info profil peternakan |
-| **Route / Controller** | *(Belum diimplementasikan)* |
-| **Screenshot Fitur** | *[Belum diimplementasikan]* |
+| **Route / Controller** | `GET /`<br>`welcome.blade.php` |
+| **Screenshot Fitur** | ![Landing Page](screenshot/Landing%20Page.png) |
 
 ---
 
