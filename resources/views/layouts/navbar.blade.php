@@ -1,8 +1,5 @@
 <header class="sticky top-0 z-20 bg-white dark:bg-gray-800 shadow-sm dark:shadow-gray-900/30 h-14 flex items-center justify-between px-4 sm:px-5 border-b border-gray-200 dark:border-gray-700/60 dark:border-gray-700/60">
     <div class="flex items-center gap-3">
-        <button @click="sidebarOpen = !sidebarOpen" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-200 focus:outline-none md:hidden">
-            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg>
-        </button>
         <a href="/dashboard" class="flex items-center gap-2.5">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 2px 8px rgba(245,158,11,0.3);">
                 <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>

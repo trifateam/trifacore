@@ -28,25 +28,13 @@
         <!-- Sidebar -->
         @include('layouts.sidebar')
 
-        <!-- Mobile sidebar backdrop -->
-        <div x-show="sidebarOpen" 
-             x-transition:enter="transition-opacity ease-linear duration-300"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition-opacity ease-linear duration-300"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             class="fixed inset-0 z-20 bg-black/50 md:hidden" 
-             @click="sidebarOpen = false" 
-             style="display: none;"></div>
-
         <!-- Content Area -->
-        <div class="flex flex-col min-h-screen md:ml-20 transition-all duration-300">
+        <div class="flex flex-col min-h-screen ml-0 md:ml-20 transition-all duration-300 pb-20 md:pb-0">
             <!-- Navbar -->
             @include('layouts.navbar')
 
             <!-- Main Content -->
-            <main class="flex-1 p-6">
+            <main class="flex-1 p-4 md:p-6">
                 @include('components.flash-message')
 
                 @yield('content')
