@@ -135,6 +135,7 @@
                         <div class="text-left">
                             <div class="text-[10px] text-white/60 font-semibold uppercase leading-none">Produksi</div>
                             <div class="text-xs font-bold mt-0.5">5K+ / Hari</div>
+                            <div class="text-xs font-bold mt-0.5">10K+ / Hari</div>
                         </div>
                     </div>
                     <div
