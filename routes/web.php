@@ -35,8 +35,30 @@ use App\Http\Controllers\Transaksi\PenjualanController;
 use App\Http\Controllers\Transaksi\RiwayatPembelianController;
 use App\Http\Controllers\Transaksi\RiwayatPenjualanController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Barang;
+use App\Models\Testimoni;
+use Illuminate\Http\Request;
+Route::get('/', function () {
+    $produk = Barang::whereIn('id_barang', [1, 2, 3, 9, 10])->get()->keyBy('id_barang');
+    $testimonis = Testimoni::where('is_tampil', true)->latest()->take(10)->get();
+    return view('welcome', compact('produk', 'testimonis'));
+});
 
-Route::redirect('/', '/dashboard');
+Route::post('/testimoni', function (Request $request) {
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'role' => 'nullable|string|max:255',
+        'teks' => 'required|string',
+    ]);
+    Testimoni::create([
+        'nama' => $request->nama,
+        'role' => $request->role,
+        'teks' => $request->teks,
+        'rating' => 5,
+        'is_tampil' => true,
+    ]);
+    return redirect('/#testimoni')->with('success', 'Terima kasih! Ulasan Anda telah dikirim.');
+})->name('testimoni.store');
 
 // Auth Routes
 Route::middleware('guest')->group(function () {

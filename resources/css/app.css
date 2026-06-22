@@ -241,3 +241,151 @@
     background: rgba(245, 158, 11, 0.15) !important;
     color: #f59e0b !important;
 }
+
+/* ═══════════════════════════════════════
+   LANDING PAGE STYLES
+   ═══════════════════════════════════════ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Loading Screen */
+@keyframes loading-spin {
+    to { transform: rotate(360deg); }
+}
+@keyframes loading-fade {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Floating animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-12px) rotate(2deg); }
+    66% { transform: translateY(6px) rotate(-1deg); }
+}
+@keyframes float-slow {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+}
+@keyframes float-reverse {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(15px) rotate(-3deg); }
+}
+
+/* Blob animations */
+@keyframes blob-pulse {
+    0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.3; }
+    33% { transform: scale(1.1) translate(30px, -20px); opacity: 0.4; }
+    66% { transform: scale(0.9) translate(-20px, 15px); opacity: 0.25; }
+}
+@keyframes blob-pulse-2 {
+    0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.25; }
+    33% { transform: scale(0.95) translate(-25px, 20px); opacity: 0.35; }
+    66% { transform: scale(1.05) translate(15px, -15px); opacity: 0.2; }
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Carousel fade */
+@keyframes carousel-fade-in {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Landing page utility classes */
+.lp-float { animation: float 6s ease-in-out infinite; }
+.lp-float-slow { animation: float-slow 8s ease-in-out infinite; }
+.lp-float-reverse { animation: float-reverse 7s ease-in-out infinite; }
+.lp-blob-1 { animation: blob-pulse 12s ease-in-out infinite; }
+.lp-blob-2 { animation: blob-pulse-2 15s ease-in-out infinite; }
+
+.lp-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.dark .lp-glass {
+    background: rgba(30, 30, 30, 0.75);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+.lp-card {
+    border-radius: 20px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lp-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px -15px rgba(255, 199, 44, 0.25);
+}
+.dark .lp-card:hover {
+    box-shadow: 0 20px 60px -15px rgba(255, 199, 44, 0.15);
+}
+
+/* Scroll-triggered animations */
+.lp-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lp-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.lp-animate-delay-1 { transition-delay: 0.1s; }
+.lp-animate-delay-2 { transition-delay: 0.2s; }
+.lp-animate-delay-3 { transition-delay: 0.3s; }
+.lp-animate-delay-4 { transition-delay: 0.4s; }
+
+/* Shimmer text effect */
+.lp-shimmer {
+    background: linear-gradient(90deg, #FFC72C 0%, #fff8e1 40%, #FFC72C 60%, #FFB800 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Gradient text */
+.lp-gradient-text {
+    background: linear-gradient(135deg, #FFC72C, #FF9500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* WhatsApp button pulse */
+@keyframes wa-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+.lp-wa-pulse {
+    animation: wa-pulse 2s infinite;
+}
+
