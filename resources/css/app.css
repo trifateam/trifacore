@@ -166,3 +166,78 @@
     background-color: #374151;
     color: #f3f4f6;
 }
+
+/* ═══════════════════════════════════════
+   MOBILE BOTTOM NAVBAR
+   ═══════════════════════════════════════ */
+
+.mobile-bottom-nav {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.mobile-nav-btn {
+    @apply flex flex-col items-center justify-center gap-1 py-1.5 px-2 min-w-0 flex-1 cursor-pointer;
+    -webkit-tap-highlight-color: transparent;
+    background: none;
+    border: none;
+    text-decoration: none;
+}
+
+.mobile-nav-icon {
+    @apply w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200;
+    color: #9ca3af;
+}
+.dark .mobile-nav-icon {
+    color: #6b7280;
+}
+
+.mobile-nav-icon:active {
+    transform: scale(0.92);
+}
+
+.mobile-nav-active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff !important;
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.35);
+}
+
+.mobile-nav-label {
+    @apply text-[10px] font-medium leading-tight truncate max-w-full text-center;
+    color: #9ca3af;
+}
+.dark .mobile-nav-label {
+    color: #6b7280;
+}
+.mobile-nav-active + .mobile-nav-label,
+.mobile-nav-btn:has(.mobile-nav-active) .mobile-nav-label {
+    color: #d97706;
+}
+.dark .mobile-nav-btn:has(.mobile-nav-active) .mobile-nav-label {
+    color: #f59e0b;
+}
+
+/* Submenu panel items */
+.mobile-submenu-item {
+    @apply flex items-center gap-3 px-4 py-3 text-sm rounded-xl transition-all duration-150 no-underline;
+    color: #4b5563;
+}
+.dark .mobile-submenu-item {
+    color: #d1d5db;
+}
+.mobile-submenu-item:active {
+    background: #f3f4f6;
+    transform: scale(0.98);
+}
+.dark .mobile-submenu-item:active {
+    background: #374151;
+}
+
+.mobile-submenu-active {
+    background: rgba(245, 158, 11, 0.10) !important;
+    color: #d97706 !important;
+    font-weight: 600;
+}
+.dark .mobile-submenu-active {
+    background: rgba(245, 158, 11, 0.15) !important;
+    color: #f59e0b !important;
+}
