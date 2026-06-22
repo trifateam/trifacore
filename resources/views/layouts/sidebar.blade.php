@@ -44,6 +44,7 @@
         </button>
         @endrole
 
+        @role('Admin', 'Owner', 'Pegawai Kandang', 'Sales')
         {{-- Riwayat --}}
         <button @mouseenter="handleIconHover('riwayat', 'Riwayat')"
            @click="handleIconClick('riwayat', 'Riwayat', $event)"
@@ -53,6 +54,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
         </button>
+        @endrole
 
         @role('Admin', 'Owner', 'Pegawai Gudang')
         {{-- Kandang --}}
@@ -159,6 +161,7 @@
             @endrole
 
             <div x-show="activeMenu === 'riwayat'" x-cloak class="space-y-4">
+                @role('Admin', 'Owner', 'Pegawai Kandang')
                 <div>
                     <div class="px-4 mb-2 mt-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pencatatan</div>
                     <x-sidebar-nav-item href="/pencatatan/riwayat/produksi-telur" :active="request()->is('pencatatan/riwayat/produksi-telur')">Produksi Telur</x-sidebar-nav-item>
@@ -168,11 +171,14 @@
                     <x-sidebar-nav-item href="/pencatatan/riwayat/suhu" :active="request()->is('pencatatan/riwayat/suhu')">Suhu Kandang</x-sidebar-nav-item>
                     <x-sidebar-nav-item href="/pencatatan/riwayat/pupuk" :active="request()->is('pencatatan/riwayat/pupuk')">Produksi Pupuk</x-sidebar-nav-item>
                 </div>
+                @endrole
+                @role('Admin', 'Owner', 'Sales')
                 <div>
                     <div class="px-4 mb-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Transaksi</div>
                     <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Penjualan</x-sidebar-nav-item>
                     <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Pembelian</x-sidebar-nav-item>
                 </div>
+                @endrole
             </div>
 
             @role('Admin', 'Owner', 'Pegawai Gudang')
