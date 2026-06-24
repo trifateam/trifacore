@@ -12,7 +12,7 @@ class SuhuKandangSeeder extends Seeder
     public function run(): void
     {
         SuhuKandang::query()->delete();
-        $kandangs = Kandang::where('is_active', true)->get();
+        $kandangs = Kandang::all();
         $admin = \App\Models\Pengguna::where('role', 'Admin')->first();
         $id_pengguna = $admin ? $admin->id_pengguna : 1;
 

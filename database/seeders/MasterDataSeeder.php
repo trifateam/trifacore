@@ -67,8 +67,8 @@ class MasterDataSeeder extends Seeder
 
         // Kandang
         $kandangs = [
-            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang A', 'kapasitas_kandang' => 5000, 'populasi_saat_ini' => 4800, 'tahun_masuk' => 2023, 'is_active' => true],
-            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang B', 'kapasitas_kandang' => 5000, 'populasi_saat_ini' => 5000, 'tahun_masuk' => 2024, 'is_active' => true],
+            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang A', 'kapasitas_kandang' => 5000, 'populasi_saat_ini' => 4800, 'tahun_masuk' => 2023],
+            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang B', 'kapasitas_kandang' => 5000, 'populasi_saat_ini' => 5000, 'tahun_masuk' => 2024],
         ];
         foreach ($kandangs as $k) {
             Kandang::create($k);
@@ -76,9 +76,9 @@ class MasterDataSeeder extends Seeder
 
         // Akun Kas
         $akunKas = [
-            ['nama_akun' => 'Kas Tunai', 'kategori_akun' => 'Tunai', 'saldo' => 5000000, 'is_active' => true],
-            ['nama_akun' => 'Bank BCA', 'kategori_akun' => 'Bank', 'no_rekening' => '1234567890', 'nama_pemilik' => 'Peternakan TriFa', 'saldo' => 25000000, 'is_active' => true],
-            ['nama_akun' => 'Bank Mandiri', 'kategori_akun' => 'Bank', 'no_rekening' => '0987654321', 'nama_pemilik' => 'Peternakan TriFa', 'saldo' => 15000000, 'is_active' => true],
+            ['nama_akun' => 'Kas Tunai', 'kategori_akun' => 'Tunai', 'saldo' => 5000000],
+            ['nama_akun' => 'Bank BCA', 'kategori_akun' => 'Bank', 'no_rekening' => '1234567890', 'nama_pemilik' => 'Peternakan TriFa', 'saldo' => 25000000],
+            ['nama_akun' => 'Bank Mandiri', 'kategori_akun' => 'Bank', 'no_rekening' => '0987654321', 'nama_pemilik' => 'Peternakan TriFa', 'saldo' => 15000000],
         ];
         foreach ($akunKas as $ak) {
             AkunKas::create($ak);
