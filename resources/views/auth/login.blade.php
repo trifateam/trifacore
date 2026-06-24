@@ -293,11 +293,9 @@
                     </button>
                 </form>
 
-                {{-- Back Helper (Register) --}}
                 <div class="mt-8 text-center text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Belum memiliki kredensial login?
-                    <a href="{{ route('register') }}" class="text-[#FFC72C] hover:underline font-bold">Daftar Akun
-                        Baru</a>
+                    Lupa password atau belum punya akun? <br>
+                    Silahkan hubungi Admin <a href="https://wa.me/628989802250" target="_blank" class="text-[#FFC72C] hover:underline font-bold">+62 898-9802-250</a>
                 </div>
             </div>
         </div>
