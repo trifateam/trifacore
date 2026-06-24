@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login — TriFaCore</title>
+    <title>Login — TrifaFarm</title>
     <link rel="icon" type="image/png" href="{{ asset('images/trifaFarmRedesign.png') }}">
 
     {{-- Fonts --}}
@@ -107,7 +107,7 @@
                     <img src="{{ asset('images/trifaFarmRedesign.png') }}"
                         class="w-full h-full object-contain filter brightness-0 invert" alt="Trifafarm Logo">
                 </div>
-                <span class="text-xl font-black tracking-wider text-white">TRIFACORE SYSTEM</span>
+                <span class="text-xl font-black tracking-wider text-white">TRIFA FARM SYSTEM</span>
             </div>
 
             {{-- Central Illustration / Feature Card --}}
@@ -135,7 +135,6 @@
                         <div class="text-left">
                             <div class="text-[10px] text-white/60 font-semibold uppercase leading-none">Produksi</div>
                             <div class="text-xs font-bold mt-0.5">5K+ / Hari</div>
-                            <div class="text-xs font-bold mt-0.5">10K+ / Hari</div>
                         </div>
                     </div>
                     <div

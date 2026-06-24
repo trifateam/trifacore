@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - TriFaCore</title>
+    <title>Register - TrifaFarm</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100 dark:bg-gray-700 min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md">
         <div class="bg-white dark:bg-gray-800 shadow-lg rounded-lg px-8 py-10">
-            <h1 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-200 mb-8">Daftar Akun TriFaCore</h1>
+            <h1 class="text-2xl font-bold text-center text-gray-800 dark:text-gray-200 mb-8">Daftar Akun TrifaFarm</h1>
 
             @if ($errors->any())
                 <div class="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded mb-6">
