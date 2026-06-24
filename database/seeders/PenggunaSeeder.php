@@ -22,35 +22,35 @@ class PenggunaSeeder extends Seeder
                 'password' => Hash::make('password123'),
                 'nama_lengkap' => 'Administrator System',
                 'role' => 'Admin',
-                'is_active' => true,
+
             ],
             [
                 'username' => 'owner',
                 'password' => Hash::make('password123'),
                 'nama_lengkap' => 'Bapak Budi (Owner)',
                 'role' => 'Owner',
-                'is_active' => true,
+
             ],
             [
                 'username' => 'sales',
                 'password' => Hash::make('password123'),
                 'nama_lengkap' => 'Agus Sales',
                 'role' => 'Sales',
-                'is_active' => true,
+
             ],
             [
                 'username' => 'kandang_a',
                 'password' => Hash::make('password123'),
                 'nama_lengkap' => 'Joko Kandang',
                 'role' => 'Pegawai Kandang',
-                'is_active' => true,
+
             ],
             [
                 'username' => 'gudang1',
                 'password' => Hash::make('password123'),
                 'nama_lengkap' => 'Bambang Gudang',
                 'role' => 'Pegawai Gudang',
-                'is_active' => true,
+
             ],
         ];
 

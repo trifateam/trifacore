@@ -20,7 +20,7 @@ class PelangganSeeder extends Seeder
                 'kategori' => 'Distributor',
                 'kontak' => '081122334455',
                 'alamat' => 'Pasar Induk Kramat Jati',
-                'is_active' => true,
+
             ],
             [
                 'id_pengguna' => $admin->id_pengguna ?? 1,
@@ -28,7 +28,7 @@ class PelangganSeeder extends Seeder
                 'kategori' => 'Retail',
                 'kontak' => '082233445566',
                 'alamat' => 'Jl. Kebon Jeruk No 12',
-                'is_active' => true,
+
             ],
             [
                 'id_pengguna' => $admin->id_pengguna ?? 1,
@@ -36,7 +36,7 @@ class PelangganSeeder extends Seeder
                 'kategori' => 'Retail',
                 'kontak' => '083344556677',
                 'alamat' => 'Mall Harmoni Indah',
-                'is_active' => true,
+
             ],
             [
                 'id_pengguna' => $admin->id_pengguna ?? 1,
@@ -44,7 +44,7 @@ class PelangganSeeder extends Seeder
                 'kategori' => 'Personal',
                 'kontak' => '084455667788',
                 'alamat' => 'Perumahan Asri Blok C',
-                'is_active' => true,
+
             ],
             [
                 'id_pengguna' => $admin->id_pengguna ?? 1,
@@ -52,7 +52,7 @@ class PelangganSeeder extends Seeder
                 'kategori' => 'Personal', // Biasanya beli pupuk
                 'kontak' => '085566778899',
                 'alamat' => 'Desa Tani Makmur',
-                'is_active' => true,
+
             ],
         ];
 
