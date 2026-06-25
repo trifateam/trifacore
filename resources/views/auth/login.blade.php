@@ -274,14 +274,6 @@
                         </div>
                     </div>
 
-                    {{-- Remember Me & Options --}}
-                    <div class="flex items-center">
-                        <input type="checkbox" id="remember" name="remember"
-                            class="h-4.5 w-4.5 rounded-lg text-[#FFC72C] focus:ring-[#FFC72C] border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#1a1a1a]">
-                        <label for="remember" class="ml-2.5 text-sm text-gray-500 dark:text-gray-400 font-medium">Ingat
-                            saya untuk 30 hari ke depan</label>
-                    </div>
-
                     {{-- Submit Button --}}
                     <button type="submit"
                         class="w-full py-3.5 bg-[#FFC72C] hover:bg-[#FFB800] text-white font-bold rounded-2xl shadow-lg shadow-[#FFC72C]/20 hover:shadow-xl hover:shadow-[#FFC72C]/35 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 text-sm flex items-center justify-center gap-2">
