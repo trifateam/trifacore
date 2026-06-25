@@ -119,7 +119,7 @@
 
 
 .sidebar-timestamp { @apply shrink-0 px-2 py-1; }
-.dark .sidebar-timestamp { }
+
 .sidebar-timestamp-inner { @apply flex items-center gap-2; }
 .sidebar-timestamp-icon { @apply w-7 h-7 rounded-lg flex items-center justify-center shrink-0; background: #f1f5f9; color: #94a3b8; }
 .dark .sidebar-timestamp-icon { background: #374151; color: #9ca3af; }
