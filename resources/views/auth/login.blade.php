@@ -255,9 +255,6 @@
                         <div class="flex items-center justify-between mb-1.5">
                             <label for="password"
                                 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Password</label>
-                            <a href="#"
-                                class="text-xs font-bold text-gray-400 hover:text-[#FFC72C] dark:hover:text-[#FFC72C] transition-colors">Lupa
-                                Password?</a>
                         </div>
                         <div class="relative">
                             <div
@@ -286,8 +283,7 @@
                 </form>
 
                 <div class="mt-8 text-center text-sm font-medium text-gray-500 dark:text-gray-400">
-                    Lupa password atau belum punya akun? <br>
-                    Silahkan hubungi Admin <a href="https://wa.me/628989802250" target="_blank" class="text-[#FFC72C] hover:underline font-bold">+62 898-9802-250</a>
+                    Sistem Manajemen Operasional Trifafarm
                 </div>
             </div>
         </div>

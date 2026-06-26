@@ -15,14 +15,7 @@ class KandangOperasionalController extends Controller
      */
     public function index()
     {
-        // Section 1: Batch Pending (FIFO: older batches first)
-        $pendingBatches = Batch::with('supplier')
-            ->where('status_batch', 'Pending')
-            ->where('jumlah_sisa', '>', 0)
-            ->orderBy('tgl_masuk', 'asc')
-            ->get();
-
-        // Section 2: Kandang Aktif beserta batch-nya
+        // Section 1: Kandang Aktif beserta batch-nya
         $kandangs = Kandang::with(['batches' => function ($query) {
                 // Hanya batch yang aktif atau selesai di kandang tersebut
                 $query->whereIn('status_batch', ['Aktif', 'Selesai']);
@@ -30,7 +23,20 @@ class KandangOperasionalController extends Controller
             ->whereNull('deleted_at')
             ->get();
 
-        return view('kandang-operasional.index', compact('pendingBatches', 'kandangs'));
+        return view('kandang-operasional.index', compact('kandangs'));
+    }
+
+    /**
+     * Tampilkan seluruh data batch (Aktif, Non-Aktif/Selesai, Pending)
+     */
+    public function batch()
+    {
+        $batches = Batch::with(['supplier', 'kandang'])
+            ->orderByRaw("FIELD(status_batch, 'Pending', 'Aktif', 'Selesai')")
+            ->orderBy('tgl_masuk', 'desc')
+            ->get();
+
+        return view('kandang-operasional.batch', compact('batches'));
     }
 
     public function showAssignForm($id_batch)

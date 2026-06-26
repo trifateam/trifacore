@@ -182,7 +182,9 @@
 
             @role('Admin', 'Owner', 'Pegawai Gudang')
             <div x-show="activeMenu === 'kandang'" x-cloak>
-                <x-sidebar-nav-item href="/kandang-operasional" :active="request()->is('kandang-operasional*')">Kandang Operasional</x-sidebar-nav-item>
+                <div class="px-4 mb-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kandang Operasional</div>
+                <x-sidebar-nav-item href="/kandang-operasional" :active="request()->is('kandang-operasional')">Data Kandang</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/kandang-operasional/batch" :active="request()->is('kandang-operasional/batch') || request()->is('kandang-operasional/assign*')">Data Batch</x-sidebar-nav-item>
             </div>
 
             <div x-show="activeMenu === 'gudang'" x-cloak>
