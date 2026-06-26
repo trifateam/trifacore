@@ -56,7 +56,6 @@ class RekeningController extends Controller
             'no_rekening' => $request->no_rekening,
             'nama_pemilik' => $request->nama_pemilik,
             'saldo' => $request->saldo ?? 0,
-            'is_active' => $request->is_active,
         ]);
 
         \App\Services\AuditService::log('Menambah rekening baru: ' . $request->nama_akun);
@@ -78,7 +77,6 @@ class RekeningController extends Controller
             'kategori_akun' => $request->kategori_akun,
             'no_rekening' => $request->no_rekening,
             'nama_pemilik' => $request->nama_pemilik,
-            'is_active' => $request->is_active,
             // Saldo tidak diubah saat edit
         ]);
 

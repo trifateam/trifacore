@@ -120,13 +120,14 @@
                 </div>
             </x-form-section>
             
-            <x-slot:footer>
+            
+            <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end space-x-3 -mx-6 -mb-4 mt-6">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-tambah-rekening')">Batal</x-button>
                 <x-button variant="primary" type="submit">
                     <svg class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
                     Simpan Rekening
                 </x-button>
-            </x-slot:footer>
+            </div>
         </form>
     </x-modal>
 
@@ -175,13 +176,13 @@
                 </div>
             </x-form-section>
             
-            <x-slot:footer>
+            <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end space-x-3 -mx-6 -mb-4 mt-6">
                 <x-button variant="secondary" type="button" @click="$dispatch('close-modal-edit-rekening')">Batal</x-button>
                 <x-button variant="primary" type="submit">
                     <svg class="w-5 h-5 mr-2 -ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
                     Simpan Perubahan
                 </x-button>
-            </x-slot:footer>
+            </div>
         </form>
     </x-modal>
 @endsection

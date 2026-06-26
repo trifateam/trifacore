@@ -57,7 +57,24 @@
         {{-- ═══════════════════════════════════════════════════════════
         2. GRAFIK TREN PRODUKSI 7 HARI TERAKHIR
         ═══════════════════════════════════════════════════════════ --}}
-        <x-chart-wrapper id="chartProduksi" title="Tren Produksi Telur — 7 Hari Terakhir" height="h-80" />
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 overflow-hidden relative">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+                <h3 class="text-base font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100" id="chart-title">
+                    Tren Produksi Telur — 7 Hari Terakhir
+                </h3>
+                <div class="flex items-center p-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                    <button type="button" id="btn-terakhir" onclick="switchChart('terakhir')" class="px-4 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-all">
+                        Terakhir
+                    </button>
+                    <button type="button" id="btn-prediksi" onclick="switchChart('prediksi')" class="px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
+                        Prediksi
+                    </button>
+                </div>
+            </div>
+            <div class="relative w-full h-80">
+                <canvas id="chartProduksi"></canvas>
+            </div>
+        </div>
 
         {{-- ═══════════════════════════════════════════════════════════
         3 & 4. ARUS KAS (bawah kiri) + ALERT STOK KRITIS (bawah kanan)
@@ -161,24 +178,32 @@
     {{-- Chart.js CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        let chartInstance = null;
+        const labelsTerakhir = @json($chartLabels);
+        const dataTerakhir = @json($chartData);
+        
+        const labelsPrediksi = @json($chartLabelsPrediksi);
+        const dataPrediksi = @json($chartDataPrediksi);
+
+        function initChart(labels, data, color, bgColor) {
             const ctx = document.getElementById('chartProduksi');
             if (!ctx) return;
 
-            const labels = @json($chartLabels);
-            const data = @json($chartData);
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
 
-            new Chart(ctx, {
+            chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
                         label: 'Total Produksi Telur',
                         data: data,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderColor: color,
+                        backgroundColor: bgColor,
                         borderWidth: 2.5,
-                        pointBackgroundColor: '#10b981',
+                        pointBackgroundColor: color,
                         pointBorderColor: '#ffffff',
                         pointBorderWidth: 2,
                         pointRadius: 5,
@@ -195,9 +220,7 @@
                         mode: 'index',
                     },
                     plugins: {
-                        legend: {
-                            display: false,
-                        },
+                        legend: { display: false },
                         tooltip: {
                             backgroundColor: '#1f2937',
                             titleFont: { size: 13, weight: '600' },
@@ -215,27 +238,50 @@
                     scales: {
                         x: {
                             grid: { display: false },
-                            ticks: {
-                                font: { size: 12 },
-                                color: '#6b7280',
-                            }
+                            ticks: { font: { size: 12 }, color: '#6b7280' }
                         },
                         y: {
                             beginAtZero: true,
-                            grid: {
-                                color: '#f3f4f6',
-                            },
+                            grid: { color: '#f3f4f6' },
                             ticks: {
                                 font: { size: 12 },
                                 color: '#6b7280',
-                                callback: function (value) {
-                                    return value.toLocaleString('id-ID');
-                                }
+                                callback: function (value) { return value.toLocaleString('id-ID'); }
                             }
                         }
                     }
                 }
             });
+        }
+
+        function switchChart(type) {
+            const btnTerakhir = document.getElementById('btn-terakhir');
+            const btnPrediksi = document.getElementById('btn-prediksi');
+            const title = document.getElementById('chart-title');
+
+            if (type === 'terakhir') {
+                btnTerakhir.className = "px-4 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-all";
+                btnPrediksi.className = "px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all";
+                title.innerText = "Tren Produksi Telur — 7 Hari Terakhir";
+                initChart(labelsTerakhir, dataTerakhir, '#10b981', 'rgba(16, 185, 129, 0.1)');
+            } else {
+                btnPrediksi.className = "px-4 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-all";
+                btnTerakhir.className = "px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all";
+                title.innerText = "Prediksi Produksi Telur — 7 Hari Kedepan";
+                initChart(labelsPrediksi, dataPrediksi, '#3b82f6', 'rgba(59, 130, 246, 0.1)');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load chartJS properly if not ready
+            const renderChart = () => {
+                if (typeof window.Chart === 'undefined') {
+                    setTimeout(renderChart, 100);
+                    return;
+                }
+                switchChart('terakhir');
+            };
+            renderChart();
         });
     </script>
 @endsection

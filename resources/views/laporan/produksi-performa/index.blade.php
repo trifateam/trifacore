@@ -130,7 +130,6 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let lineChartInstance = null;
     let pieChartInstance = null;
@@ -143,7 +142,12 @@
         document.getElementById('loading').classList.remove('hidden');
         document.getElementById('report-content').classList.add('hidden');
 
-        fetch(`{{ route('laporan.produksi-performa.generate') }}?${searchParams.toString()}`)
+        fetch(`{{ route('laporan.produksi-performa.generate') }}?${searchParams.toString()}`, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        })
             .then(response => response.json())
             .then(data => {
                 // Update Summary Cards
@@ -164,11 +168,16 @@
                     }
                 }
 
-                // Update Line Chart
-                updateLineChart(data.chart_line);
-                
-                // Update Pie Chart
-                updatePieChart(data.chart_pie);
+                // Ensure Chart is loaded before rendering
+                const renderCharts = () => {
+                    if (typeof window.Chart === 'undefined') {
+                        setTimeout(renderCharts, 100);
+                        return;
+                    }
+                    updateLineChart(data.chart_line);
+                    updatePieChart(data.chart_pie);
+                };
+                renderCharts();
 
                 // Update Table
                 updateTable(data.table_data);
@@ -179,7 +188,7 @@
             .catch(error => {
                 console.error('Error fetching report:', error);
                 document.getElementById('loading').classList.add('hidden');
-                alert('Terjadi kesalahan saat memuat laporan.');
+                alert('Terjadi kesalahan saat memuat laporan. Pastikan Anda sudah login atau coba lagi.');
             });
     }
 
