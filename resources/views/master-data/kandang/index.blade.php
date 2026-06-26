@@ -66,6 +66,7 @@
                                     'nama_kandang' => $kandang->nama_kandang,
                                     'kapasitas_kandang' => $kandang->kapasitas_kandang,
                                     'tahun_masuk' => $kandang->tahun_masuk,
+                                    'status' => $kandang->trashed() ? 'non-aktif' : 'aktif',
                                 ]) }})"
                             >
                                 <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -217,7 +218,20 @@
                         <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
-
+                <div class="mb-4">
+                    <label for="edit_status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Status <span class="text-red-500">*</span>
+                    </label>
+                    <select
+                        name="status"
+                        id="edit_status"
+                        required
+                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm sm:text-sm"
+                    >
+                        <option value="aktif">Aktif</option>
+                        <option value="non-aktif">Non-Aktif</option>
+                    </select>
+                </div>
 
             </x-form-section>
 
@@ -260,6 +274,7 @@
         document.getElementById('edit_nama_kandang').value = data.nama_kandang;
         document.getElementById('edit_kapasitas_kandang').value = data.kapasitas_kandang;
         document.getElementById('edit_tahun_masuk').value = data.tahun_masuk;
+        document.getElementById('edit_status').value = data.status;
 
         // Open modal
         window.dispatchEvent(new CustomEvent('open-modal-edit-kandang'));

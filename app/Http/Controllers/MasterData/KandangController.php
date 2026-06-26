@@ -53,13 +53,19 @@ class KandangController extends Controller
      */
     public function update(KandangRequest $request, $id)
     {
-        $kandang = Kandang::findOrFail($id);
+        $kandang = Kandang::withTrashed()->findOrFail($id);
 
         $kandang->update([
             'nama_kandang' => $request->nama_kandang,
             'kapasitas_kandang' => $request->kapasitas_kandang,
             'tahun_masuk' => $request->tahun_masuk,
         ]);
+        
+        if ($request->status === 'non-aktif' && !$kandang->trashed()) {
+            $kandang->delete();
+        } elseif ($request->status === 'aktif' && $kandang->trashed()) {
+            $kandang->restore();
+        }
 
         \App\Services\AuditService::log('Mengedit kandang: ' . $request->nama_kandang);
 
@@ -72,7 +78,7 @@ class KandangController extends Controller
      */
     public function destroy($id)
     {
-        $kandang = Kandang::findOrFail($id);
+        $kandang = Kandang::withTrashed()->findOrFail($id);
 
         // Cek apakah kandang masih punya batch aktif
         $activeBatches = Batch::where('id_kandang', $kandang->id_kandang)
@@ -84,9 +90,8 @@ class KandangController extends Controller
                 ->with('error', "Kandang \"{$kandang->nama_kandang}\" tidak bisa dihapus karena masih memiliki {$activeBatches} batch aktif.");
         }
 
-        // Soft delete: set is_active = false
+        // Soft delete
         $kandangName = $kandang->nama_kandang;
-        $kandang->update(['is_active' => false]);
         $kandang->delete();
 
         \App\Services\AuditService::log('Menghapus kandang: ' . $kandangName);

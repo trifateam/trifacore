@@ -55,11 +55,41 @@ class DashboardController extends Controller
         // Fill in missing dates with 0
         $chartLabels = [];
         $chartData = [];
+        $yValues = [];
+        $xValues = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = Carbon::today()->subDays($i)->format('Y-m-d');
             $chartLabels[] = Carbon::today()->subDays($i)->translatedFormat('d M');
             $found = $trendProduksi->firstWhere('tanggal', $date);
-            $chartData[] = $found ? (int) $found->total : 0;
+            $val = $found ? (int) $found->total : 0;
+            $chartData[] = $val;
+            
+            $yValues[] = $val;
+            $xValues[] = 6 - $i; // x = 0 to 6
+        }
+
+        // Simple Linear Regression for Prediction (next 7 days)
+        $n = count($xValues);
+        $sumX = array_sum($xValues);
+        $sumY = array_sum($yValues);
+        $sumXX = 0;
+        $sumXY = 0;
+        for ($i = 0; $i < $n; $i++) {
+            $sumXX += $xValues[$i] * $xValues[$i];
+            $sumXY += $xValues[$i] * $yValues[$i];
+        }
+        
+        $denominator = ($n * $sumXX) - ($sumX * $sumX);
+        $slope = $denominator != 0 ? (($n * $sumXY) - ($sumX * $sumY)) / $denominator : 0;
+        $intercept = ($sumY - ($slope * $sumX)) / $n;
+
+        $chartLabelsPrediksi = [];
+        $chartDataPrediksi = [];
+        for ($i = 1; $i <= 7; $i++) {
+            $chartLabelsPrediksi[] = Carbon::today()->addDays($i)->translatedFormat('d M');
+            $xPred = 6 + $i;
+            $yPred = ($slope * $xPred) + $intercept;
+            $chartDataPrediksi[] = max(0, round($yPred));
         }
 
         // ── 3. Ringkasan Arus Kas Bulan Ini ──────────────────────
@@ -109,6 +139,8 @@ class DashboardController extends Controller
             'showSaldoKas',
             'chartLabels',
             'chartData',
+            'chartLabelsPrediksi',
+            'chartDataPrediksi',
             'showArusKas',
             'kasMasuk',
             'kasKeluar',

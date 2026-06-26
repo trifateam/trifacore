@@ -232,7 +232,7 @@
         } catch (error) {
             console.error('Error fetching report:', error);
             document.getElementById('loading').classList.add('hidden');
-            alert('Terjadi kesalahan: ' + error.message);
+            alert('Terjadi kesalahan saat memuat laporan. Pastikan Anda sudah login atau coba lagi.');
         }
     }
 

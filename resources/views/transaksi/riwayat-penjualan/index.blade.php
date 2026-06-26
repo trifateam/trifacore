@@ -72,7 +72,18 @@
     {{-- Tabel Riwayat --}}
     <x-card class="border border-gray-200 dark:border-gray-700">
         <div class="overflow-x-auto">
-            <x-table :headers="['No. Nota', 'Waktu Penjualan', 'Pelanggan', 'Kategori', 'Total (Rp)', 'Status', 'Aksi']">
+            <x-table :headers="[]">
+                <x-slot:thead>
+                    <tr>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">No. Nota</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Waktu Penjualan</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Pelanggan</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Kategori</th>
+                        <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Total (Rp)</th>
+                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </x-slot:thead>
                 @forelse($penjualans as $p)
                         @php
                             $status = 'Lunas';
