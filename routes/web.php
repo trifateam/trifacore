@@ -126,8 +126,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/riwayat-pembelian/{id}', [RiwayatPembelianController::class, 'show'])->name('riwayat-pembelian.show');
     });
 
-    // ── Kandang Operasional: Admin, Owner ──
-    Route::middleware('role:Admin,Owner')->prefix('kandang-operasional')->name('kandang-operasional.')->group(function () {
+    // ── Kandang Operasional: Admin, Owner, Pegawai Kandang ──
+    Route::middleware('role:Admin,Owner,Pegawai Kandang')->prefix('kandang-operasional')->name('kandang-operasional.')->group(function () {
         Route::get('/', [KandangOperasionalController::class, 'index'])->name('index');
         Route::get('/batch', [KandangOperasionalController::class, 'batch'])->name('batch');
         Route::get('/assign/{batch}', [KandangOperasionalController::class, 'showAssignForm'])->name('assign.form');

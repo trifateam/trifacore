@@ -28,6 +28,9 @@
         <!-- Sidebar -->
         @include('layouts.sidebar')
 
+        <!-- Mobile Bottom Navbar -->
+        @include('layouts.bottom-navbar')
+
         <!-- Content Area -->
         <div class="flex flex-col min-h-screen ml-0 md:ml-20 transition-all duration-300 pb-20 md:pb-0">
             <!-- Navbar -->
