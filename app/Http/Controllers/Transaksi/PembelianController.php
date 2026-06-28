@@ -23,7 +23,11 @@ class PembelianController extends Controller
      */
     public function index()
     {
-        return view('transaksi.pembelian.index');
+        $stokMaterial = Barang::where('dapat_dibeli', true)
+            ->where('kategori_barang', '!=', 'Ayam')
+            ->get(['nama_barang', 'stok_barang', 'satuan']);
+            
+        return view('transaksi.pembelian.index', compact('stokMaterial'));
     }
 
     /**

@@ -26,7 +26,17 @@ class PenjualanController extends Controller
      */
     public function index()
     {
-        return view('transaksi.penjualan.index');
+        $stokTelur = Barang::where('kategori_barang', 'Telur')->get(['nama_barang', 'stok_barang']);
+        
+        $stokAyam = Barang::where('dapat_dijual', true)
+            ->where(function ($query) {
+                $query->where('kategori_barang', 'Ayam')
+                      ->orWhere('nama_barang', 'like', '%Afkir%');
+            })->get(['nama_barang', 'stok_barang']);
+            
+        $stokPupuk = Barang::where('kategori_barang', 'Pupuk')->get(['nama_barang', 'stok_barang']);
+
+        return view('transaksi.penjualan.index', compact('stokTelur', 'stokAyam', 'stokPupuk'));
     }
 
     /**

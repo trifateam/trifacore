@@ -49,15 +49,19 @@
             @endrole
 
             {{-- Transaksi Submenus --}}
-            @role('Sales')
+            @role('Sales', 'Pegawai Gudang')
             <template x-if="activePanel === 'transaksi'">
                 <div class="space-y-1">
+                    @role('Sales')
                     <a href="/transaksi/penjualan" class="mobile-submenu-item {{ request()->is('transaksi/penjualan*') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Transaksi Penjualan
                     </a>
+                    @endrole
+                    @role('Pegawai Gudang')
                     <a href="/transaksi/pembelian" class="mobile-submenu-item {{ request()->is('transaksi/pembelian*') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Transaksi Pembelian
                     </a>
+                    @endrole
                 </div>
             </template>
             @endrole
@@ -86,14 +90,18 @@
                         <span class="w-2 h-2 rounded-full bg-violet-400 shrink-0"></span>Produksi Pupuk
                     </a>
                     @endrole
-                    @role('Admin', 'Owner', 'Sales')
+                    @role('Admin', 'Owner', 'Sales', 'Pegawai Gudang')
                     <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Transaksi</div>
+                    @role('Admin', 'Owner', 'Sales')
                     <a href="/transaksi/riwayat-penjualan" class="mobile-submenu-item {{ request()->is('transaksi/riwayat-penjualan') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-violet-400 shrink-0"></span>Penjualan
                     </a>
+                    @endrole
+                    @role('Pegawai Gudang', 'Admin', 'Owner')
                     <a href="/transaksi/riwayat-pembelian" class="mobile-submenu-item {{ request()->is('transaksi/riwayat-pembelian') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-violet-400 shrink-0"></span>Pembelian
                     </a>
+                    @endrole
                     @endrole
                 </div>
             </template>
@@ -220,7 +228,7 @@
             </button>
             @endrole
 
-            @role('Sales')
+            @role('Sales', 'Pegawai Gudang')
             {{-- Transaksi (Sales) --}}
             <button @click="togglePanel('transaksi', 'Manajemen Transaksi')" class="mobile-nav-btn group" id="mobile-nav-transaksi">
                 <div class="mobile-nav-icon {{ request()->is('transaksi/*') && !request()->is('transaksi/riwayat*') ? 'mobile-nav-active' : '' }}"
@@ -231,7 +239,7 @@
             </button>
             @endrole
 
-            @role('Admin', 'Owner', 'Pegawai Kandang', 'Sales')
+            @role('Admin', 'Owner', 'Pegawai Kandang', 'Sales', 'Pegawai Gudang')
             {{-- Riwayat --}}
             <button @click="togglePanel('riwayat', 'Riwayat')" class="mobile-nav-btn group" id="mobile-nav-riwayat">
                 <div class="mobile-nav-icon {{ request()->is('pencatatan/riwayat/*') || request()->is('transaksi/riwayat*') ? 'mobile-nav-active' : '' }}"
@@ -243,12 +251,12 @@
             @endrole
 
             @role('Pegawai Gudang')
-            {{-- Kandang (direct link for Pegawai Gudang) --}}
-            <a href="/kandang" class="mobile-nav-btn group" id="mobile-nav-kandang-gudang">
-                <div class="mobile-nav-icon {{ request()->is('kandang*') || request()->is('batch*') ? 'mobile-nav-active' : '' }}">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" /></svg>
+            {{-- Gudang (direct link for Pegawai Gudang) --}}
+            <a href="/gudang" class="mobile-nav-btn group" id="mobile-nav-gudang">
+                <div class="mobile-nav-icon {{ request()->is('gudang*') ? 'mobile-nav-active' : '' }}">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
                 </div>
-                <span class="mobile-nav-label">Kandang</span>
+                <span class="mobile-nav-label">Gudang</span>
             </a>
             @endrole
 

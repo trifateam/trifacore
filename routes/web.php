@@ -112,16 +112,20 @@ Route::middleware('auth')->group(function () {
         });
     });
 
-    // ── Manajemen Transaksi: Admin, Owner, Sales ──
+    // ── Manajemen Transaksi Penjualan: Admin, Owner, Sales ──
     Route::middleware('role:Admin,Owner,Sales')->prefix('transaksi')->name('transaksi.')->group(function () {
         Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
         Route::get('/penjualan/create', [PenjualanController::class, 'create'])->name('penjualan.create');
         Route::post('/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
+        Route::get('/riwayat-penjualan', [RiwayatPenjualanController::class, 'index'])->name('riwayat-penjualan');
+        Route::get('/riwayat-penjualan/{id}', [RiwayatPenjualanController::class, 'show'])->name('riwayat-penjualan.show');
+    });
+
+    // ── Manajemen Transaksi Pembelian: Admin, Owner, Pegawai Gudang ──
+    Route::middleware('role:Admin,Owner,Pegawai Gudang')->prefix('transaksi')->name('transaksi.')->group(function () {
         Route::get('/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');
         Route::get('/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
         Route::post('/pembelian', [PembelianController::class, 'store'])->name('pembelian.store');
-        Route::get('/riwayat-penjualan', [RiwayatPenjualanController::class, 'index'])->name('riwayat-penjualan');
-        Route::get('/riwayat-penjualan/{id}', [RiwayatPenjualanController::class, 'show'])->name('riwayat-penjualan.show');
         Route::get('/riwayat-pembelian', [RiwayatPembelianController::class, 'index'])->name('riwayat-pembelian');
         Route::get('/riwayat-pembelian/{id}', [RiwayatPembelianController::class, 'show'])->name('riwayat-pembelian.show');
     });

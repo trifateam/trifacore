@@ -31,7 +31,7 @@
         </button>
         @endrole
 
-        @role('Sales')
+        @role('Sales', 'Pegawai Gudang')
         {{-- Manajemen Transaksi --}}
         <button @mouseenter="handleIconHover('transaksi', 'Manajemen Transaksi')"
            @click="handleIconClick('transaksi', 'Manajemen Transaksi', $event)"
@@ -43,7 +43,7 @@
         </button>
         @endrole
 
-        @role('Admin', 'Owner', 'Pegawai Kandang', 'Sales')
+        @role('Admin', 'Owner', 'Pegawai Kandang', 'Sales', 'Pegawai Gudang')
         {{-- Riwayat --}}
         <button @mouseenter="handleIconHover('riwayat', 'Riwayat')"
            @click="handleIconClick('riwayat', 'Riwayat', $event)"
@@ -55,7 +55,7 @@
         </button>
         @endrole
 
-        @role('Admin', 'Owner', 'Pegawai Gudang', 'Pegawai Kandang')
+        @role('Admin', 'Owner', 'Pegawai Kandang')
         {{-- Kandang --}}
         <a href="/kandang"
            @mouseenter="handleIconHover('kandang', 'Kandang')"
@@ -75,6 +75,19 @@
            :class="currentPage === 'batch' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'batch' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z" />
+            </svg>
+        </a>
+        @endrole
+
+        @role('Admin', 'Owner', 'Pegawai Gudang')
+        {{-- Gudang --}}
+        <a href="/gudang"
+           @mouseenter="handleIconHover('gudang', 'Gudang')"
+           @click="handleIconClick('gudang', 'Gudang', $event)"
+           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
+           :class="currentPage === 'gudang' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'gudang' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
             </svg>
         </a>
         @endrole
@@ -152,10 +165,14 @@
             </div>
             @endrole
 
-            @role('Sales')
+            @role('Sales', 'Pegawai Gudang', 'Admin', 'Owner')
             <div x-show="activeMenu === 'transaksi'" x-cloak>
+                @role('Sales', 'Admin', 'Owner')
                 <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Transaksi Penjualan</x-sidebar-nav-item>
+                @endrole
+                @role('Pegawai Gudang', 'Admin', 'Owner')
                 <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Transaksi Pembelian</x-sidebar-nav-item>
+                @endrole
             </div>
             @endrole
 
@@ -171,21 +188,31 @@
                     <x-sidebar-nav-item href="/pencatatan/riwayat/pupuk" :active="request()->is('pencatatan/riwayat/pupuk')">Produksi Pupuk</x-sidebar-nav-item>
                 </div>
                 @endrole
-                @role('Admin', 'Owner', 'Sales')
+                @role('Admin', 'Owner', 'Sales', 'Pegawai Gudang')
                 <div>
                     <div class="px-4 mb-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Transaksi</div>
+                @role('Sales', 'Admin', 'Owner')
                     <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Penjualan</x-sidebar-nav-item>
+                @endrole
+                @role('Pegawai Gudang', 'Admin', 'Owner')
                     <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Pembelian</x-sidebar-nav-item>
+                @endrole
                 </div>
                 @endrole
             </div>
 
-            @role('Admin', 'Owner', 'Pegawai Gudang', 'Pegawai Kandang')
+            @role('Admin', 'Owner', 'Pegawai Kandang')
             <div x-show="activeMenu === 'kandang'" x-cloak>
                 <x-sidebar-nav-item href="/kandang" :active="request()->is('kandang')">Kandang</x-sidebar-nav-item>
             </div>
             <div x-show="activeMenu === 'batch'" x-cloak>
                 <x-sidebar-nav-item href="/batch" :active="request()->is('batch*')">Batch</x-sidebar-nav-item>
+            </div>
+            @endrole
+
+            @role('Admin', 'Owner', 'Pegawai Gudang')
+            <div x-show="activeMenu === 'gudang'" x-cloak>
+                <x-sidebar-nav-item href="/gudang" :active="request()->is('gudang')">Dashboard Gudang</x-sidebar-nav-item>
             </div>
             @endrole
 
