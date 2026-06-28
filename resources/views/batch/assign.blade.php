@@ -3,7 +3,7 @@
 @section('content')
     <x-breadcrumb :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard')],
-        ['label' => 'Kandang Operasional', 'url' => route('kandang-operasional.index')],
+        ['label' => 'Batch', 'url' => route('batch.index')],
         ['label' => 'Assign Pullet']
     ]" />
 
@@ -12,7 +12,7 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6" x-data="assignKandang()">
         <div class="md:col-span-2">
             <x-card class="border border-gray-200 dark:border-gray-700">
-                <form method="POST" action="{{ route('kandang-operasional.assign', $batch->id_batch) }}">
+                <form method="POST" action="{{ route('batch.assign', $batch->id_batch) }}">
                     @csrf
                     <div class="p-5 space-y-6">
                         
@@ -51,7 +51,7 @@
 
                     </div>
                     <div class="px-5 py-4 bg-gray-50 dark:bg-gray-700/50 border-t border-gray-200 dark:border-gray-700 flex justify-end gap-3">
-                        <x-button type="button" variant="secondary" href="{{ route('kandang-operasional.index') }}">
+                        <x-button type="button" variant="secondary" href="{{ route('batch.index') }}">
                             Batal
                         </x-button>
                         <button type="submit" :disabled="isSubmitDisabled" :class="isSubmitDisabled ? 'bg-orange-300 dark:bg-orange-800 cursor-not-allowed' : 'bg-orange-600 hover:bg-orange-700'" class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors">
