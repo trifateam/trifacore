@@ -102,12 +102,12 @@
             @role('Admin', 'Owner')
             <template x-if="activePanel === 'more'">
                 <div class="space-y-1">
-                    <div class="px-3 pt-1 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Kandang & Gudang</div>
-                    <a href="/kandang-operasional" class="mobile-submenu-item {{ request()->is('kandang-operasional*') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Kandang Operasional
+                    <div class="px-3 pt-1 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Kandang</div>
+                    <a href="/kandang" class="mobile-submenu-item {{ request()->is('kandang') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Kandang
                     </a>
-                    <a href="/gudang" class="mobile-submenu-item {{ request()->is('gudang*') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-teal-400 shrink-0"></span>Manajemen Gudang
+                    <a href="/batch" class="mobile-submenu-item {{ request()->is('batch*') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Batch
                     </a>
 
                     <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Master Data</div>
@@ -166,30 +166,18 @@
             </template>
             @endrole
 
-            {{-- More for Pegawai Gudang --}}
-            @role('Pegawai Gudang')
-            <template x-if="activePanel === 'more'">
-                <div class="space-y-1">
-                    <a href="/kandang-operasional" class="mobile-submenu-item {{ request()->is('kandang-operasional*') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Kandang Operasional
-                    </a>
-                    <a href="/gudang" class="mobile-submenu-item {{ request()->is('gudang*') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-teal-400 shrink-0"></span>Manajemen Gudang
-                    </a>
-                </div>
-            </template>
-            @endrole
+
 
             {{-- More for Pegawai Kandang --}}
             @role('Pegawai Kandang')
             <template x-if="activePanel === 'more'">
                 <div class="space-y-1">
                     <div class="px-3 pt-1 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Kandang</div>
-                    <a href="/kandang-operasional" class="mobile-submenu-item {{ request()->is('kandang-operasional') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Data Kandang
+                    <a href="/kandang" class="mobile-submenu-item {{ request()->is('kandang') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Kandang
                     </a>
-                    <a href="/kandang-operasional/batch" class="mobile-submenu-item {{ request()->is('kandang-operasional/batch*') || request()->is('kandang-operasional/assign*') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Data Batch
+                    <a href="/batch" class="mobile-submenu-item {{ request()->is('batch*') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Batch
                     </a>
                 </div>
             </template>
@@ -256,25 +244,18 @@
 
             @role('Pegawai Gudang')
             {{-- Kandang (direct link for Pegawai Gudang) --}}
-            <a href="/kandang-operasional" class="mobile-nav-btn group" id="mobile-nav-kandang-gudang">
-                <div class="mobile-nav-icon {{ request()->is('kandang-operasional*') ? 'mobile-nav-active' : '' }}">
+            <a href="/kandang" class="mobile-nav-btn group" id="mobile-nav-kandang-gudang">
+                <div class="mobile-nav-icon {{ request()->is('kandang*') || request()->is('batch*') ? 'mobile-nav-active' : '' }}">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" /></svg>
                 </div>
                 <span class="mobile-nav-label">Kandang</span>
-            </a>
-            {{-- Gudang (direct link for Pegawai Gudang) --}}
-            <a href="/gudang" class="mobile-nav-btn group" id="mobile-nav-gudang-gudang">
-                <div class="mobile-nav-icon {{ request()->is('gudang*') ? 'mobile-nav-active' : '' }}">
-                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
-                </div>
-                <span class="mobile-nav-label">Gudang</span>
             </a>
             @endrole
 
             @role('Admin', 'Owner', 'Pegawai Gudang', 'Pegawai Kandang')
             {{-- More / Lainnya --}}
             <button @click="togglePanel('more', 'Lainnya')" class="mobile-nav-btn group" id="mobile-nav-more">
-                <div class="mobile-nav-icon {{ request()->is('master-data/*') || request()->is('keuangan/*') || request()->is('laporan/*') || request()->is('pengaturan/*') || request()->is('riwayat-aktivitas') || request()->is('kandang-operasional*') || request()->is('gudang*') ? 'mobile-nav-active' : '' }}"
+                <div class="mobile-nav-icon {{ request()->is('master-data/*') || request()->is('keuangan/*') || request()->is('laporan/*') || request()->is('pengaturan/*') || request()->is('riwayat-aktivitas') || request()->is('kandang*') || request()->is('batch*') || request()->is('gudang*') ? 'mobile-nav-active' : '' }}"
                      :class="activePanel === 'more' && panelOpen ? 'mobile-nav-panel-open' : ''">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" /></svg>
                 </div>

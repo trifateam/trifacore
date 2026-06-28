@@ -23,16 +23,6 @@
                             </div>
                         </div>
 
-                        <div class="space-y-2 mb-6">
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-500 dark:text-gray-400">Kapasitas Maksimal</span>
-                                <span class="font-medium text-gray-900 dark:text-gray-100">{{ number_format($kandang['kapasitas_kandang'], 0, ',', '.') }} ekor</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-500 dark:text-gray-400">Populasi Saat Ini</span>
-                                <span class="font-bold text-red-600 dark:text-red-500">{{ number_format($kandang['populasi_saat_ini'], 0, ',', '.') }} ekor</span>
-                            </div>
-                        </div>
 
                         <div class="space-y-4">
                             <h4 class="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700 pb-2">Daftar Batch Aktif</h4>

@@ -1,4 +1,4 @@
-﻿<aside x-data="sidebarManager()"
+<aside x-data="sidebarManager()"
        @mouseenter="handleSidebarEnter"
        @mouseleave="handleSidebarLeave"
        class="fixed left-0 top-0 h-screen z-30 hidden md:flex">
@@ -57,7 +57,7 @@
 
         @role('Admin', 'Owner', 'Pegawai Gudang', 'Pegawai Kandang')
         {{-- Kandang --}}
-        <a href="/kandang-operasional"
+        <a href="/kandang"
            @mouseenter="handleIconHover('kandang', 'Kandang')"
            @click="handleIconClick('kandang', 'Kandang', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
@@ -66,15 +66,15 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
             </svg>
         </a>
-
-        {{-- Gudang --}}
-        <a href="/gudang"
-           @mouseenter="handleIconHover('gudang', 'Gudang')"
-           @click="handleIconClick('gudang', 'Gudang', $event)"
+        
+        {{-- Batch --}}
+        <a href="/batch"
+           @mouseenter="handleIconHover('batch', 'Batch')"
+           @click="handleIconClick('batch', 'Batch', $event)"
            class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
-           :class="currentPage === 'gudang' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'gudang' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
+           :class="currentPage === 'batch' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'batch' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z" />
             </svg>
         </a>
         @endrole
@@ -182,13 +182,10 @@
 
             @role('Admin', 'Owner', 'Pegawai Gudang', 'Pegawai Kandang')
             <div x-show="activeMenu === 'kandang'" x-cloak>
-                <div class="px-4 mb-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kandang Operasional</div>
-                <x-sidebar-nav-item href="/kandang-operasional" :active="request()->is('kandang-operasional')">Data Kandang</x-sidebar-nav-item>
-                <x-sidebar-nav-item href="/kandang-operasional/batch" :active="request()->is('kandang-operasional/batch') || request()->is('kandang-operasional/assign*')">Data Batch</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/kandang" :active="request()->is('kandang')">Kandang</x-sidebar-nav-item>
             </div>
-
-            <div x-show="activeMenu === 'gudang'" x-cloak>
-                <x-sidebar-nav-item href="/gudang" :active="request()->is('gudang*')">Manajemen Gudang</x-sidebar-nav-item>
+            <div x-show="activeMenu === 'batch'" x-cloak>
+                <x-sidebar-nav-item href="/batch" :active="request()->is('batch*')">Batch</x-sidebar-nav-item>
             </div>
             @endrole
 
@@ -241,26 +238,27 @@ document.addEventListener('alpine:init', () => {
         init() {
             const path = window.location.pathname;
             
-            if (path.startsWith('/pencatatan/riwayat')) {
-                this.setInitialMenu('riwayat', 'Riwayat');
-            } else if (path.startsWith('/transaksi/riwayat')) {
-                this.setInitialMenu('riwayat', 'Riwayat');
-            } else if (path.startsWith('/pencatatan')) {
-                this.setInitialMenu('pencatatan', 'Pencatatan Harian');
-            } else if (path.startsWith('/transaksi')) {
-                this.setInitialMenu('transaksi', 'Manajemen Transaksi');
-            } else if (path.startsWith('/kandang-operasional')) {
-                this.setInitialMenu('kandang', 'Kandang');
-            } else if (path.startsWith('/gudang')) {
-                this.setInitialMenu('gudang', 'Gudang');
-            } else if (path.startsWith('/master-data')) {
-                this.setInitialMenu('masterData', 'Master Data');
-            } else if (path.startsWith('/keuangan')) {
-                this.setInitialMenu('keuangan', 'Management Keuangan');
-            } else if (path.startsWith('/laporan')) {
-                this.setInitialMenu('laporan', 'Laporan');
-            } else if (path.startsWith('/pengaturan') || path.startsWith('/riwayat-aktivitas')) {
-                this.setInitialMenu('pengaturan', 'Pengaturan');
+            // Aturan pemetaan URL ke menu aktif (diurutkan dari yang paling spesifik ke umum)
+            const menuMapping = [
+                { path: '/pencatatan/riwayat', id: 'riwayat', title: 'Riwayat' },
+                { path: '/transaksi/riwayat', id: 'riwayat', title: 'Riwayat' },
+                { path: '/pencatatan', id: 'pencatatan', title: 'Pencatatan Harian' },
+                { path: '/transaksi', id: 'transaksi', title: 'Manajemen Transaksi' },
+                { path: '/batch/assign', id: 'batch', title: 'Batch' },
+                { path: '/batch', id: 'batch', title: 'Batch' },
+                { path: '/kandang', id: 'kandang', title: 'Kandang' },
+                { path: '/master-data', id: 'masterData', title: 'Master Data' },
+                { path: '/keuangan', id: 'keuangan', title: 'Management Keuangan' },
+                { path: '/laporan', id: 'laporan', title: 'Laporan' },
+                { path: '/pengaturan', id: 'pengaturan', title: 'Pengaturan' },
+                { path: '/riwayat-aktivitas', id: 'pengaturan', title: 'Pengaturan' },
+                { path: '/gudang', id: 'gudang', title: 'Gudang' }
+            ];
+
+            const matchedMenu = menuMapping.find(m => path.startsWith(m.path));
+            
+            if (matchedMenu) {
+                this.setInitialMenu(matchedMenu.id, matchedMenu.title);
             } else {
                 this.setInitialMenu('dashboard', 'Dashboard');
             }
@@ -285,7 +283,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         handleIconClick(id, title, e) {
-            const directLinks = ['dashboard', 'kandang', 'gudang'];
+            const directLinks = ['dashboard', 'kandang', 'gudang', 'batch'];
             if (this.isMobile) {
                 if (this.activeMenu === id && this.isExpanded) {
                     this.isExpanded = false;

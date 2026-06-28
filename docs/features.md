@@ -135,7 +135,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 | **Tujuan Fitur** | Mengatur penempatan (assignment) ayam ke dalam kandang berdasarkan batch |
 | **Aktor** | Admin, Owner |
 | **Alur Fitur** | Buka menu kandang operasional &rarr; pilih batch &rarr; assign kandang &rarr; simpan |
-| **Route / Controller** | `GET /kandang-operasional`<br>`POST /kandang-operasional/assign`<br>`KandangOperasionalController` |
+| **Route / Controller** | `GET /kandang`<br>`POST /batch/assign`<br>`KandangOperasionalController` |
 | **Screenshot Fitur** | ![Kandang Operasional](screenshot/Kandang%20Operasional.png) |
 
 ---

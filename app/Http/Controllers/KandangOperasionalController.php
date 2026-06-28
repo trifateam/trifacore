@@ -23,7 +23,7 @@ class KandangOperasionalController extends Controller
             ->whereNull('deleted_at')
             ->get();
 
-        return view('kandang-operasional.index', compact('kandangs'));
+        return view('kandang.index', compact('kandangs'));
     }
 
     /**
@@ -36,7 +36,7 @@ class KandangOperasionalController extends Controller
             ->orderBy('tgl_masuk', 'desc')
             ->get();
 
-        return view('kandang-operasional.batch', compact('batches'));
+        return view('batch.index', compact('batches'));
     }
 
     public function showAssignForm($id_batch)
@@ -44,13 +44,13 @@ class KandangOperasionalController extends Controller
         $batch = Batch::with('supplier')->findOrFail($id_batch);
         
         if ($batch->status_batch !== 'Pending') {
-            return redirect()->route('kandang-operasional.index')
+            return redirect()->route('batch.index')
                 ->with('error', 'Batch ini sudah tidak dalam status Pending.');
         }
 
         $kandangs = Kandang::whereNull('deleted_at')->get();
 
-        return view('kandang-operasional.assign', compact('batch', 'kandangs'));
+        return view('batch.assign', compact('batch', 'kandangs'));
     }
 
     /**
@@ -139,7 +139,7 @@ class KandangOperasionalController extends Controller
                 \App\Services\AuditService::log("Menempatkan {$jumlahAssign} ekor pullet (Batch: {$assignedBatchKode}) ke {$kandang->nama_kandang}.");
             });
 
-            return redirect()->route('kandang-operasional.index')
+            return redirect()->route('batch.index')
                 ->with('success', 'Berhasil menempatkan pullet ke kandang.');
 
         } catch (\Exception $e) {
