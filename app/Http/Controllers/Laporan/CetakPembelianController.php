@@ -3,41 +3,40 @@
 namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Pembelian;
-use App\Models\DetailPembelian;
-use App\Models\Supplier;
 use App\Models\Setting;
+use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class CetakPembelianController extends Controller
 {
     public function index()
     {
         $suppliers = Supplier::all();
-        
-        $years = Pembelian::whereHas('detailPembelian.barang', function($q) {
-                $q->whereIn('kategori_barang', ['Pakan', 'Vitamin']);
-            })
+
+        $years = Pembelian::whereHas('detailPembelian.barang', function ($q) {
+            $q->whereIn('kategori_barang', ['Pakan', 'Vitamin']);
+        })
             ->selectRaw('YEAR(tanggal_pembelian) as year')
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
-            
+
         if ($years->isEmpty()) {
             $years = collect([date('Y')]);
         }
-        
+
         return view('laporan.cetak.pembelian-pakan-filter', compact('suppliers', 'years'));
     }
 
     private function getReportData($supplier_id, $bulan, $tahun)
     {
         $settings = Setting::pluck('value', 'key')->toArray();
-        
+
         $query = Pembelian::with(['detailPembelian.barang', 'supplier'])
-            ->whereHas('detailPembelian.barang', function($q) {
+            ->whereHas('detailPembelian.barang', function ($q) {
                 $q->whereIn('kategori_barang', ['Pakan', 'Vitamin']);
             })
             ->whereYear('tanggal_pembelian', $tahun)
@@ -55,7 +54,7 @@ class CetakPembelianController extends Controller
 
         foreach ($pembelians as $beli) {
             $status = strtolower($beli->metode_pembayaran) == 'tempo' ? 'Belum Lunas/Tempo' : 'Lunas';
-            
+
             foreach ($beli->detailPembelian as $detail) {
                 // Pastikan hanya memproses detail yang kategorinya Pakan atau Vitamin
                 if ($detail->barang && in_array($detail->barang->kategori_barang, ['Pakan', 'Vitamin'])) {
@@ -67,9 +66,9 @@ class CetakPembelianController extends Controller
                         'qty' => $detail->kuantitas,
                         'harga_unit' => $detail->harga_satuan,
                         'total' => $detail->subtotal,
-                        'status' => $status
+                        'status' => $status,
                     ];
-                    
+
                     $totalPembelian += $detail->subtotal;
                     $totalQty += $detail->kuantitas;
                 }
@@ -77,7 +76,7 @@ class CetakPembelianController extends Controller
         }
 
         $rataHarga = $totalQty > 0 ? $totalPembelian / $totalQty : 0;
-        
+
         $supplier = null;
         if ($supplier_id && $supplier_id !== 'all') {
             $supplier = Supplier::find($supplier_id);
@@ -98,7 +97,7 @@ class CetakPembelianController extends Controller
         ]);
 
         $data = $this->getReportData($request->supplier_id, $request->bulan, $request->tahun);
-        
+
         return view('laporan.cetak.pembelian-pakan', $data);
     }
 
@@ -111,13 +110,13 @@ class CetakPembelianController extends Controller
         ]);
 
         $data = $this->getReportData($request->supplier_id, $request->bulan, $request->tahun);
-        
+
         $pdf = Pdf::loadView('laporan.cetak.pembelian-pakan', $data)
-                  ->setPaper('a4', 'landscape');
-                  
+            ->setPaper('a4', 'landscape');
+
         $supplierName = $data['supplier'] ? str_replace(' ', '-', $data['supplier']->nama_supplier) : 'Semua-Supplier';
-        $filename = 'Laporan-Pembelian-Pakan-' . $supplierName . '-' . $request->bulan . '-' . $request->tahun . '.pdf';
-        
+        $filename = 'Laporan-Pembelian-Pakan-'.$supplierName.'-'.$request->bulan.'-'.$request->tahun.'.pdf';
+
         return $pdf->download($filename);
     }
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Pencatatan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\ProduksiTelur;
+use App\Services\AuditService;
 use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -110,7 +112,7 @@ class ProduksiTelurController extends Controller
         }
 
         // Generate Kode Produksi: PT-YYYYMMDD-XX
-        $kodeProduksi = \App\Helpers\CodeGenerator::generate('PT', 'produksi_telur', 'kode_produksi');
+        $kodeProduksi = CodeGenerator::generate('PT', 'produksi_telur', 'kode_produksi');
 
         DB::beginTransaction();
         try {
@@ -133,7 +135,7 @@ class ProduksiTelurController extends Controller
             ]);
 
             // Catat Riwayat Aktivitas
-            \App\Services\AuditService::log("Mencatat produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sejumlah {$totalTelur} butir.");
+            AuditService::log("Mencatat produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sejumlah {$totalTelur} butir.");
 
             DB::commit();
 
@@ -142,7 +144,8 @@ class ProduksiTelurController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: '.$e->getMessage());
         }
     }
 
@@ -153,7 +156,7 @@ class ProduksiTelurController extends Controller
     {
         $batch = Batch::with('kandang')->findOrFail($id_batch);
         $produksi = ProduksiTelur::where('id_batch', $id_batch)->findOrFail($id_produksi);
-        
+
         return view('pencatatan.produksi-telur.form', compact('batch', 'produksi'));
     }
 
@@ -195,7 +198,7 @@ class ProduksiTelurController extends Controller
             ]);
 
             // Catat Riwayat Aktivitas
-            \App\Services\AuditService::log("Mengedit data produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) menjadi {$totalTelur} butir.");
+            AuditService::log("Mengedit data produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) menjadi {$totalTelur} butir.");
 
             DB::commit();
 
@@ -204,7 +207,8 @@ class ProduksiTelurController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal memperbarui pencatatan: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal memperbarui pencatatan: '.$e->getMessage());
         }
     }
 }

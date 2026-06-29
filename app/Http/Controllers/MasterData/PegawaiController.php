@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PegawaiStoreRequest;
 use App\Http\Requests\PegawaiUpdateRequest;
 use App\Models\Pengguna;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class PegawaiController extends Controller
 {
@@ -23,7 +23,7 @@ class PegawaiController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_lengkap', 'like', "%{$search}%")
-                      ->orWhere('username', 'like', "%{$search}%");
+                        ->orWhere('username', 'like', "%{$search}%");
                 });
             })
             ->orderBy('created_at', 'desc')
@@ -45,7 +45,7 @@ class PegawaiController extends Controller
             'role' => $request->role,
         ]);
 
-        \App\Services\AuditService::log('Menambah pegawai baru: ' . $request->nama_lengkap);
+        AuditService::log('Menambah pegawai baru: '.$request->nama_lengkap);
 
         return redirect()->route('master-data.pegawai.index')
             ->with('success', 'Data pegawai berhasil ditambahkan.');
@@ -71,7 +71,7 @@ class PegawaiController extends Controller
 
         $pegawai->update($data);
 
-        \App\Services\AuditService::log('Mengedit pegawai: ' . $request->nama_lengkap);
+        AuditService::log('Mengedit pegawai: '.$request->nama_lengkap);
 
         return redirect()->route('master-data.pegawai.index')
             ->with('success', 'Data pegawai berhasil diperbarui.');
@@ -101,7 +101,7 @@ class PegawaiController extends Controller
             $status = 'dinonaktifkan';
         }
 
-        \App\Services\AuditService::log('Mengubah status pegawai: ' . $pegawai->nama_lengkap . ' menjadi ' . $status);
+        AuditService::log('Mengubah status pegawai: '.$pegawai->nama_lengkap.' menjadi '.$status);
 
         return redirect()->route('master-data.pegawai.index')
             ->with('success', "Pegawai \"{$pegawai->nama_lengkap}\" berhasil {$status}.");

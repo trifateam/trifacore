@@ -37,9 +37,9 @@ class RiwayatPenjualanController extends Controller
             if ($status === 'Lunas') {
                 $query->where(function ($q) {
                     $q->where('metode_pembayaran', 'LUNAS')
-                      ->orWhereHas('piutang', function ($q) {
-                          $q->where('status_piutang', 'Lunas');
-                      });
+                        ->orWhereHas('piutang', function ($q) {
+                            $q->where('status_piutang', 'Lunas');
+                        });
                 });
             } elseif ($status === 'Tempo') {
                 $query->whereHas('piutang', function ($q) {
@@ -54,10 +54,10 @@ class RiwayatPenjualanController extends Controller
 
         // For Summary Calculation, we need to execute the filtered query before pagination
         $filteredRecords = $query->get();
-        
+
         $totalTransaksi = $filteredRecords->count();
         $totalNominal = $filteredRecords->sum('total_harga');
-        
+
         // Total Tempo is sum of sisa_piutang for all records that have piutang
         $totalTempo = $filteredRecords->sum(function ($penjualan) {
             return $penjualan->piutang ? $penjualan->piutang->sisa_piutang : 0;
@@ -75,6 +75,7 @@ class RiwayatPenjualanController extends Controller
     public function show($id)
     {
         $penjualan = Penjualan::with(['pelanggan', 'pengguna', 'detailPenjualan.barang', 'piutang'])->findOrFail($id);
+
         return view('transaksi.riwayat-penjualan.show', compact('penjualan'));
     }
 }

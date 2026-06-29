@@ -6,21 +6,23 @@ class RupiahFormatter
 {
     /**
      * Format angka ke Rupiah
-     * @param mixed $number
+     *
+     * @param  mixed  $number
      * @return string
      */
     public static function format($number)
     {
-        if (!is_numeric($number)) {
+        if (! is_numeric($number)) {
             $number = 0;
         }
-        
-        return 'Rp ' . number_format($number, 0, ',', '.');
+
+        return 'Rp '.number_format($number, 0, ',', '.');
     }
 
     /**
      * Parse Rupiah string ke angka
-     * @param string $string
+     *
+     * @param  string  $string
      * @return float
      */
     public static function parse($string)
@@ -29,7 +31,7 @@ class RupiahFormatter
         $string = str_replace(['Rp', '.', ' '], '', $string);
         // Mengganti koma menjadi titik (jika ada desimal)
         $string = str_replace(',', '.', $string);
-        
+
         return (float) $string;
     }
 }

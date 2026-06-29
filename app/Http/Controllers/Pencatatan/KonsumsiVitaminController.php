@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Pencatatan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\KonsumsiVitamin;
+use App\Services\AuditService;
 use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -95,7 +97,7 @@ class KonsumsiVitaminController extends Controller
         $waktuPemberian = $request->waktu_pemberian ?: Carbon::now()->format('H:i');
 
         // Generate Kode Vitamin: KV-YYYYMMDD-XX
-        $kodeVitamin = \App\Helpers\CodeGenerator::generate('KV', 'konsumsi_vitamin', 'kode_vitamin');
+        $kodeVitamin = CodeGenerator::generate('KV', 'konsumsi_vitamin', 'kode_vitamin');
 
         DB::beginTransaction();
         try {
@@ -115,8 +117,8 @@ class KonsumsiVitaminController extends Controller
             ]);
 
             // Catat Riwayat Aktivitas
-            $metodeTeks = $request->metode_pemberian ? " via {$request->metode_pemberian}" : "";
-            \App\Services\AuditService::log("Mencatat konsumsi vitamin (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->total_penggunaan} {$barangVitamin->satuan} {$barangVitamin->nama_barang}{$metodeTeks}.");
+            $metodeTeks = $request->metode_pemberian ? " via {$request->metode_pemberian}" : '';
+            AuditService::log("Mencatat konsumsi vitamin (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->total_penggunaan} {$barangVitamin->satuan} {$barangVitamin->nama_barang}{$metodeTeks}.");
 
             DB::commit();
 
@@ -125,7 +127,8 @@ class KonsumsiVitaminController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: '.$e->getMessage());
         }
     }
 }

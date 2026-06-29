@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
 use App\Models\Supplier;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,7 @@ class SupplierController extends Controller
             'nama_pic' => $request->nama_pic,
         ]);
 
-        \App\Services\AuditService::log('Menambah supplier baru: ' . $request->nama_supplier);
+        AuditService::log('Menambah supplier baru: '.$request->nama_supplier);
 
         return redirect()->route('master-data.supplier.index')
             ->with('success', 'Data supplier berhasil ditambahkan.');
@@ -64,7 +65,7 @@ class SupplierController extends Controller
             'nama_pic' => $request->nama_pic,
         ]);
 
-        \App\Services\AuditService::log('Mengedit supplier: ' . $request->nama_supplier);
+        AuditService::log('Mengedit supplier: '.$request->nama_supplier);
 
         return redirect()->route('master-data.supplier.index')
             ->with('success', 'Data supplier berhasil diperbarui.');
@@ -90,7 +91,7 @@ class SupplierController extends Controller
         $supplierName = $supplier->nama_supplier;
         $supplier->delete();
 
-        \App\Services\AuditService::log('Menghapus supplier: ' . $supplierName);
+        AuditService::log('Menghapus supplier: '.$supplierName);
 
         return redirect()->route('master-data.supplier.index')
             ->with('success', 'Data supplier berhasil dihapus.');

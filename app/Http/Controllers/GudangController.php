@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\LogPenyesuaianStok;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +27,7 @@ class GudangController extends Controller
 
         // 2. Filter Search (Nama Barang)
         if ($request->filled('search')) {
-            $query->where('nama_barang', 'like', '%' . $request->search . '%');
+            $query->where('nama_barang', 'like', '%'.$request->search.'%');
         }
 
         $allBarang = $query->get();
@@ -80,14 +83,14 @@ class GudangController extends Controller
 
         // Manual Pagination since we manipulated a Collection
         $perPage = 15;
-        $page = \Illuminate\Pagination\Paginator::resolveCurrentPage() ?: 1;
+        $page = Paginator::resolveCurrentPage() ?: 1;
         $items = $sortedBarang->forPage($page, $perPage);
-        $paginatedBarang = new \Illuminate\Pagination\LengthAwarePaginator(
-            $items, 
-            $sortedBarang->count(), 
-            $perPage, 
-            $page, 
-            ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath(), 'query' => $request->query()]
+        $paginatedBarang = new LengthAwarePaginator(
+            $items,
+            $sortedBarang->count(),
+            $perPage,
+            $page,
+            ['path' => Paginator::resolveCurrentPath(), 'query' => $request->query()]
         );
 
         return view('gudang.index', compact('paginatedBarang', 'countKritis', 'countHabis'));
@@ -120,7 +123,7 @@ class GudangController extends Controller
                 $stokBaru = $request->stok_fisik;
 
                 if ($stokLama == $stokBaru) {
-                    throw new \Exception("Stok fisik sama dengan stok sistem. Tidak ada perubahan yang disimpan.");
+                    throw new \Exception('Stok fisik sama dengan stok sistem. Tidak ada perubahan yang disimpan.');
                 }
 
                 // Create Log
@@ -137,7 +140,7 @@ class GudangController extends Controller
                 $barang->save();
 
                 // Catat Aktivitas
-                \App\Services\AuditService::log("Melakukan stock opname pada barang '{$barang->nama_barang}' (Dari {$stokLama} menjadi {$stokBaru}). Alasan: {$request->alasan}");
+                AuditService::log("Melakukan stock opname pada barang '{$barang->nama_barang}' (Dari {$stokLama} menjadi {$stokBaru}). Alasan: {$request->alasan}");
             });
 
             return redirect()->route('gudang.index')->with('success', 'Berhasil melakukan penyesuaian stok.');

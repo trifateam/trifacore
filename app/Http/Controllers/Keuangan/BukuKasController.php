@@ -40,7 +40,7 @@ class BukuKasController extends Controller
 
         // ── Filter: Search keterangan ──
         if ($request->filled('search')) {
-            $query->where('keterangan', 'like', '%' . $request->search . '%');
+            $query->where('keterangan', 'like', '%'.$request->search.'%');
         }
 
         // ── Summary Cards ──

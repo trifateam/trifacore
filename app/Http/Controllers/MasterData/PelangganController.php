@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PelangganRequest;
 use App\Models\Pelanggan;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -48,7 +49,7 @@ class PelangganController extends Controller
             'alamat' => $request->alamat,
         ]);
 
-        \App\Services\AuditService::log('Menambah pelanggan baru: ' . $request->nama_lengkap);
+        AuditService::log('Menambah pelanggan baru: '.$request->nama_lengkap);
 
         return redirect()->route('master-data.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil ditambahkan.');
@@ -68,7 +69,7 @@ class PelangganController extends Controller
             'alamat' => $request->alamat,
         ]);
 
-        \App\Services\AuditService::log('Mengedit pelanggan: ' . $request->nama_lengkap);
+        AuditService::log('Mengedit pelanggan: '.$request->nama_lengkap);
 
         return redirect()->route('master-data.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil diperbarui.');
@@ -94,7 +95,7 @@ class PelangganController extends Controller
         $pelangganName = $pelanggan->nama_lengkap;
         $pelanggan->delete();
 
-        \App\Services\AuditService::log('Menghapus pelanggan: ' . $pelangganName);
+        AuditService::log('Menghapus pelanggan: '.$pelangganName);
 
         return redirect()->route('master-data.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil dihapus.');

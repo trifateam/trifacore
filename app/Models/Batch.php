@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Batch extends Model
 {
     protected $table = 'batch';
+
     protected $primaryKey = 'id_batch';
+
     protected $guarded = [];
 
     public function kandang()

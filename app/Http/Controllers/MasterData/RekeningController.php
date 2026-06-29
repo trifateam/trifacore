@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RekeningRequest;
 use App\Models\AkunKas;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 
 class RekeningController extends Controller
@@ -22,8 +23,8 @@ class RekeningController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_akun', 'like', "%{$search}%")
-                      ->orWhere('no_rekening', 'like', "%{$search}%")
-                      ->orWhere('nama_pemilik', 'like', "%{$search}%");
+                        ->orWhere('no_rekening', 'like', "%{$search}%")
+                        ->orWhere('nama_pemilik', 'like', "%{$search}%");
                 });
             })
             ->when($kategori, function ($query, $kategori) {
@@ -58,7 +59,7 @@ class RekeningController extends Controller
             'saldo' => $request->saldo ?? 0,
         ]);
 
-        \App\Services\AuditService::log('Menambah rekening baru: ' . $request->nama_akun);
+        AuditService::log('Menambah rekening baru: '.$request->nama_akun);
 
         return redirect()->route('master-data.rekening.index')
             ->with('success', 'Data rekening berhasil ditambahkan.');
@@ -80,7 +81,7 @@ class RekeningController extends Controller
             // Saldo tidak diubah saat edit
         ]);
 
-        \App\Services\AuditService::log('Mengedit rekening: ' . $request->nama_akun);
+        AuditService::log('Mengedit rekening: '.$request->nama_akun);
 
         return redirect()->route('master-data.rekening.index')
             ->with('success', 'Data rekening berhasil diperbarui.');

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Laporan;
 
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
+use App\Models\Deplesi;
 use App\Models\Kandang;
 use App\Models\ProduksiTelur;
-use App\Models\Deplesi;
-use App\Models\Batch;
 use App\Models\Setting;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CetakProduksiController extends Controller
@@ -18,12 +18,12 @@ class CetakProduksiController extends Controller
     public function index()
     {
         $kandangs = Kandang::all();
-        
+
         $years = ProduksiTelur::selectRaw('YEAR(tanggal_produksi) as year')
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
-            
+
         if ($years->isEmpty()) {
             $years = collect([date('Y')]);
         }
@@ -47,7 +47,7 @@ class CetakProduksiController extends Controller
             $deplesiBefore = Deplesi::where('id_batch', $b->id_batch)
                 ->where('tanggal_deplesi', '<', $startDate->toDateString())
                 ->sum(DB::raw('jml_mati + jml_afkir'));
-            
+
             $populasi = $b->populasi_awal - $deplesiBefore;
             if ($populasi > 0) {
                 $populasiAwalBulan += $populasi;
@@ -66,7 +66,7 @@ class CetakProduksiController extends Controller
 
         $dailyData = [];
         $daysInMonth = $endDate->daysInMonth;
-        
+
         $totalProduksiBulan = 0;
         $totalMortalitasBulan = 0;
         $totalHDP = 0;
@@ -79,13 +79,13 @@ class CetakProduksiController extends Controller
         // Let's just output days where there is data, or all days up to endOfMonth
         for ($day = 1; $day <= $daysInMonth; $day++) {
             $dateStr = Carbon::createFromDate($tahun, $bulan, $day)->toDateString();
-            
+
             // To properly filter collections by date
-            $prodToday = $produksiData->filter(function($item) use ($dateStr) {
+            $prodToday = $produksiData->filter(function ($item) use ($dateStr) {
                 return $item->tanggal_produksi->format('Y-m-d') == $dateStr;
             });
-            
-            $depToday = $deplesiData->filter(function($item) use ($dateStr) {
+
+            $depToday = $deplesiData->filter(function ($item) use ($dateStr) {
                 return $item->tanggal_deplesi->format('Y-m-d') == $dateStr;
             });
 
@@ -94,7 +94,7 @@ class CetakProduksiController extends Controller
             $mk = $prodToday->sum('jml_telur_mk');
             $pecah = $prodToday->sum('jml_telur_pecah');
             $totalTelur = $rb + $mb + $mk + $pecah;
-            
+
             $mati = $depToday->sum('jml_mati');
             $afkir = $depToday->sum('jml_afkir');
             $totalMortalitasHari = $mati + $afkir;
@@ -116,9 +116,9 @@ class CetakProduksiController extends Controller
                 'mati' => $mati,
                 'afkir' => $afkir,
                 'populasi' => $currentPopulation,
-                'hdp' => round($hdp, 2)
+                'hdp' => round($hdp, 2),
             ];
-            
+
             if ($totalTelur > 0) {
                 $totalHDP += $hdp;
                 $hdpCount++;
@@ -133,8 +133,8 @@ class CetakProduksiController extends Controller
         $populasiAkhirBulan = $currentPopulation;
 
         return compact(
-            'kandang', 'bulan', 'tahun', 'settings', 
-            'dailyData', 'totalProduksiBulan', 'totalMortalitasBulan', 
+            'kandang', 'bulan', 'tahun', 'settings',
+            'dailyData', 'totalProduksiBulan', 'totalMortalitasBulan',
             'populasiAwalBulan', 'populasiAkhirBulan', 'rataHDP'
         );
     }
@@ -148,7 +148,7 @@ class CetakProduksiController extends Controller
         ]);
 
         $data = $this->getReportData($request->kandang_id, $request->bulan, $request->tahun);
-        
+
         return view('laporan.cetak.produksi-telur', $data);
     }
 
@@ -161,12 +161,12 @@ class CetakProduksiController extends Controller
         ]);
 
         $data = $this->getReportData($request->kandang_id, $request->bulan, $request->tahun);
-        
+
         $pdf = Pdf::loadView('laporan.cetak.produksi-telur', $data)
-                  ->setPaper('a4', 'landscape');
-                  
-        $filename = 'Laporan-Produksi-' . str_replace(' ', '-', $data['kandang']->nama_kandang) . '-' . $request->bulan . '-' . $request->tahun . '.pdf';
-        
+            ->setPaper('a4', 'landscape');
+
+        $filename = 'Laporan-Produksi-'.str_replace(' ', '-', $data['kandang']->nama_kandang).'-'.$request->bulan.'-'.$request->tahun.'.pdf';
+
         return $pdf->download($filename);
     }
 }

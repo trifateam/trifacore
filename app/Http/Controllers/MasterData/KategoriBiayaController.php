@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\KategoriBiayaRequest;
 use App\Models\KategoriBiaya;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -38,7 +39,7 @@ class KategoriBiayaController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
-        \App\Services\AuditService::log('Menambah kategori biaya baru: ' . $request->nama_kategori);
+        AuditService::log('Menambah kategori biaya baru: '.$request->nama_kategori);
 
         return redirect()->route('master-data.kategori-biaya.index')
             ->with('success', 'Kategori biaya berhasil ditambahkan.');
@@ -56,7 +57,7 @@ class KategoriBiayaController extends Controller
             'keterangan' => $request->keterangan,
         ]);
 
-        \App\Services\AuditService::log('Mengedit kategori biaya: ' . $request->nama_kategori);
+        AuditService::log('Mengedit kategori biaya: '.$request->nama_kategori);
 
         return redirect()->route('master-data.kategori-biaya.index')
             ->with('success', 'Kategori biaya berhasil diperbarui.');
@@ -82,7 +83,7 @@ class KategoriBiayaController extends Controller
         $kategoriName = $kategori->nama_kategori;
         $kategori->delete();
 
-        \App\Services\AuditService::log('Menghapus kategori biaya: ' . $kategoriName);
+        AuditService::log('Menghapus kategori biaya: '.$kategoriName);
 
         return redirect()->route('master-data.kategori-biaya.index')
             ->with('success', 'Kategori biaya berhasil dihapus.');

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Pencatatan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\Kandang;
 use App\Models\SuhuKandang;
+use App\Services\AuditService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -93,7 +95,7 @@ class SuhuKandangController extends Controller
         }
 
         // Generate kode: SK-YYYYMMDD-XX
-        $kodeSuhu = \App\Helpers\CodeGenerator::generate('SK', 'suhu_kandang', 'kode_suhu');
+        $kodeSuhu = CodeGenerator::generate('SK', 'suhu_kandang', 'kode_suhu');
 
         DB::beginTransaction();
         try {
@@ -108,8 +110,8 @@ class SuhuKandangController extends Controller
                 'kelembaban' => $request->kelembaban,
             ]);
 
-            \App\Services\AuditService::log("Mencatat suhu kandang ({$kandang->nama_kandang}): {$request->suhu}°C" .
-                    ($request->kelembaban ? ", kelembaban {$request->kelembaban}%" : "") . ".");
+            AuditService::log("Mencatat suhu kandang ({$kandang->nama_kandang}): {$request->suhu}°C".
+                    ($request->kelembaban ? ", kelembaban {$request->kelembaban}%" : '').'.');
 
             DB::commit();
 
@@ -118,7 +120,8 @@ class SuhuKandangController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: '.$e->getMessage());
         }
     }
 }

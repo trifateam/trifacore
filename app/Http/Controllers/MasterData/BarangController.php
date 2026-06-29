@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BarangRequest;
 use App\Models\Barang;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,8 +53,8 @@ class BarangController extends Controller
             'dapat_dijual' => $request->dapat_dijual,
             'dapat_dibeli' => $request->dapat_dibeli,
         ]);
-        
-        \App\Services\AuditService::log('Menambah barang baru: ' . $request->nama_barang);
+
+        AuditService::log('Menambah barang baru: '.$request->nama_barang);
 
         return redirect()->route('master-data.barang.index')
             ->with('success', 'Data barang berhasil ditambahkan.');
@@ -77,8 +78,8 @@ class BarangController extends Controller
             'dapat_dijual' => $request->dapat_dijual,
             'dapat_dibeli' => $request->dapat_dibeli,
         ]);
-        
-        \App\Services\AuditService::log('Mengedit barang: ' . $request->nama_barang);
+
+        AuditService::log('Mengedit barang: '.$request->nama_barang);
 
         return redirect()->route('master-data.barang.index')
             ->with('success', 'Data barang berhasil diperbarui.');
@@ -105,7 +106,7 @@ class BarangController extends Controller
         $barangName = $barang->nama_barang;
         $barang->delete();
 
-        \App\Services\AuditService::log('Menghapus barang: ' . $barangName);
+        AuditService::log('Menghapus barang: '.$barangName);
 
         return redirect()->route('master-data.barang.index')
             ->with('success', 'Data barang berhasil dihapus.');

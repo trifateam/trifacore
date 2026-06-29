@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class SuhuKandang extends Model
 {
     protected $table = 'suhu_kandang';
+
     protected $primaryKey = 'id_suhu';
+
     protected $guarded = [];
 
     protected $casts = [

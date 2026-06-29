@@ -11,8 +11,9 @@ class Pelanggan extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'pelanggan';
+
     protected $primaryKey = 'id_pelanggan';
-    
+
     protected $fillable = [
         'id_pengguna',
         'nama_lengkap',

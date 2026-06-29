@@ -2,12 +2,12 @@
 
 use App\Services\SettingService;
 
-if (!function_exists('setting')) {
+if (! function_exists('setting')) {
     /**
      * Get a setting value from the database.
      *
-     * @param string $key
-     * @param mixed $default
+     * @param  string  $key
+     * @param  mixed  $default
      * @return mixed
      */
     function setting($key, $default = null)

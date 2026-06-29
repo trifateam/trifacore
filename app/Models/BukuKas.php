@@ -10,7 +10,9 @@ class BukuKas extends Model
     use HasFactory;
 
     protected $table = 'buku_kas';
+
     protected $primaryKey = 'id_buku_kas';
+
     protected $guarded = [];
 
     public function akunKas()

@@ -79,9 +79,6 @@ class Pengguna extends Authenticatable
 
     /**
      * Cek apakah pengguna memiliki salah satu role yang diberikan.
-     *
-     * @param  string  ...$roles
-     * @return bool
      */
     public function hasRole(string ...$roles): bool
     {

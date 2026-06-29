@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Pelanggan;
-use App\Models\Supplier;
+use App\Models\AkunKas;
 use App\Models\Barang;
 use App\Models\Kandang;
 use App\Models\KategoriBiaya;
-use App\Models\AkunKas;
-use App\Models\Setting;
+use App\Models\Pelanggan;
 use App\Models\Pengguna;
+use App\Models\Setting;
+use App\Models\Supplier;
+use Illuminate\Database\Seeder;
 
 class MasterDataSeeder extends Seeder
 {
@@ -51,7 +51,7 @@ class MasterDataSeeder extends Seeder
         }
 
         // Barang
-        // Barang contoh: Telur RB, Telur MB, Telur MK, Telur Pecah, Pakan Utama, Vitamin A, Pupuk Kandang 
+        // Barang contoh: Telur RB, Telur MB, Telur MK, Telur Pecah, Pakan Utama, Vitamin A, Pupuk Kandang
         $barangs = [
             ['id_pengguna' => $id_pengguna, 'nama_barang' => 'Telur RB', 'kategori_barang' => 'Telur', 'satuan' => 'Kg', 'dapat_dijual' => true, 'dapat_dibeli' => false, 'harga' => 25000],
             ['id_pengguna' => $id_pengguna, 'nama_barang' => 'Telur MB', 'kategori_barang' => 'Telur', 'satuan' => 'Kg', 'dapat_dijual' => true, 'dapat_dibeli' => false, 'harga' => 24000],

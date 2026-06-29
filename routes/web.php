@@ -8,6 +8,11 @@ use App\Http\Controllers\Keuangan\BiayaOperasionalController;
 use App\Http\Controllers\Keuangan\BukuKasController;
 use App\Http\Controllers\Keuangan\BukuPiutangController;
 use App\Http\Controllers\Keuangan\BukuUtangController;
+use App\Http\Controllers\Laporan\CetakPembelianController;
+use App\Http\Controllers\Laporan\CetakPenjualanController;
+use App\Http\Controllers\Laporan\CetakProduksiController;
+use App\Http\Controllers\Laporan\LabaRugiController;
+use App\Http\Controllers\Laporan\ProduksiPerformaController;
 use App\Http\Controllers\MasterData\BarangController;
 use App\Http\Controllers\MasterData\KandangController;
 use App\Http\Controllers\MasterData\KategoriBiayaController;
@@ -15,12 +20,6 @@ use App\Http\Controllers\MasterData\PegawaiController;
 use App\Http\Controllers\MasterData\PelangganController;
 use App\Http\Controllers\MasterData\RekeningController;
 use App\Http\Controllers\MasterData\SupplierController;
-use App\Http\Controllers\Pengaturan\ProfilSistemController;
-use App\Http\Controllers\Laporan\CetakPembelianController;
-use App\Http\Controllers\Laporan\CetakPenjualanController;
-use App\Http\Controllers\Laporan\CetakProduksiController;
-use App\Http\Controllers\Laporan\LabaRugiController;
-use App\Http\Controllers\Laporan\ProduksiPerformaController;
 use App\Http\Controllers\Pencatatan\DeplesiController;
 use App\Http\Controllers\Pencatatan\KonsumsiPakanController;
 use App\Http\Controllers\Pencatatan\KonsumsiVitaminController;
@@ -28,18 +27,21 @@ use App\Http\Controllers\Pencatatan\ProduksiPupukController;
 use App\Http\Controllers\Pencatatan\ProduksiTelurController;
 use App\Http\Controllers\Pencatatan\RiwayatPencatatanController;
 use App\Http\Controllers\Pencatatan\SuhuKandangController;
+use App\Http\Controllers\Pengaturan\ProfilSistemController;
 use App\Http\Controllers\RiwayatAktivitasController;
 use App\Http\Controllers\Transaksi\PembelianController;
 use App\Http\Controllers\Transaksi\PenjualanController;
 use App\Http\Controllers\Transaksi\RiwayatPembelianController;
 use App\Http\Controllers\Transaksi\RiwayatPenjualanController;
-use Illuminate\Support\Facades\Route;
 use App\Models\Barang;
 use App\Models\Testimoni;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', function () {
     $produk = Barang::whereIn('id_barang', [1, 2, 3, 9, 10])->get()->keyBy('id_barang');
     $testimonis = Testimoni::where('is_tampil', true)->latest()->take(10)->get();
+
     return view('welcome', compact('produk', 'testimonis'));
 });
 
@@ -56,6 +58,7 @@ Route::post('/testimoni', function (Request $request) {
         'rating' => 5,
         'is_tampil' => true,
     ]);
+
     return redirect('/#testimoni')->with('success', 'Terima kasih! Ulasan Anda telah dikirim.');
 })->name('testimoni.store');
 
@@ -88,7 +91,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/konsumsi-pakan', [KonsumsiPakanController::class, 'index'])->name('konsumsi-pakan.index');
         Route::get('/konsumsi-pakan/{batch}/create', [KonsumsiPakanController::class, 'create'])->name('konsumsi-pakan.create');
         Route::post('/konsumsi-pakan/{batch}', [KonsumsiPakanController::class, 'store'])->name('konsumsi-pakan.store');
-        
+
         Route::get('/konsumsi-vitamin', [KonsumsiVitaminController::class, 'index'])->name('konsumsi-vitamin.index');
         Route::get('/konsumsi-vitamin/{batch}/create', [KonsumsiVitaminController::class, 'create'])->name('konsumsi-vitamin.create');
         Route::post('/konsumsi-vitamin/{batch}', [KonsumsiVitaminController::class, 'store'])->name('konsumsi-vitamin.store');
@@ -135,7 +138,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('kandang')->name('kandang.')->group(function () {
             Route::get('/', [KandangOperasionalController::class, 'index'])->name('index');
         });
-        
+
         Route::prefix('batch')->name('batch.')->group(function () {
             Route::get('/', [KandangOperasionalController::class, 'batch'])->name('index');
             Route::get('/assign/{batch}', [KandangOperasionalController::class, 'showAssignForm'])->name('assign.form');

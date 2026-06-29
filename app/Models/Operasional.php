@@ -10,7 +10,9 @@ class Operasional extends Model
     use HasFactory;
 
     protected $table = 'operasional';
+
     protected $primaryKey = 'id_operasional';
+
     protected $guarded = [];
 
     public function pengguna()

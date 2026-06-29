@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\KandangRequest;
 use App\Models\Batch;
 use App\Models\Kandang;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,7 +43,7 @@ class KandangController extends Controller
             'tahun_masuk' => $request->tahun_masuk,
         ]);
 
-        \App\Services\AuditService::log('Menambah kandang baru: ' . $request->nama_kandang);
+        AuditService::log('Menambah kandang baru: '.$request->nama_kandang);
 
         return redirect()->route('master-data.kandang.index')
             ->with('success', 'Data kandang berhasil ditambahkan.');
@@ -60,14 +61,14 @@ class KandangController extends Controller
             'kapasitas_kandang' => $request->kapasitas_kandang,
             'tahun_masuk' => $request->tahun_masuk,
         ]);
-        
-        if ($request->status === 'non-aktif' && !$kandang->trashed()) {
+
+        if ($request->status === 'non-aktif' && ! $kandang->trashed()) {
             $kandang->delete();
         } elseif ($request->status === 'aktif' && $kandang->trashed()) {
             $kandang->restore();
         }
 
-        \App\Services\AuditService::log('Mengedit kandang: ' . $request->nama_kandang);
+        AuditService::log('Mengedit kandang: '.$request->nama_kandang);
 
         return redirect()->route('master-data.kandang.index')
             ->with('success', 'Data kandang berhasil diperbarui.');
@@ -94,7 +95,7 @@ class KandangController extends Controller
         $kandangName = $kandang->nama_kandang;
         $kandang->delete();
 
-        \App\Services\AuditService::log('Menghapus kandang: ' . $kandangName);
+        AuditService::log('Menghapus kandang: '.$kandangName);
 
         return redirect()->route('master-data.kandang.index')
             ->with('success', 'Data kandang berhasil dihapus.');

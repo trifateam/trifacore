@@ -2,10 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Helpers\CodeGenerator;
 use App\Models\Kandang;
+use App\Models\Pengguna;
 use App\Models\SuhuKandang;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class SuhuKandangSeeder extends Seeder
 {
@@ -13,7 +15,7 @@ class SuhuKandangSeeder extends Seeder
     {
         SuhuKandang::query()->delete();
         $kandangs = Kandang::all();
-        $admin = \App\Models\Pengguna::where('role', 'Admin')->first();
+        $admin = Pengguna::where('role', 'Admin')->first();
         $id_pengguna = $admin ? $admin->id_pengguna : 1;
 
         foreach ($kandangs as $kandang) {
@@ -22,8 +24,8 @@ class SuhuKandangSeeder extends Seeder
 
             for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
                 $suhu = rand(270, 320) / 10;
-                \App\Models\SuhuKandang::create([
-                    'kode_suhu' => \App\Helpers\CodeGenerator::generate('SK', 'suhu_kandang', 'kode_suhu'),
+                SuhuKandang::create([
+                    'kode_suhu' => CodeGenerator::generate('SK', 'suhu_kandang', 'kode_suhu'),
                     'id_kandang' => $kandang->id_kandang,
                     'id_pengguna' => $id_pengguna,
                     'tanggal_waktu' => $date->copy()->setHour(rand(8, 15))->setMinute(rand(0, 59)),
