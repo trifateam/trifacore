@@ -189,7 +189,7 @@
 }
 
 .mobile-nav-icon {
-    @apply w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200 text-gray-400;
+    @apply w-10 h-10 flex items-center justify-center rounded-xl transition-all duration-200 text-gray-500;
 }
 .dark .mobile-nav-icon {
     @apply text-gray-400;
@@ -204,7 +204,6 @@
 
 .mobile-nav-active {
     @apply bg-orange-500 text-white shadow-lg shadow-orange-500/30;
-    background: none;
 }
 
 .mobile-nav-panel-open {
@@ -212,7 +211,7 @@
 }
 
 .mobile-nav-label {
-    @apply text-[10px] font-medium leading-tight truncate max-w-full text-center text-gray-400 transition-colors duration-200;
+    @apply text-[10px] font-medium leading-tight truncate max-w-full text-center text-gray-500 transition-colors duration-200;
 }
 .dark .mobile-nav-label {
     @apply text-gray-400;

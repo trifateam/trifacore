@@ -4,10 +4,10 @@
     <x-breadcrumb :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard')],
         ['label' => 'Transaksi'],
-        ['label' => 'Pembelian'],
+        ['label' => 'Penerimaan Barang'],
     ]" />
 
-    <x-page-header title="Transaksi Pembelian" subtitle="Pilih jenis pembelian untuk stok operasional kandang atau bibit ayam" />
+    <x-page-header title="Penerimaan Barang" subtitle="Pilih jenis penerimaan barang untuk stok operasional kandang atau bibit ayam" />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8 max-w-4xl mx-auto">
         
