@@ -68,29 +68,7 @@ class DashboardController extends Controller
             $xValues[] = 6 - $i; // x = 0 to 6
         }
 
-        // Simple Linear Regression for Prediction (next 7 days)
-        $n = count($xValues);
-        $sumX = array_sum($xValues);
-        $sumY = array_sum($yValues);
-        $sumXX = 0;
-        $sumXY = 0;
-        for ($i = 0; $i < $n; $i++) {
-            $sumXX += $xValues[$i] * $xValues[$i];
-            $sumXY += $xValues[$i] * $yValues[$i];
-        }
-        
-        $denominator = ($n * $sumXX) - ($sumX * $sumX);
-        $slope = $denominator != 0 ? (($n * $sumXY) - ($sumX * $sumY)) / $denominator : 0;
-        $intercept = ($sumY - ($slope * $sumX)) / $n;
 
-        $chartLabelsPrediksi = [];
-        $chartDataPrediksi = [];
-        for ($i = 1; $i <= 7; $i++) {
-            $chartLabelsPrediksi[] = Carbon::today()->addDays($i)->translatedFormat('d M');
-            $xPred = 6 + $i;
-            $yPred = ($slope * $xPred) + $intercept;
-            $chartDataPrediksi[] = max(0, round($yPred));
-        }
 
         // ── 3. Ringkasan Arus Kas Bulan Ini ──────────────────────
         // HIDDEN untuk selain Admin dan Owner
@@ -139,8 +117,6 @@ class DashboardController extends Controller
             'showSaldoKas',
             'chartLabels',
             'chartData',
-            'chartLabelsPrediksi',
-            'chartDataPrediksi',
             'showArusKas',
             'kasMasuk',
             'kasKeluar',

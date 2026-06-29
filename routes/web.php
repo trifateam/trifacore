@@ -144,10 +144,16 @@ Route::middleware('auth')->group(function () {
     });
 
     // ── Gudang: Admin, Owner, Pegawai Gudang ──
-    Route::middleware('role:Admin,Owner,Pegawai Gudang')->prefix('gudang')->name('gudang.')->group(function () {
-        Route::get('/', [GudangController::class, 'index'])->name('index');
-        Route::get('/adjust/{barang}', [GudangController::class, 'showAdjustForm'])->name('adjust.form');
-        Route::post('/adjust/{barang}', [GudangController::class, 'adjust'])->name('adjust');
+    Route::middleware('role:Admin,Owner,Pegawai Gudang')->group(function () {
+        Route::prefix('gudang')->name('gudang.')->group(function () {
+            Route::get('/', [GudangController::class, 'index'])->name('index');
+            Route::get('/adjust/{barang}', [GudangController::class, 'showAdjustForm'])->name('adjust.form');
+            Route::post('/adjust/{barang}', [GudangController::class, 'adjust'])->name('adjust');
+        });
+
+        Route::prefix('master-data')->name('master-data.')->group(function () {
+            Route::resource('supplier', SupplierController::class)->except(['create', 'show', 'edit']);
+        });
     });
 
     // ── Admin & Owner Only: Master Data, Keuangan, Laporan, Pengaturan ──
@@ -157,7 +163,6 @@ Route::middleware('auth')->group(function () {
         Route::prefix('master-data')->name('master-data.')->group(function () {
             Route::resource('kandang', KandangController::class)->except(['create', 'show', 'edit']);
             Route::resource('barang', BarangController::class)->except(['create', 'show', 'edit']);
-            Route::resource('supplier', SupplierController::class)->except(['create', 'show', 'edit']);
             Route::resource('pegawai', PegawaiController::class)->except(['create', 'show', 'edit']);
             Route::resource('pelanggan', PelangganController::class)->except(['create', 'show', 'edit']);
             Route::resource('rekening', RekeningController::class)->except(['create', 'show', 'edit']);

@@ -4,10 +4,10 @@
     <x-breadcrumb :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard')],
         ['label' => 'Transaksi'],
-        ['label' => 'Riwayat Pembelian'],
+        ['label' => 'Riwayat Penerimaan Barang'],
     ]" />
 
-    <x-page-header title="Riwayat Pembelian" subtitle="Lihat dan filter semua log transaksi pembelian (Material & Pullet)" />
+    <x-page-header title="Riwayat Penerimaan Barang" subtitle="Lihat dan filter semua log transaksi penerimaan barang (Material & Pullet)" />
 
     {{-- Summary Bar --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">

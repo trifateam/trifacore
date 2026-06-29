@@ -62,14 +62,6 @@
                 <h3 class="text-base font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100" id="chart-title">
                     Tren Produksi Telur — 7 Hari Terakhir
                 </h3>
-                <div class="flex items-center p-1 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                    <button type="button" id="btn-terakhir" onclick="switchChart('terakhir')" class="px-4 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-all">
-                        Terakhir
-                    </button>
-                    <button type="button" id="btn-prediksi" onclick="switchChart('prediksi')" class="px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all">
-                        Prediksi
-                    </button>
-                </div>
             </div>
             <div class="relative w-full h-80">
                 <canvas id="chartProduksi"></canvas>
@@ -181,9 +173,6 @@
         let chartInstance = null;
         const labelsTerakhir = @json($chartLabels);
         const dataTerakhir = @json($chartData);
-        
-        const labelsPrediksi = @json($chartLabelsPrediksi);
-        const dataPrediksi = @json($chartDataPrediksi);
 
         function initChart(labels, data, color, bgColor) {
             const ctx = document.getElementById('chartProduksi');
@@ -254,24 +243,6 @@
             });
         }
 
-        function switchChart(type) {
-            const btnTerakhir = document.getElementById('btn-terakhir');
-            const btnPrediksi = document.getElementById('btn-prediksi');
-            const title = document.getElementById('chart-title');
-
-            if (type === 'terakhir') {
-                btnTerakhir.className = "px-4 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-all";
-                btnPrediksi.className = "px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all";
-                title.innerText = "Tren Produksi Telur — 7 Hari Terakhir";
-                initChart(labelsTerakhir, dataTerakhir, '#10b981', 'rgba(16, 185, 129, 0.1)');
-            } else {
-                btnPrediksi.className = "px-4 py-1.5 text-sm font-semibold rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 shadow-sm transition-all";
-                btnTerakhir.className = "px-4 py-1.5 text-sm font-semibold rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-all";
-                title.innerText = "Prediksi Produksi Telur — 7 Hari Kedepan";
-                initChart(labelsPrediksi, dataPrediksi, '#3b82f6', 'rgba(59, 130, 246, 0.1)');
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function () {
             // Load chartJS properly if not ready
             const renderChart = () => {
@@ -279,7 +250,7 @@
                     setTimeout(renderChart, 100);
                     return;
                 }
-                switchChart('terakhir');
+                initChart(labelsTerakhir, dataTerakhir, '#10b981', 'rgba(16, 185, 129, 0.1)');
             };
             renderChart();
         });

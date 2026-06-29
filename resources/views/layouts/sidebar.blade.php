@@ -92,7 +92,7 @@
         </a>
         @endrole
 
-        @role('Admin', 'Owner')
+        @role('Admin', 'Owner', 'Pegawai Gudang')
         {{-- Master Data --}}
         <button @mouseenter="handleIconHover('masterData', 'Master Data')"
            @click="handleIconClick('masterData', 'Master Data', $event)"
@@ -102,7 +102,9 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
             </svg>
         </button>
+        @endrole
         
+        @role('Admin', 'Owner')
         {{-- Management Keuangan --}}
         <button @mouseenter="handleIconHover('keuangan', 'Management Keuangan')"
            @click="handleIconClick('keuangan', 'Management Keuangan', $event)"
@@ -171,7 +173,7 @@
                 <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Transaksi Penjualan</x-sidebar-nav-item>
                 @endrole
                 @role('Pegawai Gudang', 'Admin', 'Owner')
-                <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Transaksi Pembelian</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Penerimaan Barang</x-sidebar-nav-item>
                 @endrole
             </div>
             @endrole
@@ -195,7 +197,7 @@
                     <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Penjualan</x-sidebar-nav-item>
                 @endrole
                 @role('Pegawai Gudang', 'Admin', 'Owner')
-                    <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Pembelian</x-sidebar-nav-item>
+                    <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Penerimaan Barang</x-sidebar-nav-item>
                 @endrole
                 </div>
                 @endrole
@@ -216,17 +218,23 @@
             </div>
             @endrole
 
-            @role('Admin', 'Owner')
+            @role('Admin', 'Owner', 'Pegawai Gudang')
             <div x-show="activeMenu === 'masterData'" x-cloak>
+                @role('Admin', 'Owner')
                 <x-sidebar-nav-item href="/master-data/kandang" :active="request()->is('master-data/kandang')">Data Kandang</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/master-data/barang" :active="request()->is('master-data/barang')">Data Barang/Item</x-sidebar-nav-item>
+                @endrole
                 <x-sidebar-nav-item href="/master-data/supplier" :active="request()->is('master-data/supplier')">Data Supplier</x-sidebar-nav-item>
+                @role('Admin', 'Owner')
                 <x-sidebar-nav-item href="/master-data/pegawai" :active="request()->is('master-data/pegawai')">Data Pegawai</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/master-data/pelanggan" :active="request()->is('master-data/pelanggan')">Data Pelanggan</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/master-data/rekening" :active="request()->is('master-data/rekening')">Data Rekening Kas/Bank</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/master-data/kategori-biaya" :active="request()->is('master-data/kategori-biaya')">Data Kategori Biaya</x-sidebar-nav-item>
+                @endrole
             </div>
+            @endrole
 
+            @role('Admin', 'Owner')
             <div x-show="activeMenu === 'keuangan'" x-cloak>
                 <x-sidebar-nav-item href="/keuangan/biaya-operasional" :active="request()->is('keuangan/biaya-operasional')">Biaya Operasional</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/keuangan/buku-kas" :active="request()->is('keuangan/buku-kas')">Buku Kas</x-sidebar-nav-item>
