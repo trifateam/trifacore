@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\CodeGenerator;
 use App\Models\AkunKas;
 use App\Models\Barang;
 use App\Models\Batch;
@@ -17,17 +18,18 @@ class TransaksiPembelianService
 {
     /**
      * Proses transaksi pembelian material gudang
-     * 
-     * @param array $data Data header pembelian
-     * @param array $details Data rincian item
+     *
+     * @param  array  $data  Data header pembelian
+     * @param  array  $details  Data rincian item
      * @return Pembelian
+     *
      * @throws \Exception
      */
     public function prosesBeliMaterial(array $data, array $details)
     {
         return DB::transaction(function () use ($data, $details) {
             $userId = Auth::id();
-            
+
             // 1. Generate Nomor Faktur: PB-YYYYMMDD-XX
             $noFaktur = $this->generateNoFakturBeli();
 
@@ -69,7 +71,7 @@ class TransaksiPembelianService
 
             // 5. Catat Riwayat Aktivitas
             $itemSummary = implode(', ', $rincianText);
-            \App\Services\AuditService::log("Mencatat pembelian Material ({$noFaktur}): {$itemSummary} senilai Rp" . number_format($pembelian->total_pembelian, 0, ',', '.'));
+            AuditService::log("Mencatat pembelian Material ({$noFaktur}): {$itemSummary} senilai Rp".number_format($pembelian->total_pembelian, 0, ',', '.'));
 
             return $pembelian;
         });
@@ -82,7 +84,7 @@ class TransaksiPembelianService
     {
         return DB::transaction(function () use ($data) {
             $userId = Auth::id();
-            
+
             // 1. Generate Nomor Faktur
             $noFaktur = $this->generateNoFakturBeli();
 
@@ -101,11 +103,11 @@ class TransaksiPembelianService
             // 3. Simpan Detail Pembelian (1 Baris Dummy/Ayam)
             // Cari barang kategori Ayam atau yang ada kata Ayam/Pullet
             $barangAyam = Barang::where('kategori_barang', 'Ayam')
-                                ->orWhere('nama_barang', 'like', '%Ayam%')
-                                ->orWhere('nama_barang', 'like', '%Pullet%')
-                                ->first();
-                                
-            if (!$barangAyam) {
+                ->orWhere('nama_barang', 'like', '%Ayam%')
+                ->orWhere('nama_barang', 'like', '%Pullet%')
+                ->first();
+
+            if (! $barangAyam) {
                 throw new \Exception("Master data untuk kategori Ayam tidak ditemukan. Harap buat barang dengan kategori 'Ayam' terlebih dahulu.");
             }
 
@@ -120,11 +122,11 @@ class TransaksiPembelianService
             // 4. BUAT BATCH BARU
             $tanggalBeli = Carbon::now();
             $tanggalFormat = $tanggalBeli->format('Ymd');
-            
+
             // Generate Kode Batch: BTC-YYYYMMDD-XX
-            $kodeBatch = \App\Helpers\CodeGenerator::generate('BTC', 'batch', 'kode_batch');
-            
-            $namaBatch = "Batch {$data['jenis_ayam']} " . $tanggalBeli->translatedFormat('d M Y');
+            $kodeBatch = CodeGenerator::generate('BTC', 'batch', 'kode_batch');
+
+            $namaBatch = "Batch {$data['jenis_ayam']} ".$tanggalBeli->translatedFormat('d M Y');
 
             Batch::create([
                 'kode_batch' => $kodeBatch,
@@ -144,7 +146,7 @@ class TransaksiPembelianService
             $this->prosesPembayaran($pembelian, $data['metode_pembayaran'], $data['id_akun_kas'] ?? null, $userId, $data['tanggal_jatuh_tempo'] ?? null);
 
             // 6. Catat Riwayat
-            \App\Services\AuditService::log("Mencatat pembelian Pullet ({$data['jenis_ayam']}, {$data['jumlah_awal']} ekor). Batch baru tercipta: {$kodeBatch}.");
+            AuditService::log("Mencatat pembelian Pullet ({$data['jenis_ayam']}, {$data['jumlah_awal']} ekor). Batch baru tercipta: {$kodeBatch}.");
 
             return $pembelian;
         });
@@ -152,26 +154,26 @@ class TransaksiPembelianService
 
     private function generateNoFakturBeli()
     {
-        return \App\Helpers\CodeGenerator::generate('PB', 'pembelian', 'no_faktur_beli');
+        return CodeGenerator::generate('PB', 'pembelian', 'no_faktur_beli');
     }
 
     private function prosesPembayaran(Pembelian $pembelian, $metode, $idAkunKas, $userId, $tanggalJatuhTempo = null)
     {
         if ($metode === 'LUNAS') {
             if (empty($idAkunKas)) {
-                throw new \Exception("Rekening sumber dana wajib dipilih untuk pembayaran LUNAS.");
+                throw new \Exception('Rekening sumber dana wajib dipilih untuk pembayaran LUNAS.');
             }
 
             $akun = AkunKas::lockForUpdate()->findOrFail($idAkunKas);
-            
+
             if ($akun->saldo < $pembelian->total_pembelian) {
-                throw new \Exception("Saldo kas tidak mencukupi untuk pembayaran lunas.");
+                throw new \Exception('Saldo kas tidak mencukupi untuk pembayaran lunas.');
             }
             $akun->saldo -= $pembelian->total_pembelian;
             $akun->save();
 
             // Entry Buku Kas
-            $kodeJurnal = \App\Helpers\CodeGenerator::generate('BK', 'buku_kas', 'kode_jurnal', 4);
+            $kodeJurnal = CodeGenerator::generate('BK', 'buku_kas', 'kode_jurnal', 4);
 
             BukuKas::create([
                 'kode_jurnal' => $kodeJurnal,
@@ -194,7 +196,7 @@ class TransaksiPembelianService
                 'tanggal_jatuh_tempo' => $tanggalJatuhTempo,
             ]);
         } else {
-            throw new \Exception("Metode pembayaran tidak valid.");
+            throw new \Exception('Metode pembayaran tidak valid.');
         }
     }
 }

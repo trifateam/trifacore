@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Transaksi;
 
 use App\Http\Controllers\Controller;
-use App\Models\Supplier;
 use App\Models\Pembelian;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class RiwayatPembelianController extends Controller
@@ -34,9 +34,9 @@ class RiwayatPembelianController extends Controller
             if ($status === 'Lunas') {
                 $query->where(function ($q) {
                     $q->where('metode_pembayaran', 'LUNAS')
-                      ->orWhereHas('hutang', function ($q) {
-                          $q->where('status_hutang', 'Lunas');
-                      });
+                        ->orWhereHas('hutang', function ($q) {
+                            $q->where('status_hutang', 'Lunas');
+                        });
                 });
             } elseif ($status === 'Tempo') {
                 $query->whereHas('hutang', function ($q) {
@@ -51,10 +51,10 @@ class RiwayatPembelianController extends Controller
 
         // For Summary Calculation
         $filteredRecords = $query->get();
-        
+
         $totalTransaksi = $filteredRecords->count();
         $totalNominal = $filteredRecords->sum('total_pembelian');
-        
+
         // Total Tempo is sum of sisa_hutang for all records that have hutang
         $totalTempo = $filteredRecords->sum(function ($pembelian) {
             return $pembelian->hutang ? $pembelian->hutang->sisa_hutang : 0;
@@ -72,6 +72,7 @@ class RiwayatPembelianController extends Controller
     public function show($id)
     {
         $pembelian = Pembelian::with(['supplier', 'pengguna', 'detailPembelian.barang', 'hutang'])->findOrFail($id);
+
         return view('transaksi.riwayat-pembelian.show', compact('pembelian'));
     }
 }

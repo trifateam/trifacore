@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\CodeGenerator;
 use App\Models\AkunKas;
 use App\Models\Barang;
 use App\Models\BukuKas;
@@ -17,19 +18,20 @@ class TransaksiPenjualanService
 {
     /**
      * Proses transaksi penjualan
-     * 
-     * @param array $data Data header penjualan
-     * @param array $details Data rincian item (id_barang, qty, harga)
+     *
+     * @param  array  $data  Data header penjualan
+     * @param  array  $details  Data rincian item (id_barang, qty, harga)
      * @return Penjualan
+     *
      * @throws \Exception
      */
     public function prosesTransaksi(array $data, array $details)
     {
         return DB::transaction(function () use ($data, $details) {
             $userId = Auth::id();
-            
+
             // 1. Generate Nomor Faktur: PJ-YYYYMMDD-XX
-            $noFaktur = \App\Helpers\CodeGenerator::generate('PJ', 'penjualan', 'no_faktur_jual');
+            $noFaktur = CodeGenerator::generate('PJ', 'penjualan', 'no_faktur_jual');
 
             // 2. Simpan Header Penjualan
             $penjualan = Penjualan::create([
@@ -62,16 +64,16 @@ class TransaksiPenjualanService
                 if ($data['kategori_penjualan'] === 'afkir') {
                     // Logika Afkir: Kurangi populasi kandang target
                     if (empty($data['id_kandang'])) {
-                        throw new \Exception("Kandang target wajib dipilih untuk penjualan ayam afkir.");
+                        throw new \Exception('Kandang target wajib dipilih untuk penjualan ayam afkir.');
                     }
-                    
+
                     $kandang = Kandang::lockForUpdate()->findOrFail($data['id_kandang']);
                     if ($kandang->populasi_saat_ini < $item['kuantitas']) {
                         throw new \Exception("Populasi kandang tidak mencukupi untuk penjualan ayam afkir. Tersedia: {$kandang->populasi_saat_ini}, Diminta: {$item['kuantitas']}");
                     }
                     $kandang->populasi_saat_ini -= $item['kuantitas'];
                     $kandang->save();
-                    
+
                 } else {
                     // Logika Telur & Pupuk: Kurangi stok gudang
                     $barangLok = Barang::lockForUpdate()->findOrFail($item['id_barang']);
@@ -86,17 +88,17 @@ class TransaksiPenjualanService
             // 4. Logika Pembayaran (Lunas vs Piutang)
             if ($data['metode_pembayaran'] === 'LUNAS') {
                 if (empty($data['id_akun_kas'])) {
-                    throw new \Exception("Rekening tujuan wajib dipilih untuk pembayaran LUNAS.");
+                    throw new \Exception('Rekening tujuan wajib dipilih untuk pembayaran LUNAS.');
                 }
 
                 $akun = AkunKas::lockForUpdate()->findOrFail($data['id_akun_kas']);
-                
+
                 // Tambah saldo
                 $akun->saldo += $penjualan->total_harga;
                 $akun->save();
 
                 // Entry Buku Kas
-                $kodeJurnal = \App\Helpers\CodeGenerator::generate('BK', 'buku_kas', 'kode_jurnal', 4);
+                $kodeJurnal = CodeGenerator::generate('BK', 'buku_kas', 'kode_jurnal', 4);
 
                 BukuKas::create([
                     'kode_jurnal' => $kodeJurnal,
@@ -119,12 +121,12 @@ class TransaksiPenjualanService
                     'tanggal_jatuh_tempo' => $data['tanggal_jatuh_tempo'],
                 ]);
             } else {
-                throw new \Exception("Metode pembayaran tidak valid.");
+                throw new \Exception('Metode pembayaran tidak valid.');
             }
 
             // 5. Catat Riwayat Aktivitas
             $itemSummary = implode(', ', $rincianText);
-            \App\Services\AuditService::log("Mencatat transaksi penjualan {$data['kategori_penjualan']} ({$noFaktur}): {$itemSummary} senilai Rp" . number_format($penjualan->total_harga, 0, ',', '.'));
+            AuditService::log("Mencatat transaksi penjualan {$data['kategori_penjualan']} ({$noFaktur}): {$itemSummary} senilai Rp".number_format($penjualan->total_harga, 0, ',', '.'));
 
             return $penjualan;
         });

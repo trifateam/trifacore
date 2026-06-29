@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Helpers\CodeGenerator;
 use App\Models\Batch;
 use App\Models\Deplesi;
 use App\Models\Kandang;
-use App\Helpers\CodeGenerator;
+use App\Models\Pengguna;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Seeder;
 
 class DeplesiSeeder extends Seeder
 {
@@ -16,7 +16,7 @@ class DeplesiSeeder extends Seeder
     {
         Deplesi::query()->delete();
         $batches = Batch::where('status_batch', 'Aktif')->get();
-        $admin = \App\Models\Pengguna::where('role', 'Admin')->first();
+        $admin = Pengguna::where('role', 'Admin')->first();
         $id_pengguna = $admin ? $admin->id_pengguna : 1;
 
         foreach ($batches as $batch) {
@@ -27,10 +27,10 @@ class DeplesiSeeder extends Seeder
                 // Mortalitas 0-3 ekor per hari
                 $mati = rand(0, 2);
                 $afkir = rand(0, 1);
-                
+
                 if ($mati == 0 && $afkir == 0 && rand(1, 10) > 4) {
                     // Beberapa hari tidak ada deplesi
-                    continue; 
+                    continue;
                 }
 
                 $total = $mati + $afkir;

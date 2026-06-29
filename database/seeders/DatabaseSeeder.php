@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             BarangSeeder::class,
             KandangSeeder::class,
             BatchSeeder::class,
-            
+
             // Eksekusi Logika Simulasi:
             ProduksiTelurSeeder::class,
             KonsumsiPakanSeeder::class,

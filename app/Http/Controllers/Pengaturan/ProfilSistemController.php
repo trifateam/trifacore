@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Pengaturan;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Services\AuditService;
 use App\Services\SettingService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProfilSistemController extends Controller
@@ -19,7 +20,7 @@ class ProfilSistemController extends Controller
     public function index()
     {
         // Get all settings to pass to view
-        // The view can just use setting('key') helper as well, 
+        // The view can just use setting('key') helper as well,
         // but let's be explicit if needed, or just let the view use the helper.
         return view('pengaturan.profil-sistem.index');
     }
@@ -38,7 +39,7 @@ class ProfilSistemController extends Controller
         ]);
 
         $keys = ['nama_peternakan', 'alamat', 'no_telp', 'email', 'nama_pemilik', 'jabatan_pemilik', 'visi_misi'];
-        foreach($keys as $key) {
+        foreach ($keys as $key) {
             $this->settingService->set($key, $request->input($key));
         }
 
@@ -57,12 +58,12 @@ class ProfilSistemController extends Controller
             if ($oldLogo && Storage::disk('public')->exists($oldLogo)) {
                 Storage::disk('public')->delete($oldLogo);
             }
-            
+
             $path = $request->file('logo')->store('logos', 'public');
             $this->settingService->set('logo_path', $path);
         }
 
-        \App\Services\AuditService::log('Mengubah pengaturan profil sistem');
+        AuditService::log('Mengubah pengaturan profil sistem');
 
         return redirect()->back()->with('success', 'Profil sistem berhasil diperbarui!');
     }

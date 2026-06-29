@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Pencatatan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\Batch;
 use App\Models\Deplesi;
 use App\Models\Kandang;
+use App\Services\AuditService;
+use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,7 +115,7 @@ class DeplesiController extends Controller
         }
 
         // Generate Kode Deplesi: DP-YYYYMMDD-XX
-        $kodeDeplesi = \App\Helpers\CodeGenerator::generate('DP', 'deplesi', 'kode_deplesi');
+        $kodeDeplesi = CodeGenerator::generate('DP', 'deplesi', 'kode_deplesi');
 
         DB::beginTransaction();
         try {
@@ -128,7 +131,7 @@ class DeplesiController extends Controller
 
             // Jika ada ayam afkir, tambahkan ke stok barang Ayam Afkir
             if ($request->jml_afkir > 0) {
-                app(\App\Services\StokBarangService::class)->tambahStokAyamAfkir($request->jml_afkir);
+                app(StokBarangService::class)->tambahStokAyamAfkir($request->jml_afkir);
             }
             // Kurangi populasi kandang
             $kandang = $batch->kandang;
@@ -145,7 +148,7 @@ class DeplesiController extends Controller
             }
             $detailText = implode(', ', $detailParts);
 
-            \App\Services\AuditService::log("Mencatat deplesi (Kandang: {$kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$totalDeplesi} ekor ({$detailText}). Populasi tersisa: {$kandang->populasi_saat_ini} ekor.");
+            AuditService::log("Mencatat deplesi (Kandang: {$kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$totalDeplesi} ekor ({$detailText}). Populasi tersisa: {$kandang->populasi_saat_ini} ekor.");
 
             DB::commit();
 
@@ -154,7 +157,8 @@ class DeplesiController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: '.$e->getMessage());
         }
     }
 }

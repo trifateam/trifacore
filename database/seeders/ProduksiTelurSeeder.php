@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Helpers\CodeGenerator;
 use App\Models\Batch;
+use App\Models\Pengguna;
 use App\Models\ProduksiTelur;
 use App\Services\StokBarangService;
-use App\Helpers\CodeGenerator;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
 class ProduksiTelurSeeder extends Seeder
@@ -16,8 +17,8 @@ class ProduksiTelurSeeder extends Seeder
     {
         ProduksiTelur::query()->delete();
         $batches = Batch::with('kandang')->where('status_batch', 'Aktif')->get();
-        $stokService = new StokBarangService();
-        $admin = \App\Models\Pengguna::where('role', 'Admin')->first();
+        $stokService = new StokBarangService;
+        $admin = Pengguna::where('role', 'Admin')->first();
         $id_pengguna = $admin ? $admin->id_pengguna : 1;
 
         foreach ($batches as $batch) {

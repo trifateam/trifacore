@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\KategoriBiaya;
-use App\Models\AkunKas;
-use App\Models\Operasional;
-use App\Models\BukuKas;
 use App\Helpers\CodeGenerator;
+use App\Models\AkunKas;
+use App\Models\BukuKas;
+use App\Models\KategoriBiaya;
+use App\Models\Operasional;
+use App\Models\Pengguna;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class OperasionalSeeder extends Seeder
 {
@@ -19,14 +20,14 @@ class OperasionalSeeder extends Seeder
         $listrik = KategoriBiaya::where('nama_kategori', 'Listrik & Air')->first();
         $bensin = KategoriBiaya::where('nama_kategori', 'Transportasi & BBM')->first();
         $akun = AkunKas::where('kategori_akun', 'Bank')->first();
-        $admin = \App\Models\Pengguna::where('role', 'Admin')->first();
+        $admin = Pengguna::where('role', 'Admin')->first();
         $id_pengguna = $admin ? $admin->id_pengguna : 1;
 
         // Biaya Gaji (Akhir Bulan)
         $dateGaji = Carbon::now()->subDays(5); // Anggap akhir bulan kemaren
         $kodeGaji = CodeGenerator::generate('OP', 'operasional', 'kode_operasional');
         $nominalGaji = 15000000;
-        
+
         $opGaji = Operasional::create([
             'kode_operasional' => $kodeGaji,
             'id_kategori_biaya' => $gaji->id_kategori_biaya,
@@ -41,7 +42,7 @@ class OperasionalSeeder extends Seeder
 
         $akun->saldo -= $nominalGaji;
         $akun->save();
-        
+
         BukuKas::create([
             'kode_jurnal' => CodeGenerator::generate('BK', 'buku_kas', 'kode_jurnal', 4),
             'id_akun' => $akun->id_akun,
@@ -51,7 +52,7 @@ class OperasionalSeeder extends Seeder
             'tipe_referensi' => 'operasional',
             'id_referensi' => $opGaji->id_operasional,
             'nominal' => $nominalGaji,
-            'keterangan' => "Biaya Operasional - " . $gaji->nama_kategori,
+            'keterangan' => 'Biaya Operasional - '.$gaji->nama_kategori,
             'created_at' => $dateGaji,
             'updated_at' => $dateGaji,
         ]);
@@ -85,7 +86,7 @@ class OperasionalSeeder extends Seeder
             'tipe_referensi' => 'operasional',
             'id_referensi' => $opListrik->id_operasional,
             'nominal' => $nominalListrik,
-            'keterangan' => "Biaya Operasional - " . $listrik->nama_kategori,
+            'keterangan' => 'Biaya Operasional - '.$listrik->nama_kategori,
             'created_at' => $dateListrik,
             'updated_at' => $dateListrik,
         ]);
@@ -117,7 +118,7 @@ class OperasionalSeeder extends Seeder
             'tipe_referensi' => 'operasional',
             'id_referensi' => $opBensin->id_operasional,
             'nominal' => $nominalBensin,
-            'keterangan' => "Biaya Operasional - " . $bensin->nama_kategori,
+            'keterangan' => 'Biaya Operasional - '.$bensin->nama_kategori,
         ]);
     }
 }

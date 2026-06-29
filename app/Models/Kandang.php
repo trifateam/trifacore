@@ -11,8 +11,9 @@ class Kandang extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'kandang';
+
     protected $primaryKey = 'id_kandang';
-    
+
     protected $fillable = [
         'id_pengguna',
         'nama_kandang',

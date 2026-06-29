@@ -10,7 +10,9 @@ class PembayaranHutang extends Model
     use HasFactory;
 
     protected $table = 'pembayaran_hutang';
+
     protected $primaryKey = 'id_pembayaran_hutang';
+
     protected $guarded = [];
 
     public function hutang()

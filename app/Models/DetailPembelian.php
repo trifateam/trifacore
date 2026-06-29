@@ -10,6 +10,7 @@ class DetailPembelian extends Model
     use HasFactory;
 
     protected $table = 'detail_pembelian';
+
     protected $primaryKey = 'id_detail_beli';
 
     protected $fillable = [

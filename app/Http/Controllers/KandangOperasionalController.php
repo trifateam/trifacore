@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\Kandang;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class KandangOperasionalController extends Controller
@@ -17,9 +17,9 @@ class KandangOperasionalController extends Controller
     {
         // Section 1: Kandang Aktif beserta batch-nya
         $kandangs = Kandang::with(['batches' => function ($query) {
-                // Hanya batch yang aktif atau selesai di kandang tersebut
-                $query->whereIn('status_batch', ['Aktif', 'Selesai']);
-            }])
+            // Hanya batch yang aktif atau selesai di kandang tersebut
+            $query->whereIn('status_batch', ['Aktif', 'Selesai']);
+        }])
             ->whereNull('deleted_at')
             ->get();
 
@@ -42,7 +42,7 @@ class KandangOperasionalController extends Controller
     public function showAssignForm($id_batch)
     {
         $batch = Batch::with('supplier')->findOrFail($id_batch);
-        
+
         if ($batch->status_batch !== 'Pending') {
             return redirect()->route('batch.index')
                 ->with('error', 'Batch ini sudah tidak dalam status Pending.');
@@ -69,7 +69,7 @@ class KandangOperasionalController extends Controller
                 $kandang = Kandang::lockForUpdate()->findOrFail($request->id_kandang);
 
                 if ($batch->status_batch !== 'Pending') {
-                    throw new \Exception("Batch ini tidak dalam status Pending.");
+                    throw new \Exception('Batch ini tidak dalam status Pending.');
                 }
 
                 $jumlahAssign = $request->jumlah;
@@ -89,8 +89,8 @@ class KandangOperasionalController extends Controller
                 if ($jumlahAssign < $batch->jumlah_sisa) {
                     // Split batch: buat batch baru untuk yang di-assign
                     $newBatch = $batch->replicate();
-                    $newBatch->kode_batch = $batch->kode_batch . '-' . rand(10, 99); // Append unique identifier
-                    $newBatch->nama_batch = $batch->nama_batch . ' (Split)';
+                    $newBatch->kode_batch = $batch->kode_batch.'-'.rand(10, 99); // Append unique identifier
+                    $newBatch->nama_batch = $batch->nama_batch.' (Split)';
                     $newBatch->id_kandang = $kandang->id_kandang;
                     $newBatch->populasi_awal = $jumlahAssign;
                     $newBatch->jumlah_sisa = $jumlahAssign;
@@ -100,30 +100,30 @@ class KandangOperasionalController extends Controller
                     // Kurangi sisa batch original
                     $batch->jumlah_sisa -= $jumlahAssign;
                     $batch->save();
-                    
+
                     $assignedBatchKode = $newBatch->kode_batch;
                 } else {
                     // Assign semua sisa batch
                     $batch->id_kandang = $kandang->id_kandang;
                     $batch->jumlah_sisa = 0; // Karena sudah di-assign semua ke kandang
                     $batch->status_batch = 'Aktif';
-                    
+
                     // Note: jika jumlah_sisa kita definisikan sebagai "sisa yang belum diassign",
                     // maka menjadi 0. Tapi jika jumlah_sisa di kandang artinya "ayam yang masih hidup di kandang",
-                    // maka jumlah_sisa tetap sejumlah yang diassign. 
+                    // maka jumlah_sisa tetap sejumlah yang diassign.
                     // Prompt bilang: "Batch: jumlah_sisa -= jumlah". Artinya jumlah_sisa adalah yang BELUM di assign.
-                    // Tunggu, saat Deplesi, "jumlah sisa ayam per batch". 
+                    // Tunggu, saat Deplesi, "jumlah sisa ayam per batch".
                     // Jika di database, populasi kandang adalah agregasi dari batch?
                     // "kandang.populasi_saat_ini += jumlah"
                     // Jika jumlah_sisa di batch berkurang, berarti jumlah_sisa = stok gudang?
-                    // TIDAK. Di sistem peternakan biasanya `jumlah_sisa` batch adalah sisa ayam hidup. 
+                    // TIDAK. Di sistem peternakan biasanya `jumlah_sisa` batch adalah sisa ayam hidup.
                     // Coba kita lihat di prompt Deplesi: "Mencatat kematian... mengurangi populasi".
                     // Jika `jumlah_sisa` -= `jumlah`, berarti sisa yang belum assign jadi 0.
-                    // Tapi bagaimana dengan sisa hidup di kandang? 
+                    // Tapi bagaimana dengan sisa hidup di kandang?
                     // Di prompt ini dikatakan: "Batch: jumlah_sisa -= jumlah".
                     // Jika split, batch original sisa, batch baru jumlah_sisa = $jumlahAssign.
                     // Jika full, status jadi Aktif. Kalau jumlah_sisa 0, hilang dari section 1.
-                    // Mari kita asumsikan jumlah_sisa di batch pending adalah "sisa yg belum di assign", 
+                    // Mari kita asumsikan jumlah_sisa di batch pending adalah "sisa yg belum di assign",
                     // dan saat sudah di-assign (Aktif), jumlah_sisa menjadi "jumlah ayam hidup di kandang".
                     // Oleh karena itu, untuk full assign, jumlah_sisa TETAP sama (karena belum ada yg mati),
                     // tapi status_batch menjadi 'Aktif', sehingga otomatis hilang dari Section 1 karena filter status.
@@ -136,14 +136,14 @@ class KandangOperasionalController extends Controller
                 $kandang->save();
 
                 // Catat aktivitas
-                \App\Services\AuditService::log("Menempatkan {$jumlahAssign} ekor pullet (Batch: {$assignedBatchKode}) ke {$kandang->nama_kandang}.");
+                AuditService::log("Menempatkan {$jumlahAssign} ekor pullet (Batch: {$assignedBatchKode}) ke {$kandang->nama_kandang}.");
             });
 
             return redirect()->route('batch.index')
                 ->with('success', 'Berhasil menempatkan pullet ke kandang.');
 
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal menempatkan pullet: ' . $e->getMessage());
+            return back()->with('error', 'Gagal menempatkan pullet: '.$e->getMessage());
         }
     }
 }

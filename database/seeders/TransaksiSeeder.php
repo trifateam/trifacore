@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Supplier;
-use App\Models\Pelanggan;
-use App\Models\Barang;
 use App\Models\AkunKas;
+use App\Models\Barang;
+use App\Models\Pelanggan;
 use App\Models\Pengguna;
+use App\Models\Supplier;
 use App\Services\TransaksiPembelianService;
 use App\Services\TransaksiPenjualanService;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
 class TransaksiSeeder extends Seeder
@@ -25,13 +25,13 @@ class TransaksiSeeder extends Seeder
         // Login as admin for services
         auth()->login($admin);
 
-        $pembelianService = new TransaksiPembelianService();
-        $penjualanService = new TransaksiPenjualanService();
+        $pembelianService = new TransaksiPembelianService;
+        $penjualanService = new TransaksiPenjualanService;
 
         $pakanStarter = Barang::where('nama_barang', 'Pakan Starter (Awal)')->first();
         $pakanLayer = Barang::where('nama_barang', 'Pakan Layer (Petelur)')->first();
         $vitamin = Barang::where('nama_barang', 'Vitamin Ayam Petelur')->first();
-        
+
         $telurRB = Barang::where('nama_barang', 'Telur RB')->first();
         $telurMB = Barang::where('nama_barang', 'Telur MB')->first();
         $telurMK = Barang::where('nama_barang', 'Telur MK')->first();
@@ -47,12 +47,12 @@ class TransaksiSeeder extends Seeder
                 'metode_pembayaran' => 'LUNAS',
                 'id_akun_kas' => $akunKas->id_akun,
                 'total_pembelian' => 0, // dihitung ulang
-                'catatan' => 'Pembelian rutin ' . $date->format('d M'),
+                'catatan' => 'Pembelian rutin '.$date->format('d M'),
             ];
 
             $qtyStarter = 2000;
             $qtyLayer = 3000;
-            
+
             $subStarter = $qtyStarter * $pakanStarter->harga;
             $subLayer = $qtyLayer * $pakanLayer->harga;
             $dataBeli['total_pembelian'] = $subStarter + $subLayer;
@@ -65,7 +65,7 @@ class TransaksiSeeder extends Seeder
             try {
                 $pembelianService->prosesBeliMaterial($dataBeli, $detailsBeli);
             } catch (\Exception $e) {
-                Log::error("Seeder Pembelian Error: " . $e->getMessage());
+                Log::error('Seeder Pembelian Error: '.$e->getMessage());
             }
         }
 
@@ -81,7 +81,7 @@ class TransaksiSeeder extends Seeder
                 'id_akun_kas' => $akunKas->id_akun,
                 'total_harga' => 0,
                 'kategori_penjualan' => 'telur',
-                'catatan' => 'Penjualan grosir ' . $date->format('d M'),
+                'catatan' => 'Penjualan grosir '.$date->format('d M'),
             ];
 
             // Jual dalam porsi besar (misal 5000 RB, 1000 MB, 500 MK)
@@ -92,7 +92,7 @@ class TransaksiSeeder extends Seeder
             $subRB = $qtyRB * $telurRB->harga;
             $subMB = $qtyMB * $telurMB->harga;
             $subMK = $qtyMK * $telurMK->harga;
-            
+
             $dataJual['total_harga'] = $subRB + $subMB + $subMK;
 
             $detailsJual = [
@@ -104,7 +104,7 @@ class TransaksiSeeder extends Seeder
             try {
                 $penjualanService->prosesTransaksi($dataJual, $detailsJual);
             } catch (\Exception $e) {
-                Log::error("Seeder Penjualan Error: " . $e->getMessage());
+                Log::error('Seeder Penjualan Error: '.$e->getMessage());
             }
         }
 

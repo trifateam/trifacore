@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Keuangan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\AkunKas;
 use App\Models\BukuKas;
 use App\Models\Pelanggan;
 use App\Models\PembayaranPiutang;
 use App\Models\Piutang;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -95,7 +97,7 @@ class BukuPiutangController extends Controller
 
         // Validasi nominal <= sisa piutang
         if ($request->nominal > $piutang->sisa_piutang) {
-            return back()->with('error', 'Nominal pelunasan melebihi sisa piutang (Rp ' . number_format($piutang->sisa_piutang, 0, ',', '.') . ').');
+            return back()->with('error', 'Nominal pelunasan melebihi sisa piutang (Rp '.number_format($piutang->sisa_piutang, 0, ',', '.').').');
         }
 
         try {
@@ -103,7 +105,7 @@ class BukuPiutangController extends Controller
                 $nominal = $request->nominal;
 
                 // Generate no_kuitansi_piutang: BPI-YYYYMMDD-XX
-                $noKuitansi = \App\Helpers\CodeGenerator::generate('BPI', 'pembayaran_piutang', 'no_kuitansi_piutang');
+                $noKuitansi = CodeGenerator::generate('BPI', 'pembayaran_piutang', 'no_kuitansi_piutang');
 
                 // Simpan ke pembayaran_piutang
                 $pembayaran = PembayaranPiutang::create([
@@ -113,7 +115,7 @@ class BukuPiutangController extends Controller
                     'id_akun' => $request->id_akun,
                     'tanggal_pembayaran' => now(),
                     'jumlah_bayar' => $nominal,
-                    'keterangan' => 'Pelunasan piutang nota ' . $piutang->penjualan->no_faktur_jual,
+                    'keterangan' => 'Pelunasan piutang nota '.$piutang->penjualan->no_faktur_jual,
                 ]);
 
                 // Update sisa_piutang
@@ -135,7 +137,7 @@ class BukuPiutangController extends Controller
                 $akunLock->save();
 
                 // Buat entry buku_kas (jenis='Masuk')
-                $kodeJurnal = \App\Helpers\CodeGenerator::generate('JRN', 'buku_kas', 'kode_jurnal', 4);
+                $kodeJurnal = CodeGenerator::generate('JRN', 'buku_kas', 'kode_jurnal', 4);
 
                 BukuKas::create([
                     'kode_jurnal' => $kodeJurnal,
@@ -146,17 +148,17 @@ class BukuPiutangController extends Controller
                     'tipe_referensi' => 'pembayaran_piutang',
                     'id_referensi' => $pembayaran->id_pembayaran_piutang,
                     'nominal' => $nominal,
-                    'keterangan' => 'Pelunasan piutang ' . ($piutang->penjualan->pelanggan->nama_lengkap ?? '') . ' - Nota ' . $piutang->penjualan->no_faktur_jual,
+                    'keterangan' => 'Pelunasan piutang '.($piutang->penjualan->pelanggan->nama_lengkap ?? '').' - Nota '.$piutang->penjualan->no_faktur_jual,
                 ]);
 
                 // Catat riwayat aktivitas
                 $pelangganName = $piutang->penjualan->pelanggan->nama_lengkap ?? 'Unknown';
-                \App\Services\AuditService::log("Menerima pelunasan piutang {$pelangganName} (Nota: {$piutang->penjualan->no_faktur_jual}) sebesar Rp" . number_format($nominal, 0, ',', '.'));
+                AuditService::log("Menerima pelunasan piutang {$pelangganName} (Nota: {$piutang->penjualan->no_faktur_jual}) sebesar Rp".number_format($nominal, 0, ',', '.'));
             });
 
             return redirect()->route('keuangan.buku-piutang')->with('success', 'Pelunasan piutang berhasil diproses.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal memproses pelunasan: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memproses pelunasan: '.$e->getMessage());
         }
     }
 }

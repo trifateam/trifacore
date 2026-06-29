@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use App\Models\Supplier;
 use App\Models\Pengguna;
+use App\Models\Supplier;
+use Illuminate\Database\Seeder;
 
 class SupplierSeeder extends Seeder
 {

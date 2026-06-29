@@ -18,9 +18,9 @@ class RiwayatAktivitasController extends Controller
 
         $riwayats = RiwayatAktivitas::with('pengguna')
             ->when($search, function ($query, $search) {
-                $query->whereHas('pengguna', function($q) use ($search) {
+                $query->whereHas('pengguna', function ($q) use ($search) {
                     $q->where('nama_lengkap', 'like', "%{$search}%")
-                      ->orWhere('username', 'like', "%{$search}%");
+                        ->orWhere('username', 'like', "%{$search}%");
                 })->orWhere('aktivitas', 'like', "%{$search}%");
             })
             ->when($tanggal_mulai, function ($query, $tanggal_mulai) {

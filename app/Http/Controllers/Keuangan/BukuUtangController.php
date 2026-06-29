@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Keuangan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\AkunKas;
 use App\Models\BukuKas;
 use App\Models\Hutang;
 use App\Models\PembayaranHutang;
 use App\Models\Supplier;
+use App\Services\AuditService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -94,13 +96,13 @@ class BukuUtangController extends Controller
 
         // Validasi nominal <= sisa utang
         if ($request->nominal > $hutang->sisa_hutang) {
-            return back()->with('error', 'Nominal pelunasan melebihi sisa utang (Rp ' . number_format($hutang->sisa_hutang, 0, ',', '.') . ').');
+            return back()->with('error', 'Nominal pelunasan melebihi sisa utang (Rp '.number_format($hutang->sisa_hutang, 0, ',', '.').').');
         }
 
         // Validasi saldo rekening
         $akun = AkunKas::findOrFail($request->id_akun);
         if ($akun->saldo < $request->nominal) {
-            return back()->with('error', 'Saldo rekening ' . $akun->nama_akun . ' tidak mencukupi (Saldo: Rp ' . number_format($akun->saldo, 0, ',', '.') . ').');
+            return back()->with('error', 'Saldo rekening '.$akun->nama_akun.' tidak mencukupi (Saldo: Rp '.number_format($akun->saldo, 0, ',', '.').').');
         }
 
         try {
@@ -108,7 +110,7 @@ class BukuUtangController extends Controller
                 $nominal = $request->nominal;
 
                 // Generate no_kuitansi_hutang: BHU-YYYYMMDD-XX
-                $noKuitansi = \App\Helpers\CodeGenerator::generate('BHU', 'pembayaran_hutang', 'no_kuitansi_hutang');
+                $noKuitansi = CodeGenerator::generate('BHU', 'pembayaran_hutang', 'no_kuitansi_hutang');
 
                 // Simpan ke pembayaran_hutang
                 $pembayaran = PembayaranHutang::create([
@@ -118,7 +120,7 @@ class BukuUtangController extends Controller
                     'id_akun' => $akun->id_akun,
                     'tanggal_pembayaran' => now(),
                     'jumlah_bayar' => $nominal,
-                    'keterangan' => 'Pelunasan utang nota ' . $hutang->pembelian->no_faktur_beli,
+                    'keterangan' => 'Pelunasan utang nota '.$hutang->pembelian->no_faktur_beli,
                 ]);
 
                 // Update sisa_hutang
@@ -140,7 +142,7 @@ class BukuUtangController extends Controller
                 $akunLock->save();
 
                 // Buat entry buku_kas
-                $kodeJurnal = \App\Helpers\CodeGenerator::generate('JRN', 'buku_kas', 'kode_jurnal', 4);
+                $kodeJurnal = CodeGenerator::generate('JRN', 'buku_kas', 'kode_jurnal', 4);
 
                 BukuKas::create([
                     'kode_jurnal' => $kodeJurnal,
@@ -151,17 +153,17 @@ class BukuUtangController extends Controller
                     'tipe_referensi' => 'pembayaran_hutang',
                     'id_referensi' => $pembayaran->id_pembayaran_hutang,
                     'nominal' => $nominal,
-                    'keterangan' => 'Pelunasan utang ' . ($hutang->pembelian->supplier->nama_supplier ?? '') . ' - Nota ' . $hutang->pembelian->no_faktur_beli,
+                    'keterangan' => 'Pelunasan utang '.($hutang->pembelian->supplier->nama_supplier ?? '').' - Nota '.$hutang->pembelian->no_faktur_beli,
                 ]);
 
                 // Catat riwayat aktivitas
                 $supplierName = $hutang->pembelian->supplier->nama_supplier ?? 'Unknown';
-                \App\Services\AuditService::log("Melunasi utang {$supplierName} (Nota: {$hutang->pembelian->no_faktur_beli}) sebesar Rp" . number_format($nominal, 0, ',', '.'));
+                AuditService::log("Melunasi utang {$supplierName} (Nota: {$hutang->pembelian->no_faktur_beli}) sebesar Rp".number_format($nominal, 0, ',', '.'));
             });
 
             return redirect()->route('keuangan.buku-utang')->with('success', 'Pelunasan utang berhasil diproses.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal memproses pelunasan: ' . $e->getMessage());
+            return back()->with('error', 'Gagal memproses pelunasan: '.$e->getMessage());
         }
     }
 }

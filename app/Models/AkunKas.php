@@ -11,8 +11,9 @@ class AkunKas extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'akun_kas';
+
     protected $primaryKey = 'id_akun';
-    
+
     protected $fillable = [
         'nama_akun',
         'kategori_akun',

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Pencatatan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Kandang;
 use App\Models\ProduksiPupukKandang;
+use App\Services\AuditService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,7 +71,7 @@ class ProduksiPupukController extends Controller
         }
 
         // Generate kode: PP-YYYYMMDD-XX
-        $kodePupuk = \App\Helpers\CodeGenerator::generate('PP', 'produksi_pupuk_kandang', 'kode_pupuk');
+        $kodePupuk = CodeGenerator::generate('PP', 'produksi_pupuk_kandang', 'kode_pupuk');
 
         DB::beginTransaction();
         try {
@@ -94,7 +96,7 @@ class ProduksiPupukController extends Controller
                 }
             }
 
-            \App\Services\AuditService::log("Mencatat produksi pupuk kandang ({$kandang->nama_kandang}): {$request->jumlah_karung} karung, {$request->total_berat_kg} kg.{$stokInfo}");
+            AuditService::log("Mencatat produksi pupuk kandang ({$kandang->nama_kandang}): {$request->jumlah_karung} karung, {$request->total_berat_kg} kg.{$stokInfo}");
 
             DB::commit();
 
@@ -103,7 +105,8 @@ class ProduksiPupukController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: '.$e->getMessage());
         }
     }
 }

@@ -10,7 +10,9 @@ class RiwayatAktivitas extends Model
     use HasFactory;
 
     protected $table = 'riwayat_aktivitas';
+
     protected $primaryKey = 'id_log';
+
     protected $guarded = [];
 
     public function pengguna()

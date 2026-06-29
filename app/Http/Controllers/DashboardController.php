@@ -36,7 +36,7 @@ class DashboardController extends Controller
         // Saldo Kas Total: SUM(saldo) dari semua akun_kas aktif
         // HIDDEN untuk Pegawai Kandang, Sales, Pegawai Gudang
         $saldoKas = null;
-        $showSaldoKas = !$user->hasRole('Pegawai Kandang', 'Sales', 'Pegawai Gudang');
+        $showSaldoKas = ! $user->hasRole('Pegawai Kandang', 'Sales', 'Pegawai Gudang');
         if ($showSaldoKas) {
             $saldoKas = AkunKas::sum('saldo');
         }
@@ -44,9 +44,9 @@ class DashboardController extends Controller
         // ── 2. Grafik Tren Produksi 7 Hari Terakhir ──────────────
 
         $trendProduksi = ProduksiTelur::select(
-                DB::raw('DATE(tanggal_produksi) as tanggal'),
-                DB::raw('SUM(jml_telur_rb + jml_telur_mk + jml_telur_mb + jml_telur_pecah) as total')
-            )
+            DB::raw('DATE(tanggal_produksi) as tanggal'),
+            DB::raw('SUM(jml_telur_rb + jml_telur_mk + jml_telur_mb + jml_telur_pecah) as total')
+        )
             ->where('tanggal_produksi', '>=', Carbon::today()->subDays(6))
             ->groupBy(DB::raw('DATE(tanggal_produksi)'))
             ->orderBy('tanggal', 'asc')
@@ -63,12 +63,10 @@ class DashboardController extends Controller
             $found = $trendProduksi->firstWhere('tanggal', $date);
             $val = $found ? (int) $found->total : 0;
             $chartData[] = $val;
-            
+
             $yValues[] = $val;
             $xValues[] = 6 - $i; // x = 0 to 6
         }
-
-
 
         // ── 3. Ringkasan Arus Kas Bulan Ini ──────────────────────
         // HIDDEN untuk selain Admin dan Owner
@@ -100,7 +98,7 @@ class DashboardController extends Controller
             ->select('nama_barang', 'stok_barang', 'stok_minimum', 'satuan')
             ->orderByRaw('(stok_minimum - stok_barang) DESC')
             ->get();
-            
+
         $pakanKritis = Barang::whereColumn('stok_barang', '<', 'stok_minimum')
             ->where('stok_minimum', '>', 0)
             ->where('kategori_barang', 'Pakan')

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Pencatatan;
 
+use App\Helpers\CodeGenerator;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\KonsumsiPakan;
+use App\Services\AuditService;
 use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -111,10 +113,10 @@ class KonsumsiPakanController extends Controller
 
         // Default waktu ke saat ini jika kosong
         $waktuPemberian = $request->waktu_pemberian ?: Carbon::now()->format('H:i');
-        
+
         // Generate Kode Pakan: KP-YYYYMMDD-XX
         $sesiKe = $jumlahSesiHariIni + 1;
-        $kodePakan = \App\Helpers\CodeGenerator::generate('KP', 'konsumsi_pakan', 'kode_pakan');
+        $kodePakan = CodeGenerator::generate('KP', 'konsumsi_pakan', 'kode_pakan');
 
         DB::beginTransaction();
         try {
@@ -132,7 +134,7 @@ class KonsumsiPakanController extends Controller
             ]);
 
             // Catat Riwayat Aktivitas
-            \App\Services\AuditService::log("Mencatat konsumsi pakan (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->jumlah_pakan_kg} kg {$barangPakan->nama_barang}.");
+            AuditService::log("Mencatat konsumsi pakan (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sebanyak {$request->jumlah_pakan_kg} kg {$barangPakan->nama_barang}.");
 
             DB::commit();
 
@@ -141,7 +143,8 @@ class KonsumsiPakanController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: ' . $e->getMessage());
+
+            return back()->withInput()->with('error', 'Gagal menyimpan pencatatan: '.$e->getMessage());
         }
     }
 }

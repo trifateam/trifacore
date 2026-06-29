@@ -9,9 +9,9 @@ class AuditService
 {
     /**
      * Catat aktivitas pengguna ke tabel riwayat_aktivitas
-     * 
-     * @param string $aktivitas Deskripsi aktivitas
-     * @param int|null $userId ID pengguna (default: auth user)
+     *
+     * @param  string  $aktivitas  Deskripsi aktivitas
+     * @param  int|null  $userId  ID pengguna (default: auth user)
      */
     public static function log($aktivitas, $userId = null)
     {

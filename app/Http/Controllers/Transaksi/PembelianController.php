@@ -26,7 +26,7 @@ class PembelianController extends Controller
         $stokMaterial = Barang::where('dapat_dibeli', true)
             ->where('kategori_barang', '!=', 'Ayam')
             ->get(['nama_barang', 'stok_barang', 'satuan']);
-            
+
         return view('transaksi.pembelian.index', compact('stokMaterial'));
     }
 
@@ -36,7 +36,7 @@ class PembelianController extends Controller
     public function create(Request $request)
     {
         $jenis = $request->query('jenis');
-        if (!in_array($jenis, ['material', 'pullet'])) {
+        if (! in_array($jenis, ['material', 'pullet'])) {
             return redirect()->route('transaksi.pembelian.index')
                 ->with('error', 'Jenis pembelian tidak valid.');
         }
@@ -49,6 +49,7 @@ class PembelianController extends Controller
             $barangs = Barang::where('dapat_dibeli', true)
                 ->where('kategori_barang', '!=', 'Ayam')
                 ->get();
+
             return view('transaksi.pembelian.create-material', compact('suppliers', 'akunKas', 'barangs', 'jenis'));
         } else {
             // Pullet: Tidak perlu list barang, form khusus
@@ -79,7 +80,7 @@ class PembelianController extends Controller
             'metode_pembayaran' => 'required|in:LUNAS,TEMPO',
             'id_akun_kas' => 'required_if:metode_pembayaran,LUNAS',
             'tanggal_jatuh_tempo' => 'required_if:metode_pembayaran,TEMPO|date',
-            
+
             'items' => 'required|array|min:1',
             'items.*.id_barang' => 'required|exists:barang,id_barang',
             'items.*.kuantitas' => 'required|numeric|min:0.01',
@@ -117,7 +118,7 @@ class PembelianController extends Controller
             return redirect()->route('transaksi.pembelian.index')
                 ->with('success', "Pembelian Material berhasil disimpan dengan No Faktur: {$pembelian->no_faktur_beli}");
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Gagal memproses transaksi: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Gagal memproses transaksi: '.$e->getMessage());
         }
     }
 
@@ -128,7 +129,7 @@ class PembelianController extends Controller
             'metode_pembayaran' => 'required|in:LUNAS,TEMPO',
             'id_akun_kas' => 'required_if:metode_pembayaran,LUNAS',
             'tanggal_jatuh_tempo' => 'required_if:metode_pembayaran,TEMPO|date',
-            
+
             'jenis_ayam' => 'required|string|max:50',
             'umur_masuk' => 'required|integer|min:0|max:52',
             'jumlah_awal' => 'required|integer|min:1',
@@ -144,7 +145,7 @@ class PembelianController extends Controller
             'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
             'catatan' => $request->catatan,
             'total_pembelian' => $totalPembelian,
-            
+
             'jenis_ayam' => $request->jenis_ayam,
             'umur_masuk' => $request->umur_masuk,
             'jumlah_awal' => $request->jumlah_awal,
@@ -157,7 +158,7 @@ class PembelianController extends Controller
             return redirect()->route('transaksi.pembelian.index')
                 ->with('success', "Pembelian Pullet berhasil disimpan. Batch baru berstatus Pending telah dibuat. No Faktur: {$pembelian->no_faktur_beli}");
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Gagal memproses transaksi: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Gagal memproses transaksi: '.$e->getMessage());
         }
     }
 }

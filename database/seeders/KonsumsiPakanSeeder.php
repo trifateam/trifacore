@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Helpers\CodeGenerator;
+use App\Models\Barang;
 use App\Models\Batch;
 use App\Models\KonsumsiPakan;
-use App\Models\Barang;
+use App\Models\Pengguna;
 use App\Services\StokBarangService;
-use App\Helpers\CodeGenerator;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Log;
 
 class KonsumsiPakanSeeder extends Seeder
@@ -17,16 +18,16 @@ class KonsumsiPakanSeeder extends Seeder
     {
         KonsumsiPakan::query()->delete();
         $batches = Batch::with('kandang')->where('status_batch', 'Aktif')->get();
-        $stokService = new StokBarangService();
+        $stokService = new StokBarangService;
         $pakanStarter = Barang::where('nama_barang', 'Pakan Starter (Awal)')->first();
         $pakanLayer = Barang::where('nama_barang', 'Pakan Layer (Petelur)')->first();
-        $admin = \App\Models\Pengguna::where('role', 'Admin')->first();
+        $admin = Pengguna::where('role', 'Admin')->first();
         $id_pengguna = $admin ? $admin->id_pengguna : 1;
 
         foreach ($batches as $batch) {
             $startDate = Carbon::now()->subDays(30);
             $endDate = Carbon::now();
-            $populasi = $batch->jumlah_sisa; 
+            $populasi = $batch->jumlah_sisa;
 
             for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
                 // Konsumsi rata-rata 110 gram per ekor per hari
