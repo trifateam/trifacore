@@ -33,6 +33,7 @@
 - Migrasi database untuk seluruh tabel sistem
 - Dummy data seeder untuk keperluan demonstrasi
 - Integrasi alur CI/CD untuk otomatisasi Pull Request dan Merge
+- Halaman landing page (Landing Page)
 
 ### Changed
 - perbaikan dashboard
@@ -45,6 +46,8 @@
 - Pembaruan dan penyesuaian palette warna baru pada sistem
 - Pembaruan dan peningkatan dokumentasi proyek (README, panduan instalasi, dependensi, dan fitur)
 - Penghapusan berkas-berkas yang tidak digunakan
+- Redesign form login dan menu kandang
+- Redesign branding dan judul logo aplikasi
 
 ### Fixed
 - bug redirect login
@@ -53,6 +56,15 @@
 - Perbaikan error controller pada halaman pencatatan suhu kandang
 - Penghapusan elemen alert ganda pada antarmuka
 - Perbaikan kesalahan konten pada dokumentasi dependensi
+- Perbaikan pesan peringatan (warning message) pada berkas app.css
+- Perbaikan/penghapusan fitur `is_active` yang tidak digunakan
+
+---
+
+### Removed
+- Fitur "Remember me" pada form login
+- Fitur registrasi akun (Sign up)
+- Skrip utilitas sekali pakai (`add_audit_master.php`, script format rupiah)
 
 ---
 
