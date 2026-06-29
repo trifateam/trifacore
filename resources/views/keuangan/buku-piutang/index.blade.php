@@ -1,0 +1,200 @@
+@extends('layouts.app')
+
+@section('content')
+    <x-breadcrumb :items="[
+        ['label' => 'Dashboard', 'url' => route('dashboard')],
+        ['label' => 'Keuangan'],
+        ['label' => 'Buku Piutang'],
+    ]" />
+
+    <x-page-header title="Buku Piutang" subtitle="Tracking piutang penjualan tempo dan penerimaan pelunasan dari pelanggan." />
+
+
+
+    {{-- ══════════════════════════════════════════ --}}
+    {{-- SUMMARY CARDS                             --}}
+    {{-- ══════════════════════════════════════════ --}}
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <x-stat-card 
+            title="Total Piutang Belum Lunas" 
+            :value="\App\Helpers\RupiahFormatter::format($totalPiutangBelumLunas)"
+            icon="banknotes"
+            color="blue"
+        />
+        <x-stat-card 
+            title="Jumlah Faktur Tempo" 
+            :value="$jumlahFakturTempo . ' nota'"
+            icon="document-text"
+            color="yellow"
+        />
+    </div>
+
+    {{-- ══════════════════════════════════════════ --}}
+    {{-- FILTER BAR                                --}}
+    {{-- ══════════════════════════════════════════ --}}
+    <x-filter-bar :action="route('keuangan.buku-piutang')">
+        <x-select 
+            name="id_pelanggan" 
+            label="Pelanggan"
+            placeholder="Semua Pelanggan"
+            :options="$pelanggans->map(fn($p) => ['value' => $p->id_pelanggan, 'label' => $p->nama_lengkap])->toArray()"
+            :selected="request('id_pelanggan')"
+        />
+
+        <x-select 
+            name="status" 
+            label="Status"
+            placeholder="Semua Status"
+            :options="[
+                ['value' => 'Belum Lunas', 'label' => 'Belum Lunas'],
+                ['value' => 'Lunas Sebagian', 'label' => 'Lunas Sebagian'],
+                ['value' => 'Lunas', 'label' => 'Lunas'],
+            ]"
+            :selected="request('status')"
+        />
+    </x-filter-bar>
+
+    {{-- ══════════════════════════════════════════ --}}
+    {{-- TABEL DAFTAR PIUTANG                      --}}
+    {{-- ══════════════════════════════════════════ --}}
+    <x-card class="border border-gray-200 dark:border-gray-700">
+        <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex items-center justify-between">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">Daftar Piutang</h3>
+            </div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ $piutangs->total() }} data</span>
+        </div>
+
+        <div class="overflow-x-auto">
+            <x-table :headers="['No. Nota', 'Tanggal', 'Pelanggan', 'Total Piutang (Rp)', 'Sisa Piutang (Rp)', 'Jatuh Tempo', 'Status', 'Aksi']">
+                @forelse($piutangs as $p)
+                    @php
+                        $today = now()->startOfDay();
+                        $jatuhTempo = $p->tanggal_jatuh_tempo ? \Carbon\Carbon::parse($p->tanggal_jatuh_tempo)->startOfDay() : null;
+                        $diffDays = $jatuhTempo ? $today->diffInDays($jatuhTempo, false) : null;
+                        
+                        // Indikator jatuh tempo (hanya untuk yang belum lunas)
+                        $isLunas = $p->status_piutang === 'Lunas';
+                        if ($isLunas || $jatuhTempo === null) {
+                            $tempoIndicator = 'neutral';
+                        } elseif ($diffDays < 0) {
+                            $tempoIndicator = 'overdue';
+                        } elseif ($diffDays <= 5) {
+                            $tempoIndicator = 'warning';
+                        } else {
+                            $tempoIndicator = 'safe';
+                        }
+
+                        $tempoClasses = match($tempoIndicator) {
+                            'overdue' => 'text-red-600 dark:text-red-500 font-bold',
+                            'warning' => 'text-amber-600 dark:text-amber-500 font-semibold',
+                            'safe' => 'text-emerald-600 dark:text-emerald-500',
+                            default => 'text-gray-500 dark:text-gray-400',
+                        };
+
+                        $tempoBg = match($tempoIndicator) {
+                            'overdue' => 'bg-red-50 dark:bg-red-900/30',
+                            'warning' => 'bg-amber-50 dark:bg-amber-900/30',
+                            default => '',
+                        };
+
+                        // Status badge variant
+                        $statusVariant = match($p->status_piutang) {
+                            'Lunas' => 'success',
+                            'Lunas Sebagian' => 'warning',
+                            default => 'danger',
+                        };
+                    @endphp
+                    <tr class="{{ $tempoBg }}">
+                        {{-- No. Nota --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-mono text-gray-700 dark:text-gray-300">
+                            {{ $p->penjualan->no_faktur_jual ?? '-' }}
+                        </td>
+
+                        {{-- Tanggal Penjualan --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                            {{ $p->penjualan->tanggal_penjualan ? \Carbon\Carbon::parse($p->penjualan->tanggal_penjualan)->translatedFormat('d M Y') : '-' }}
+                        </td>
+
+                        {{-- Pelanggan --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                            {{ $p->penjualan->pelanggan->nama_lengkap ?? '-' }}
+                        </td>
+
+                        {{-- Total Piutang --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 text-right">
+                            @rupiah($p->jumlah_piutang)
+                        </td>
+
+                        {{-- Sisa Piutang --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm font-bold text-right {{ $p->sisa_piutang > 0 ? 'text-blue-600 dark:text-blue-500' : 'text-emerald-600 dark:text-emerald-500' }}">
+                            @rupiah($p->sisa_piutang)
+                        </td>
+
+                        {{-- Jatuh Tempo --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm {{ $tempoClasses }}">
+                            @if($jatuhTempo)
+                                {{ $jatuhTempo->translatedFormat('d M Y') }}
+                                @if(!$isLunas)
+                                    <div class="text-xs mt-0.5">
+                                        @if($tempoIndicator === 'overdue')
+                                            🔴 Terlambat {{ abs($diffDays) }} hari
+                                        @elseif($tempoIndicator === 'warning')
+                                            🟡 {{ $diffDays }} hari lagi
+                                        @else
+                                            🟢 {{ $diffDays }} hari lagi
+                                        @endif
+                                    </div>
+                                @endif
+                            @else
+                                <span class="text-gray-400">-</span>
+                            @endif
+                        </td>
+
+                        {{-- Status --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">
+                            <x-badge :variant="$statusVariant" :dot="true">
+                                {{ $p->status_piutang }}
+                            </x-badge>
+                        </td>
+
+                        {{-- Aksi --}}
+                        <td class="px-4 py-3 whitespace-nowrap text-sm">
+                            @if($p->status_piutang !== 'Lunas')
+                                <x-button 
+                                    variant="warning" 
+                                    size="sm" 
+                                    icon="banknotes"
+                                    href="{{ route('keuangan.buku-piutang.lunasi.form', $p->id_piutang) }}"
+                                >
+                                    Bayar
+                                </x-button>
+                            @else
+                                <span class="text-xs text-gray-400 italic">Lunas</span>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="8" class="px-6 py-10">
+                            <x-empty-state 
+                                icon="document-text" 
+                                message="Belum ada data piutang" 
+                            />
+                        </td>
+                    </tr>
+                @endforelse
+            </x-table>
+        </div>
+
+        @if($piutangs->hasPages())
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                {{ $piutangs->links() }}
+            </div>
+        @endif
+    </x-card>
+
+@endsection

@@ -2,24 +2,39 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Nonaktifkan foreign key checks untuk menghindari error saat reset
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            PenggunaSeeder::class,
+            SettingsSeeder::class,
+            KategoriBiayaSeeder::class,
+            AkunKasSeeder::class,
+            SupplierSeeder::class,
+            PelangganSeeder::class,
+            BarangSeeder::class,
+            KandangSeeder::class,
+            BatchSeeder::class,
+            
+            // Eksekusi Logika Simulasi:
+            ProduksiTelurSeeder::class,
+            KonsumsiPakanSeeder::class,
+            DeplesiSeeder::class,
+            SuhuKandangSeeder::class,
+            TransaksiSeeder::class, // Menangani pembelian pakan untuk stok historis + penjualan telur historis
+            OperasionalSeeder::class,
         ]);
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

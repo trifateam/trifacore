@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,27 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        /*
+        |----------------------------------------------------------------------
+        | Custom Blade Directive: @role / @endrole
+        |----------------------------------------------------------------------
+        |
+        | Penggunaan:
+        |   @role('Admin')           — satu role
+        |   @role('Admin', 'Owner')  — multiple role
+        |
+        */
+        Blade::if('role', function (string ...$roles) {
+            return auth()->check() && in_array(auth()->user()->role, $roles);
+        });
+
+        /*
+        |----------------------------------------------------------------------
+        | Custom Blade Directive: @rupiah
+        |----------------------------------------------------------------------
+        */
+        Blade::directive('rupiah', function ($expression) {
+            return "<?php echo \App\Helpers\RupiahFormatter::format($expression); ?>";
+        });
     }
 }
