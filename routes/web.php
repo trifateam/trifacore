@@ -215,3 +215,5 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/laporan/produksi-performa/generate', [ProduksiPerformaController::class, 'generate'])->name('laporan.produksi-performa.generate');
 Route::get('/laporan/laba-rugi/generate', [LabaRugiController::class, 'generate'])->name('laporan.laba-rugi.generate');
+Route::get('/laporan/laba-rugi/pdf', [LabaRugiController::class, 'pdf'])->name('laporan.laba-rugi.pdf');
+Route::get('/laporan/laba-rugi/preview', [LabaRugiController::class, 'preview'])->name('laporan.laba-rugi.preview');

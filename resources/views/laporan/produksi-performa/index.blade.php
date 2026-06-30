@@ -3,18 +3,15 @@
 @section('title', 'Laporan Produksi & Performa')
 
 @section('content')
-    <x-page-header title="Laporan Produksi & Performa">
-        <x-button variant="primary" onclick="window.print()">
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-            </svg>
-            Cetak Laporan
-        </x-button>
-    </x-page-header>
+    <div class="print:hidden">
+        <x-page-header title="Laporan Produksi & Performa">
+        </x-page-header>
+    </div>
 
     <!-- Filter Bar -->
-    <x-card class="mb-6">
-        <form id="filter-form" class="flex flex-wrap items-end gap-4" onsubmit="event.preventDefault(); generateReport();">
+    <div class="print:hidden">
+        <x-card class="mb-6">
+        <form id="filter-form" class="flex flex-wrap items-end gap-4">
             <div class="w-full md:w-1/4">
                 <x-select name="kandang_id" label="Kandang">
                     <option value="all">Semua Kandang</option>
@@ -40,11 +37,12 @@
                 </x-select>
             </div>
 
-            <div class="w-full md:w-auto mb-4">
-                <x-button type="submit" variant="primary">Download</x-button>
+            <div class="w-full md:w-auto mb-4 flex gap-2">
+                <x-button type="button" variant="primary" onclick="generateReport()">Tampilkan</x-button>
             </div>
         </form>
     </x-card>
+    </div>
 
     <!-- Loading State -->
     <div id="loading" class="hidden text-center py-10">
@@ -89,15 +87,13 @@
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             <!-- Line Chart -->
             <div class="lg:col-span-2">
-                <x-chart-wrapper title="Tren Produksi Harian" id="lineChartContainer">
-                    <canvas id="lineChart" height="250"></canvas>
+                <x-chart-wrapper title="Tren Produksi Harian" id="lineChart">
                 </x-chart-wrapper>
             </div>
             
             <!-- Pie Chart -->
             <div class="lg:col-span-1">
-                <x-chart-wrapper title="Distribusi per Kandang" id="pieChartContainer">
-                    <canvas id="pieChart" height="250"></canvas>
+                <x-chart-wrapper title="Distribusi per Kandang" id="pieChart">
                 </x-chart-wrapper>
             </div>
         </div>
@@ -130,14 +126,12 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let lineChartInstance = null;
     let pieChartInstance = null;
 
     function generateReport() {
-        // Cek apakah trigger dari button submit (Download) atau initial load
-        const isDownload = event && event.type === 'submit';
-
         const form = document.getElementById('filter-form');
         const formData = new FormData(form);
         const searchParams = new URLSearchParams(formData);
@@ -187,17 +181,11 @@
 
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('report-content').classList.remove('hidden');
-
-                if (isDownload) {
-                    setTimeout(() => {
-                        window.print();
-                    }, 500);
-                }
             })
             .catch(error => {
                 console.error('Error fetching report:', error);
                 document.getElementById('loading').classList.add('hidden');
-                alert('Terjadi kesalahan saat memuat laporan. Pastikan Anda sudah login atau coba lagi.');
+                alert('Gagal memuat laporan: ' + error.message);
             });
     }
 

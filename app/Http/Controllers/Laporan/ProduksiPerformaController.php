@@ -184,7 +184,7 @@ class ProduksiPerformaController extends Controller
                 ],
                 'table_data' => $tableData,
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             \Log::error('Produksi Performa Error: '.$e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
             return response()->json(['message' => $e->getMessage()], 500);
