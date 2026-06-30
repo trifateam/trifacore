@@ -190,9 +190,7 @@ Route::middleware('auth')->group(function () {
         // Laporan
         Route::prefix('laporan')->name('laporan.')->group(function () {
             Route::get('/produksi-performa', [ProduksiPerformaController::class, 'index'])->name('produksi-performa');
-            Route::get('/produksi-performa/generate', [ProduksiPerformaController::class, 'generate'])->name('produksi-performa.generate');
             Route::get('/laba-rugi', [LabaRugiController::class, 'index'])->name('laba-rugi');
-            Route::get('/laba-rugi/generate', [LabaRugiController::class, 'generate'])->name('laba-rugi.generate');
             Route::get('/cetak/produksi-telur', [CetakProduksiController::class, 'index'])->name('cetak.produksi-telur');
             Route::get('/cetak/produksi-telur/preview', [CetakProduksiController::class, 'preview'])->name('cetak.produksi-telur.preview');
             Route::get('/cetak/produksi-telur/pdf', [CetakProduksiController::class, 'pdf'])->name('cetak.produksi-telur.pdf');
@@ -214,3 +212,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/riwayat-aktivitas', [RiwayatAktivitasController::class, 'index'])->name('riwayat-aktivitas.index');
     });
 });
+
+Route::get('/laporan/produksi-performa/generate', [ProduksiPerformaController::class, 'generate'])->name('laporan.produksi-performa.generate');
+Route::get('/laporan/laba-rugi/generate', [LabaRugiController::class, 'generate'])->name('laporan.laba-rugi.generate');

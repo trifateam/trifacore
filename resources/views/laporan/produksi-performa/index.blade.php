@@ -41,7 +41,7 @@
             </div>
 
             <div class="w-full md:w-auto mb-4">
-                <x-button type="submit" variant="primary">Generate Laporan</x-button>
+                <x-button type="submit" variant="primary">Download</x-button>
             </div>
         </form>
     </x-card>
@@ -135,6 +135,9 @@
     let pieChartInstance = null;
 
     function generateReport() {
+        // Cek apakah trigger dari button submit (Download) atau initial load
+        const isDownload = event && event.type === 'submit';
+
         const form = document.getElementById('filter-form');
         const formData = new FormData(form);
         const searchParams = new URLSearchParams(formData);
@@ -184,6 +187,12 @@
 
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('report-content').classList.remove('hidden');
+
+                if (isDownload) {
+                    setTimeout(() => {
+                        window.print();
+                    }, 500);
+                }
             })
             .catch(error => {
                 console.error('Error fetching report:', error);

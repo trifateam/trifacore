@@ -94,7 +94,7 @@ class PenjualanController extends Controller
             'metode_pembayaran' => 'required|in:LUNAS,PIUTANG',
             'id_kandang' => 'required_if:jenis,afkir',
             'id_akun_kas' => 'required_if:metode_pembayaran,LUNAS',
-            'tanggal_jatuh_tempo' => 'required_if:metode_pembayaran,PIUTANG|date',
+            'tanggal_jatuh_tempo' => 'nullable|date|required_if:metode_pembayaran,PIUTANG',
 
             // Validasi detail array
             'items' => 'required|array|min:1',
