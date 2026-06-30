@@ -16,7 +16,7 @@
         @endif
 
         {{-- Page Header --}}
-        <x-page-header title="Dashboard"
+        <x-page-header title="Dashboard {{ $user->hasRole('Owner') ? 'Owner' : 'Admin' }}"
             subtitle="Ringkasan eksekutif peternakan — {{ now()->translatedFormat('l, d F Y') }}">
             <x-slot:action>
                 <x-button variant="secondary" onclick="window.location.reload()">
@@ -30,9 +30,9 @@
         </x-page-header>
 
         {{-- ═══════════════════════════════════════════════════════════
-        1. SUMMARY CARDS — 4 kolom (atau 3 jika saldo hidden)
+        1. SUMMARY CARDS
         ═══════════════════════════════════════════════════════════ --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 {{ $showSaldoKas ? 'lg:grid-cols-4' : 'lg:grid-cols-3' }} gap-5">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
             {{-- Total Populasi Ayam (Biru) --}}
             <x-stat-card title="Total Populasi Ayam" :value="number_format($totalPopulasi)" icon="home-modern"
@@ -46,11 +46,9 @@
             <x-stat-card title="Stok Kritis" :value="number_format($stokKritis) . ' barang'" icon="exclamation-triangle"
                 color="red" />
 
-            {{-- Saldo Kas Total (Kuning) — HIDDEN untuk Pegawai Kandang, Sales, Pegawai Gudang --}}
-            @if($showSaldoKas)
-                <x-stat-card title="Saldo Kas Total" :value="\App\Helpers\RupiahFormatter::format($saldoKas)" icon="banknotes"
-                    color="yellow" />
-            @endif
+            {{-- Saldo Kas Total (Kuning) --}}
+            <x-stat-card title="Saldo Kas Total" :value="\App\Helpers\RupiahFormatter::format($saldoKas)" icon="banknotes"
+                color="yellow" />
 
         </div>
 
@@ -71,70 +69,68 @@
         {{-- ═══════════════════════════════════════════════════════════
         3 & 4. ARUS KAS (bawah kiri) + ALERT STOK KRITIS (bawah kanan)
         ═══════════════════════════════════════════════════════════ --}}
-        <div class="grid grid-cols-1 {{ $showArusKas ? 'lg:grid-cols-2' : '' }} gap-5">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-            {{-- 3. Ringkasan Arus Kas Bulan Ini — HIDDEN untuk selain Admin dan Owner --}}
-            @if($showArusKas)
-                <x-card title="Ringkasan Arus Kas Bulan Ini" subtitle="{{ now()->translatedFormat('F Y') }}">
-                    @if($kasMasuk == 0 && $kasKeluar == 0)
-                        <x-empty-state message="Belum ada transaksi kas bulan ini" icon="banknotes" />
-                    @else
-                        <div class="space-y-4">
-                            {{-- Kas Masuk --}}
-                            <div
-                                class="flex items-center justify-between p-4 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800">
-                                <div class="flex items-center space-x-3">
-                                    <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/50">
-                                        <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-500" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m0-16l-4 4m4-4l4 4" />
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm font-medium text-emerald-800 dark:text-emerald-300">Total Kas Masuk</span>
+            {{-- 3. Ringkasan Arus Kas Bulan Ini --}}
+            <x-card title="Ringkasan Arus Kas Bulan Ini" subtitle="{{ now()->translatedFormat('F Y') }}">
+                @if($kasMasuk == 0 && $kasKeluar == 0)
+                    <x-empty-state message="Belum ada transaksi kas bulan ini" icon="banknotes" />
+                @else
+                    <div class="space-y-4">
+                        {{-- Kas Masuk --}}
+                        <div
+                            class="flex items-center justify-between p-4 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800">
+                            <div class="flex items-center space-x-3">
+                                <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/50">
+                                    <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-500" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m0-16l-4 4m4-4l4 4" />
+                                    </svg>
                                 </div>
-                                <span class="text-lg font-bold text-emerald-700 dark:text-emerald-400">@rupiah($kasMasuk)</span>
+                                <span class="text-sm font-medium text-emerald-800 dark:text-emerald-300">Total Kas Masuk</span>
                             </div>
+                            <span class="text-lg font-bold text-emerald-700 dark:text-emerald-400">@rupiah($kasMasuk)</span>
+                        </div>
 
-                            {{-- Kas Keluar --}}
-                            <div
-                                class="flex items-center justify-between p-4 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
-                                <div class="flex items-center space-x-3">
-                                    <div class="p-2 rounded-lg bg-red-100 dark:bg-red-900/50">
-                                        <svg class="w-5 h-5 text-red-600 dark:text-red-500" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 20V4m0 16l4-4m-4 4l-4-4" />
-                                        </svg>
-                                    </div>
-                                    <span class="text-sm font-medium text-red-800 dark:text-red-300">Total Kas Keluar</span>
+                        {{-- Kas Keluar --}}
+                        <div
+                            class="flex items-center justify-between p-4 rounded-lg bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800">
+                            <div class="flex items-center space-x-3">
+                                <div class="p-2 rounded-lg bg-red-100 dark:bg-red-900/50">
+                                    <svg class="w-5 h-5 text-red-600 dark:text-red-500" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 20V4m0 16l4-4m-4 4l-4-4" />
+                                    </svg>
                                 </div>
-                                <span class="text-lg font-bold text-red-700 dark:text-red-400">@rupiah($kasKeluar)</span>
+                                <span class="text-sm font-medium text-red-800 dark:text-red-300">Total Kas Keluar</span>
                             </div>
+                            <span class="text-lg font-bold text-red-700 dark:text-red-400">@rupiah($kasKeluar)</span>
+                        </div>
 
-                            {{-- Net --}}
-                            <div
-                                class="flex items-center justify-between p-4 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800' : 'bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800' }}">
-                                <div class="flex items-center space-x-3">
-                                    <div
-                                        class="p-2 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-100 dark:bg-blue-900/50' : 'bg-amber-100 dark:bg-amber-900/50' }}">
-                                        <svg class="w-5 h-5 {{ $kasNet >= 0 ? 'text-blue-600 dark:text-blue-500' : 'text-amber-600 dark:text-amber-500' }}"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
-                                        </svg>
-                                    </div>
-                                    <span
-                                        class="text-sm font-medium {{ $kasNet >= 0 ? 'text-blue-800 dark:text-blue-300' : 'text-amber-800 dark:text-amber-300' }}">Net
-                                        Arus Kas</span>
+                        {{-- Net --}}
+                        <div
+                            class="flex items-center justify-between p-4 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800' : 'bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800' }}">
+                            <div class="flex items-center space-x-3">
+                                <div
+                                    class="p-2 rounded-lg {{ $kasNet >= 0 ? 'bg-blue-100 dark:bg-blue-900/50' : 'bg-amber-100 dark:bg-amber-900/50' }}">
+                                    <svg class="w-5 h-5 {{ $kasNet >= 0 ? 'text-blue-600 dark:text-blue-500' : 'text-amber-600 dark:text-amber-500' }}"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                                    </svg>
                                 </div>
                                 <span
-                                    class="text-lg font-bold {{ $kasNet >= 0 ? 'text-blue-700 dark:text-blue-400' : 'text-amber-700 dark:text-amber-400' }}">
-                                    {{ $kasNet >= 0 ? '+' : '-' }} @rupiah(abs($kasNet))
-                                </span>
+                                    class="text-sm font-medium {{ $kasNet >= 0 ? 'text-blue-800 dark:text-blue-300' : 'text-amber-800 dark:text-amber-300' }}">Net
+                                    Arus Kas</span>
                             </div>
+                            <span
+                                class="text-lg font-bold {{ $kasNet >= 0 ? 'text-blue-700 dark:text-blue-400' : 'text-amber-700 dark:text-amber-400' }}">
+                                {{ $kasNet >= 0 ? '+' : '-' }} @rupiah(abs($kasNet))
+                            </span>
                         </div>
-                    @endif
-                </x-card>
-            @endif
+                    </div>
+                @endif
+            </x-card>
 
             {{-- 4. Alert Stok Kritis --}}
             <x-card title="Alert Stok Kritis" subtitle="Barang dengan stok di bawah minimum">
@@ -244,7 +240,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Load chartJS properly if not ready
             const renderChart = () => {
                 if (typeof window.Chart === 'undefined') {
                     setTimeout(renderChart, 100);

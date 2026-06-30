@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        $backRoute = $barang->dapat_dibeli ? route('gudang.stok-konsumsi') : route('gudang.stok-produksi');
+    @endphp
+
     <x-breadcrumb :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard')],
-        ['label' => 'Inventory Gudang', 'url' => route('gudang.index')],
+        ['label' => 'Inventory Gudang', 'url' => $backRoute],
         ['label' => 'Stock Opname'],
     ]" />
 
@@ -95,7 +99,7 @@
                     </div>
                     
                     <div class="pt-4 flex items-center justify-end gap-3 border-t border-gray-200 dark:border-gray-700">
-                        <a href="{{ route('gudang.index') }}" class="inline-flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
+                        <a href="{{ $backRoute }}" class="inline-flex items-center justify-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-gray-300 shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
                             Batal
                         </a>
                         <x-button 

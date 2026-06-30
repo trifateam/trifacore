@@ -5,7 +5,7 @@
     'compact' => false,
 ])
 
-<div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm">
+<div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm custom-table-wrapper">
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50 dark:bg-gray-700/50">
             @isset($thead)
@@ -38,5 +38,18 @@
     }
     .table-hoverable tr:hover {
         background-color: rgba(255,153,0,0.05);
+    }
+    
+    /* Enforce Global Padding and Text Wrapping for all Table Data */
+    .custom-table-wrapper tbody td {
+        padding: 0.75rem 1rem !important; /* Setara dengan px-4 py-3 */
+        max-width: 20rem; /* Batasi lebar maksimal (setara max-w-xs) */
+        white-space: normal; /* Biarkan teks membungkus ke bawah */
+        word-break: break-word; /* Potong kata jika terlalu panjang */
+    }
+
+    /* Pengecualian untuk kolom yang sengaja dibuat nowrap (seperti kolom Aksi/Tombol) */
+    .custom-table-wrapper tbody td.whitespace-nowrap {
+        white-space: nowrap !important;
     }
 </style>

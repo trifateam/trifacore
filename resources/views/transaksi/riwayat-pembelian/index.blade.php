@@ -9,12 +9,6 @@
 
     <x-page-header title="Riwayat Penerimaan Barang" subtitle="Lihat dan filter semua log transaksi penerimaan barang (Material & Pullet)" />
 
-    {{-- Summary Bar --}}
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
-        <x-stat-card title="Jumlah Transaksi" :value="$totalTransaksi . ' Nota'" icon="document-text" color="blue" />
-        <x-stat-card title="Total Pembelian" :value="\App\Helpers\RupiahFormatter::format($totalNominal)" icon="currency-dollar" color="orange" />
-        <x-stat-card title="Total Tempo (Belum Lunas)" :value="\App\Helpers\RupiahFormatter::format($totalTempo)" icon="clock" color="red" />
-    </div>
 
     {{-- Filter Bar --}}
     <x-card class="mb-6 border border-gray-200 dark:border-gray-700">

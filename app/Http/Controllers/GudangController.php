@@ -143,7 +143,7 @@ class GudangController extends Controller
         ]);
 
         try {
-            DB::transaction(function () use ($request, $id_barang) {
+            $barang = DB::transaction(function () use ($request, $id_barang) {
                 $barang = Barang::lockForUpdate()->findOrFail($id_barang);
                 $stokLama = $barang->stok_barang;
                 $stokBaru = $request->stok_fisik;
@@ -167,6 +167,8 @@ class GudangController extends Controller
 
                 // Catat Aktivitas
                 AuditService::log("Melakukan stock opname pada barang '{$barang->nama_barang}' (Dari {$stokLama} menjadi {$stokBaru}). Alasan: {$request->alasan}");
+
+                return $barang;
             });
 
             $redirectRoute = $barang->dapat_dibeli ? 'gudang.stok-konsumsi' : 'gudang.stok-produksi';

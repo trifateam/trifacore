@@ -13,13 +13,13 @@
             <x-table :headers="['No', 'Tanggal', 'Nama Barang', 'Oleh', 'Stok Lama', 'Stok Baru', 'Alasan']">
                 @forelse($logs as $index => $log)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $logs->firstItem() + $index }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $log->created_at->format('d M Y H:i:s') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100">{{ $log->barang->nama_barang ?? '-' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $log->pengguna->nama ?? '-' }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ number_format($log->stok_lama, 2, ',', '.') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100">{{ number_format($log->stok_baru, 2, ',', '.') }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{{ $log->alasan }}</td>
+                        <td class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $logs->firstItem() + $index }}</td>
+                        <td class="whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $log->created_at->format('d M Y H:i:s') }}</td>
+                        <td class="whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100">{{ $log->barang->nama_barang ?? '-' }}</td>
+                        <td class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $log->pengguna->nama_lengkap ?? '-' }}</td>
+                        <td class="whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ number_format($log->stok_lama, 2, ',', '.') }}</td>
+                        <td class="whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100">{{ number_format($log->stok_baru, 2, ',', '.') }}</td>
+                        <td class="text-sm text-gray-500 dark:text-gray-400 max-w-xs whitespace-normal break-words">{{ $log->alasan }}</td>
                     </tr>
                 @empty
                     <tr>
