@@ -95,14 +95,17 @@ docs/
 
 ## Screenshot Proyek
 
-Screenshot aplikasi akan ditambahkan setelah halaman siap digunakan dan telah diverifikasi.
+**Halaman Landing Page**
+![Landing Page](docs/screenshot/Landing%20Page.png)
 
-Rencana screenshot minimal:
-- Halaman Landing Page representasi usaha Trifa Farm.
-- Halaman Login dengan UI responsif.
-- Halaman Dashboard pemantauan Owner (Grafik tren, HDP, FCR, dan Prediksi AI).
-- Halaman formulir input produksi harian Karyawan.
-- Halaman laporan laba-rugi keuangan otomatis.
+**Autentikasi Login**
+![Login](docs/screenshot/Autentikasi%20Login.png)
+
+**Dashboard Monitoring**
+![Dashboard](docs/screenshot/Dashboard%20Monitoring.png)
+
+**Transaksi Penjualan Telur**
+![Transaksi](docs/screenshot/Transaksi%20Penjualan%20Telur.png)
 
 ## Documentation
 
