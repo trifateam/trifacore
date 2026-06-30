@@ -117,7 +117,7 @@ class LabaRugiController extends Controller
     {
         $bulan = $request->input('bulan', date('m'));
         $tahun = $request->input('tahun', date('Y'));
-        
+
         $data = $this->getReportData($bulan, $tahun);
 
         return response()->json([
@@ -148,12 +148,12 @@ class LabaRugiController extends Controller
     {
         $bulan = $request->input('bulan', date('m'));
         $tahun = $request->input('tahun', date('Y'));
-        
+
         $data = $this->getReportData($bulan, $tahun);
-        
+
         $pdf = Pdf::loadView('laporan.cetak.laba-rugi', $data);
         $filename = 'Laporan-Laba-Rugi-'.$bulan.'-'.$tahun.'.pdf';
-        
+
         return $pdf->download($filename);
     }
 
@@ -161,9 +161,9 @@ class LabaRugiController extends Controller
     {
         $bulan = $request->input('bulan', date('m'));
         $tahun = $request->input('tahun', date('Y'));
-        
+
         $data = $this->getReportData($bulan, $tahun);
-        
+
         return view('laporan.cetak.laba-rugi', $data);
     }
 }
