@@ -28,7 +28,7 @@ class GudangController extends Controller
         $logs = LogPenyesuaianStok::with(['barang', 'pengguna'])
             ->latest('created_at')
             ->paginate(15);
-            
+
         return view('gudang.riwayat', compact('logs'));
     }
 
@@ -170,6 +170,7 @@ class GudangController extends Controller
             });
 
             $redirectRoute = $barang->dapat_dibeli ? 'gudang.stok-konsumsi' : 'gudang.stok-produksi';
+
             return redirect()->route($redirectRoute)->with('success', 'Berhasil melakukan penyesuaian stok.');
         } catch (\Exception $e) {
             return back()->with('error', $e->getMessage());
