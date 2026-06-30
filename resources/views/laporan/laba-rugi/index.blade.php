@@ -3,18 +3,20 @@
 @section('title', 'Laporan Laba Rugi')
 
 @section('content')
-    <x-page-header title="Laporan Laba Rugi (Profit & Loss)">
-        <x-button variant="primary" onclick="window.print()">
-            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-            </svg>
-            Cetak Laporan
-        </x-button>
-    </x-page-header>
+    <div class="print:hidden">
+        <x-page-header title="Laporan Laba Rugi (Profit & Loss)">
+            <x-button variant="primary" onclick="window.print()">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                </svg>
+                Cetak Laporan
+            </x-button>
+        </x-page-header>
+    </div>
 
     <!-- Filter Bar -->
     <x-card class="mb-6 print:hidden">
-        <form id="filter-form" class="flex flex-wrap items-end gap-4" onsubmit="event.preventDefault(); generateReport();">
+        <form id="filter-form" class="flex flex-wrap items-end gap-4">
             <div class="w-full md:w-1/3">
                 <x-select name="bulan" label="Bulan">
                     @foreach(range(1, 12) as $m)
@@ -31,8 +33,20 @@
                 </x-select>
             </div>
 
-            <div class="w-full md:w-auto mb-4">
-                <x-button type="submit" variant="primary">Download</x-button>
+            <div class="w-full md:w-auto mb-4 flex gap-2">
+                <x-button type="button" variant="primary" onclick="generateReport('view')">Tampilkan</x-button>
+                <x-button type="button" variant="secondary" onclick="generateReport('download')">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Download PDF
+                </x-button>
+                <x-button type="button" variant="secondary" onclick="generateReport('print')">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                    </svg>
+                    Cetak
+                </x-button>
             </div>
         </form>
     </x-card>
@@ -143,10 +157,7 @@
 
 @push('scripts')
 <script>
-    async function generateReport() {
-        // Cek apakah trigger dari button submit (Download) atau initial load
-        const isDownload = event && event.type === 'submit';
-
+    async function generateReport(action = 'view') {
         try {
             const form = document.getElementById('filter-form');
             const formData = new FormData(form);
@@ -232,17 +243,23 @@
             document.getElementById('loading').classList.add('hidden');
             document.getElementById('report-content').classList.remove('hidden');
 
-            // Trigger print dialog automatically for "Download" feel
-            if (isDownload) {
-                setTimeout(() => {
-                    window.print();
-                }, 500);
+            // Trigger action
+            if (action === 'download') {
+                const url = `{{ route('laporan.laba-rugi.pdf') }}?${searchParams.toString()}`;
+                window.open(url, '_blank');
+                document.getElementById('loading').classList.add('hidden');
+                return;
+            } else if (action === 'print') {
+                const url = `{{ route('laporan.laba-rugi.preview') }}?${searchParams.toString()}`;
+                window.open(url, '_blank');
+                document.getElementById('loading').classList.add('hidden');
+                return;
             }
 
         } catch (error) {
             console.error('Error fetching report:', error);
             document.getElementById('loading').classList.add('hidden');
-            alert('Terjadi kesalahan saat memuat laporan. Pastikan Anda sudah login atau coba lagi.');
+            alert('Terjadi kesalahan saat memuat laporan: ' + error.message);
         }
     }
 

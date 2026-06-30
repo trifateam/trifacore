@@ -8,6 +8,7 @@ use App\Models\PembayaranHutang;
 use App\Models\PembayaranPiutang;
 use App\Models\Pembelian;
 use App\Models\Penjualan;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,11 +29,8 @@ class LabaRugiController extends Controller
         ]);
     }
 
-    public function generate(Request $request)
+    private function getReportData($bulan, $tahun)
     {
-        $bulan = $request->input('bulan', date('m'));
-        $tahun = $request->input('tahun', date('Y'));
-
         // --- ARUS KAS MASUK ---
 
         // Penjualan Cash (metode_pembayaran == 'LUNAS')
@@ -107,27 +105,65 @@ class LabaRugiController extends Controller
             ];
         }
 
+        return compact(
+            'bulan', 'tahun',
+            'penjualanTelur', 'penjualanAfkir', 'penjualanPupuk', 'pelunasanPiutang', 'totalKasMasuk',
+            'pembelianPakan', 'pembelianVitamin', 'pembelianPullet', 'pelunasanHutang', 'totalKasKeluar',
+            'opsArr', 'netProfitLoss', 'profitMargin'
+        );
+    }
+
+    public function generate(Request $request)
+    {
+        $bulan = $request->input('bulan', date('m'));
+        $tahun = $request->input('tahun', date('Y'));
+
+        $data = $this->getReportData($bulan, $tahun);
+
         return response()->json([
             'kas_masuk' => [
-                'penjualan_telur' => 'Rp '.number_format($penjualanTelur, 0, ',', '.'),
-                'penjualan_afkir' => 'Rp '.number_format($penjualanAfkir, 0, ',', '.'),
-                'penjualan_pupuk' => 'Rp '.number_format($penjualanPupuk, 0, ',', '.'),
-                'pelunasan_piutang' => 'Rp '.number_format($pelunasanPiutang, 0, ',', '.'),
-                'total' => 'Rp '.number_format($totalKasMasuk, 0, ',', '.'),
+                'penjualan_telur' => 'Rp '.number_format($data['penjualanTelur'], 0, ',', '.'),
+                'penjualan_afkir' => 'Rp '.number_format($data['penjualanAfkir'], 0, ',', '.'),
+                'penjualan_pupuk' => 'Rp '.number_format($data['penjualanPupuk'], 0, ',', '.'),
+                'pelunasan_piutang' => 'Rp '.number_format($data['pelunasanPiutang'], 0, ',', '.'),
+                'total' => 'Rp '.number_format($data['totalKasMasuk'], 0, ',', '.'),
             ],
             'kas_keluar' => [
-                'pembelian_pakan' => 'Rp '.number_format($pembelianPakan, 0, ',', '.'),
-                'pembelian_vitamin' => 'Rp '.number_format($pembelianVitamin, 0, ',', '.'),
-                'pembelian_pullet' => 'Rp '.number_format($pembelianPullet, 0, ',', '.'),
-                'pelunasan_hutang' => 'Rp '.number_format($pelunasanHutang, 0, ',', '.'),
-                'operasional_breakdown' => $opsArr,
-                'total' => 'Rp '.number_format($totalKasKeluar, 0, ',', '.'),
+                'pembelian_pakan' => 'Rp '.number_format($data['pembelianPakan'], 0, ',', '.'),
+                'pembelian_vitamin' => 'Rp '.number_format($data['pembelianVitamin'], 0, ',', '.'),
+                'pembelian_pullet' => 'Rp '.number_format($data['pembelianPullet'], 0, ',', '.'),
+                'pelunasan_hutang' => 'Rp '.number_format($data['pelunasanHutang'], 0, ',', '.'),
+                'operasional_breakdown' => $data['opsArr'],
+                'total' => 'Rp '.number_format($data['totalKasKeluar'], 0, ',', '.'),
             ],
             'bottom_line' => [
-                'net' => 'Rp '.number_format($netProfitLoss, 0, ',', '.'),
-                'net_raw' => $netProfitLoss,
-                'margin' => round($profitMargin, 2).'%',
+                'net' => 'Rp '.number_format($data['netProfitLoss'], 0, ',', '.'),
+                'net_raw' => $data['netProfitLoss'],
+                'margin' => round($data['profitMargin'], 2).'%',
             ],
         ]);
+    }
+
+    public function pdf(Request $request)
+    {
+        $bulan = $request->input('bulan', date('m'));
+        $tahun = $request->input('tahun', date('Y'));
+
+        $data = $this->getReportData($bulan, $tahun);
+
+        $pdf = Pdf::loadView('laporan.cetak.laba-rugi', $data);
+        $filename = 'Laporan-Laba-Rugi-'.$bulan.'-'.$tahun.'.pdf';
+
+        return $pdf->download($filename);
+    }
+
+    public function preview(Request $request)
+    {
+        $bulan = $request->input('bulan', date('m'));
+        $tahun = $request->input('tahun', date('Y'));
+
+        $data = $this->getReportData($bulan, $tahun);
+
+        return view('laporan.cetak.laba-rugi', $data);
     }
 }

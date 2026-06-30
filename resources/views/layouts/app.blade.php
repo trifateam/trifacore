@@ -26,15 +26,21 @@
     <div class="min-h-screen">
         
         <!-- Sidebar -->
-        @include('layouts.sidebar')
+        <div class="print:hidden">
+            @include('layouts.sidebar')
+        </div>
 
         <!-- Mobile Bottom Navbar -->
-        @include('layouts.bottom-navbar')
+        <div class="print:hidden">
+            @include('layouts.bottom-navbar')
+        </div>
 
         <!-- Content Area -->
-        <div class="flex flex-col min-h-screen ml-0 md:ml-20 transition-all duration-300 pb-20 md:pb-0">
+        <div class="flex flex-col min-h-screen ml-0 md:ml-20 transition-all duration-300 pb-20 md:pb-0 print:ml-0 print:pb-0">
             <!-- Navbar -->
-            @include('layouts.navbar')
+            <div class="print:hidden">
+                @include('layouts.navbar')
+            </div>
 
             <!-- Main Content -->
             <main class="flex-1 p-4 md:p-6">
