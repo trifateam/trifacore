@@ -49,23 +49,11 @@ class RiwayatPembelianController extends Controller
             }
         }
 
-        // For Summary Calculation
-        $filteredRecords = $query->get();
-
-        $totalTransaksi = $filteredRecords->count();
-        $totalNominal = $filteredRecords->sum('total_pembelian');
-
-        // Total Tempo is sum of sisa_hutang for all records that have hutang
-        $totalTempo = $filteredRecords->sum(function ($pembelian) {
-            return $pembelian->hutang ? $pembelian->hutang->sisa_hutang : 0;
-        });
-
         // Get Paginated Data
         $pembelians = $query->paginate(15)->withQueryString();
 
         return view('transaksi.riwayat-pembelian.index', compact(
-            'pembelians', 'suppliers',
-            'totalTransaksi', 'totalNominal', 'totalTempo'
+            'pembelians', 'suppliers'
         ));
     }
 

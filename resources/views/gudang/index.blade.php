@@ -80,14 +80,14 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-gray-100">{{ number_format($barang->stok_barang, 2, ',', '.') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $barang->satuan }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ number_format($barang->stok_minimum, 2, ',', '.') }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                        <td class="whitespace-nowrap text-sm">
                             @if($barang->badge_color == 'dark')
                                 <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-800 text-white">Habis</span>
                             @else
                                 <x-badge :variant="$barang->badge_color">{{ $barang->status_stok }}</x-badge>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-center font-medium">
+                        <td class="whitespace-nowrap text-sm font-medium">
                             <a href="{{ route('gudang.adjust.form', $barang->id_barang) }}" class="text-indigo-600 hover:text-indigo-900 font-bold transition-colors">
                                 Sesuaikan Stok
                             </a>
