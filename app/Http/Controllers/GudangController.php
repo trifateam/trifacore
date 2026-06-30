@@ -13,12 +13,38 @@ use Illuminate\Support\Facades\DB;
 
 class GudangController extends Controller
 {
-    /**
-     * Tampilkan halaman inventory gudang
-     */
-    public function index(Request $request)
+    public function stokKonsumsi(Request $request)
+    {
+        return $this->getIndexView($request, 'konsumsi');
+    }
+
+    public function stokProduksi(Request $request)
+    {
+        return $this->getIndexView($request, 'produksi');
+    }
+
+    public function riwayatPenyesuaian(Request $request)
+    {
+        $logs = LogPenyesuaianStok::with(['barang', 'pengguna'])
+            ->latest('created_at')
+            ->paginate(15);
+
+        return view('gudang.riwayat', compact('logs'));
+    }
+
+    private function getIndexView(Request $request, $type)
     {
         $query = Barang::query();
+
+        if ($type === 'konsumsi') {
+            $query->where('dapat_dibeli', 1);
+            $pageTitle = 'Stok Konsumsi (Kategori Beli)';
+            $pageSubtitle = 'Monitor persediaan barang yang dibeli (pakan, vitamin, obat, dll).';
+        } else {
+            $query->where('dapat_dijual', 1);
+            $pageTitle = 'Stok Hasil Produksi (Kategori Jual)';
+            $pageSubtitle = 'Monitor persediaan barang hasil produksi (telur, pupuk, dll).';
+        }
 
         // 1. Filter Kategori
         if ($request->filled('kategori')) {
@@ -93,7 +119,7 @@ class GudangController extends Controller
             ['path' => Paginator::resolveCurrentPath(), 'query' => $request->query()]
         );
 
-        return view('gudang.index', compact('paginatedBarang', 'countKritis', 'countHabis'));
+        return view('gudang.index', compact('paginatedBarang', 'countKritis', 'countHabis', 'pageTitle', 'pageSubtitle'));
     }
 
     /**
@@ -143,9 +169,11 @@ class GudangController extends Controller
                 AuditService::log("Melakukan stock opname pada barang '{$barang->nama_barang}' (Dari {$stokLama} menjadi {$stokBaru}). Alasan: {$request->alasan}");
             });
 
-            return redirect()->route('gudang.index')->with('success', 'Berhasil melakukan penyesuaian stok.');
+            $redirectRoute = $barang->dapat_dibeli ? 'gudang.stok-konsumsi' : 'gudang.stok-produksi';
+
+            return redirect()->route($redirectRoute)->with('success', 'Berhasil melakukan penyesuaian stok.');
         } catch (\Exception $e) {
-            return redirect()->route('gudang.index')->with('error', $e->getMessage());
+            return back()->with('error', $e->getMessage());
         }
     }
 }
