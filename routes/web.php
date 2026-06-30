@@ -149,7 +149,9 @@ Route::middleware('auth')->group(function () {
     // ── Gudang: Admin, Owner, Pegawai Gudang ──
     Route::middleware('role:Admin,Owner,Pegawai Gudang')->group(function () {
         Route::prefix('gudang')->name('gudang.')->group(function () {
-            Route::get('/', [GudangController::class, 'index'])->name('index');
+            Route::get('/stok-konsumsi', [GudangController::class, 'stokKonsumsi'])->name('stok-konsumsi');
+            Route::get('/stok-produksi', [GudangController::class, 'stokProduksi'])->name('stok-produksi');
+            Route::get('/riwayat-penyesuaian', [GudangController::class, 'riwayatPenyesuaian'])->name('riwayat-penyesuaian');
             Route::get('/adjust/{barang}', [GudangController::class, 'showAdjustForm'])->name('adjust.form');
             Route::post('/adjust/{barang}', [GudangController::class, 'adjust'])->name('adjust');
         });

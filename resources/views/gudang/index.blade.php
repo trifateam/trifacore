@@ -6,7 +6,7 @@
         ['label' => 'Inventory Gudang'],
     ]" />
 
-    <x-page-header title="Inventory Gudang & Stock Opname" subtitle="Monitor persediaan barang dan lakukan penyesuaian stok jika diperlukan." />
+    <x-page-header :title="$pageTitle" :subtitle="$pageSubtitle" />
 
     <div class="mt-6 space-y-6">
 
@@ -30,7 +30,7 @@
         {{-- Filter Bar --}}
         <x-card class="border border-gray-200 dark:border-gray-700">
             <div class="p-5">
-                <form method="GET" action="{{ route('gudang.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                <form method="GET" action="{{ url()->current() }}" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <div>
                         <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Cari Nama Barang</label>
                         <input type="text" name="search" value="{{ request('search') }}" placeholder="Cth: Pakan Starter..." class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
@@ -62,7 +62,7 @@
                             </x-button>
                         </div>
                         <div class="flex-1">
-                            <a href="{{ route('gudang.index') }}" class="w-full h-9 px-4 inline-flex items-center justify-center border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-700/50 transition-colors">Reset</a>
+                            <a href="{{ url()->current() }}" class="w-full h-9 px-4 inline-flex items-center justify-center border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:bg-gray-700/50 transition-colors">Reset</a>
                         </div>
                     </div>
                 </form>

@@ -31,7 +31,7 @@
         </button>
         @endrole
 
-        @role('Sales', 'Pegawai Gudang')
+        @role('Sales', 'Admin', 'Owner')
         {{-- Manajemen Transaksi --}}
         <button @mouseenter="handleIconHover('transaksi', 'Manajemen Transaksi')"
            @click="handleIconClick('transaksi', 'Manajemen Transaksi', $event)"
@@ -43,7 +43,19 @@
         </button>
         @endrole
 
-        @role('Admin', 'Owner', 'Pegawai Kandang', 'Sales', 'Pegawai Gudang')
+        @role('Pegawai Gudang', 'Admin', 'Owner')
+        {{-- Penerimaan Barang --}}
+        <button @mouseenter="handleIconHover('penerimaan', 'Penerimaan Barang')"
+           @click="handleIconClick('penerimaan', 'Penerimaan Barang', $event)"
+           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
+           :class="currentPage === 'penerimaan' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'penerimaan' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+            </svg>
+        </button>
+        @endrole
+
+        @role('Admin', 'Owner', 'Pegawai Kandang', 'Sales')
         {{-- Riwayat --}}
         <button @mouseenter="handleIconHover('riwayat', 'Riwayat')"
            @click="handleIconClick('riwayat', 'Riwayat', $event)"
@@ -81,15 +93,14 @@
 
         @role('Admin', 'Owner', 'Pegawai Gudang')
         {{-- Gudang --}}
-        <a href="/gudang"
-           @mouseenter="handleIconHover('gudang', 'Gudang')"
+        <button @mouseenter="handleIconHover('gudang', 'Gudang')"
            @click="handleIconClick('gudang', 'Gudang', $event)"
-           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
+           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="currentPage === 'gudang' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'gudang' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
             </svg>
-        </a>
+        </button>
         @endrole
 
         @role('Admin', 'Owner', 'Pegawai Gudang')
@@ -167,14 +178,16 @@
             </div>
             @endrole
 
-            @role('Sales', 'Pegawai Gudang', 'Admin', 'Owner')
+            @role('Sales', 'Admin', 'Owner')
             <div x-show="activeMenu === 'transaksi'" x-cloak>
-                @role('Sales', 'Admin', 'Owner')
                 <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Transaksi Penjualan</x-sidebar-nav-item>
-                @endrole
-                @role('Pegawai Gudang', 'Admin', 'Owner')
-                <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Penerimaan Barang</x-sidebar-nav-item>
-                @endrole
+            </div>
+            @endrole
+
+            @role('Pegawai Gudang', 'Admin', 'Owner')
+            <div x-show="activeMenu === 'penerimaan'" x-cloak>
+                <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Input Penerimaan Barang</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Riwayat Penerimaan Barang</x-sidebar-nav-item>
             </div>
             @endrole
 
@@ -190,15 +203,10 @@
                     <x-sidebar-nav-item href="/pencatatan/riwayat/pupuk" :active="request()->is('pencatatan/riwayat/pupuk')">Produksi Pupuk</x-sidebar-nav-item>
                 </div>
                 @endrole
-                @role('Admin', 'Owner', 'Sales', 'Pegawai Gudang')
+                @role('Admin', 'Owner', 'Sales')
                 <div>
                     <div class="px-4 mb-2 text-[11px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Transaksi</div>
-                @role('Sales', 'Admin', 'Owner')
                     <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Penjualan</x-sidebar-nav-item>
-                @endrole
-                @role('Pegawai Gudang', 'Admin', 'Owner')
-                    <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Penerimaan Barang</x-sidebar-nav-item>
-                @endrole
                 </div>
                 @endrole
             </div>
@@ -214,7 +222,9 @@
 
             @role('Admin', 'Owner', 'Pegawai Gudang')
             <div x-show="activeMenu === 'gudang'" x-cloak>
-                <x-sidebar-nav-item href="/gudang" :active="request()->is('gudang')">Dashboard Gudang</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/gudang/stok-konsumsi" :active="request()->is('gudang/stok-konsumsi')">Stok Konsumsi</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/gudang/stok-produksi" :active="request()->is('gudang/stok-produksi')">Stok Hasil Produksi</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/gudang/riwayat-penyesuaian" :active="request()->is('gudang/riwayat-penyesuaian')">Riwayat Penyesuaian Stok</x-sidebar-nav-item>
             </div>
             @endrole
 
@@ -276,7 +286,9 @@ document.addEventListener('alpine:init', () => {
             // Aturan pemetaan URL ke menu aktif (diurutkan dari yang paling spesifik ke umum)
             const menuMapping = [
                 { path: '/pencatatan/riwayat', id: 'riwayat', title: 'Riwayat' },
-                { path: '/transaksi/riwayat', id: 'riwayat', title: 'Riwayat' },
+                { path: '/transaksi/riwayat-pembelian', id: 'penerimaan', title: 'Penerimaan Barang' },
+                { path: '/transaksi/riwayat-penjualan', id: 'riwayat', title: 'Riwayat' },
+                { path: '/transaksi/pembelian', id: 'penerimaan', title: 'Penerimaan Barang' },
                 { path: '/pencatatan', id: 'pencatatan', title: 'Pencatatan Harian' },
                 { path: '/transaksi', id: 'transaksi', title: 'Manajemen Transaksi' },
                 { path: '/batch/assign', id: 'batch', title: 'Batch' },
@@ -318,7 +330,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         handleIconClick(id, title, e) {
-            const directLinks = ['dashboard', 'kandang', 'gudang', 'batch'];
+            const directLinks = ['dashboard', 'kandang', 'batch'];
             if (this.isMobile) {
                 if (this.activeMenu === id && this.isExpanded) {
                     this.isExpanded = false;
