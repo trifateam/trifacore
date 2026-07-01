@@ -33,7 +33,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 ---
 
 
-### 5. Autentikasi (Login/Register)
+### 3. Autentikasi (Login/Register)
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -45,7 +45,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 6. Pengaturan & Profil Sistem
+### 4. Pengaturan & Profil Sistem
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -57,7 +57,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 7. Riwayat Aktivitas (Audit Trail)
+### 5. Riwayat Aktivitas (Audit Trail)
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -69,7 +69,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 8. Pencatatan Produksi (Telur & Pupuk)
+### 6. Pencatatan Produksi (Telur & Pupuk)
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -81,7 +81,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 9. Pencatatan Konsumsi & Suhu
+### 7. Pencatatan Konsumsi & Suhu
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -93,7 +93,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 10. Pencatatan Kematian (Deplesi)
+### 8. Pencatatan Kematian (Deplesi)
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -105,7 +105,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 11. Kandang Operasional
+### 9. Kandang Operasional
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -117,7 +117,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 12. Manajemen Master Data
+### 10. Manajemen Master Data
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -129,7 +129,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 13. Transaksi Penjualan & Pembelian
+### 11. Transaksi Penjualan & Pembelian
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -141,7 +141,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 14. Manajemen Gudang
+### 12. Manajemen Gudang
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -153,7 +153,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 15. Manajemen Keuangan
+### 13. Manajemen Keuangan
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -165,7 +165,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 16. Laporan & Cetak PDF
+### 14. Laporan & Cetak PDF
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ✅ Sudah Ada |
@@ -177,7 +177,7 @@ Berikut adalah dokumentasi detail fitur-fitur yang terdapat di dalam sistem mana
 
 ---
 
-### 17. Export Laporan ke Excel
+### 15. Export Laporan ke Excel
 | Komponen | Deskripsi |
 | :--- | :--- |
 | **Status** | ⏳ On Progress |
