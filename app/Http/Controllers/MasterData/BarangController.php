@@ -37,6 +37,16 @@ class BarangController extends Controller
     }
 
     /**
+     * Show the form for creating a new barang.
+     */
+    public function create()
+    {
+        $kategoriList = ['Telur', 'Pakan', 'Vitamin', 'Pupuk', 'Obat', 'Lainnya'];
+
+        return view('master-data.barang.create', compact('kategoriList'));
+    }
+
+    /**
      * Store a newly created barang in storage.
      */
     public function store(BarangRequest $request)
@@ -58,6 +68,17 @@ class BarangController extends Controller
 
         return redirect()->route('master-data.barang.index')
             ->with('success', 'Data barang berhasil ditambahkan.');
+    }
+
+    /**
+     * Show the form for editing the specified barang.
+     */
+    public function edit($id)
+    {
+        $barang = Barang::findOrFail($id);
+        $kategoriList = ['Telur', 'Pakan', 'Vitamin', 'Pupuk', 'Obat', 'Lainnya'];
+
+        return view('master-data.barang.edit', compact('barang', 'kategoriList'));
     }
 
     /**

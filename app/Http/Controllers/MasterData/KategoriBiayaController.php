@@ -30,6 +30,14 @@ class KategoriBiayaController extends Controller
     }
 
     /**
+     * Show the form for creating a new kategori biaya.
+     */
+    public function create()
+    {
+        return view('master-data.kategori-biaya.create');
+    }
+
+    /**
      * Store a newly created kategori biaya in storage.
      */
     public function store(KategoriBiayaRequest $request)
@@ -43,6 +51,16 @@ class KategoriBiayaController extends Controller
 
         return redirect()->route('master-data.kategori-biaya.index')
             ->with('success', 'Kategori biaya berhasil ditambahkan.');
+    }
+
+    /**
+     * Show the form for editing the specified kategori biaya.
+     */
+    public function edit($id)
+    {
+        $kategori = KategoriBiaya::findOrFail($id);
+
+        return view('master-data.kategori-biaya.edit', compact('kategori'));
     }
 
     /**

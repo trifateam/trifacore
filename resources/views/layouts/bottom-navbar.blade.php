@@ -364,7 +364,7 @@
             {{-- 5. Slot 5 (Lainnya) --}}
             @role('Admin', 'Owner', 'Pegawai Kandang', 'Pegawai Gudang')
             <button @click="togglePanel('lainnya', 'Menu Lainnya')" class="mobile-nav-btn group">
-                <div class="mobile-nav-icon {{ request()->is('master-data/*') || request()->is('keuangan/*') || request()->is('laporan/*') || request()->is('pengaturan/*') || request()->is('riwayat-aktivitas') || (request()->is('batch*') && auth()->user() && !auth()->user()->hasRole(['Admin', 'Owner'])) || (request()->is('gudang*') && auth()->user() && !auth()->user()->hasRole('Pegawai Gudang')) ? 'mobile-nav-active' : '' }}"
+                <div class="mobile-nav-icon {{ request()->is('master-data/*') || request()->is('keuangan/*') || request()->is('laporan/*') || request()->is('pengaturan/*') || request()->is('riwayat-aktivitas') || (request()->is('batch*') && auth()->user() && !auth()->user()->hasRole('Admin', 'Owner')) || (request()->is('gudang*') && auth()->user() && !auth()->user()->hasRole('Pegawai Gudang')) ? 'mobile-nav-active' : '' }}"
                      :class="activePanel === 'lainnya' && panelOpen ? 'mobile-nav-panel-open' : ''">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25" />

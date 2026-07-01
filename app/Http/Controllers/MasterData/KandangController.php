@@ -31,6 +31,14 @@ class KandangController extends Controller
     }
 
     /**
+     * Show the form for creating a new kandang.
+     */
+    public function create()
+    {
+        return view('master-data.kandang.create');
+    }
+
+    /**
      * Store a newly created kandang in storage.
      */
     public function store(KandangRequest $request)
@@ -47,6 +55,16 @@ class KandangController extends Controller
 
         return redirect()->route('master-data.kandang.index')
             ->with('success', 'Data kandang berhasil ditambahkan.');
+    }
+
+    /**
+     * Show the form for editing the specified kandang.
+     */
+    public function edit($id)
+    {
+        $kandang = Kandang::withTrashed()->findOrFail($id);
+
+        return view('master-data.kandang.edit', compact('kandang'));
     }
 
     /**
