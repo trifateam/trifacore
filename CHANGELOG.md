@@ -1,5 +1,35 @@
 # Changelog
 
+## v1.1.0
+
+### Added
+- Fitur cetak (preview & export) laporan PDF *server-side* untuk laporan Laba Rugi
+
+### Changed
+- Sentralisasi modul "Riwayat" (*History*) dari halaman masing-masing menu ke dalam menu induk tersendiri (*Top-Level Menu*)
+- Pemolesan dan standarisasi kartu (*cards*) antarmuka manajemen riwayat & transaksi
+- Redesign tata letak (*layout*) dan navigasi *sidebar* menggunakan arsitektur Alpine.js dinamis
+- Pembatasan dan modifikasi hak akses *routing* sub-menu berdasarkan *role* di *sidebar* & *bottom navbar*
+- Pembaruan dokumentasi README, panduan instalasi, struktur dependensi, dan *changelog*
+
+### Fixed
+- Penanganan dan penangkapan (*handling*) masalah fatal `Throwable` pada pembuatan ekspor laporan PDF 
+- Masalah konflik fungsi CSS khusus modern (`oklch()`) dengan pustaka *render* HTML bawaan
+- Perbaikan masalah pemilihan/seleksi elemen Canvas Chart akibat bentrokan penamaan ID di halaman laporan performa
+- Solusi atas kegagalan perenderan *layout print* akibat penimpaan *style class hidden*
+
+### Dependency
+- add `barryvdh/laravel-dompdf` (Cetak *server-side* PDF laporan Laba Rugi dan Produksi Telur; ukuran 3.x; bebas dari konflik CSS modern)
+- remove `html2pdf.js` (Pustaka ini dihapus karena konflik dengan variabel/fungsi CSS modern bawaan Tailwind)
+
+### Refactor
+- Memindahkan logika antarmuka Riwayat Transaksi (Penjualan/Pembelian) dari integrasi Modal UI menjadi Halaman Khusus (`show.blade.php`) untuk menjaga aksesibilitas responsif
+- Mengubah alur routing modul "Riwayat" menjadi satu keluarga *Controller* terpadu guna meringankan beban kode di *controller* pencatatan
+- Melakukan standardisasi penamaan metode (`generate()`, `pdf()`, `preview()`) di dalam kelompok fitur Laporan (Laba Rugi, Performa, dll)
+- Pemisahan (ekstraksi) komponen antarmuka *sidebar* statis ke konfigurasi dinamis JSON/Blade agar mudah disinkronkan dengan navigasi *mobile* (Bottom Navbar)
+
+---
+
 ## v1.0.0
 
 ### Added
@@ -82,5 +112,3 @@
 ### Refactor
 - memindahkan logic ke service
 - Refaktor helper generator kode otomatis (CodeGenerator) dan pemformatan mata uang Rupiah (RupiahFormatter) untuk konsistensi
-
----
