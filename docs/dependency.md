@@ -60,6 +60,7 @@ Dependency pada dokumen ini dikelompokkan menjadi:
 | `maatwebsite/excel` | Import dan Export Excel/CSV | Laporan keuangan dan produksi | Memudahkan pengolahan laporan bagi Mitra/Owner |
 | `barryvdh/laravel-dompdf` | Generate PDF dari Blade | Cetak struk transaksi/invoice dan laporan | Dokumen mudah dicetak dan diarsipkan |
 | `consoletvs/charts` | Visualisasi Grafik | Dashboard laporan admin | Membantu visualisasi tren produksi dan keuangan |
+| `Python API (Flask/FastAPI)` | Integrasi Model Machine Learning | AI Production Forecasting | Menyediakan API endpoint untuk memprediksi hasil produksi telur harian menggunakan model Linear Regression dan Time Series Forecasting |
 | `spatie/laravel-permission` (Opsional) | Role & Permission Management | Sistem Autentikasi / RBAC | Alternatif jika diperlukan pengaturan izin akses (permission) yang lebih granular di masa depan |
 
 ---
@@ -125,7 +126,22 @@ Dependency pada dokumen ini dikelompokkan menjadi:
 * https://www.chartjs.org/docs
 * https://github.com/chartjs/Chart.js
 
-## 5. ConsoleTVs Charts (Rencana Visualisasi Grafik Backend)
+## 5. Python API (FastAPI/Flask) - Rencana AI Integration
+
+| 5W+1H | Penjelasan |
+| ----- | ---------- |
+| What | Server backend sekunder berbasis Python yang menyediakan endpoint API berisi model Machine Learning. |
+| Why | Menyediakan prediksi peramalan hasil panen telur harian (AI Production Forecasting) dan deteksi risiko penurunan produksi dengan akurasi target minimal 80%. |
+| Who | Sistem (terhubung secara internal) serta Owner yang memantau prediksi tersebut di dashboard. |
+| When | Dipanggil secara periodik ketika sistem Laravel meminta hasil kalkulasi prediksi baru. |
+| Where | Modul peramalan AI di halaman Owner. |
+| How | Laravel mengirim data historis produksi telur via HTTP Request ke API Python, lalu API Python mengembalikan hasil forecasting berupa JSON untuk ditampilkan ke view. |
+
+**Referensi:**
+* https://fastapi.tiangolo.com
+* https://flask.palletsprojects.com
+
+## 6. ConsoleTVs Charts (Rencana Visualisasi Grafik Backend)
 
 | 5W+1H | Penjelasan |
 | ----- | ---------- |
