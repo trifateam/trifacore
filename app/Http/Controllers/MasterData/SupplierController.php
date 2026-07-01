@@ -31,6 +31,14 @@ class SupplierController extends Controller
     }
 
     /**
+     * Show the form for creating a new supplier.
+     */
+    public function create()
+    {
+        return view('master-data.supplier.create');
+    }
+
+    /**
      * Store a newly created supplier in storage.
      */
     public function store(SupplierRequest $request)
@@ -48,6 +56,16 @@ class SupplierController extends Controller
 
         return redirect()->route('master-data.supplier.index')
             ->with('success', 'Data supplier berhasil ditambahkan.');
+    }
+
+    /**
+     * Show the form for editing the specified supplier.
+     */
+    public function edit($id)
+    {
+        $supplier = Supplier::findOrFail($id);
+
+        return view('master-data.supplier.edit', compact('supplier'));
     }
 
     /**

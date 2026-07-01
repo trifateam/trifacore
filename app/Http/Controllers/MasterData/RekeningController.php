@@ -47,6 +47,16 @@ class RekeningController extends Controller
     }
 
     /**
+     * Show the form for creating a new rekening.
+     */
+    public function create()
+    {
+        $kategoriList = ['Tunai', 'Bank', 'E-Wallet'];
+
+        return view('master-data.rekening.create', compact('kategoriList'));
+    }
+
+    /**
      * Store a newly created rekening in storage.
      */
     public function store(RekeningRequest $request)
@@ -63,6 +73,17 @@ class RekeningController extends Controller
 
         return redirect()->route('master-data.rekening.index')
             ->with('success', 'Data rekening berhasil ditambahkan.');
+    }
+
+    /**
+     * Show the form for editing the specified rekening.
+     */
+    public function edit($id)
+    {
+        $rekening = AkunKas::findOrFail($id);
+        $kategoriList = ['Tunai', 'Bank', 'E-Wallet'];
+
+        return view('master-data.rekening.edit', compact('rekening', 'kategoriList'));
     }
 
     /**

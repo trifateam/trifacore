@@ -157,7 +157,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('master-data')->name('master-data.')->group(function () {
-            Route::resource('supplier', SupplierController::class)->except(['create', 'show', 'edit']);
+            Route::resource('supplier', SupplierController::class)->except(['show']);
         });
     });
 
@@ -166,12 +166,12 @@ Route::middleware('auth')->group(function () {
 
         // Master Data
         Route::prefix('master-data')->name('master-data.')->group(function () {
-            Route::resource('kandang', KandangController::class)->except(['create', 'show', 'edit']);
-            Route::resource('barang', BarangController::class)->except(['create', 'show', 'edit']);
-            Route::resource('pegawai', PegawaiController::class)->except(['create', 'show', 'edit']);
-            Route::resource('pelanggan', PelangganController::class)->except(['create', 'show', 'edit']);
-            Route::resource('rekening', RekeningController::class)->except(['create', 'show', 'edit']);
-            Route::resource('kategori-biaya', KategoriBiayaController::class)->except(['create', 'show', 'edit']);
+            Route::resource('kandang', KandangController::class)->except(['show']);
+            Route::resource('barang', BarangController::class)->except(['show']);
+            Route::resource('pegawai', PegawaiController::class)->except(['show']);
+            Route::resource('pelanggan', PelangganController::class)->except(['show']);
+            Route::resource('rekening', RekeningController::class)->except(['show']);
+            Route::resource('kategori-biaya', KategoriBiayaController::class)->except(['show']);
         });
 
         // Management Keuangan

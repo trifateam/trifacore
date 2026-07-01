@@ -34,6 +34,14 @@ class PegawaiController extends Controller
     }
 
     /**
+     * Show the form for creating a new pegawai.
+     */
+    public function create()
+    {
+        return view('master-data.pegawai.create');
+    }
+
+    /**
      * Store a newly created pegawai in storage.
      */
     public function store(PegawaiStoreRequest $request)
@@ -49,6 +57,16 @@ class PegawaiController extends Controller
 
         return redirect()->route('master-data.pegawai.index')
             ->with('success', 'Data pegawai berhasil ditambahkan.');
+    }
+
+    /**
+     * Show the form for editing the specified pegawai.
+     */
+    public function edit($id)
+    {
+        $pegawai = Pengguna::withTrashed()->findOrFail($id);
+
+        return view('master-data.pegawai.edit', compact('pegawai'));
     }
 
     /**

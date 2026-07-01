@@ -19,6 +19,11 @@
         }
     </script>
 
+    <!-- Prevent FOUC (Flash of Unstyled Content) for SVGs before CSS loads -->
+    <style>
+        svg { max-width: 2rem; max-height: 2rem; }
+    </style>
+
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

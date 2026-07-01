@@ -37,6 +37,16 @@ class PelangganController extends Controller
     }
 
     /**
+     * Show the form for creating a new pelanggan.
+     */
+    public function create()
+    {
+        $kategoriList = ['Distributor', 'Retail', 'Personal'];
+
+        return view('master-data.pelanggan.create', compact('kategoriList'));
+    }
+
+    /**
      * Store a newly created pelanggan in storage.
      */
     public function store(PelangganRequest $request)
@@ -53,6 +63,17 @@ class PelangganController extends Controller
 
         return redirect()->route('master-data.pelanggan.index')
             ->with('success', 'Data pelanggan berhasil ditambahkan.');
+    }
+
+    /**
+     * Show the form for editing the specified pelanggan.
+     */
+    public function edit($id)
+    {
+        $pelanggan = Pelanggan::findOrFail($id);
+        $kategoriList = ['Distributor', 'Retail', 'Personal'];
+
+        return view('master-data.pelanggan.edit', compact('pelanggan', 'kategoriList'));
     }
 
     /**
