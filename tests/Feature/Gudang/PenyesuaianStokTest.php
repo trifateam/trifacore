@@ -36,13 +36,13 @@ test('admin bisa menyesuaikan stok fisik (stock opname) gudang', function () {
 
     $this->assertDatabaseHas('barang', [
         'id_barang' => $this->barang->id_barang,
-        'stok_barang' => 90
+        'stok_barang' => 90,
     ]);
 
     $this->assertDatabaseHas('log_penyesuaian_stok', [
         'id_barang' => $this->barang->id_barang,
         'stok_lama' => 100,
         'stok_baru' => 90,
-        'alasan' => 'Ada 10 kg karung rusak'
+        'alasan' => 'Ada 10 kg karung rusak',
     ]);
 });

@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Barang;
-use App\Models\Testimoni;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);

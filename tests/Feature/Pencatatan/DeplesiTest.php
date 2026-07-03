@@ -4,7 +4,6 @@ use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\Pengguna;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 
 uses(RefreshDatabase::class);
 
@@ -17,9 +16,9 @@ beforeEach(function () {
     ]);
 
     $this->kandang = Kandang::create([
-        'nama_kandang' => 'Kandang A', 
+        'nama_kandang' => 'Kandang A',
         'tahun_masuk' => 2023,
-        'id_pengguna' => $this->admin->id_pengguna
+        'id_pengguna' => $this->admin->id_pengguna,
     ]);
     $this->kandang->populasi_saat_ini = 1000;
     $this->kandang->save();
@@ -31,7 +30,7 @@ beforeEach(function () {
         'populasi_awal' => 1000,
         'populasi_saat_ini' => 1000,
         'tgl_masuk' => now()->subDays(5)->toDateString(),
-        'status_batch' => 'Aktif'
+        'status_batch' => 'Aktif',
     ]);
 });
 
@@ -47,11 +46,11 @@ test('pencatatan deplesi mengurangi populasi batch tetapi tidak menambah stok gu
     $this->assertDatabaseHas('deplesi', [
         'id_batch' => $this->batch->id_batch,
         'jml_mati' => 5,
-        'jml_cacat' => 2
+        'jml_cacat' => 2,
     ]);
 
     $this->assertDatabaseHas('batch', [
         'id_batch' => $this->batch->id_batch,
-        'populasi_saat_ini' => 993 // 1000 - 5 - 2
+        'populasi_saat_ini' => 993, // 1000 - 5 - 2
     ]);
 });

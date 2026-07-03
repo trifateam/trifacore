@@ -1,10 +1,9 @@
 <?php
 
-use App\Models\Batch;
 use App\Models\Barang;
+use App\Models\Batch;
 use App\Models\Kandang;
 use App\Models\Pengguna;
-use App\Models\ProduksiTelur;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 
@@ -29,9 +28,9 @@ beforeEach(function () {
     }
 
     $this->kandang = Kandang::create([
-        'nama_kandang' => 'Kandang A', 
+        'nama_kandang' => 'Kandang A',
         'tahun_masuk' => 2023,
-        'id_pengguna' => $this->admin->id_pengguna
+        'id_pengguna' => $this->admin->id_pengguna,
     ]);
 
     $this->batch = Batch::create([
@@ -41,14 +40,14 @@ beforeEach(function () {
         'populasi_awal' => 1000,
         'populasi_saat_ini' => 1000,
         'tgl_masuk' => now()->subDays(5)->toDateString(),
-        'status_batch' => 'Aktif'
+        'status_batch' => 'Aktif',
     ]);
 });
 
 test('pencatatan produksi telur otomatis melakukan backfilling pada hari yang terlewat', function () {
     // Hari ini
     $hariIni = Carbon::now()->toDateString();
-    
+
     // Asumsikan batch di-assign 3 hari lalu.
     $this->batch->timestamps = false;
     $this->batch->tgl_masuk = Carbon::now()->subDays(3)->toDateString();
@@ -60,7 +59,7 @@ test('pencatatan produksi telur otomatis melakukan backfilling pada hari yang te
         'jml_telur_mb' => 0,
         'jml_telur_mk' => 0,
         'jml_telur_pecah' => 0,
-        'total_berat_kg' => 1
+        'total_berat_kg' => 1,
     ]);
 
     $response->assertSessionHasNoErrors();
@@ -73,12 +72,12 @@ test('pencatatan produksi telur otomatis melakukan backfilling pada hari yang te
     $this->assertDatabaseCount('produksi_telur', 4);
 
     $this->assertDatabaseHas('produksi_telur', [
-        'tanggal_produksi' => Carbon::now()->subDays(3)->toDateString() . ' 00:00:00',
-        'jml_telur_rb' => 3
+        'tanggal_produksi' => Carbon::now()->subDays(3)->toDateString().' 00:00:00',
+        'jml_telur_rb' => 3,
     ]);
 
     $this->assertDatabaseHas('produksi_telur', [
-        'tanggal_produksi' => Carbon::now()->toDateString() . ' 00:00:00',
-        'jml_telur_rb' => 2
+        'tanggal_produksi' => Carbon::now()->toDateString().' 00:00:00',
+        'jml_telur_rb' => 2,
     ]);
 });

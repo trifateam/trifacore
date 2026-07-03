@@ -20,14 +20,14 @@ beforeEach(function () {
         'nama_supplier' => 'PT Pakan Subur',
         'no_hp' => '08123456789',
         'alamat' => 'Jl. Subur',
-        'id_pengguna' => $this->admin->id_pengguna
+        'id_pengguna' => $this->admin->id_pengguna,
     ]);
 
     $this->akunKas = AkunKas::create([
         'nama_akun' => 'Kas Besar',
         'nomor_rekening' => '12345',
         'saldo' => 1000000,
-        'kategori_kas' => 'Kas'
+        'kategori_kas' => 'Kas',
     ]);
 
     $this->barang = Barang::create([
@@ -51,9 +51,9 @@ test('admin bisa melakukan transaksi pembelian material secara lunas', function 
             [
                 'id_barang' => $this->barang->id_barang,
                 'kuantitas' => 10,
-                'harga_satuan' => 5000
-            ]
-        ]
+                'harga_satuan' => 5000,
+            ],
+        ],
     ]);
 
     $response->assertSessionHasNoErrors();
@@ -62,12 +62,12 @@ test('admin bisa melakukan transaksi pembelian material secara lunas', function 
     // Cek stok barang bertambah
     $this->assertDatabaseHas('barang', [
         'id_barang' => $this->barang->id_barang,
-        'stok_barang' => 10
+        'stok_barang' => 10,
     ]);
 
     // Cek saldo kas berkurang
     $this->assertDatabaseHas('akun_kas', [
         'id_akun' => $this->akunKas->id_akun,
-        'saldo' => 950000 // 1,000,000 - (10 * 5000)
+        'saldo' => 950000, // 1,000,000 - (10 * 5000)
     ]);
 });
