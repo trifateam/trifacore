@@ -27,7 +27,7 @@ class KonsumsiPakanSeeder extends Seeder
         foreach ($batches as $batch) {
             $startDate = Carbon::now()->subDays(30);
             $endDate = Carbon::now();
-            $populasi = $batch->jumlah_sisa;
+            $populasi = $batch->populasi_saat_ini;
 
             for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
                 // Konsumsi rata-rata 110 gram per ekor per hari

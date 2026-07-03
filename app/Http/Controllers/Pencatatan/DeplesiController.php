@@ -38,7 +38,7 @@ class DeplesiController extends Controller
                 return [
                     'id_batch' => $batch->id_batch,
                     'nama_batch' => $batch->nama_batch,
-                    'jumlah_sisa' => $batch->jumlah_sisa,
+                    'populasi_saat_ini' => $batch->populasi_saat_ini,
                     'sudah_tercatat' => $sudahTercatat,
                 ];
             });
@@ -46,7 +46,6 @@ class DeplesiController extends Controller
             return [
                 'id_kandang' => $kandang->id_kandang,
                 'nama_kandang' => $kandang->nama_kandang,
-                'kapasitas_kandang' => $kandang->kapasitas_kandang,
                 'populasi_saat_ini' => $kandang->populasi_saat_ini,
                 'batches' => $batches,
             ];
@@ -99,14 +98,14 @@ class DeplesiController extends Controller
 
         $request->validate([
             'jml_mati' => 'required|integer|min:0',
-            'jml_afkir' => 'required|integer|min:0',
+            'jml_cacat' => 'required|integer|min:0',
         ]);
 
-        $totalDeplesi = $request->jml_mati + $request->jml_afkir;
+        $totalDeplesi = $request->jml_mati + $request->jml_cacat;
 
         // Validasi: minimal 1 kategori harus > 0
         if ($totalDeplesi <= 0) {
-            return back()->withInput()->with('error', 'Minimal salah satu kategori (Mati atau Afkir) harus lebih dari 0.');
+            return back()->withInput()->with('error', 'Minimal salah satu kategori (Mati atau Cacat) harus lebih dari 0.');
         }
 
         // Validasi: total deplesi tidak boleh melebihi populasi
@@ -126,25 +125,25 @@ class DeplesiController extends Controller
                 'id_pengguna' => Auth::id(),
                 'tanggal_deplesi' => $hariIni,
                 'jml_mati' => $request->jml_mati,
-                'jml_afkir' => $request->jml_afkir,
+                'jml_cacat' => $request->jml_cacat,
             ]);
 
-            // Jika ada ayam afkir, tambahkan ke stok barang Ayam Afkir
-            if ($request->jml_afkir > 0) {
-                app(StokBarangService::class)->tambahStokAyamAfkir($request->jml_afkir);
-            }
             // Kurangi populasi kandang
             $kandang = $batch->kandang;
             $kandang->populasi_saat_ini -= $totalDeplesi;
             $kandang->save();
+
+            // Kurangi populasi batch
+            $batch->populasi_saat_ini -= $totalDeplesi;
+            $batch->save();
 
             // Catat Riwayat Aktivitas
             $detailParts = [];
             if ($request->jml_mati > 0) {
                 $detailParts[] = "{$request->jml_mati} mati";
             }
-            if ($request->jml_afkir > 0) {
-                $detailParts[] = "{$request->jml_afkir} afkir";
+            if ($request->jml_cacat > 0) {
+                $detailParts[] = "{$request->jml_cacat} cacat";
             }
             $detailText = implode(', ', $detailParts);
 

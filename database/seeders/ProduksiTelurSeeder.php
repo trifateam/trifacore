@@ -24,7 +24,7 @@ class ProduksiTelurSeeder extends Seeder
         foreach ($batches as $batch) {
             $startDate = Carbon::now()->subDays(30);
             $endDate = Carbon::now();
-            $populasi = $batch->jumlah_sisa; // Asumsi konstan untuk seeder sederhana, aslinya deplesi jalan harian
+            $populasi = $batch->populasi_saat_ini; // Asumsi konstan untuk seeder sederhana, aslinya deplesi jalan harian
 
             for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
                 // HDP antara 75% - 85%

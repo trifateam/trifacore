@@ -25,16 +25,6 @@
                         />
         
                         <x-input
-                            name="kapasitas_kandang"
-                            label="Kapasitas Maksimal"
-                            type="number"
-                            placeholder="Contoh: 5000"
-                            :required="true"
-                            suffix="ekor"
-                            hint="Jumlah ayam maksimal yang dapat ditampung"
-                        />
-        
-                        <x-input
                             name="tahun_masuk"
                             label="Tahun Masuk"
                             type="number"

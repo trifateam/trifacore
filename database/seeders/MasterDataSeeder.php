@@ -67,8 +67,8 @@ class MasterDataSeeder extends Seeder
 
         // Kandang
         $kandangs = [
-            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang A', 'kapasitas_kandang' => 5000, 'populasi_saat_ini' => 4800, 'tahun_masuk' => 2023],
-            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang B', 'kapasitas_kandang' => 5000, 'populasi_saat_ini' => 5000, 'tahun_masuk' => 2024],
+            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang A', 'populasi_saat_ini' => 4800, 'tahun_masuk' => 2023],
+            ['id_pengguna' => $id_pengguna, 'nama_kandang' => 'Kandang B', 'populasi_saat_ini' => 5000, 'tahun_masuk' => 2024],
         ];
         foreach ($kandangs as $k) {
             Kandang::create($k);

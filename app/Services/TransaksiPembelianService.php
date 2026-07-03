@@ -126,17 +126,18 @@ class TransaksiPembelianService
             // Generate Kode Batch: BTC-YYYYMMDD-XX
             $kodeBatch = CodeGenerator::generate('BTC', 'batch', 'kode_batch');
 
-            $namaBatch = "Batch {$data['jenis_ayam']} ".$tanggalBeli->translatedFormat('d M Y');
+            // $namaBatch = "Batch {$data['jenis_ayam']} ".$tanggalBeli->translatedFormat('d M Y');
 
             Batch::create([
                 'kode_batch' => $kodeBatch,
                 'id_kandang' => null, // Belum di assign
-                'nama_batch' => $namaBatch,
+                'nama_batch' => null,
                 'jenis_ayam' => $data['jenis_ayam'],
                 'tgl_masuk' => $tanggalBeli->toDateString(),
                 'umur_awal_minggu' => $data['umur_masuk'],
                 'populasi_awal' => $data['jumlah_awal'],
-                'jumlah_sisa' => $data['jumlah_awal'], // Sama dengan awal karena belum mati/afkir/dimasukkan kandang
+                'populasi_saat_ini' => $data['jumlah_awal'], // Sama dengan awal karena belum mati/afkir/dimasukkan kandang
+                'tgl_afkir' => Carbon::parse($tanggalBeli->toDateString())->addDays((80 - $data['umur_masuk']) * 7),
                 'status_batch' => 'Pending',
                 'id_supplier' => $data['id_supplier'],
                 'harga_per_ekor' => $data['harga_per_ekor'],

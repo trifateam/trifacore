@@ -17,7 +17,6 @@ class KandangSeeder extends Seeder
             [
                 'id_pengguna' => $admin->id_pengguna ?? 1,
                 'nama_kandang' => 'Kandang A (Utama)',
-                'kapasitas_kandang' => 3000,
                 'populasi_saat_ini' => 0, // Akan diisi Batch
                 'tahun_masuk' => 2024,
 
@@ -25,7 +24,6 @@ class KandangSeeder extends Seeder
             [
                 'id_pengguna' => $admin->id_pengguna ?? 1,
                 'nama_kandang' => 'Kandang B (Cadangan)',
-                'kapasitas_kandang' => 3000,
                 'populasi_saat_ini' => 0, // Akan diisi Batch
                 'tahun_masuk' => 2025,
 
@@ -33,7 +31,6 @@ class KandangSeeder extends Seeder
             [
                 'id_pengguna' => $admin->id_pengguna ?? 1,
                 'nama_kandang' => 'Kandang C (Karantina)',
-                'kapasitas_kandang' => 2000,
                 'populasi_saat_ini' => 0,
                 'tahun_masuk' => 2025,
 

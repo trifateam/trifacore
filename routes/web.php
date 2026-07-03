@@ -140,7 +140,10 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('batch')->name('batch.')->group(function () {
+            Route::get('/masuk', [KandangOperasionalController::class, 'masuk'])->name('masuk');
+            Route::get('/performa', [KandangOperasionalController::class, 'performa'])->name('performa');
             Route::get('/', [KandangOperasionalController::class, 'batch'])->name('index');
+            Route::get('/riwayat', [KandangOperasionalController::class, 'riwayat'])->name('riwayat');
             Route::get('/assign/{batch}', [KandangOperasionalController::class, 'showAssignForm'])->name('assign.form');
             Route::post('/assign/{batch}', [KandangOperasionalController::class, 'assign'])->name('assign');
         });

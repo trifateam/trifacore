@@ -10,7 +10,14 @@ class Deplesi extends Model
 
     protected $primaryKey = 'id_deplesi';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'kode_deplesi',
+        'id_batch',
+        'id_pengguna',
+        'tanggal_deplesi',
+        'jml_mati',
+        'jml_cacat',
+    ];
 
     protected $casts = [
         'tanggal_deplesi' => 'date',

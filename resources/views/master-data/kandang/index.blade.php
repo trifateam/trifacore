@@ -31,7 +31,7 @@
 
     {{-- Data Table --}}
     @if($kandangs->count() > 0)
-        <x-table :headers="['No', 'Nama Kandang', 'Kapasitas', 'Populasi Saat Ini', 'Tahun Masuk', 'Status', 'Aksi']">
+        <x-table :headers="['No', 'Nama Kandang', 'Populasi Saat Ini', 'Tahun Masuk', 'Status', 'Aksi']">
             @foreach($kandangs as $index => $kandang)
                 <tr>
                     <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
@@ -39,9 +39,6 @@
                     </td>
                     <td class="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
                         {{ $kandang->nama_kandang }}
-                    </td>
-                    <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
-                        {{ number_format($kandang->kapasitas_kandang, 0, ',', '.') }} ekor
                     </td>
                     <td class="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
                         {{ number_format($kandang->populasi_saat_ini, 0, ',', '.') }} ekor

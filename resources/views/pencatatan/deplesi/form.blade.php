@@ -8,7 +8,7 @@
         ['label' => 'Catat Deplesi'],
     ]" />
 
-    <x-page-header title="Catat Deplesi (Kematian/Afkir)" subtitle="Masukkan data kematian dan afkir ayam pada batch ini" />
+    <x-page-header title="Catat Deplesi (Kematian/Cacat)" subtitle="Masukkan data kematian dan cacat ayam pada batch ini" />
 
     <div class="max-w-3xl mx-auto mt-6" x-data="deplesiForm()">
         <form method="POST" action="{{ route('pencatatan.deplesi.store', $batch->id_batch) }}" @submit="return validateForm()">
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="p-6">
-                    <x-form-section title="Data Deplesi" description="Masukkan jumlah ayam mati dan afkir/cacat pada hari ini.">
+                    <x-form-section title="Data Deplesi" description="Masukkan jumlah ayam mati dan cacat pada hari ini.">
                         <div class="space-y-5">
 
                             {{-- Jumlah Ayam Mati --}}
@@ -58,21 +58,21 @@
                                 @error('jml_mati') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
-                            {{-- Jumlah Ayam Afkir --}}
+                            {{-- Jumlah Ayam Cacat --}}
                             <div>
-                                <label for="jml_afkir" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Jumlah Ayam Afkir/Cacat <span class="text-red-500">*</span>
+                                <label for="jml_cacat" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                    Jumlah Ayam Cacat <span class="text-red-500">*</span>
                                 </label>
                                 <div class="relative rounded-md shadow-sm">
-                                    <input type="number" step="1" min="0" name="jml_afkir" id="jml_afkir" required
-                                        x-model.number="jmlAfkir"
-                                        value="{{ old('jml_afkir', 0) }}"
-                                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('jml_afkir') ? 'border-red-500' : '' }}">
+                                    <input type="number" step="1" min="0" name="jml_cacat" id="jml_cacat" required
+                                        x-model.number="jmlCacat"
+                                        value="{{ old('jml_cacat', 0) }}"
+                                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm pr-16 {{ $errors->has('jml_cacat') ? 'border-red-500' : '' }}">
                                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                         <span class="text-gray-500 dark:text-gray-400 sm:text-sm">ekor</span>
                                     </div>
                                 </div>
-                                @error('jml_afkir') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
+                                @error('jml_cacat') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
                             {{-- Total Deplesi (auto-calculated) --}}
@@ -80,7 +80,7 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <span class="text-sm font-semibold text-gray-700 dark:text-gray-300">Total Deplesi</span>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Mati + Afkir (otomatis)</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Mati + Cacat (otomatis)</p>
                                     </div>
                                     <span class="text-2xl font-bold" :class="totalDeplesi > {{ $populasiSaatIni }} ? 'text-red-600 dark:text-red-500' : 'text-gray-900 dark:text-gray-100'" x-text="totalDeplesi + ' ekor'"></span>
                                 </div>
@@ -139,14 +139,14 @@
     function deplesiForm() {
         return {
             jmlMati: {{ old('jml_mati', 0) }},
-            jmlAfkir: {{ old('jml_afkir', 0) }},
+            jmlCacat: {{ old('jml_cacat', 0) }},
             populasi: {{ $populasiSaatIni }},
             get totalDeplesi() {
-                return (parseInt(this.jmlMati) || 0) + (parseInt(this.jmlAfkir) || 0);
+                return (parseInt(this.jmlMati) || 0) + (parseInt(this.jmlCacat) || 0);
             },
             validateForm() {
                 if (this.totalDeplesi <= 0) {
-                    alert('Minimal salah satu kategori (Mati atau Afkir) harus lebih dari 0.');
+                    alert('Minimal salah satu kategori (Mati atau Cacat) harus lebih dari 0.');
                     return false;
                 }
                 if (this.totalDeplesi > this.populasi) {

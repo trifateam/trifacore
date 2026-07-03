@@ -46,7 +46,7 @@ class KonsumsiPakanController extends Controller
                 return [
                     'id_batch' => $batch->id_batch,
                     'nama_batch' => $batch->nama_batch,
-                    'jumlah_sisa' => $batch->jumlah_sisa,
+                    'populasi_saat_ini' => $batch->populasi_saat_ini,
                     'jumlah_sesi' => $jumlahSesiHariIni,
                 ];
             });
@@ -54,7 +54,6 @@ class KonsumsiPakanController extends Controller
             return [
                 'id_kandang' => $kandang->id_kandang,
                 'nama_kandang' => $kandang->nama_kandang,
-                'kapasitas_kandang' => $kandang->kapasitas_kandang,
                 'populasi_saat_ini' => $kandang->populasi_saat_ini,
                 'batches' => $batches,
             ];
