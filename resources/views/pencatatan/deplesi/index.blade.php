@@ -4,7 +4,7 @@
     <x-breadcrumb :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard')],
         ['label' => 'Pencatatan Harian'],
-        ['label' => 'Deplesi (Kematian/Afkir)'],
+        ['label' => 'Deplesi (Kematian/Cacat)'],
     ]" />
 
     <x-page-header title="Pilih Kandang & Batch" subtitle="Pilih kandang untuk melakukan pencatatan deplesi harian ({{ \Carbon\Carbon::parse($hariIni)->translatedFormat('l, d F Y') }})" />
@@ -34,7 +34,7 @@
                                             <div class="flex items-start justify-between mb-2">
                                                 <div>
                                                     <span class="block font-semibold text-gray-900 dark:text-gray-100">{{ $batch['nama_batch'] }}</span>
-                                                    <span class="block text-xs text-gray-500 dark:text-gray-400">{{ number_format($batch['jumlah_sisa'], 0, ',', '.') }} ekor</span>
+                                                    <span class="block text-xs text-gray-500 dark:text-gray-400">{{ number_format($batch['populasi_saat_ini'], 0, ',', '.') }} ekor</span>
                                                 </div>
                                                 <div>
                                                     @if($batch['sudah_tercatat'])

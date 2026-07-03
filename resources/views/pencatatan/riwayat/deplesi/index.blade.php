@@ -8,7 +8,7 @@
         ['label' => 'Deplesi'],
     ]" />
 
-    <x-page-header title="Riwayat Deplesi" subtitle="Data riwayat lengkap pencatatan kematian dan afkir harian" />
+    <x-page-header title="Riwayat Deplesi" subtitle="Data riwayat lengkap pencatatan kematian dan cacat harian" />
 
     <x-card class="mb-6 p-5 border border-gray-200 dark:border-gray-700 shadow-sm">
         <form method="GET" action="{{ route('pencatatan.riwayat.deplesi') }}" class="flex flex-col md:flex-row gap-4 items-end">
@@ -48,7 +48,7 @@
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Kandang</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Batch</th>
                         <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Jml Mati</th>
-                        <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Jml Afkir</th>
+                        <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Jml Cacat</th>
                         <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Total</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Pencatat</th>
                         <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Dicatat Pada</th>
@@ -62,8 +62,8 @@
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $item->batch->kandang->nama_kandang ?? '-' }}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $item->batch->nama_batch ?? '-' }}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-900 dark:text-gray-100">{{ number_format($item->jml_mati) }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-900 dark:text-gray-100">{{ number_format($item->jml_afkir) }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm text-right font-semibold text-gray-900 dark:text-gray-100">{{ number_format($item->jml_mati + $item->jml_afkir) }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-900 dark:text-gray-100">{{ number_format($item->jml_cacat) }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm text-right font-semibold text-gray-900 dark:text-gray-100">{{ number_format($item->jml_mati + $item->jml_cacat) }}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $item->pengguna->nama_lengkap ?? 'Sistem' }}</td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $item->created_at?->translatedFormat('d M Y H:i:s') ?? '-' }}</td>
                         </tr>

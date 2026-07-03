@@ -21,40 +21,14 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 @forelse($kandangs as $kandang)
-                    @php
-                        $percentage = $kandang->kapasitas_kandang > 0 ? round(($kandang->populasi_saat_ini / $kandang->kapasitas_kandang) * 100) : 0;
-                        $percentage = min(100, max(0, $percentage)); // Clamp 0-100
-                        
-                        $gaugeColor = 'bg-emerald-500';
-                        $bgGaugeColor = 'bg-emerald-100 dark:bg-emerald-900/50';
-                        if ($percentage >= 90) {
-                            $gaugeColor = 'bg-red-500';
-                            $bgGaugeColor = 'bg-red-100 dark:bg-red-900/50';
-                        } elseif ($percentage >= 70) {
-                            $gaugeColor = 'bg-amber-500';
-                            $bgGaugeColor = 'bg-amber-100 dark:bg-amber-900/50';
-                        }
-                    @endphp
-
                     <x-card class="border border-gray-200 dark:border-gray-700 flex flex-col h-full overflow-hidden">
                         <div class="p-5 flex-grow">
-                            <div class="flex justify-between items-start mb-2">
+                            <div class="flex justify-between items-start mb-6">
                                 <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ $kandang->nama_kandang }}</h3>
                                 <div class="text-right">
                                     <span class="block text-2xl font-black text-gray-900 dark:text-gray-100">{{ number_format($kandang->populasi_saat_ini, 0, ',', '.') }}</span>
                                     <span class="block text-xs text-gray-500 dark:text-gray-400">Total Ekor</span>
                                 </div>
-                            </div>
-                            
-                            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Kapasitas Maksimal: {{ number_format($kandang->kapasitas_kandang, 0, ',', '.') }} ekor</p>
-
-                            {{-- Gauge Bar --}}
-                            <div class="mb-2 flex justify-between text-xs font-bold">
-                                <span class="text-gray-700 dark:text-gray-300">Kepenuhan</span>
-                                <span class="{{ $percentage >= 90 ? 'text-red-600 dark:text-red-500' : ($percentage >= 70 ? 'text-amber-600 dark:text-amber-500' : 'text-emerald-600 dark:text-emerald-500') }}">{{ $percentage }}%</span>
-                            </div>
-                            <div class="w-full {{ $bgGaugeColor }} rounded-full h-2.5 mb-6">
-                                <div class="{{ $gaugeColor }} h-2.5 rounded-full transition-all duration-500" style="width: {{ $percentage }}%"></div>
                             </div>
 
                             {{-- Accordion Batches --}}
@@ -70,7 +44,7 @@
                                             <div class="p-3 bg-white dark:bg-gray-800 text-sm">
                                                 <div class="flex justify-between font-bold text-gray-800 dark:text-gray-200 mb-1">
                                                     <span>{{ $kb->nama_batch }}</span>
-                                                    <span>{{ number_format($kb->jumlah_sisa, 0, ',', '.') }} ekor</span>
+                                                    <span>{{ number_format($kb->populasi_saat_ini, 0, ',', '.') }} ekor</span>
                                                 </div>
                                                 <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400">
                                                     <span>{{ $kb->jenis_ayam }}</span>

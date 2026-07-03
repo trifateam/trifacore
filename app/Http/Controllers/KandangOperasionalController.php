@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Kandang;
 use App\Services\AuditService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,17 +27,105 @@ class KandangOperasionalController extends Controller
         return view('kandang.index', compact('kandangs'));
     }
 
+    public function performa()
+    {
+        $batches = Batch::with(['kandang', 'produksiTelur', 'deplesi'])
+            ->where('status_batch', 'Aktif')
+            ->get();
+
+        $batchChartData = [];
+        foreach ($batches as $batch) {
+            // Group produksi by week number relative to tgl_masuk
+            $weeklyHdp = [];
+            $produksi = $batch->produksiTelur->sortBy('tanggal_produksi');
+
+            foreach ($produksi as $p) {
+                $daysSinceMasuk = Carbon::parse($batch->tgl_masuk)->diffInDays($p->tanggal_produksi);
+                $weekNum = (int) floor($daysSinceMasuk / 7) + 1;
+
+                if (! isset($weeklyHdp[$weekNum])) {
+                    $weeklyHdp[$weekNum] = ['totalTelur' => 0, 'days' => 0, 'totalPopulasi' => 0];
+                }
+
+                $totalTelur = $p->jml_telur_rb + $p->jml_telur_mb + $p->jml_telur_mk + $p->jml_telur_pecah;
+
+                // Populasi hari itu = populasi_awal - deplesi s/d tanggal
+                $deplesiSd = $batch->deplesi
+                    ->where('tanggal_deplesi', '<=', $p->tanggal_produksi)
+                    ->sum(fn ($d) => $d->jml_mati + $d->jml_afkir);
+                $populasiHariItu = max(1, $batch->populasi_awal - $deplesiSd);
+
+                $weeklyHdp[$weekNum]['totalTelur'] += $totalTelur;
+                $weeklyHdp[$weekNum]['totalPopulasi'] += $populasiHariItu;
+                $weeklyHdp[$weekNum]['days']++;
+            }
+
+            // Compute HDP% per week
+            $hdpData = [];
+            $maxWeek = max(7, ! empty($weeklyHdp) ? max(array_keys($weeklyHdp)) : 7);
+
+            for ($w = 1; $w <= $maxWeek; $w++) {
+                if (isset($weeklyHdp[$w]) && $weeklyHdp[$w]['days'] > 0) {
+                    $avgPopulasi = $weeklyHdp[$w]['totalPopulasi'] / $weeklyHdp[$w]['days'];
+                    $totalTelurWeek = $weeklyHdp[$w]['totalTelur'];
+                    $hdp = ($totalTelurWeek / ($avgPopulasi * $weeklyHdp[$w]['days'])) * 100;
+                    $hdpData[$w] = round($hdp, 2);
+                } else {
+                    $hdpData[$w] = null; // No data for this week
+                }
+            }
+
+            $batchChartData[] = [
+                'batch' => $batch,
+                'hdpData' => $hdpData,
+                'sisaHariAfkir' => $batch->sisa_hari_afkir,
+            ];
+        }
+
+        return view('batch.performa', compact('batchChartData'));
+    }
+
     /**
-     * Tampilkan seluruh data batch (Aktif, Non-Aktif/Selesai, Pending)
+     * Tampilkan data batch (Aktif saja)
      */
     public function batch()
     {
         $batches = Batch::with(['supplier', 'kandang'])
-            ->orderByRaw("FIELD(status_batch, 'Pending', 'Aktif', 'Selesai')")
+            ->where('status_batch', 'Aktif')
             ->orderBy('tgl_masuk', 'desc')
             ->get();
 
         return view('batch.index', compact('batches'));
+    }
+
+    /**
+     * Tampilkan data batch masuk (Pending)
+     */
+    public function masuk()
+    {
+        $batches = Batch::with(['supplier'])
+            ->where('status_batch', 'Pending')
+            ->orderBy('tgl_masuk', 'desc')
+            ->get();
+
+        return view('batch.masuk', compact('batches'));
+    }
+
+    public function riwayat()
+    {
+        $batches = Batch::with('produksiTelur')
+            ->where('status_batch', 'Selesai')
+            ->orderBy('updated_at', 'desc')
+            ->get()
+            ->map(function ($batch) {
+                $totalTelur = $batch->produksiTelur->sum(fn ($p) => $p->jml_telur_rb + $p->jml_telur_mb + $p->jml_telur_mk + $p->jml_telur_pecah
+                );
+                $batch->total_telur = $totalTelur;
+
+                return $batch;
+            });
+
+        return view('batch.riwayat', compact('batches'));
     }
 
     public function showAssignForm($id_batch)
@@ -48,7 +137,10 @@ class KandangOperasionalController extends Controller
                 ->with('error', 'Batch ini sudah tidak dalam status Pending.');
         }
 
-        $kandangs = Kandang::whereNull('deleted_at')->get();
+        // Fetch kandang beserta jumlah batch aktif di kandang tersebut
+        $kandangs = Kandang::withCount(['batches as active_batch_count' => function ($query) {
+            $query->where('status_batch', 'Aktif');
+        }])->whereNull('deleted_at')->get();
 
         return view('batch.assign', compact('batch', 'kandangs'));
     }
@@ -60,7 +152,6 @@ class KandangOperasionalController extends Controller
     {
         $request->validate([
             'id_kandang' => 'required|exists:kandang,id_kandang',
-            'jumlah' => 'required|integer|min:1',
         ]);
 
         try {
@@ -72,71 +163,26 @@ class KandangOperasionalController extends Controller
                     throw new \Exception('Batch ini tidak dalam status Pending.');
                 }
 
-                $jumlahAssign = $request->jumlah;
-
-                // Validasi jumlah sisa batch
-                if ($jumlahAssign > $batch->jumlah_sisa) {
-                    throw new \Exception("Jumlah assign melebihi sisa ayam di batch ini ({$batch->jumlah_sisa} ekor).");
+                // Validasi batas maksimal 2 batch aktif per kandang
+                $activeBatchesCount = $kandang->batches()->where('status_batch', 'Aktif')->count();
+                if ($activeBatchesCount >= 2) {
+                    throw new \Exception('Kandang sudah mencapai batas maksimal 2 batch aktif.');
                 }
 
-                // Validasi kapasitas kandang
-                $sisaKapasitas = $kandang->kapasitas_kandang - $kandang->populasi_saat_ini;
-                if ($jumlahAssign > $sisaKapasitas) {
-                    throw new \Exception("Kapasitas kandang tidak mencukupi. Sisa kapasitas: {$sisaKapasitas} ekor.");
-                }
+                $jumlahAssign = $batch->populasi_saat_ini;
 
-                // Proses Splitting atau Update
-                if ($jumlahAssign < $batch->jumlah_sisa) {
-                    // Split batch: buat batch baru untuk yang di-assign
-                    $newBatch = $batch->replicate();
-                    $newBatch->kode_batch = $batch->kode_batch.'-'.rand(10, 99); // Append unique identifier
-                    $newBatch->nama_batch = $batch->nama_batch.' (Split)';
-                    $newBatch->id_kandang = $kandang->id_kandang;
-                    $newBatch->populasi_awal = $jumlahAssign;
-                    $newBatch->jumlah_sisa = $jumlahAssign;
-                    $newBatch->status_batch = 'Aktif';
-                    $newBatch->save();
-
-                    // Kurangi sisa batch original
-                    $batch->jumlah_sisa -= $jumlahAssign;
-                    $batch->save();
-
-                    $assignedBatchKode = $newBatch->kode_batch;
-                } else {
-                    // Assign semua sisa batch
-                    $batch->id_kandang = $kandang->id_kandang;
-                    $batch->jumlah_sisa = 0; // Karena sudah di-assign semua ke kandang
-                    $batch->status_batch = 'Aktif';
-
-                    // Note: jika jumlah_sisa kita definisikan sebagai "sisa yang belum diassign",
-                    // maka menjadi 0. Tapi jika jumlah_sisa di kandang artinya "ayam yang masih hidup di kandang",
-                    // maka jumlah_sisa tetap sejumlah yang diassign.
-                    // Prompt bilang: "Batch: jumlah_sisa -= jumlah". Artinya jumlah_sisa adalah yang BELUM di assign.
-                    // Tunggu, saat Deplesi, "jumlah sisa ayam per batch".
-                    // Jika di database, populasi kandang adalah agregasi dari batch?
-                    // "kandang.populasi_saat_ini += jumlah"
-                    // Jika jumlah_sisa di batch berkurang, berarti jumlah_sisa = stok gudang?
-                    // TIDAK. Di sistem peternakan biasanya `jumlah_sisa` batch adalah sisa ayam hidup.
-                    // Coba kita lihat di prompt Deplesi: "Mencatat kematian... mengurangi populasi".
-                    // Jika `jumlah_sisa` -= `jumlah`, berarti sisa yang belum assign jadi 0.
-                    // Tapi bagaimana dengan sisa hidup di kandang?
-                    // Di prompt ini dikatakan: "Batch: jumlah_sisa -= jumlah".
-                    // Jika split, batch original sisa, batch baru jumlah_sisa = $jumlahAssign.
-                    // Jika full, status jadi Aktif. Kalau jumlah_sisa 0, hilang dari section 1.
-                    // Mari kita asumsikan jumlah_sisa di batch pending adalah "sisa yg belum di assign",
-                    // dan saat sudah di-assign (Aktif), jumlah_sisa menjadi "jumlah ayam hidup di kandang".
-                    // Oleh karena itu, untuk full assign, jumlah_sisa TETAP sama (karena belum ada yg mati),
-                    // tapi status_batch menjadi 'Aktif', sehingga otomatis hilang dari Section 1 karena filter status.
-                    $batch->save();
-                    $assignedBatchKode = $batch->kode_batch;
-                }
+                // Assign semua sisa batch (All-in All-out)
+                $batch->id_kandang = $kandang->id_kandang;
+                $batch->status_batch = 'Aktif';
+                $batch->nama_batch = $batch->kode_batch.' / '.$kandang->nama_kandang;
+                $batch->save();
 
                 // Update populasi kandang
                 $kandang->populasi_saat_ini += $jumlahAssign;
                 $kandang->save();
 
                 // Catat aktivitas
-                AuditService::log("Menempatkan {$jumlahAssign} ekor pullet (Batch: {$assignedBatchKode}) ke {$kandang->nama_kandang}.");
+                AuditService::log("Menempatkan keseluruhan {$jumlahAssign} ekor pullet (Batch: {$batch->kode_batch}) ke {$kandang->nama_kandang}.");
             });
 
             return redirect()->route('batch.index')

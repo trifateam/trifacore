@@ -17,7 +17,6 @@ class Kandang extends Model
     protected $fillable = [
         'id_pengguna',
         'nama_kandang',
-        'kapasitas_kandang',
         'populasi_saat_ini',
         'tahun_masuk',
     ];

@@ -32,7 +32,6 @@ class ProduksiPupukController extends Controller
             return [
                 'id_kandang' => $kandang->id_kandang,
                 'nama_kandang' => $kandang->nama_kandang,
-                'kapasitas_kandang' => $kandang->kapasitas_kandang,
                 'populasi_saat_ini' => $kandang->populasi_saat_ini,
                 'sudah_tercatat' => $sudahTercatat,
             ];

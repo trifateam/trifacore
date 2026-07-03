@@ -116,6 +116,26 @@
             </template>
             @endrole
 
+            {{-- Batch Submenus (For Admin/Owner) --}}
+            @role('Admin', 'Owner')
+            <template x-if="activePanel === 'batch'">
+                <div class="space-y-1">
+                    <a href="/batch/performa" class="mobile-submenu-item {{ request()->is('batch/performa') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Performa Batch Aktif
+                    </a>
+                    <a href="/batch/masuk" class="mobile-submenu-item {{ request()->is('batch/masuk') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Batch Masuk
+                    </a>
+                    <a href="/batch" class="mobile-submenu-item {{ request()->is('batch') && !request()->is('batch/*') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Data Batch Aktif
+                    </a>
+                    <a href="/batch/riwayat" class="mobile-submenu-item {{ request()->is('batch/riwayat') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Riwayat Batch
+                    </a>
+                </div>
+            </template>
+            @endrole
+
             @role('Admin', 'Owner', 'Pegawai Gudang')
             <template x-if="activePanel === 'gudang'">
                 <div class="space-y-1">
@@ -143,8 +163,17 @@
                     @role('Pegawai Kandang')
                     <div class="space-y-1">
                         <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Batch</div>
-                        <a href="/batch" class="mobile-submenu-item {{ request()->is('batch*') ? 'mobile-submenu-active' : '' }}">
-                            <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Batch
+                        <a href="/batch/performa" class="mobile-submenu-item {{ request()->is('batch/performa') ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Performa Batch Aktif
+                        </a>
+                        <a href="/batch/masuk" class="mobile-submenu-item {{ request()->is('batch/masuk') ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Batch Masuk
+                        </a>
+                        <a href="/batch" class="mobile-submenu-item {{ request()->is('batch') && !request()->is('batch/*') ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Data Batch Aktif
+                        </a>
+                        <a href="/batch/riwayat" class="mobile-submenu-item {{ request()->is('batch/riwayat') ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-purple-400 shrink-0"></span>Riwayat Batch
                         </a>
                     </div>
                     @endrole
@@ -353,12 +382,12 @@
             @endrole
 
             @role('Admin', 'Owner')
-            <a href="/batch" class="mobile-nav-btn group">
-                <div class="mobile-nav-icon {{ request()->is('batch*') ? 'mobile-nav-active' : '' }}">
+            <button @click="togglePanel('batch', 'Batch')" class="mobile-nav-btn group">
+                <div class="mobile-nav-icon {{ request()->is('batch*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'batch' && panelOpen ? 'mobile-nav-panel-open' : ''">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z" /></svg>
                 </div>
                 <span class="mobile-nav-label">Batch</span>
-            </a>
+            </button>
             @endrole
 
             {{-- 5. Slot 5 (Lainnya) --}}

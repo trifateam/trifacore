@@ -15,15 +15,16 @@ return new class extends Migration
             $table->increments('id_batch');
             $table->string('kode_batch', 30)->unique();
             $table->unsignedInteger('id_kandang')->nullable();
-            $table->string('nama_batch', 100);
+            $table->string('nama_batch', 100)->nullable();
             $table->string('jenis_ayam', 50)->nullable();
             $table->date('tgl_masuk');
             $table->integer('umur_awal_minggu')->default(0);
+            $table->date('tgl_afkir')->nullable();
             $table->integer('populasi_awal')->default(0);
             $table->string('status_batch', 20)->default('Aktif');
             $table->unsignedInteger('id_supplier')->nullable();
             $table->decimal('harga_per_ekor', 15, 2)->default(0.00);
-            $table->integer('jumlah_sisa')->default(0);
+            $table->integer('populasi_saat_ini')->default(0);
             $table->timestamps();
 
             $table->foreign('id_kandang')->references('id_kandang')->on('kandang')->nullOnDelete();

@@ -80,15 +80,14 @@
         </a>
         
         {{-- Batch --}}
-        <a href="/batch"
-           @mouseenter="handleIconHover('batch', 'Batch')"
+        <button @mouseenter="handleIconHover('batch', 'Batch')"
            @click="handleIconClick('batch', 'Batch', $event)"
-           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200"
+           class="w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
            :class="currentPage === 'batch' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'batch' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 01-1.125-1.125v-3.75zM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-8.25zM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 01-1.125-1.125v-2.25z" />
             </svg>
-        </a>
+        </button>
         @endrole
 
         @role('Admin', 'Owner', 'Pegawai Gudang')
@@ -216,7 +215,10 @@
                 <x-sidebar-nav-item href="/kandang" :active="request()->is('kandang')">Kandang</x-sidebar-nav-item>
             </div>
             <div x-show="activeMenu === 'batch'" x-cloak>
-                <x-sidebar-nav-item href="/batch" :active="request()->is('batch*')">Batch</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/batch/performa" :active="request()->is('batch/performa')">Performa Batch Aktif</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/batch/masuk" :active="request()->is('batch/masuk')">Batch Masuk</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/batch" :active="request()->is('batch') && !request()->is('batch/*')">Data Batch Aktif</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/batch/riwayat" :active="request()->is('batch/riwayat')">Riwayat Batch</x-sidebar-nav-item>
             </div>
             @endrole
 
@@ -291,6 +293,9 @@ document.addEventListener('alpine:init', () => {
                 { path: '/transaksi/pembelian', id: 'penerimaan', title: 'Penerimaan Barang' },
                 { path: '/pencatatan', id: 'pencatatan', title: 'Pencatatan Harian' },
                 { path: '/transaksi', id: 'transaksi', title: 'Manajemen Transaksi' },
+                { path: '/batch/masuk', id: 'batch', title: 'Batch' },
+                { path: '/batch/performa', id: 'batch', title: 'Batch' },
+                { path: '/batch/riwayat', id: 'batch', title: 'Batch' },
                 { path: '/batch/assign', id: 'batch', title: 'Batch' },
                 { path: '/batch', id: 'batch', title: 'Batch' },
                 { path: '/kandang', id: 'kandang', title: 'Kandang' },
@@ -330,7 +335,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         handleIconClick(id, title, e) {
-            const directLinks = ['dashboard', 'kandang', 'batch'];
+            const directLinks = ['dashboard', 'kandang'];
             if (this.isMobile) {
                 if (this.activeMenu === id && this.isExpanded) {
                     this.isExpanded = false;

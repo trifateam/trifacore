@@ -12,7 +12,6 @@ return new class extends Migration
             $table->increments('id_kandang');
             $table->unsignedInteger('id_pengguna');
             $table->string('nama_kandang', 50);
-            $table->integer('kapasitas_kandang')->default(0);
             $table->integer('populasi_saat_ini')->default(0);
             $table->year('tahun_masuk')->nullable();
             $table->timestamps();

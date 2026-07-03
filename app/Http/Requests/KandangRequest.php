@@ -32,11 +32,6 @@ class KandangRequest extends FormRequest
                 'max:50',
                 Rule::unique('kandang', 'nama_kandang')->ignore($kandangId, 'id_kandang'),
             ],
-            'kapasitas_kandang' => [
-                'required',
-                'integer',
-                'min:1',
-            ],
             'tahun_masuk' => [
                 'required',
                 'integer',
@@ -57,9 +52,6 @@ class KandangRequest extends FormRequest
             'nama_kandang.required' => 'Nama kandang wajib diisi.',
             'nama_kandang.max' => 'Nama kandang maksimal 50 karakter.',
             'nama_kandang.unique' => 'Nama kandang sudah digunakan.',
-            'kapasitas_kandang.required' => 'Kapasitas kandang wajib diisi.',
-            'kapasitas_kandang.integer' => 'Kapasitas kandang harus berupa angka.',
-            'kapasitas_kandang.min' => 'Kapasitas kandang harus lebih dari 0.',
             'tahun_masuk.required' => 'Tahun masuk wajib diisi.',
             'tahun_masuk.integer' => 'Tahun masuk harus berupa angka.',
             'tahun_masuk.min' => 'Tahun masuk minimal 2000.',

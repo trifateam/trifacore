@@ -28,7 +28,7 @@ class BatchSeeder extends Seeder
                     'tgl_masuk' => Carbon::now()->subDays(60)->toDateString(),
                     'umur_awal_minggu' => 18,
                     'populasi_awal' => 2900,
-                    'jumlah_sisa' => 2900,
+                    'populasi_saat_ini' => 2900,
                     'status_batch' => 'Aktif',
                     'id_supplier' => $supplier->id_supplier ?? null,
                     'harga_per_ekor' => 75000,
@@ -40,7 +40,7 @@ class BatchSeeder extends Seeder
                     'tgl_masuk' => Carbon::now()->subDays(30)->toDateString(),
                     'umur_awal_minggu' => 16,
                     'populasi_awal' => 3000,
-                    'jumlah_sisa' => 3000,
+                    'populasi_saat_ini' => 3000,
                     'status_batch' => 'Aktif',
                     'id_supplier' => $supplier->id_supplier ?? null,
                     'harga_per_ekor' => 70000,
@@ -52,7 +52,7 @@ class BatchSeeder extends Seeder
                     'tgl_masuk' => Carbon::now()->addDays(5)->toDateString(),
                     'umur_awal_minggu' => 14,
                     'populasi_awal' => 2500,
-                    'jumlah_sisa' => 2500,
+                    'populasi_saat_ini' => 2500,
                     'status_batch' => 'Pending',
                     'id_supplier' => $supplier->id_supplier ?? null,
                     'harga_per_ekor' => 65000,
@@ -60,13 +60,22 @@ class BatchSeeder extends Seeder
             ];
 
             foreach ($data as $item) {
-                $item['kode_batch'] = CodeGenerator::generate('BTC', 'batch', 'kode_batch');
+                $kodeBatch = CodeGenerator::generate('BTC', 'batch', 'kode_batch');
+                $item['kode_batch'] = $kodeBatch;
+
+                if ($item['status_batch'] === 'Aktif') {
+                    $kandang = Kandang::find($item['id_kandang']);
+                    $item['nama_batch'] = "{$kodeBatch} / ".($kandang ? $kandang->nama_kandang : 'Kandang');
+                } else {
+                    $item['nama_batch'] = null;
+                }
+
                 $batch = Batch::create($item);
 
                 if ($batch->status_batch === 'Aktif') {
                     $kandang = Kandang::find($batch->id_kandang);
                     if ($kandang) {
-                        $kandang->populasi_saat_ini += $batch->jumlah_sisa;
+                        $kandang->populasi_saat_ini += $batch->populasi_saat_ini;
                         $kandang->save();
                     }
                 }

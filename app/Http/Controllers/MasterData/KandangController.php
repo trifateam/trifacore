@@ -46,7 +46,6 @@ class KandangController extends Controller
         Kandang::create([
             'id_pengguna' => Auth::id(),
             'nama_kandang' => $request->nama_kandang,
-            'kapasitas_kandang' => $request->kapasitas_kandang,
             'populasi_saat_ini' => 0,
             'tahun_masuk' => $request->tahun_masuk,
         ]);
@@ -76,7 +75,6 @@ class KandangController extends Controller
 
         $kandang->update([
             'nama_kandang' => $request->nama_kandang,
-            'kapasitas_kandang' => $request->kapasitas_kandang,
             'tahun_masuk' => $request->tahun_masuk,
         ]);
 

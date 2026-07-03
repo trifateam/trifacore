@@ -26,14 +26,14 @@ class DeplesiSeeder extends Seeder
             for ($date = $startDate; $date->lte($endDate); $date->addDay()) {
                 // Mortalitas 0-3 ekor per hari
                 $mati = rand(0, 2);
-                $afkir = rand(0, 1);
+                $cacat = rand(0, 1);
 
-                if ($mati == 0 && $afkir == 0 && rand(1, 10) > 4) {
+                if ($mati == 0 && $cacat == 0 && rand(1, 10) > 4) {
                     // Beberapa hari tidak ada deplesi
                     continue;
                 }
 
-                $total = $mati + $afkir;
+                $total = $mati + $cacat;
                 $kode = CodeGenerator::generate('DP', 'deplesi', 'kode_deplesi');
 
                 Deplesi::create([
@@ -42,13 +42,13 @@ class DeplesiSeeder extends Seeder
                     'id_pengguna' => $id_pengguna,
                     'tanggal_deplesi' => $date->toDateString(),
                     'jml_mati' => $mati,
-                    'jml_afkir' => $afkir,
+                    'jml_cacat' => $cacat,
                     'created_at' => $date,
                     'updated_at' => $date,
                 ]);
 
                 // Kurangi populasi
-                $batch->jumlah_sisa -= $total;
+                $batch->populasi_saat_ini -= $total;
                 $batch->save();
 
                 $kandang = Kandang::find($batch->id_kandang);
