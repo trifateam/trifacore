@@ -62,10 +62,10 @@ class BatchSeeder extends Seeder
             foreach ($data as $item) {
                 $kodeBatch = CodeGenerator::generate('BTC', 'batch', 'kode_batch');
                 $item['kode_batch'] = $kodeBatch;
-                
+
                 if ($item['status_batch'] === 'Aktif') {
                     $kandang = Kandang::find($item['id_kandang']);
-                    $item['nama_batch'] = "{$kodeBatch} / " . ($kandang ? $kandang->nama_kandang : 'Kandang');
+                    $item['nama_batch'] = "{$kodeBatch} / ".($kandang ? $kandang->nama_kandang : 'Kandang');
                 } else {
                     $item['nama_batch'] = null;
                 }

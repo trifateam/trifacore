@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Batch extends Model
@@ -19,15 +20,20 @@ class Batch extends Model
 
     public function getSisaHariAfkirAttribute()
     {
-        if (!$this->tgl_afkir) return null;
-        return max(0, (int) \Carbon\Carbon::today()->diffInDays($this->tgl_afkir, false));
+        if (! $this->tgl_afkir) {
+            return null;
+        }
+
+        return max(0, (int) Carbon::today()->diffInDays($this->tgl_afkir, false));
     }
 
     public function getUmurSaatIniMingguAttribute()
     {
-        $hariSejakMasuk = \Carbon\Carbon::parse($this->tgl_masuk)->diffInDays(\Carbon\Carbon::today());
+        $hariSejakMasuk = Carbon::parse($this->tgl_masuk)->diffInDays(Carbon::today());
+
         return $this->umur_awal_minggu + floor($hariSejakMasuk / 7);
     }
+
     public function kandang()
     {
         return $this->belongsTo(Kandang::class, 'id_kandang');

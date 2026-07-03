@@ -2,9 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Pengguna;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Http\Request;
 
 #[Signature('app:ping-routes')]
 #[Description('Command description')]
@@ -15,9 +18,10 @@ class PingRoutes extends Command
      */
     public function handle()
     {
-        $user = \App\Models\Pengguna::find(1);
-        if (!$user) {
+        $user = Pengguna::find(1);
+        if (! $user) {
             $this->error('User ID 1 not found.');
+
             return;
         }
 
@@ -37,16 +41,16 @@ class PingRoutes extends Command
             '/pencatatan/pupuk',
         ];
 
-        $kernel = app()->make(\Illuminate\Contracts\Http\Kernel::class);
+        $kernel = app()->make(Kernel::class);
 
         foreach ($routes as $route) {
-            $request = \Illuminate\Http\Request::create($route, 'GET');
-            
+            $request = Request::create($route, 'GET');
+
             // Rebind the session so it doesn't fail
             $request->setLaravelSession(app('session')->driver('array'));
-            
+
             $response = $kernel->handle($request);
-            
+
             $status = $response->getStatusCode();
             if ($status >= 400 && $status !== 404 && $status !== 403) {
                 $this->error("[$status] $route");

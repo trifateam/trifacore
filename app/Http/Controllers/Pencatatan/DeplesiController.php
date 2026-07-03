@@ -8,7 +8,6 @@ use App\Models\Batch;
 use App\Models\Deplesi;
 use App\Models\Kandang;
 use App\Services\AuditService;
-use App\Services\StokBarangService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

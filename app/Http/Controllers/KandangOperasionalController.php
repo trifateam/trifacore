@@ -38,32 +38,32 @@ class KandangOperasionalController extends Controller
             // Group produksi by week number relative to tgl_masuk
             $weeklyHdp = [];
             $produksi = $batch->produksiTelur->sortBy('tanggal_produksi');
-            
+
             foreach ($produksi as $p) {
                 $daysSinceMasuk = Carbon::parse($batch->tgl_masuk)->diffInDays($p->tanggal_produksi);
                 $weekNum = (int) floor($daysSinceMasuk / 7) + 1;
-                
-                if (!isset($weeklyHdp[$weekNum])) {
+
+                if (! isset($weeklyHdp[$weekNum])) {
                     $weeklyHdp[$weekNum] = ['totalTelur' => 0, 'days' => 0, 'totalPopulasi' => 0];
                 }
-                
+
                 $totalTelur = $p->jml_telur_rb + $p->jml_telur_mb + $p->jml_telur_mk + $p->jml_telur_pecah;
-                
+
                 // Populasi hari itu = populasi_awal - deplesi s/d tanggal
                 $deplesiSd = $batch->deplesi
                     ->where('tanggal_deplesi', '<=', $p->tanggal_produksi)
-                    ->sum(fn($d) => $d->jml_mati + $d->jml_afkir);
+                    ->sum(fn ($d) => $d->jml_mati + $d->jml_afkir);
                 $populasiHariItu = max(1, $batch->populasi_awal - $deplesiSd);
-                
+
                 $weeklyHdp[$weekNum]['totalTelur'] += $totalTelur;
                 $weeklyHdp[$weekNum]['totalPopulasi'] += $populasiHariItu;
                 $weeklyHdp[$weekNum]['days']++;
             }
-            
+
             // Compute HDP% per week
             $hdpData = [];
-            $maxWeek = max(7, !empty($weeklyHdp) ? max(array_keys($weeklyHdp)) : 7);
-            
+            $maxWeek = max(7, ! empty($weeklyHdp) ? max(array_keys($weeklyHdp)) : 7);
+
             for ($w = 1; $w <= $maxWeek; $w++) {
                 if (isset($weeklyHdp[$w]) && $weeklyHdp[$w]['days'] > 0) {
                     $avgPopulasi = $weeklyHdp[$w]['totalPopulasi'] / $weeklyHdp[$w]['days'];
@@ -74,7 +74,7 @@ class KandangOperasionalController extends Controller
                     $hdpData[$w] = null; // No data for this week
                 }
             }
-            
+
             $batchChartData[] = [
                 'batch' => $batch,
                 'hdpData' => $hdpData,
@@ -118,16 +118,15 @@ class KandangOperasionalController extends Controller
             ->orderBy('updated_at', 'desc')
             ->get()
             ->map(function ($batch) {
-                $totalTelur = $batch->produksiTelur->sum(fn($p) => 
-                    $p->jml_telur_rb + $p->jml_telur_mb + $p->jml_telur_mk + $p->jml_telur_pecah
+                $totalTelur = $batch->produksiTelur->sum(fn ($p) => $p->jml_telur_rb + $p->jml_telur_mb + $p->jml_telur_mk + $p->jml_telur_pecah
                 );
                 $batch->total_telur = $totalTelur;
+
                 return $batch;
             });
 
         return view('batch.riwayat', compact('batches'));
     }
-
 
     public function showAssignForm($id_batch)
     {
@@ -175,7 +174,7 @@ class KandangOperasionalController extends Controller
                 // Assign semua sisa batch (All-in All-out)
                 $batch->id_kandang = $kandang->id_kandang;
                 $batch->status_batch = 'Aktif';
-                $batch->nama_batch = $batch->kode_batch . ' / ' . $kandang->nama_kandang;
+                $batch->nama_batch = $batch->kode_batch.' / '.$kandang->nama_kandang;
                 $batch->save();
 
                 // Update populasi kandang

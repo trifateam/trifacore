@@ -124,7 +124,7 @@ class ProduksiTelurController extends Controller
         }
 
         // Generate Kode Produksi: PT-YYYYMMDD-XX (Tidak dipakai 1x lagi, di-generate di loop)
-        
+
         // Logika Backfilling
         $lastRecord = ProduksiTelur::where('id_batch', $id_batch)
             ->orderBy('tanggal_produksi', 'desc')
@@ -173,7 +173,7 @@ class ProduksiTelurController extends Controller
             for ($i = 0; $i < $days; $i++) {
                 $currentDate = $startDate->copy()->addDays($i)->toDateString();
                 $kodeProduksi = CodeGenerator::generate('PT', 'produksi_telur', 'kode_produksi');
-                
+
                 // Distribusi sisa ke hari terlama (i=0, 1, ...)
                 $hariRb = $baseRb + ($i < $remRb ? 1 : 0);
                 $hariMb = $baseMb + ($i < $remMb ? 1 : 0);
@@ -194,12 +194,12 @@ class ProduksiTelurController extends Controller
             }
 
             // Catat Riwayat Aktivitas
-            AuditService::log("Mencatat produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sejumlah {$totalTelur} butir" . ($days > 1 ? " (didistribusikan ke {$days} hari yang terlewat)." : "."));
+            AuditService::log("Mencatat produksi telur (Kandang: {$batch->kandang->nama_kandang}, Batch: {$batch->nama_batch}) sejumlah {$totalTelur} butir".($days > 1 ? " (didistribusikan ke {$days} hari yang terlewat)." : '.'));
 
             DB::commit();
 
             return redirect()->route('pencatatan.produksi-telur.index')
-                ->with('success', 'Data produksi telur berhasil disimpan dan stok gudang terupdate otomatis' . ($days > 1 ? " (dibagi rata ke {$days} hari yang terlewat)." : "."));
+                ->with('success', 'Data produksi telur berhasil disimpan dan stok gudang terupdate otomatis'.($days > 1 ? " (dibagi rata ke {$days} hari yang terlewat)." : '.'));
 
         } catch (\Exception $e) {
             DB::rollBack();
