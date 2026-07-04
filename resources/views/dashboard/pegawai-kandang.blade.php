@@ -30,7 +30,62 @@
         </x-page-header>
 
         {{-- ═══════════════════════════════════════════════════════════
-        1. SUMMARY CARDS
+        1. TUGAS HARIAN BELUM SELESAI
+        ═══════════════════════════════════════════════════════════ --}}
+        @if(isset($uncompletedTasks['has_any_task']) && $uncompletedTasks['has_any_task'])
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+            <h3 class="text-base font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100 mb-4 flex items-center">
+                <svg class="w-5 h-5 text-red-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                Tugas Harian Belum Selesai
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                @if(isset($uncompletedTasks['telur']) && count($uncompletedTasks['telur']) > 0)
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-red-800 dark:text-red-400 mb-1 flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-red-500 mr-2"></span> Produksi Telur
+                        </h4>
+                        <p class="text-sm text-red-600 dark:text-red-300">Ada {{ count($uncompletedTasks['telur']) }} batch yang belum dicatat hari ini.</p>
+                    </div>
+                    <a href="/pencatatan/produksi-telur" class="mt-4 inline-flex items-center text-sm font-medium text-red-700 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors">
+                        Isi Sekarang <svg class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </a>
+                </div>
+                @endif
+                
+                @if(isset($uncompletedTasks['pakan']) && count($uncompletedTasks['pakan']) > 0)
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-red-800 dark:text-red-400 mb-1 flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-red-500 mr-2"></span> Konsumsi Pakan
+                        </h4>
+                        <p class="text-sm text-red-600 dark:text-red-300">Ada {{ count($uncompletedTasks['pakan']) }} batch yang belum dicatat hari ini.</p>
+                    </div>
+                    <a href="/pencatatan/konsumsi-pakan" class="mt-4 inline-flex items-center text-sm font-medium text-red-700 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors">
+                        Isi Sekarang <svg class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </a>
+                </div>
+                @endif
+
+                @if(isset($uncompletedTasks['suhu']) && count($uncompletedTasks['suhu']) > 0)
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4 flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-red-800 dark:text-red-400 mb-1 flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-red-500 mr-2"></span> Suhu Lingkungan
+                        </h4>
+                        <p class="text-sm text-red-600 dark:text-red-300">Ada {{ count($uncompletedTasks['suhu']) }} kandang yang belum dicatat hari ini.</p>
+                    </div>
+                    <a href="/pencatatan/suhu" class="mt-4 inline-flex items-center text-sm font-medium text-red-700 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors">
+                        Isi Sekarang <svg class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+                    </a>
+                </div>
+                @endif
+            </div>
+        </div>
+        @endif
+
+        {{-- ═══════════════════════════════════════════════════════════
+        2. SUMMARY CARDS
         ═══════════════════════════════════════════════════════════ --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {{-- Total Populasi Ayam (Biru) --}}

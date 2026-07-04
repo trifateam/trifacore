@@ -54,10 +54,11 @@
                                                         Penuh (Maks 2x)
                                                     </x-button>
                                                 @else
-                                                    <a href="{{ route('pencatatan.konsumsi-pakan.create', $batch['id_batch']) }}">
-                                                        <x-button variant="primary" size="sm" class="w-full justify-center">
+                                                    <a href="{{ route('pencatatan.konsumsi-pakan.create', $batch['id_batch']) }}" class="block relative w-full">
+                                                        <x-button variant="primary" size="sm" class="w-full justify-center relative">
                                                             <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                                                             Catat Sesi {{ $batch['jumlah_sesi'] + 1 }}
+                                                            <x-badge-notification :show="$batch['jumlah_sesi'] == 0" class="absolute -top-1.5 -right-1.5" />
                                                         </x-button>
                                                     </a>
                                                 @endif

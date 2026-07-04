@@ -37,10 +37,11 @@
                                     Sudah Dicatat Hari Ini
                                 </x-button>
                             @else
-                                <a href="{{ route('pencatatan.suhu.create', $kandang['id_kandang']) }}" class="w-full">
-                                    <x-button variant="primary" size="sm" class="w-full justify-center">
+                                <a href="{{ route('pencatatan.suhu.create', $kandang['id_kandang']) }}" class="block relative w-full">
+                                    <x-button variant="primary" size="sm" class="w-full justify-center relative">
                                         <svg class="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>
                                         Catat Suhu
+                                        <x-badge-notification :show="!$kandang['sudah_tercatat']" class="absolute -top-1.5 -right-1.5" />
                                     </x-button>
                                 </a>
                             @endif
