@@ -43,7 +43,7 @@
         <!-- Content Area -->
         <div class="flex flex-col min-h-screen ml-0 md:ml-20 transition-all duration-300 pb-20 md:pb-0 print:ml-0 print:pb-0">
             <!-- Navbar -->
-            <div class="print:hidden">
+            <div class="sticky top-0 z-20 print:hidden">
                 @include('layouts.navbar')
             </div>
 
