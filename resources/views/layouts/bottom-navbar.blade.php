@@ -55,6 +55,9 @@
                     <a href="/transaksi/penjualan" class="mobile-submenu-item {{ request()->is('transaksi/penjualan*') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Input Penjualan
                     </a>
+                    <a href="/transaksi/order-aktif" class="mobile-submenu-item {{ request()->is('transaksi/order-aktif*') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-yellow-400 shrink-0"></span>Order Aktif
+                    </a>
                     <a href="/transaksi/riwayat-penjualan" class="mobile-submenu-item {{ request()->is('transaksi/riwayat-penjualan*') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Riwayat Penjualan
                     </a>
@@ -66,6 +69,10 @@
             @role('Pegawai Gudang')
             <template x-if="activePanel === 'penerimaan'">
                 <div class="space-y-1">
+                    <a href="/transaksi/order-masuk" class="mobile-submenu-item relative {{ request()->is('transaksi/order-masuk*') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-yellow-400 shrink-0"></span>Order Masuk
+                        <x-badge-notification :show="isset($pendingOrdersCount) && $pendingOrdersCount > 0" class="top-1/2 -translate-y-1/2 right-4" />
+                    </a>
                     <a href="/transaksi/pembelian" class="mobile-submenu-item {{ request()->is('transaksi/pembelian*') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Input Penerimaan Barang
                     </a>
