@@ -4,8 +4,8 @@ namespace App\Services;
 
 use App\Models\Batch;
 use App\Models\Kandang;
-use App\Models\ProduksiTelur;
 use App\Models\KonsumsiPakan;
+use App\Models\ProduksiTelur;
 use App\Models\SuhuKandang;
 use Carbon\Carbon;
 
@@ -19,7 +19,7 @@ class TaskNotificationService
     public static function getUncompletedTasks()
     {
         $today = Carbon::today();
-        
+
         // Active Kandang (not deleted)
         $kandangs = Kandang::all();
         // Active Batches
@@ -33,9 +33,9 @@ class TaskNotificationService
         $suhuRecorded = SuhuKandang::whereDate('tanggal_waktu', $today)
             ->pluck('id_kandang')
             ->toArray();
-            
+
         foreach ($kandangs as $kandang) {
-            if (!in_array($kandang->id_kandang, $suhuRecorded)) {
+            if (! in_array($kandang->id_kandang, $suhuRecorded)) {
                 $uncompletedSuhu[] = $kandang;
             }
         }
@@ -44,16 +44,16 @@ class TaskNotificationService
         $telurRecorded = ProduksiTelur::whereDate('tanggal_produksi', $today)
             ->pluck('id_batch')
             ->toArray();
-            
+
         $pakanRecorded = KonsumsiPakan::whereDate('tanggal_konsumsi', $today)
             ->pluck('id_batch')
             ->toArray();
 
         foreach ($batches as $batch) {
-            if (!in_array($batch->id_batch, $telurRecorded)) {
+            if (! in_array($batch->id_batch, $telurRecorded)) {
                 $uncompletedTelur[] = $batch;
             }
-            if (!in_array($batch->id_batch, $pakanRecorded)) {
+            if (! in_array($batch->id_batch, $pakanRecorded)) {
                 $uncompletedPakan[] = $batch;
             }
         }
