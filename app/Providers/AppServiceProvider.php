@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Penjualan;
 use App\Services\TaskNotificationService;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -57,6 +58,15 @@ class AppServiceProvider extends ServiceProvider
                     $tasks = TaskNotificationService::getUncompletedTasks();
                 }
                 $view->with('uncompletedTasks', $tasks);
+            }
+
+            // Notification untuk Pegawai Gudang (Order Masuk dari Sales)
+            if (auth()->check() && auth()->user()->hasRole('Pegawai Gudang')) {
+                static $pendingOrdersCount = null;
+                if ($pendingOrdersCount === null) {
+                    $pendingOrdersCount = Penjualan::where('status_order', 'Menunggu')->count();
+                }
+                $view->with('pendingOrdersCount', $pendingOrdersCount);
             }
         });
     }

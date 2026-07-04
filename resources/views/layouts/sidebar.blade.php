@@ -205,12 +205,17 @@
             @role('Sales', 'Admin', 'Owner')
             <div x-show="activeMenu === 'transaksi'" x-cloak>
                 <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Input Penjualan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/order-aktif" :active="request()->is('transaksi/order-aktif*')">Order Aktif</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Riwayat Penjualan</x-sidebar-nav-item>
             </div>
             @endrole
 
             @role('Pegawai Gudang', 'Admin', 'Owner')
             <div x-show="activeMenu === 'penerimaan'" x-cloak>
+                <x-sidebar-nav-item href="/transaksi/order-masuk" :active="request()->is('transaksi/order-masuk*')">
+                    Order Masuk
+                    <x-badge-notification :show="isset($pendingOrdersCount) && $pendingOrdersCount > 0" class="top-1/2 -translate-y-1/2 right-4" />
+                </x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Input Penerimaan Barang</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Riwayat Penerimaan Barang</x-sidebar-nav-item>
             </div>
@@ -332,6 +337,8 @@ document.addEventListener('alpine:init', () => {
             const menuMapping = [
                 { path: '/pencatatan/riwayat', id: 'riwayat', title: 'Riwayat' },
                 { path: '/transaksi/riwayat-pembelian', id: 'penerimaan', title: 'Penerimaan Barang' },
+                { path: '/transaksi/order-aktif', id: 'transaksi', title: 'Penjualan' },
+                { path: '/transaksi/order-masuk', id: 'penerimaan', title: 'Penerimaan Barang' },
                 { path: '/transaksi/riwayat-penjualan', id: 'transaksi', title: 'Penjualan' },
                 { path: '/transaksi/pembelian', id: 'penerimaan', title: 'Penerimaan Barang' },
                 { path: '/pencatatan', id: 'pencatatan', title: 'Pencatatan Harian' },
