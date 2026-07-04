@@ -37,6 +37,15 @@ class BukuUtangController extends Controller
             });
         }
 
+        // ── Filter: Type (Menu Sub-Menu) ──
+        if ($request->filled('type')) {
+            if ($request->type === 'aktif') {
+                $query->where('status_hutang', '!=', 'Lunas');
+            } elseif ($request->type === 'riwayat') {
+                $query->where('status_hutang', '=', 'Lunas');
+            }
+        }
+
         // ── Filter: Status ──
         if ($request->filled('status') && in_array($request->status, ['Belum Lunas', 'Lunas Sebagian', 'Lunas'])) {
             $query->where('status_hutang', $request->status);

@@ -53,7 +53,10 @@
             <template x-if="activePanel === 'transaksi'">
                 <div class="space-y-1">
                     <a href="/transaksi/penjualan" class="mobile-submenu-item {{ request()->is('transaksi/penjualan*') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Transaksi Penjualan
+                        <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Input Penjualan
+                    </a>
+                    <a href="/transaksi/riwayat-penjualan" class="mobile-submenu-item {{ request()->is('transaksi/riwayat-penjualan*') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Riwayat Penjualan
                     </a>
                 </div>
             </template>
@@ -97,12 +100,7 @@
                         <span class="w-2 h-2 rounded-full bg-violet-400 shrink-0"></span>Produksi Pupuk
                     </a>
                     @endrole
-                    @role('Admin', 'Owner', 'Sales')
-                    <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Transaksi</div>
-                    <a href="/transaksi/riwayat-penjualan" class="mobile-submenu-item {{ request()->is('transaksi/riwayat-penjualan') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-violet-400 shrink-0"></span>Penjualan
-                    </a>
-                    @endrole
+
                 </div>
             </template>
 
@@ -194,28 +192,35 @@
                     </div>
                     @endrole
 
-                    {{-- Admin / Owner / Pegawai Gudang: Master Data --}}
-                    @role('Admin', 'Owner', 'Pegawai Gudang')
+                    {{-- Admin / Owner / Pegawai Gudang / Sales: Master Data --}}
+                    @role('Admin', 'Owner', 'Pegawai Gudang', 'Sales')
                     <div class="space-y-1">
                         <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Master Data</div>
                         @role('Admin', 'Owner')
                         <a href="/master-data/kandang" class="mobile-submenu-item {{ request()->is('master-data/kandang') ? 'mobile-submenu-active' : '' }}">
                             <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>Data Kandang
                         </a>
+                        @role('Admin', 'Owner', 'Sales')
                         <a href="/master-data/barang" class="mobile-submenu-item {{ request()->is('master-data/barang') ? 'mobile-submenu-active' : '' }}">
                             <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>Data Barang/Item
                         </a>
                         @endrole
+                        @role('Admin', 'Owner', 'Pegawai Gudang')
                         <a href="/master-data/supplier" class="mobile-submenu-item {{ request()->is('master-data/supplier') ? 'mobile-submenu-active' : '' }}">
                             <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>Data Supplier
                         </a>
+                        @endrole
                         @role('Admin', 'Owner')
                         <a href="/master-data/pegawai" class="mobile-submenu-item {{ request()->is('master-data/pegawai') ? 'mobile-submenu-active' : '' }}">
                             <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>Data Pegawai
                         </a>
+                        @endrole
+                        @role('Admin', 'Owner', 'Sales')
                         <a href="/master-data/pelanggan" class="mobile-submenu-item {{ request()->is('master-data/pelanggan') ? 'mobile-submenu-active' : '' }}">
                             <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>Data Pelanggan
                         </a>
+                        @endrole
+                        @role('Admin', 'Owner')
                         <a href="/master-data/rekening" class="mobile-submenu-item {{ request()->is('master-data/rekening') ? 'mobile-submenu-active' : '' }}">
                             <span class="w-2 h-2 rounded-full bg-amber-400 shrink-0"></span>Data Rekening Kas/Bank
                         </a>
@@ -236,13 +241,45 @@
                         <a href="/keuangan/buku-kas" class="mobile-submenu-item {{ request()->is('keuangan/buku-kas') ? 'mobile-submenu-active' : '' }}">
                             <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>Buku Kas
                         </a>
-                        <a href="/keuangan/buku-utang" class="mobile-submenu-item {{ request()->is('keuangan/buku-utang') ? 'mobile-submenu-active' : '' }}">
-                            <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>Buku Utang
+                    </div>
+                    @endrole
+
+                    {{-- Admin / Owner / Pegawai Gudang: Hutang --}}
+                    @role('Admin', 'Owner', 'Pegawai Gudang')
+                    <div class="space-y-1">
+                        <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Hutang</div>
+                        <a href="/keuangan/buku-utang?type=aktif" class="mobile-submenu-item {{ request()->is('keuangan/buku-utang') && (request('type') == 'aktif' || !request()->has('type')) ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>Hutang Aktif
                         </a>
-                        <a href="/keuangan/buku-piutang" class="mobile-submenu-item {{ request()->is('keuangan/buku-piutang') ? 'mobile-submenu-active' : '' }}">
-                            <span class="w-2 h-2 rounded-full bg-cyan-400 shrink-0"></span>Buku Piutang
+                        <a href="/keuangan/buku-utang?type=riwayat" class="mobile-submenu-item {{ request()->is('keuangan/buku-utang') && request('type') == 'riwayat' ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-red-400 shrink-0"></span>Riwayat Hutang
                         </a>
                     </div>
+                    @endrole
+
+                    {{-- Admin / Owner / Sales: Piutang --}}
+                    @role('Admin', 'Owner', 'Sales')
+                    <div class="space-y-1">
+                        <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Piutang</div>
+                        <a href="/keuangan/buku-piutang?type=aktif" class="mobile-submenu-item {{ request()->is('keuangan/buku-piutang') && (request('type') == 'aktif' || !request()->has('type')) ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>Piutang Aktif
+                        </a>
+                        <a href="/keuangan/buku-piutang?type=riwayat" class="mobile-submenu-item {{ request()->is('keuangan/buku-piutang') && request('type') == 'riwayat' ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 shrink-0"></span>Riwayat Piutang
+                        </a>
+                    </div>
+                    @endrole
+
+                    {{-- Sales: Gudang --}}
+                    @role('Sales')
+                    <div class="space-y-1">
+                        <div class="px-3 pt-2 pb-1 text-[11px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Gudang</div>
+                        <a href="/gudang/stok-produksi" class="mobile-submenu-item {{ request()->is('gudang/stok-produksi') ? 'mobile-submenu-active' : '' }}">
+                            <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Stok Hasil Produksi
+                        </a>
+                    </div>
+                    @endrole
+
 
                     {{-- Admin / Owner: Laporan --}}
                     <div class="space-y-1">
@@ -318,11 +355,11 @@
             @endrole
 
             @role('Sales')
-            <button @click="togglePanel('transaksi', 'Manajemen Transaksi')" class="mobile-nav-btn group">
-                <div class="mobile-nav-icon {{ request()->is('transaksi/*') && !request()->is('transaksi/riwayat*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'transaksi' && panelOpen ? 'mobile-nav-panel-open' : ''">
+            <button @click="togglePanel('transaksi', 'Penjualan')" class="mobile-nav-btn group">
+                <div class="mobile-nav-icon {{ request()->is('transaksi/*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'transaksi' && panelOpen ? 'mobile-nav-panel-open' : ''">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
                 </div>
-                <span class="mobile-nav-label">Transaksi</span>
+                <span class="mobile-nav-label">Penjualan</span>
             </button>
             @endrole
 
@@ -337,7 +374,7 @@
 
             @role('Admin', 'Owner')
             <button @click="togglePanel('riwayat', 'Riwayat')" class="mobile-nav-btn group">
-                <div class="mobile-nav-icon {{ request()->is('pencatatan/riwayat/*') || request()->is('transaksi/riwayat*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'riwayat' && panelOpen ? 'mobile-nav-panel-open' : ''">
+                <div class="mobile-nav-icon {{ request()->is('pencatatan/riwayat/*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'riwayat' && panelOpen ? 'mobile-nav-panel-open' : ''">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <span class="mobile-nav-label">Riwayat</span>
@@ -345,9 +382,9 @@
             @endrole
 
             {{-- 3. Slot 3 --}}
-            @role('Pegawai Kandang', 'Sales')
+            @role('Pegawai Kandang')
             <button @click="togglePanel('riwayat', 'Riwayat')" class="mobile-nav-btn group">
-                <div class="mobile-nav-icon {{ request()->is('pencatatan/riwayat/*') || request()->is('transaksi/riwayat*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'riwayat' && panelOpen ? 'mobile-nav-panel-open' : ''">
+                <div class="mobile-nav-icon {{ request()->is('pencatatan/riwayat/*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'riwayat' && panelOpen ? 'mobile-nav-panel-open' : ''">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
                 <span class="mobile-nav-label">Riwayat</span>
@@ -392,7 +429,7 @@
             @endrole
 
             {{-- 5. Slot 5 (Lainnya) --}}
-            @role('Admin', 'Owner', 'Pegawai Kandang', 'Pegawai Gudang')
+            @role('Admin', 'Owner', 'Pegawai Kandang', 'Pegawai Gudang', 'Sales')
             <button @click="togglePanel('lainnya', 'Menu Lainnya')" class="mobile-nav-btn group">
                 <div class="mobile-nav-icon {{ request()->is('master-data/*') || request()->is('keuangan/*') || request()->is('laporan/*') || request()->is('pengaturan/*') || request()->is('riwayat-aktivitas') || (request()->is('batch*') && auth()->user() && !auth()->user()->hasRole('Admin', 'Owner')) || (request()->is('gudang*') && auth()->user() && !auth()->user()->hasRole('Pegawai Gudang')) ? 'mobile-nav-active' : '' }}"
                      :class="activePanel === 'lainnya' && panelOpen ? 'mobile-nav-panel-open' : ''">

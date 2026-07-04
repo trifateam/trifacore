@@ -149,11 +149,17 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    // ── Gudang: Admin, Owner, Pegawai Gudang, Sales ──
+    Route::middleware('role:Admin,Owner,Pegawai Gudang,Sales')->group(function () {
+        Route::prefix('gudang')->name('gudang.')->group(function () {
+            Route::get('/stok-produksi', [GudangController::class, 'stokProduksi'])->name('stok-produksi');
+        });
+    });
+
     // ── Gudang: Admin, Owner, Pegawai Gudang ──
     Route::middleware('role:Admin,Owner,Pegawai Gudang')->group(function () {
         Route::prefix('gudang')->name('gudang.')->group(function () {
             Route::get('/stok-konsumsi', [GudangController::class, 'stokKonsumsi'])->name('stok-konsumsi');
-            Route::get('/stok-produksi', [GudangController::class, 'stokProduksi'])->name('stok-produksi');
             Route::get('/riwayat-penyesuaian', [GudangController::class, 'riwayatPenyesuaian'])->name('riwayat-penyesuaian');
             Route::get('/adjust/{barang}', [GudangController::class, 'showAdjustForm'])->name('adjust.form');
             Route::post('/adjust/{barang}', [GudangController::class, 'adjust'])->name('adjust');
@@ -164,15 +170,21 @@ Route::middleware('auth')->group(function () {
         });
     });
 
+    // ── Master Data: Admin, Owner, Sales ──
+    Route::middleware('role:Admin,Owner,Sales')->group(function () {
+        Route::prefix('master-data')->name('master-data.')->group(function () {
+            Route::resource('pelanggan', PelangganController::class)->except(['show']);
+            Route::resource('barang', BarangController::class)->except(['show']);
+        });
+    });
+
     // ── Admin & Owner Only: Master Data, Keuangan, Laporan, Pengaturan ──
     Route::middleware('role:Admin,Owner')->group(function () {
 
         // Master Data
         Route::prefix('master-data')->name('master-data.')->group(function () {
             Route::resource('kandang', KandangController::class)->except(['show']);
-            Route::resource('barang', BarangController::class)->except(['show']);
             Route::resource('pegawai', PegawaiController::class)->except(['show']);
-            Route::resource('pelanggan', PelangganController::class)->except(['show']);
             Route::resource('rekening', RekeningController::class)->except(['show']);
             Route::resource('kategori-biaya', KategoriBiayaController::class)->except(['show']);
         });
@@ -182,9 +194,21 @@ Route::middleware('auth')->group(function () {
             Route::get('/biaya-operasional', [BiayaOperasionalController::class, 'index'])->name('biaya-operasional.index');
             Route::post('/biaya-operasional', [BiayaOperasionalController::class, 'store'])->name('biaya-operasional.store');
             Route::get('/buku-kas', [BukuKasController::class, 'index'])->name('buku-kas');
+        });
+    });
+
+    // ── Keuangan (Buku Utang): Admin, Owner, Pegawai Gudang ──
+    Route::middleware('role:Admin,Owner,Pegawai Gudang')->group(function () {
+        Route::prefix('keuangan')->name('keuangan.')->group(function () {
             Route::get('/buku-utang', [BukuUtangController::class, 'index'])->name('buku-utang');
             Route::get('/buku-utang/lunasi/{hutang}', [BukuUtangController::class, 'showLunasiForm'])->name('buku-utang.lunasi.form');
             Route::post('/buku-utang/lunasi/{hutang}', [BukuUtangController::class, 'lunasi'])->name('buku-utang.lunasi');
+        });
+    });
+
+    // ── Keuangan (Buku Piutang): Admin, Owner, Sales ──
+    Route::middleware('role:Admin,Owner,Sales')->group(function () {
+        Route::prefix('keuangan')->name('keuangan.')->group(function () {
             Route::get('/buku-piutang', [BukuPiutangController::class, 'index'])->name('buku-piutang');
             Route::get('/buku-piutang/lunasi/{piutang}', [BukuPiutangController::class, 'showLunasiForm'])->name('buku-piutang.lunasi.form');
             Route::post('/buku-piutang/lunasi/{piutang}', [BukuPiutangController::class, 'lunasi'])->name('buku-piutang.lunasi');
