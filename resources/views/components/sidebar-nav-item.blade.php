@@ -18,7 +18,7 @@
 
 <a 
     href="{{ $href }}" 
-    class="sidebar-nav-item {{ $active ? 'sidebar-nav-item-active' : 'sidebar-nav-item-default' }}"
+    class="sidebar-nav-item relative {{ $active ? 'sidebar-nav-item-active' : 'sidebar-nav-item-default' }}"
 >
     <span class="truncate">{{ $slot }}</span>
 </a>

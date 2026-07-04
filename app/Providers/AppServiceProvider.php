@@ -42,5 +42,20 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('rupiah', function ($expression) {
             return "<?php echo \App\Helpers\RupiahFormatter::format($expression); ?>";
         });
+        /*
+        |----------------------------------------------------------------------
+        | View Composer untuk Badge Notification Harian (Pegawai Kandang)
+        |----------------------------------------------------------------------
+        */
+        \Illuminate\Support\Facades\View::composer('*', function ($view) {
+            if (auth()->check() && auth()->user()->hasRole('Pegawai Kandang')) {
+                // Menghindari duplikasi query jika dipanggil berkali-kali di view yang sama
+                static $tasks = null;
+                if ($tasks === null) {
+                    $tasks = \App\Services\TaskNotificationService::getUncompletedTasks();
+                }
+                $view->with('uncompletedTasks', $tasks);
+            }
+        });
     }
 }
