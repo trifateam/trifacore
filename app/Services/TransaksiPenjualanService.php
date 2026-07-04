@@ -7,7 +7,6 @@ use App\Models\AkunKas;
 use App\Models\Barang;
 use App\Models\BukuKas;
 use App\Models\DetailPenjualan;
-use App\Models\Kandang;
 use App\Models\Penjualan;
 use App\Models\Piutang;
 use Carbon\Carbon;
@@ -44,9 +43,10 @@ class TransaksiPenjualanService
                 'kategori_penjualan' => $data['kategori_penjualan'],
                 'id_kandang' => $data['id_kandang'] ?? null,
                 'catatan' => $data['catatan'] ?? null,
+                'status_order' => 'Menunggu',
             ]);
 
-            // 3. Simpan Detail & Kurangi Stok/Populasi
+            // 3. Simpan Detail (stok akan dikurangi oleh Pegawai Gudang saat order selesai)
             $rincianText = [];
             foreach ($details as $item) {
                 // Simpan baris detail
@@ -60,29 +60,6 @@ class TransaksiPenjualanService
 
                 $barang = Barang::findOrFail($item['id_barang']);
                 $rincianText[] = "{$barang->nama_barang} ({$item['kuantitas']})";
-
-                if ($data['kategori_penjualan'] === 'afkir') {
-                    // Logika Afkir: Kurangi populasi kandang target
-                    if (empty($data['id_kandang'])) {
-                        throw new \Exception('Kandang target wajib dipilih untuk penjualan ayam afkir.');
-                    }
-
-                    $kandang = Kandang::lockForUpdate()->findOrFail($data['id_kandang']);
-                    if ($kandang->populasi_saat_ini < $item['kuantitas']) {
-                        throw new \Exception("Populasi kandang tidak mencukupi untuk penjualan ayam afkir. Tersedia: {$kandang->populasi_saat_ini}, Diminta: {$item['kuantitas']}");
-                    }
-                    $kandang->populasi_saat_ini -= $item['kuantitas'];
-                    $kandang->save();
-
-                } else {
-                    // Logika Telur & Pupuk: Kurangi stok gudang
-                    $barangLok = Barang::lockForUpdate()->findOrFail($item['id_barang']);
-                    if ($barangLok->stok_barang < $item['kuantitas']) {
-                        throw new \Exception("Stok {$barangLok->nama_barang} tidak mencukupi. Tersedia: {$barangLok->stok_barang}, Diminta: {$item['kuantitas']}");
-                    }
-                    $barangLok->stok_barang -= $item['kuantitas'];
-                    $barangLok->save();
-                }
             }
 
             // 4. Logika Pembayaran (Lunas vs Piutang)

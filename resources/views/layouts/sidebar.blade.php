@@ -45,6 +45,17 @@
         @endrole
 
         @role('Pegawai Gudang', 'Admin', 'Owner')
+        {{-- Order Masuk --}}
+        <button @mouseenter="handleIconHover('order-masuk', 'Order Masuk')"
+           @click="handleIconClick('order-masuk', 'Order Masuk', $event)"
+           class="relative w-12 h-12 flex items-center justify-center rounded-xl transition-all duration-200 cursor-pointer"
+           :class="currentPage === 'order-masuk' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/30' : (activeMenu === 'order-masuk' && isExpanded ? 'text-amber-500 bg-amber-500/10' : 'text-gray-400 hover:text-amber-500 hover:bg-amber-500/10')">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.19-.504 1.125-1.125V14.25m-17.25 0h17.25m-17.25 0L5.625 4.5h12.75l2.625 9.75M12 4.5v15" />
+            </svg>
+            <x-badge-notification :show="isset($pendingOrdersCount) && $pendingOrdersCount > 0" class="absolute top-2 right-2" />
+        </button>
+
         {{-- Penerimaan Barang --}}
         <button @mouseenter="handleIconHover('penerimaan', 'Penerimaan Barang')"
            @click="handleIconClick('penerimaan', 'Penerimaan Barang', $event)"
@@ -205,11 +216,18 @@
             @role('Sales', 'Admin', 'Owner')
             <div x-show="activeMenu === 'transaksi'" x-cloak>
                 <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Input Penjualan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/order-aktif" :active="request()->is('transaksi/order-aktif*')">Order Aktif</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Riwayat Penjualan</x-sidebar-nav-item>
             </div>
             @endrole
 
             @role('Pegawai Gudang', 'Admin', 'Owner')
+            <div x-show="activeMenu === 'order-masuk'" x-cloak>
+                <x-sidebar-nav-item href="/transaksi/order-masuk" :active="request()->is('transaksi/order-masuk*')">
+                    Daftar Order Masuk
+                    <x-badge-notification :show="isset($pendingOrdersCount) && $pendingOrdersCount > 0" class="top-1/2 -translate-y-1/2 right-4" />
+                </x-sidebar-nav-item>
+            </div>
             <div x-show="activeMenu === 'penerimaan'" x-cloak>
                 <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Input Penerimaan Barang</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/transaksi/riwayat-pembelian" :active="request()->is('transaksi/riwayat-pembelian')">Riwayat Penerimaan Barang</x-sidebar-nav-item>
@@ -332,6 +350,8 @@ document.addEventListener('alpine:init', () => {
             const menuMapping = [
                 { path: '/pencatatan/riwayat', id: 'riwayat', title: 'Riwayat' },
                 { path: '/transaksi/riwayat-pembelian', id: 'penerimaan', title: 'Penerimaan Barang' },
+                { path: '/transaksi/order-aktif', id: 'transaksi', title: 'Penjualan' },
+                { path: '/transaksi/order-masuk', id: 'order-masuk', title: 'Order Masuk' },
                 { path: '/transaksi/riwayat-penjualan', id: 'transaksi', title: 'Penjualan' },
                 { path: '/transaksi/pembelian', id: 'penerimaan', title: 'Penerimaan Barang' },
                 { path: '/pencatatan', id: 'pencatatan', title: 'Pencatatan Harian' },

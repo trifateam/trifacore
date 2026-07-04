@@ -55,6 +55,9 @@
                     <a href="/transaksi/penjualan" class="mobile-submenu-item {{ request()->is('transaksi/penjualan*') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Input Penjualan
                     </a>
+                    <a href="/transaksi/order-aktif" class="mobile-submenu-item {{ request()->is('transaksi/order-aktif*') ? 'mobile-submenu-active' : '' }}">
+                        <span class="w-2 h-2 rounded-full bg-yellow-400 shrink-0"></span>Order Aktif
+                    </a>
                     <a href="/transaksi/riwayat-penjualan" class="mobile-submenu-item {{ request()->is('transaksi/riwayat-penjualan*') ? 'mobile-submenu-active' : '' }}">
                         <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Riwayat Penjualan
                     </a>
@@ -364,8 +367,16 @@
             @endrole
 
             @role('Pegawai Gudang')
+            <a href="/transaksi/order-masuk" class="mobile-nav-btn group relative">
+                <div class="mobile-nav-icon {{ request()->is('transaksi/order-masuk*') ? 'mobile-nav-active' : '' }}">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.19-.504 1.125-1.125V14.25m-17.25 0h17.25m-17.25 0L5.625 4.5h12.75l2.625 9.75M12 4.5v15" /></svg>
+                </div>
+                <span class="mobile-nav-label">Order Masuk</span>
+                <x-badge-notification :show="isset($pendingOrdersCount) && $pendingOrdersCount > 0" class="absolute top-1 right-2" />
+            </a>
+
             <button @click="togglePanel('penerimaan', 'Penerimaan Barang')" class="mobile-nav-btn group">
-                <div class="mobile-nav-icon {{ request()->is('transaksi/*') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'penerimaan' && panelOpen ? 'mobile-nav-panel-open' : ''">
+                <div class="mobile-nav-icon {{ request()->is('transaksi/pembelian*') || request()->is('transaksi/riwayat-pembelian') ? 'mobile-nav-active' : '' }}" :class="activePanel === 'penerimaan' && panelOpen ? 'mobile-nav-panel-open' : ''">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg>
                 </div>
                 <span class="mobile-nav-label">Penerimaan</span>

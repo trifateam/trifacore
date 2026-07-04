@@ -23,6 +23,8 @@ class Penjualan extends Model
         'kategori_penjualan',
         'id_kandang',
         'catatan',
+        'status_order',
+        'id_pengguna_gudang',
     ];
 
     protected $casts = [
@@ -38,6 +40,11 @@ class Penjualan extends Model
     public function pengguna()
     {
         return $this->belongsTo(Pengguna::class, 'id_pengguna', 'id_pengguna');
+    }
+
+    public function penggunaGudang()
+    {
+        return $this->belongsTo(Pengguna::class, 'id_pengguna_gudang', 'id_pengguna');
     }
 
     public function kandang()
