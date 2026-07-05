@@ -52,7 +52,7 @@ class KandangOperasionalController extends Controller
                 // Populasi hari itu = populasi_awal - deplesi s/d tanggal
                 $deplesiSd = $batch->deplesi
                     ->where('tanggal_deplesi', '<=', $p->tanggal_produksi)
-                    ->sum(fn ($d) => $d->jml_mati + $d->jml_afkir);
+                    ->sum(fn ($d) => $d->jml_mati + $d->jml_cacat);
                 $populasiHariItu = max(1, $batch->populasi_awal - $deplesiSd);
 
                 $weeklyHdp[$weekNum]['totalTelur'] += $totalTelur;

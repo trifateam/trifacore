@@ -60,7 +60,7 @@ class ProduksiPerformaController extends Controller
                 });
             }
 
-            $totalMortalitas = $deplesiQuery->sum('jml_mati') + $deplesiQuery->sum('jml_afkir');
+            $totalMortalitas = $deplesiQuery->sum('jml_mati') + $deplesiQuery->sum('jml_cacat');
 
             // Base Query: Penjualan
             $penjualanQuery = Penjualan::whereMonth('tanggal_penjualan', $bulan)
@@ -106,7 +106,7 @@ class ProduksiPerformaController extends Controller
                 // Hitung Populasi Hari Itu (Populasi Awal Batch - Total Deplesi s/d tanggal produksi)
                 $deplesiSdTgl = Deplesi::where('id_batch', $prod->id_batch)
                     ->where('tanggal_deplesi', '<=', $prod->tanggal_produksi)
-                    ->sum(DB::raw('jml_mati + jml_afkir'));
+                    ->sum(DB::raw('jml_mati + jml_cacat'));
 
                 $populasiAwal = $batch ? $batch->populasi_awal : 0;
                 $populasiHariItu = $populasiAwal - $deplesiSdTgl;
