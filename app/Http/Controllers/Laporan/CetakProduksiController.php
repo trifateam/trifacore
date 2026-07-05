@@ -46,7 +46,7 @@ class CetakProduksiController extends Controller
         foreach ($batches as $b) {
             $deplesiBefore = Deplesi::where('id_batch', $b->id_batch)
                 ->where('tanggal_deplesi', '<', $startDate->toDateString())
-                ->sum(DB::raw('jml_mati + jml_afkir'));
+                ->sum(DB::raw('jml_mati + jml_cacat'));
 
             $populasi = $b->populasi_awal - $deplesiBefore;
             if ($populasi > 0) {
@@ -96,7 +96,7 @@ class CetakProduksiController extends Controller
             $totalTelur = $rb + $mb + $mk + $pecah;
 
             $mati = $depToday->sum('jml_mati');
-            $afkir = $depToday->sum('jml_afkir');
+            $afkir = $depToday->sum('jml_cacat');
             $totalMortalitasHari = $mati + $afkir;
 
             $hdp = 0;
