@@ -122,6 +122,9 @@ class PenjualanController extends Controller
             ];
         }
 
+        // Ambil data pelanggan untuk snapshot alamat dan koordinat
+        $pelanggan = Pelanggan::findOrFail($request->id_pelanggan);
+
         $headerData = [
             'kategori_penjualan' => $jenis,
             'id_pelanggan' => $request->id_pelanggan,
@@ -130,6 +133,9 @@ class PenjualanController extends Controller
             'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
             'id_kandang' => $request->id_kandang,
             'catatan' => $request->catatan,
+            'alamat_pengiriman' => $pelanggan->alamat,
+            'latitude' => $pelanggan->latitude,
+            'longitude' => $pelanggan->longitude,
             'total_harga' => $totalHarga,
         ];
 

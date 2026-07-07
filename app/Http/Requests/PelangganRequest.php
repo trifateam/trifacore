@@ -46,6 +46,16 @@ class PelangganRequest extends FormRequest
                 'string',
                 Rule::in(['Distributor', 'Retail', 'Personal']),
             ],
+            'latitude' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
+            'longitude' => [
+                'nullable',
+                'string',
+                'max:50',
+            ],
         ];
     }
 

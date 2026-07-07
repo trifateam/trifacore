@@ -57,6 +57,8 @@ class PelangganController extends Controller
             'kategori' => $request->kategori,
             'kontak' => $request->kontak,
             'alamat' => $request->alamat,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
         ]);
 
         AuditService::log('Menambah pelanggan baru: '.$request->nama_lengkap);
@@ -88,6 +90,8 @@ class PelangganController extends Controller
             'kategori' => $request->kategori,
             'kontak' => $request->kontak,
             'alamat' => $request->alamat,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
         ]);
 
         AuditService::log('Mengedit pelanggan: '.$request->nama_lengkap);
