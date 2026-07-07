@@ -25,6 +25,10 @@ class Penjualan extends Model
         'catatan',
         'status_order',
         'id_pengguna_gudang',
+        'tanggal_proses',
+        'alamat_pengiriman',
+        'latitude',
+        'longitude',
     ];
 
     protected $casts = [

@@ -135,6 +135,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
         Route::post('/pembelian', [PembelianController::class, 'store'])->name('pembelian.store');
         Route::get('/order-masuk', [OrderMasukController::class, 'index'])->name('order-masuk');
+        Route::get('/order-masuk/diproses', [OrderMasukController::class, 'diproses'])->name('order-masuk.diproses');
+        Route::get('/order-masuk/selesai-list', [OrderMasukController::class, 'selesaiList'])->name('order-masuk.selesai-list');
         Route::patch('/order-masuk/{id}/proses', [OrderMasukController::class, 'prosesOrder'])->name('order-masuk.proses');
         Route::patch('/order-masuk/{id}/selesai', [OrderMasukController::class, 'selesaiOrder'])->name('order-masuk.selesai');
         Route::get('/order-masuk/{id}/surat-jalan', [OrderMasukController::class, 'cetakSuratJalan'])->name('order-masuk.surat-jalan');

@@ -28,6 +28,8 @@
 @endphp
 
 @section('content')
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
     <x-breadcrumb :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard')],
         ['label' => 'Transaksi', 'url' => route('transaksi.penjualan.index')],
@@ -71,6 +73,7 @@
                                 @error('id_pelanggan') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
                             </div>
 
+
                             @if($jenis === 'afkir')
                                 <div class="md:col-span-2">
                                     <label for="id_kandang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kandang Target (Sumber Ayam) <span class="text-red-500">*</span></label>
@@ -103,7 +106,8 @@
                             <table class="w-full text-left border-collapse">
                                 <thead>
                                     <tr class="bg-gray-100 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-700 text-xs uppercase text-gray-600 dark:text-gray-400">
-                                        <th class="p-3 w-5/12">Barang</th>
+                                        <th class="p-3 w-4/12">Barang</th>
+                                        <th class="p-3 w-2/12" x-show="jenisPenjualan === 'telur'">Satuan</th>
                                         <th class="p-3 w-2/12">Qty</th>
                                         <th class="p-3 w-3/12">Harga Satuan (Rp)</th>
                                         <th class="p-3 w-3/12 text-right">Sub-Total (Rp)</th>
@@ -122,11 +126,20 @@
                                                 </select>
                                                 <p x-show="item.errorStock" class="text-xs text-red-500 mt-1" x-text="item.errorStock"></p>
                                             </td>
-                                            <td class="p-3">
-                                                <input type="number" step="0.01" min="0.01" :name="`items[${index}][kuantitas]`" x-model.number="item.kuantitas" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                            <td class="p-3" x-show="jenisPenjualan === 'telur'">
+                                                <select x-model="item.satuan_display" @change="calculateRow(index)" class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                                                    <option value="Butir">Butir</option>
+                                                    <option value="Lapik">Lapik</option>
+                                                    <option value="Ikat">Ikat</option>
+                                                </select>
                                             </td>
                                             <td class="p-3">
-                                                <input type="number" step="1" min="1" :name="`items[${index}][harga_satuan]`" x-model.number="item.harga_satuan" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                                <input type="number" step="0.01" min="0.01" x-model.number="item.qty_display" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                                <input type="hidden" :name="`items[${index}][kuantitas]`" :value="item.kuantitas">
+                                            </td>
+                                            <td class="p-3">
+                                                <input type="number" step="1" min="1" x-model.number="item.harga_display" @input="calculateRow(index)" required class="w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500" placeholder="0">
+                                                <input type="hidden" :name="`items[${index}][harga_satuan]`" :value="item.harga_satuan">
                                             </td>
                                             <td class="p-3 text-right">
                                                 <span class="font-medium text-gray-900 dark:text-gray-100" x-text="formatRupiah(item.sub_total)"></span>
@@ -139,7 +152,7 @@
                                         </tr>
                                     </template>
                                     <tr x-show="items.length === 0">
-                                        <td colspan="5" class="p-6 text-center text-gray-500 dark:text-gray-400 text-sm">Belum ada barang ditambahkan.</td>
+                                        <td colspan="6" class="p-6 text-center text-gray-500 dark:text-gray-400 text-sm">Belum ada barang ditambahkan.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -228,11 +241,14 @@
                     </x-card>
                 </div>
             </div>
+            
+
         </form>
     </div>
 @endsection
 
 @section('scripts')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
     function penjualanForm() {
         return {
@@ -244,8 +260,9 @@
             kandangError: '',
             isSubmitting: false,
             
+            
             items: [
-                { key: Date.now(), id_barang: '', kuantitas: 0, harga_satuan: 0, sub_total: 0, errorStock: '' }
+                { key: Date.now(), id_barang: '', qty_display: '', harga_display: '', satuan_display: 'Butir', kuantitas: 0, harga_satuan: 0, sub_total: 0, errorStock: '' }
             ],
 
             get grandTotal() {
@@ -256,11 +273,13 @@
                 // Return false if there are any stock errors
                 return !this.items.some(item => item.errorStock !== '') && this.kandangError === '';
             },
-
             addItem() {
                 this.items.push({ 
                     key: Date.now(), 
                     id_barang: '', 
+                    qty_display: '', 
+                    harga_display: '', 
+                    satuan_display: 'Butir',
                     kuantitas: 0, 
                     harga_satuan: 0, 
                     sub_total: 0,
@@ -277,7 +296,19 @@
 
             calculateRow(index) {
                 let item = this.items[index];
-                item.sub_total = (parseFloat(item.kuantitas) || 0) * (parseFloat(item.harga_satuan) || 0);
+                
+                // Kalkulasi konversi satuan
+                let multiplier = 1;
+                if (this.jenisPenjualan === 'telur') {
+                    if (item.satuan_display === 'Lapik') multiplier = 30;
+                    else if (item.satuan_display === 'Ikat') multiplier = 300;
+                }
+
+                // Kalkulasi backend value (disimpan tersembunyi)
+                item.kuantitas = (parseFloat(item.qty_display) || 0) * multiplier;
+                item.harga_satuan = (parseFloat(item.harga_display) || 0) / multiplier;
+                item.sub_total = (parseFloat(item.qty_display) || 0) * (parseFloat(item.harga_display) || 0);
+                
                 this.updateItemLimit(index);
             },
 
@@ -300,15 +331,14 @@
                         }
                     }
                 } else {
-                    // Cek stok barang
+                    // Cek stok barang (berdasarkan kuantitas konversi "butir")
                     let barang = this.masterBarang.find(b => b.id == item.id_barang);
                     if (barang) {
-                        // Hitung total qty barang ini di semua baris
                         let totalQty = this.items.filter(i => i.id_barang == item.id_barang)
                                                  .reduce((sum, i) => sum + (parseFloat(i.kuantitas) || 0), 0);
                         
                         if (totalQty > barang.stok) {
-                            item.errorStock = `Stok tidak cukup! (Maks: ${barang.stok} ${barang.satuan})`;
+                            item.errorStock = `Stok tidak cukup! (Sisa: ${barang.stok} ${barang.satuan})`;
                         }
                     }
                 }

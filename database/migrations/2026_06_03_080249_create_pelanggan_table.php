@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('kategori', 50)->nullable();
             $table->string('kontak', 20)->nullable();
             $table->text('alamat')->nullable();
+            $table->string('latitude', 50)->nullable();
+            $table->string('longitude', 50)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
