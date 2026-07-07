@@ -20,6 +20,8 @@ class Pelanggan extends Model
         'kategori',
         'kontak',
         'alamat',
+        'latitude',
+        'longitude',
     ];
 
     public function pengguna()

@@ -43,6 +43,9 @@ class TransaksiPenjualanService
                 'kategori_penjualan' => $data['kategori_penjualan'],
                 'id_kandang' => $data['id_kandang'] ?? null,
                 'catatan' => $data['catatan'] ?? null,
+                'alamat_pengiriman' => $data['alamat_pengiriman'] ?? null,
+                'latitude' => $data['latitude'] ?? null,
+                'longitude' => $data['longitude'] ?? null,
                 'status_order' => 'Menunggu',
             ]);
 

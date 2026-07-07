@@ -20,19 +20,34 @@ class OrderMasukController extends Controller
     public function index()
     {
         $orders = Penjualan::with(['pelanggan', 'detailPenjualan.barang', 'pengguna', 'penggunaGudang'])
-            ->where('status_order', '!=', 'Selesai')
-            ->orderByRaw("
-                CASE
-                    WHEN status_order = 'Menunggu' THEN 0
-                    WHEN status_order = 'Diproses' THEN 1
-                    ELSE 2
-                END ASC
-            ")
+            ->where('status_order', 'Menunggu')
             ->orderBy('tanggal_penjualan', 'asc')
             ->paginate(15)
             ->withQueryString();
 
         return view('transaksi.order-masuk.index', compact('orders'));
+    }
+
+    public function diproses()
+    {
+        $orders = Penjualan::with(['pelanggan', 'detailPenjualan.barang', 'pengguna', 'penggunaGudang'])
+            ->where('status_order', 'Diproses')
+            ->orderBy('tanggal_proses', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('transaksi.order-masuk.diproses', compact('orders'));
+    }
+
+    public function selesaiList()
+    {
+        $orders = Penjualan::with(['pelanggan', 'detailPenjualan.barang', 'pengguna', 'penggunaGudang'])
+            ->where('status_order', 'Selesai')
+            ->orderBy('updated_at', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('transaksi.order-masuk.selesai', compact('orders'));
     }
 
     /**
@@ -49,6 +64,7 @@ class OrderMasukController extends Controller
         $penjualan->update([
             'status_order' => 'Diproses',
             'id_pengguna_gudang' => Auth::id(),
+            'tanggal_proses' => now(),
         ]);
 
         AuditService::log("Memproses order penjualan {$penjualan->no_faktur_jual}");

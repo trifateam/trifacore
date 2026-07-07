@@ -223,10 +223,12 @@
 
             @role('Pegawai Gudang', 'Admin', 'Owner')
             <div x-show="activeMenu === 'order-masuk'" x-cloak>
-                <x-sidebar-nav-item href="/transaksi/order-masuk" :active="request()->is('transaksi/order-masuk*')">
+                <x-sidebar-nav-item href="/transaksi/order-masuk" :active="request()->is('transaksi/order-masuk')">
                     Daftar Order Masuk
                     <x-badge-notification :show="isset($pendingOrdersCount) && $pendingOrdersCount > 0" class="top-1/2 -translate-y-1/2 right-4" />
                 </x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/order-masuk/diproses" :active="request()->is('transaksi/order-masuk/diproses')">Order Diproses</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/order-masuk/selesai-list" :active="request()->is('transaksi/order-masuk/selesai-list')">Order Selesai</x-sidebar-nav-item>
             </div>
             <div x-show="activeMenu === 'penerimaan'" x-cloak>
                 <x-sidebar-nav-item href="/transaksi/pembelian" :active="request()->is('transaksi/pembelian*')">Input Penerimaan Barang</x-sidebar-nav-item>
