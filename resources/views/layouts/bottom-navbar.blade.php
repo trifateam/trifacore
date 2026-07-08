@@ -59,7 +59,7 @@
                         <span class="w-2 h-2 rounded-full bg-yellow-400 shrink-0"></span>Order Aktif
                     </a>
                     <a href="/transaksi/riwayat-penjualan" class="mobile-submenu-item {{ request()->is('transaksi/riwayat-penjualan*') ? 'mobile-submenu-active' : '' }}">
-                        <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Riwayat Penjualan
+                        <span class="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span>Order Selesai
                     </a>
                 </div>
             </template>

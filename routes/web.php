@@ -125,6 +125,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/order-aktif', [OrderAktifController::class, 'index'])->name('order-aktif');
         Route::get('/order-aktif/{id}/nota', [OrderAktifController::class, 'cetakNota'])->name('order-aktif.nota');
         Route::get('/order-aktif/{id}/nota/pdf', [OrderAktifController::class, 'downloadNota'])->name('order-aktif.nota.pdf');
+        Route::patch('/order-aktif/{id}/batalkan', [OrderAktifController::class, 'batalkanOrder'])->name('order-aktif.batalkan');
         Route::get('/riwayat-penjualan', [RiwayatPenjualanController::class, 'index'])->name('riwayat-penjualan');
         Route::get('/riwayat-penjualan/{id}', [RiwayatPenjualanController::class, 'show'])->name('riwayat-penjualan.show');
     });
@@ -139,6 +140,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/order-masuk/selesai-list', [OrderMasukController::class, 'selesaiList'])->name('order-masuk.selesai-list');
         Route::patch('/order-masuk/{id}/proses', [OrderMasukController::class, 'prosesOrder'])->name('order-masuk.proses');
         Route::patch('/order-masuk/{id}/selesai', [OrderMasukController::class, 'selesaiOrder'])->name('order-masuk.selesai');
+        Route::patch('/order-masuk/{id}/batalkan', [OrderMasukController::class, 'batalkanOrder'])->name('order-masuk.batalkan');
         Route::get('/order-masuk/{id}/surat-jalan', [OrderMasukController::class, 'cetakSuratJalan'])->name('order-masuk.surat-jalan');
         Route::get('/order-masuk/{id}/surat-jalan/pdf', [OrderMasukController::class, 'downloadSuratJalan'])->name('order-masuk.surat-jalan.pdf');
         Route::get('/riwayat-pembelian', [RiwayatPembelianController::class, 'index'])->name('riwayat-pembelian');

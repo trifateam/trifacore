@@ -13,8 +13,8 @@ class PenggunaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Bersihkan data pengguna sebelumnya jika ada, agar bersih (opsional)
-        Pengguna::query()->delete();
+        // Bersihkan data pengguna sebelumnya jika ada, agar bersih (hard delete)
+        Pengguna::query()->forceDelete();
 
         $users = [
             [
@@ -55,7 +55,10 @@ class PenggunaSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            Pengguna::create($user);
+            Pengguna::withTrashed()->updateOrCreate(
+                ['username' => $user['username']],
+                $user
+            );
         }
     }
 }

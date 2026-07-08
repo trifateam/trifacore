@@ -27,8 +27,6 @@ class Penjualan extends Model
         'id_pengguna_gudang',
         'tanggal_proses',
         'alamat_pengiriman',
-        'latitude',
-        'longitude',
     ];
 
     protected $casts = [
