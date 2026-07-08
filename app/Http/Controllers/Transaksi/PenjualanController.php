@@ -134,8 +134,6 @@ class PenjualanController extends Controller
             'id_kandang' => $request->id_kandang,
             'catatan' => $request->catatan,
             'alamat_pengiriman' => $pelanggan->alamat,
-            'latitude' => $pelanggan->latitude,
-            'longitude' => $pelanggan->longitude,
             'total_harga' => $totalHarga,
         ];
 

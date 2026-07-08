@@ -63,6 +63,17 @@
                                             <a href="{{ route('transaksi.order-aktif.nota.pdf', $order->id_penjualan) }}" class="p-1.5 rounded-md text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors" title="Download Nota PDF">
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
                                             </a>
+                                            <form action="{{ route('transaksi.order-aktif.batalkan', $order->id_penjualan) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" 
+                                                    {{ $order->status_order === 'Diproses' ? 'disabled' : '' }}
+                                                    onclick="return confirm('Apakah Anda yakin ingin membatalkan order ini?')" 
+                                                    class="p-1.5 rounded-md transition-colors {{ $order->status_order === 'Diproses' ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed' : 'text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30' }}" 
+                                                    title="{{ $order->status_order === 'Diproses' ? 'Tidak dapat dibatalkan (sedang diproses)' : 'Batalkan Order' }}">
+                                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

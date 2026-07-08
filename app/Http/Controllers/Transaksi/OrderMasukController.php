@@ -79,8 +79,8 @@ class OrderMasukController extends Controller
     {
         $penjualan = Penjualan::with(['detailPenjualan.barang'])->findOrFail($id);
 
-        if ($penjualan->status_order === 'Selesai') {
-            return back()->with('error', 'Order ini sudah selesai.');
+        if (in_array($penjualan->status_order, ['Selesai', 'Dibatalkan'])) {
+            return back()->with('error', 'Order ini sudah selesai atau dibatalkan.');
         }
 
         try {
@@ -147,5 +147,25 @@ class OrderMasukController extends Controller
         $filename = 'Surat-Jalan-'.$penjualan->no_faktur_jual.'.pdf';
 
         return $pdf->download($filename);
+    }
+
+    /**
+     * Batalkan order dari sisi Pegawai Gudang.
+     */
+    public function batalkanOrder($id)
+    {
+        $penjualan = Penjualan::findOrFail($id);
+
+        if (in_array($penjualan->status_order, ['Selesai', 'Dibatalkan'])) {
+            return back()->with('error', 'Order ini sudah selesai atau dibatalkan.');
+        }
+
+        $penjualan->update([
+            'status_order' => 'Dibatalkan',
+        ]);
+
+        AuditService::log("Membatalkan order penjualan {$penjualan->no_faktur_jual} dari sisi gudang");
+
+        return back()->with('success', "Order {$penjualan->no_faktur_jual} telah dibatalkan.");
     }
 }

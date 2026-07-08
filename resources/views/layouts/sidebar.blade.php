@@ -217,7 +217,7 @@
             <div x-show="activeMenu === 'transaksi'" x-cloak>
                 <x-sidebar-nav-item href="/transaksi/penjualan" :active="request()->is('transaksi/penjualan*')">Input Penjualan</x-sidebar-nav-item>
                 <x-sidebar-nav-item href="/transaksi/order-aktif" :active="request()->is('transaksi/order-aktif*')">Order Aktif</x-sidebar-nav-item>
-                <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Riwayat Penjualan</x-sidebar-nav-item>
+                <x-sidebar-nav-item href="/transaksi/riwayat-penjualan" :active="request()->is('transaksi/riwayat-penjualan')">Order Selesai</x-sidebar-nav-item>
             </div>
             @endrole
 

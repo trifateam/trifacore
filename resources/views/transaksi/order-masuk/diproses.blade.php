@@ -48,8 +48,8 @@
                                     <td class="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">{{ $order->pelanggan->nama_lengkap ?? '-' }}</td>
                                     <td class="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">
                                         <div class="line-clamp-2" title="{{ $order->alamat_pengiriman }}">{{ $order->alamat_pengiriman ?? '-' }}</div>
-                                        @if($order->latitude && $order->longitude)
-                                            <a href="https://maps.google.com/?q={{ $order->latitude }},{{ $order->longitude }}" target="_blank" class="mt-1 inline-flex items-center text-xs font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
+                                        @if($order->pelanggan && $order->pelanggan->latitude && $order->pelanggan->longitude)
+                                            <a href="https://maps.google.com/?q={{ $order->pelanggan->latitude }},{{ $order->pelanggan->longitude }}" target="_blank" class="mt-1 inline-flex items-center text-xs font-medium text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
                                                 <svg class="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                                 Buka Map
                                             </a>
@@ -72,12 +72,20 @@
                                         </div>
                                     </td>
                                     <td class="px-4 py-3 text-center">
-                                        <form action="{{ route('transaksi.order-masuk.selesai', $order->id_penjualan) }}" method="POST" class="inline">
-                                            @csrf @method('PATCH')
-                                            <button type="submit" class="px-3 py-1.5 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors" title="Selesaikan Order (Stok akan dikurangi)" onclick="return confirm('Selesaikan order ini? Pastikan barang telah diserahkan, karena stok gudang akan dikurangi.')">
-                                                Selesai
-                                            </button>
-                                        </form>
+                                        <div class="flex items-center justify-center gap-2">
+                                            <form action="{{ route('transaksi.order-masuk.selesai', $order->id_penjualan) }}" method="POST" class="inline">
+                                                @csrf @method('PATCH')
+                                                <button type="submit" class="px-3 py-1.5 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors" title="Selesaikan Order (Stok akan dikurangi)" onclick="return confirm('Selesaikan order ini? Pastikan barang telah diserahkan, karena stok gudang akan dikurangi.')">
+                                                    Selesai
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('transaksi.order-masuk.batalkan', $order->id_penjualan) }}" method="POST" class="inline">
+                                                @csrf @method('PATCH')
+                                                <button type="submit" class="px-3 py-1.5 text-xs font-medium text-white bg-red-600 hover:bg-red-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors" onclick="return confirm('Apakah Anda yakin ingin membatalkan order ini?')">
+                                                    Batalkan
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
