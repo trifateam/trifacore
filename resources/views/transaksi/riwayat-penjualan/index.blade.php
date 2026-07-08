@@ -4,10 +4,10 @@
     <x-breadcrumb :items="[
         ['label' => 'Dashboard', 'url' => route('dashboard')],
         ['label' => 'Transaksi'],
-        ['label' => 'Riwayat Penjualan'],
+        ['label' => 'Order Selesai'],
     ]" />
 
-    <x-page-header title="Riwayat Penjualan" subtitle="Lihat dan filter semua log transaksi penjualan" />
+    <x-page-header title="Order Selesai" subtitle="Lihat dan filter semua log transaksi penjualan" />
 
     {{-- Summary Bar --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
@@ -80,7 +80,8 @@
                         <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Pelanggan</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Kategori</th>
                         <th class="px-4 py-3 text-right text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Total (Rp)</th>
-                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status Bayar</th>
+                        <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status Order</th>
                         <th class="px-4 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </x-slot:thead>
@@ -106,6 +107,18 @@
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 <x-badge :variant="$badge">{{ $status }}</x-badge>
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-center">
+                                @php
+                                    $orderBadge = match($p->status_order) {
+                                        'Menunggu' => 'warning',
+                                        'Diproses' => 'info',
+                                        'Selesai' => 'success',
+                                        'Dibatalkan' => 'danger',
+                                        default => 'secondary'
+                                    };
+                                @endphp
+                                <x-badge :variant="$orderBadge">{{ $p->status_order }}</x-badge>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
                                 <a href="{{ route('transaksi.riwayat-penjualan.show', $p->id_penjualan) }}" class="text-indigo-600 hover:text-indigo-900 mx-1">Detail</a>
                                 
@@ -117,7 +130,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7" class="px-6 py-10">
+                            <td colspan="8" class="px-6 py-10">
                                 <x-empty-state 
                                     icon="inbox" 
                                     title="Data Tidak Ditemukan" 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Transaksi;
 use App\Http\Controllers\Controller;
 use App\Models\Penjualan;
 use App\Models\Setting;
+use App\Services\AuditService;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrderAktifController extends Controller
@@ -15,7 +16,7 @@ class OrderAktifController extends Controller
     public function index()
     {
         $orders = Penjualan::with(['pelanggan', 'detailPenjualan.barang', 'pengguna', 'piutang'])
-            ->where('status_order', '!=', 'Selesai')
+            ->whereIn('status_order', ['Menunggu', 'Diproses'])
             ->orderBy('tanggal_penjualan', 'desc')
             ->paginate(15)
             ->withQueryString();
@@ -48,5 +49,25 @@ class OrderAktifController extends Controller
         $filename = 'Nota-Penjualan-'.$penjualan->no_faktur_jual.'.pdf';
 
         return $pdf->download($filename);
+    }
+
+    /**
+     * Batalkan order yang masih aktif (khusus status Menunggu).
+     */
+    public function batalkanOrder($id)
+    {
+        $penjualan = Penjualan::findOrFail($id);
+
+        if ($penjualan->status_order !== 'Menunggu') {
+            return back()->with('error', 'Order hanya dapat dibatalkan jika masih dalam status Menunggu.');
+        }
+
+        $penjualan->update([
+            'status_order' => 'Dibatalkan',
+        ]);
+
+        AuditService::log("Membatalkan order penjualan {$penjualan->no_faktur_jual}");
+
+        return back()->with('success', "Order {$penjualan->no_faktur_jual} telah dibatalkan.");
     }
 }
