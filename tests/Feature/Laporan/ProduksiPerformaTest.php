@@ -18,14 +18,14 @@ beforeEach(function () {
     ]);
 
     $this->kandang = Kandang::create([
-        'id_pengguna' => $this->owner->id_pengguna, 
+        'id_pengguna' => $this->owner->id_pengguna,
         'nama_kandang' => 'Kandang A',
         'kapasitas' => 1000,
         'status_kandang' => 'Aktif',
     ]);
 
     $this->batch = Batch::create([
-        'kode_batch' => 'B-' . rand(100, 999),
+        'kode_batch' => 'B-'.rand(100, 999),
         'nama_batch' => 'Batch 01',
         'id_kandang' => $this->kandang->id_kandang,
         'populasi_awal' => 1000,
@@ -38,7 +38,7 @@ beforeEach(function () {
 
 test('owner can view produksi performa index', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/produksi-performa');
-    
+
     $response->assertStatus(200);
     $response->assertSee('Kandang A');
 });
@@ -56,7 +56,7 @@ test('owner can generate produksi performa json', function () {
         'total_berat_kg' => 10,
     ]);
 
-    $response = $this->actingAs($this->owner)->getJson('/laporan/produksi-performa/generate?' . http_build_query([
+    $response = $this->actingAs($this->owner)->getJson('/laporan/produksi-performa/generate?'.http_build_query([
         'kandang_id' => ['all'],
         'bulan' => date('m'),
         'tahun' => date('Y'),
@@ -72,6 +72,6 @@ test('owner can generate produksi performa json', function () {
         ],
         'chart_line',
         'chart_pie',
-        'table_data'
+        'table_data',
     ]);
 });

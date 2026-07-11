@@ -3,7 +3,6 @@
 use App\Models\Barang;
 use App\Models\Kandang;
 use App\Models\Pengguna;
-use App\Models\ProduksiPupukKandang;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -18,7 +17,7 @@ beforeEach(function () {
     ]);
 
     $this->kandang = Kandang::create([
-        'id_pengguna' => $this->pegawai->id_pengguna, 
+        'id_pengguna' => $this->pegawai->id_pengguna,
         'nama_kandang' => 'Kandang Pupuk',
         'kapasitas' => 1000,
         'status_kandang' => 'Aktif',

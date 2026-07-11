@@ -35,13 +35,13 @@ beforeEach(function () {
 
 test('owner can view cetak pembelian index', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/cetak/pembelian-pakan');
-    
+
     $response->assertStatus(200);
 });
 
 test('owner can generate cetak pembelian pdf', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/cetak/pembelian-pakan/pdf?supplier_id=all&bulan='.date('m').'&tahun='.date('Y'));
-    
+
     $response->assertStatus(200);
     // Usually PDF returns 200 with application/pdf header
     $response->assertHeader('content-type', 'application/pdf');

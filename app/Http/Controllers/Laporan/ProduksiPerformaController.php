@@ -18,7 +18,9 @@ class ProduksiPerformaController extends Controller
     {
         $kandangs = Kandang::all();
 
-        $years = collect(ProduksiTelur::select('tanggal_produksi')->get()->map(function($p) { return date('Y', strtotime($p->tanggal_produksi)); })->unique()->sortDesc()->values());
+        $years = collect(ProduksiTelur::select('tanggal_produksi')->get()->map(function ($p) {
+            return date('Y', strtotime($p->tanggal_produksi));
+        })->unique()->sortDesc()->values());
 
         if ($years->isEmpty()) {
             $years = collect([date('Y')]);

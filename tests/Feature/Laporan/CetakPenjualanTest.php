@@ -38,13 +38,13 @@ beforeEach(function () {
 
 test('owner can view cetak penjualan index', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/cetak/penjualan-telur');
-    
+
     $response->assertStatus(200);
 });
 
 test('owner can generate cetak penjualan pdf', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/cetak/penjualan-telur/pdf?pelanggan_id=all&bulan='.date('m').'&tahun='.date('Y'));
-    
+
     $response->assertStatus(200);
     $response->assertHeader('content-type', 'application/pdf');
 });

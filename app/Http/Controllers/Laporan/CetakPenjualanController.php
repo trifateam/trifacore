@@ -17,7 +17,9 @@ class CetakPenjualanController extends Controller
         $pelanggans = Pelanggan::all();
 
         $years = Penjualan::where('kategori_penjualan', 'Telur')
-            ->select('tanggal_penjualan')->get()->map(function($p) { return date('Y', strtotime($p->tanggal_penjualan)); })->unique()->sortDesc()->values();
+            ->select('tanggal_penjualan')->get()->map(function ($p) {
+                return date('Y', strtotime($p->tanggal_penjualan));
+            })->unique()->sortDesc()->values();
 
         if ($years->isEmpty()) {
             $years = collect([date('Y')]);

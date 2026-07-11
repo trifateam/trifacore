@@ -17,7 +17,7 @@ beforeEach(function () {
     ]);
 
     $this->kandang = Kandang::create([
-        'id_pengguna' => $this->pegawai->id_pengguna, 
+        'id_pengguna' => $this->pegawai->id_pengguna,
         'nama_kandang' => 'Kandang Suhu',
         'kapasitas' => 1000,
         'status_kandang' => 'Aktif',

@@ -18,14 +18,14 @@ beforeEach(function () {
     ]);
 
     $this->kandang = Kandang::create([
-        'id_pengguna' => $this->owner->id_pengguna, 
+        'id_pengguna' => $this->owner->id_pengguna,
         'nama_kandang' => 'Kandang A',
         'kapasitas' => 1000,
         'status_kandang' => 'Aktif',
     ]);
 
     $this->batch = Batch::create([
-        'kode_batch' => 'B-' . rand(100, 999),
+        'kode_batch' => 'B-'.rand(100, 999),
         'nama_batch' => 'Batch 01',
         'id_kandang' => $this->kandang->id_kandang,
         'populasi_awal' => 1000,
@@ -50,13 +50,13 @@ beforeEach(function () {
 
 test('owner can view cetak produksi index', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/cetak/produksi-telur');
-    
+
     $response->assertStatus(200);
 });
 
 test('owner can generate cetak produksi pdf', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/cetak/produksi-telur/pdf?kandang_id='.$this->kandang->id_kandang.'&bulan='.date('m').'&tahun='.date('Y'));
-    
+
     $response->assertStatus(200);
     $response->assertHeader('content-type', 'application/pdf');
 });

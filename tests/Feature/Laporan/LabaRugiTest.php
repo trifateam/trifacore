@@ -16,6 +16,6 @@ beforeEach(function () {
 
 test('owner can view laba rugi report', function () {
     $response = $this->actingAs($this->owner)->get('/laporan/laba-rugi');
-    
+
     $response->assertStatus(200);
 });

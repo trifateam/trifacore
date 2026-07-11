@@ -19,7 +19,9 @@ class CetakPembelianController extends Controller
         $years = Pembelian::whereHas('detailPembelian.barang', function ($q) {
             $q->whereIn('kategori_barang', ['Pakan', 'Vitamin']);
         })
-            ->select('tanggal_pembelian')->get()->map(function($p) { return date('Y', strtotime($p->tanggal_pembelian)); })->unique()->sortDesc()->values();
+            ->select('tanggal_pembelian')->get()->map(function ($p) {
+                return date('Y', strtotime($p->tanggal_pembelian));
+            })->unique()->sortDesc()->values();
 
         if ($years->isEmpty()) {
             $years = collect([date('Y')]);

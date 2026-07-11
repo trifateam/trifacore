@@ -19,14 +19,14 @@ beforeEach(function () {
     ]);
 
     $this->kandang = Kandang::create([
-        'id_pengguna' => $this->pegawai->id_pengguna, 
+        'id_pengguna' => $this->pegawai->id_pengguna,
         'nama_kandang' => 'Kandang A',
         'kapasitas' => 1000,
         'status_kandang' => 'Aktif',
     ]);
 
     $this->batch = Batch::create([
-        'kode_batch' => 'B-' . rand(100, 999),
+        'kode_batch' => 'B-'.rand(100, 999),
         'nama_batch' => 'Batch 01',
         'id_kandang' => $this->kandang->id_kandang,
         'populasi_awal' => 1000,
