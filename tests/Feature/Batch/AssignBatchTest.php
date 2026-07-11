@@ -46,6 +46,7 @@ test('admin bisa memproses form assign kandang untuk batch', function () {
         'id_batch' => $this->batch->id_batch,
         'id_kandang' => $this->kandang->id_kandang,
         'status_batch' => 'Aktif',
+        'kode_batch' => 'BCH-001',
         'nama_batch' => 'BCH-001 / Kandang Alpha',
     ]);
 

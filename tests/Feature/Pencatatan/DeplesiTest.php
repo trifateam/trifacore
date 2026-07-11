@@ -26,6 +26,7 @@ beforeEach(function () {
     $this->batch = Batch::create([
         'kode_batch' => 'BCH-01',
         'id_kandang' => $this->kandang->id_kandang,
+        'kode_batch' => 'B-'.rand(100, 999),
         'nama_batch' => 'BCH-01/Kandang A',
         'populasi_awal' => 1000,
         'populasi_saat_ini' => 1000,

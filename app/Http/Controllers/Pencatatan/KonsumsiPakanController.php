@@ -40,7 +40,7 @@ class KonsumsiPakanController extends Controller
         $kandangData = $kandangs->map(function ($kandang) use ($hariIni) {
             $batches = $kandang->batches->map(function ($batch) use ($hariIni) {
                 $jumlahSesiHariIni = KonsumsiPakan::where('id_batch', $batch->id_batch)
-                    ->where('tanggal_konsumsi', $hariIni)
+                    ->whereDate('tanggal_konsumsi', $hariIni)
                     ->count();
 
                 return [
@@ -72,7 +72,7 @@ class KonsumsiPakanController extends Controller
 
         // Cek apakah sudah 2 sesi
         $jumlahSesiHariIni = KonsumsiPakan::where('id_batch', $id_batch)
-            ->where('tanggal_konsumsi', $hariIni)
+            ->whereDate('tanggal_konsumsi', $hariIni)
             ->count();
 
         if ($jumlahSesiHariIni >= 2) {
@@ -102,7 +102,7 @@ class KonsumsiPakanController extends Controller
 
         // Cek batas sesi
         $jumlahSesiHariIni = KonsumsiPakan::where('id_batch', $id_batch)
-            ->where('tanggal_konsumsi', $hariIni)
+            ->whereDate('tanggal_konsumsi', $hariIni)
             ->count();
 
         if ($jumlahSesiHariIni >= 2) {

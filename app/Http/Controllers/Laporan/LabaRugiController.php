@@ -17,9 +17,15 @@ class LabaRugiController extends Controller
     public function index()
     {
         // Get available years from penjualan, pembelian, operasional
-        $yearsPenjualan = Penjualan::selectRaw('YEAR(tanggal_penjualan) as year')->distinct()->pluck('year')->toArray();
-        $yearsPembelian = Pembelian::selectRaw('YEAR(tanggal_pembelian) as year')->distinct()->pluck('year')->toArray();
-        $yearsOperasional = Operasional::selectRaw('YEAR(tanggal_operasional) as year')->distinct()->pluck('year')->toArray();
+        $yearsPenjualan = Penjualan::select('tanggal_penjualan')->get()->map(function ($x) {
+            return date('Y', strtotime($x->tanggal_penjualan));
+        })->unique()->toArray();
+        $yearsPembelian = Pembelian::select('tanggal_pembelian')->get()->map(function ($x) {
+            return date('Y', strtotime($x->tanggal_pembelian));
+        })->unique()->toArray();
+        $yearsOperasional = Operasional::select('tanggal_operasional')->get()->map(function ($x) {
+            return date('Y', strtotime($x->tanggal_operasional));
+        })->unique()->toArray();
 
         $allYears = array_unique(array_merge($yearsPenjualan, $yearsPembelian, $yearsOperasional, [date('Y')]));
         rsort($allYears);
