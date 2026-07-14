@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Batch;
 use App\Models\Kandang;
+use App\Models\LogPenyesuaianStok;
 use App\Services\AuditService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -192,6 +194,7 @@ class KandangOperasionalController extends Controller
             return back()->with('error', 'Gagal menempatkan pullet: '.$e->getMessage());
         }
     }
+
     public function afkir(Request $request, $id_batch)
     {
         $request->validate([
@@ -201,11 +204,11 @@ class KandangOperasionalController extends Controller
         try {
             DB::transaction(function () use ($request, $id_batch) {
                 $batch = Batch::lockForUpdate()->findOrFail($id_batch);
-                
-                if (!$batch->id_kandang) {
+
+                if (! $batch->id_kandang) {
                     throw new \Exception('Batch tidak memiliki kandang aktif.');
                 }
-                
+
                 $kandang = Kandang::lockForUpdate()->findOrFail($batch->id_kandang);
 
                 if ($batch->status_batch !== 'Aktif') {
@@ -232,8 +235,8 @@ class KandangOperasionalController extends Controller
                 $kandang->save();
 
                 // Cari atau buat produk Ayam Afkir untuk batch ini
-                $namaProduk = "Ayam Afkir - " . $batch->nama_batch;
-                $barang = \App\Models\Barang::firstOrCreate(
+                $namaProduk = 'Ayam Afkir - '.$batch->nama_batch;
+                $barang = Barang::firstOrCreate(
                     [
                         'nama_barang' => $namaProduk,
                         'kategori_barang' => 'Ayam',
@@ -254,7 +257,7 @@ class KandangOperasionalController extends Controller
                 $barang->save();
 
                 // Catat di log penyesuaian stok
-                \App\Models\LogPenyesuaianStok::create([
+                LogPenyesuaianStok::create([
                     'id_barang' => $barang->id_barang,
                     'id_pengguna' => auth()->id() ?? 1,
                     'stok_lama' => $barang->stok_barang - $jumlahAfkir,
@@ -270,7 +273,7 @@ class KandangOperasionalController extends Controller
                 ->with('success', 'Berhasil mengafkirkan ayam dan memindahkannya ke stok gudang.');
 
         } catch (\Exception $e) {
-            return back()->with('error', 'Gagal mengafkirkan ayam: ' . $e->getMessage());
+            return back()->with('error', 'Gagal mengafkirkan ayam: '.$e->getMessage());
         }
     }
 }

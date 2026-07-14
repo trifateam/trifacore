@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Transaksi;
 use App\Http\Controllers\Controller;
 use App\Models\AkunKas;
 use App\Models\Barang;
-use App\Models\Kandang;
 use App\Models\Pelanggan;
 use App\Services\TransaksiPenjualanService;
 use Illuminate\Http\Request;
