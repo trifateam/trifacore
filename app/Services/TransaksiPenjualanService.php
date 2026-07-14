@@ -41,7 +41,6 @@ class TransaksiPenjualanService
                 'metode_pembayaran' => $data['metode_pembayaran'],
                 'total_harga' => $data['total_harga'],
                 'kategori_penjualan' => $data['kategori_penjualan'],
-                'id_kandang' => $data['id_kandang'] ?? null,
                 'catatan' => $data['catatan'] ?? null,
                 'alamat_pengiriman' => $data['alamat_pengiriman'] ?? null,
                 'status_order' => 'Menunggu',

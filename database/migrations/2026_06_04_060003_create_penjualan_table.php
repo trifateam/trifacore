@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('metode_pembayaran', 50)->nullable();
             $table->decimal('total_harga', 15, 2)->default(0.00);
             $table->string('kategori_penjualan', 50)->nullable();
-            $table->unsignedInteger('id_kandang')->nullable();
             $table->text('catatan')->nullable();
             $table->string('status_order', 20)->default('Menunggu');
             $table->unsignedInteger('id_pengguna_gudang')->nullable();
@@ -27,7 +26,6 @@ return new class extends Migration
 
             $table->foreign('id_pelanggan')->references('id_pelanggan')->on('pelanggan')->onDelete('cascade');
             $table->foreign('id_pengguna')->references('id_pengguna')->on('pengguna')->onDelete('cascade');
-            $table->foreign('id_kandang')->references('id_kandang')->on('kandang')->onDelete('set null');
             $table->foreign('id_pengguna_gudang')->references('id_pengguna')->on('pengguna')->onDelete('set null');
         });
     }

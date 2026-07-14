@@ -63,8 +63,6 @@ class PenjualanController extends Controller
                 ->where('dapat_dijual', true)
                 ->get();
         } elseif ($jenis === 'afkir') {
-            // Untuk ayam afkir, kita perlu data kandang untuk update populasi
-            $kandangs = Kandang::all();
             // Cari master data untuk Ayam Afkir
             $barangs = Barang::where('dapat_dijual', true)
                 ->where(function ($query) {
@@ -79,7 +77,7 @@ class PenjualanController extends Controller
             }
         }
 
-        return view('transaksi.penjualan.create', compact('jenis', 'pelanggans', 'akunKas', 'barangs', 'kandangs'));
+        return view('transaksi.penjualan.create', compact('jenis', 'pelanggans', 'akunKas', 'barangs'));
     }
 
     /**
@@ -92,7 +90,6 @@ class PenjualanController extends Controller
             'jenis' => 'required|in:telur,afkir,pupuk',
             'id_pelanggan' => 'required|exists:pelanggan,id_pelanggan',
             'metode_pembayaran' => 'required|in:LUNAS,PIUTANG',
-            'id_kandang' => 'required_if:jenis,afkir',
             'id_akun_kas' => 'required_if:metode_pembayaran,LUNAS',
             'tanggal_jatuh_tempo' => 'nullable|date|required_if:metode_pembayaran,PIUTANG',
 
@@ -131,7 +128,6 @@ class PenjualanController extends Controller
             'metode_pembayaran' => $request->metode_pembayaran,
             'id_akun_kas' => $request->id_akun_kas,
             'tanggal_jatuh_tempo' => $request->tanggal_jatuh_tempo,
-            'id_kandang' => $request->id_kandang,
             'catatan' => $request->catatan,
             'alamat_pengiriman' => $pelanggan->alamat,
             'total_harga' => $totalHarga,

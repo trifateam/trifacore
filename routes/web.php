@@ -160,6 +160,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/riwayat', [KandangOperasionalController::class, 'riwayat'])->name('riwayat');
             Route::get('/assign/{batch}', [KandangOperasionalController::class, 'showAssignForm'])->name('assign.form');
             Route::post('/assign/{batch}', [KandangOperasionalController::class, 'assign'])->name('assign');
+            Route::post('/{batch}/afkir', [KandangOperasionalController::class, 'afkir'])->name('afkir');
         });
     });
 

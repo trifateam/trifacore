@@ -192,4 +192,85 @@ class KandangOperasionalController extends Controller
             return back()->with('error', 'Gagal menempatkan pullet: '.$e->getMessage());
         }
     }
+    public function afkir(Request $request, $id_batch)
+    {
+        $request->validate([
+            'jumlah_afkir' => 'required|integer|min:1',
+        ]);
+
+        try {
+            DB::transaction(function () use ($request, $id_batch) {
+                $batch = Batch::lockForUpdate()->findOrFail($id_batch);
+                
+                if (!$batch->id_kandang) {
+                    throw new \Exception('Batch tidak memiliki kandang aktif.');
+                }
+                
+                $kandang = Kandang::lockForUpdate()->findOrFail($batch->id_kandang);
+
+                if ($batch->status_batch !== 'Aktif') {
+                    throw new \Exception('Hanya batch aktif yang dapat diafkirkan.');
+                }
+
+                $jumlahAfkir = $request->jumlah_afkir;
+
+                if ($jumlahAfkir > $batch->populasi_saat_ini) {
+                    throw new \Exception('Jumlah afkir melebihi populasi batch saat ini.');
+                }
+
+                // Update populasi batch dan kandang
+                $batch->populasi_saat_ini -= $jumlahAfkir;
+                $kandang->populasi_saat_ini -= $jumlahAfkir;
+
+                if ($batch->populasi_saat_ini <= 0) {
+                    $batch->status_batch = 'Selesai';
+                    $batch->tgl_afkir = now();
+                    $batch->populasi_saat_ini = 0;
+                }
+
+                $batch->save();
+                $kandang->save();
+
+                // Cari atau buat produk Ayam Afkir untuk batch ini
+                $namaProduk = "Ayam Afkir - " . $batch->nama_batch;
+                $barang = \App\Models\Barang::firstOrCreate(
+                    [
+                        'nama_barang' => $namaProduk,
+                        'kategori_barang' => 'Ayam',
+                    ],
+                    [
+                        'id_pengguna' => auth()->id() ?? 1,
+                        'satuan' => 'Ekor',
+                        'stok_barang' => 0,
+                        'stok_minimum' => 0,
+                        'harga' => 0,
+                        'dapat_dijual' => true,
+                        'dapat_dibeli' => false,
+                    ]
+                );
+
+                // Tambah stok ke gudang
+                $barang->stok_barang += $jumlahAfkir;
+                $barang->save();
+
+                // Catat di log penyesuaian stok
+                \App\Models\LogPenyesuaianStok::create([
+                    'id_barang' => $barang->id_barang,
+                    'id_pengguna' => auth()->id() ?? 1,
+                    'stok_lama' => $barang->stok_barang - $jumlahAfkir,
+                    'stok_baru' => $barang->stok_barang,
+                    'alasan' => "Afkir Ayam dari Kandang {$kandang->nama_kandang} (Batch: {$batch->kode_batch})",
+                ]);
+
+                // Catat aktivitas
+                AuditService::log("Mengafkirkan {$jumlahAfkir} ekor ayam dari batch {$batch->nama_batch} dan memindahkannya ke stok gudang.");
+            });
+
+            return redirect()->route('batch.index')
+                ->with('success', 'Berhasil mengafkirkan ayam dan memindahkannya ke stok gudang.');
+
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal mengafkirkan ayam: ' . $e->getMessage());
+        }
+    }
 }

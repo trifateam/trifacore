@@ -18,13 +18,6 @@
         ];
     })->values()->toJson();
 
-    // Prepare kandangs array for Alpine (afkir)
-    $kandangsArray = $kandangs->map(function($k) {
-        return [
-            'id' => $k->id_kandang,
-            'populasi' => $k->populasi_saat_ini
-        ];
-    })->values()->toJson();
 @endphp
 
 @section('content')
@@ -74,21 +67,7 @@
                             </div>
 
 
-                            @if($jenis === 'afkir')
-                                <div class="md:col-span-2">
-                                    <label for="id_kandang" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Kandang Target (Sumber Ayam) <span class="text-red-500">*</span></label>
-                                    <select name="id_kandang" id="id_kandang" required x-model="selectedKandang" class="w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                                        <option value="">-- Pilih Kandang --</option>
-                                        @foreach($kandangs as $k)
-                                            <option value="{{ $k->id_kandang }}">
-                                                {{ $k->nama_kandang }} (Populasi: {{ number_format($k->populasi_saat_ini, 0, ',', '.') }} ekor)
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <p class="mt-1 text-xs text-red-500" x-show="kandangError" x-text="kandangError"></p>
-                                    @error('id_kandang') <p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ $message }}</p> @enderror
-                                </div>
-                            @endif
+
                         </div>
                     </x-card>
 
@@ -253,11 +232,8 @@
     function penjualanForm() {
         return {
             masterBarang: {!! $barangsArray !!},
-            masterKandang: {!! $kandangsArray !!},
             jenisPenjualan: '{{ $jenis }}',
             metodePembayaran: '{{ old("metode_pembayaran", "") }}',
-            selectedKandang: '{{ old("id_kandang", "") }}',
-            kandangError: '',
             isSubmitting: false,
             
             
@@ -271,7 +247,7 @@
 
             get isFormValid() {
                 // Return false if there are any stock errors
-                return !this.items.some(item => item.errorStock !== '') && this.kandangError === '';
+                return !this.items.some(item => item.errorStock !== '');
             },
             addItem() {
                 this.items.push({ 
@@ -318,28 +294,14 @@
 
                 if (!item.id_barang || !item.kuantitas) return;
 
-                if (this.jenisPenjualan === 'afkir') {
-                    // Cek populasi kandang
-                    if (this.selectedKandang) {
-                        let kandang = this.masterKandang.find(k => k.id == this.selectedKandang);
-                        // Hitung total qty afkir dari semua baris (biasanya cuma 1 baris, tapi berjaga-jaga)
-                        let totalQty = this.items.reduce((sum, i) => sum + (parseFloat(i.kuantitas) || 0), 0);
-                        if (kandang && totalQty > kandang.populasi) {
-                            this.kandangError = `Populasi tidak cukup. Tersedia: ${kandang.populasi}`;
-                        } else {
-                            this.kandangError = '';
-                        }
-                    }
-                } else {
-                    // Cek stok barang (berdasarkan kuantitas konversi "butir")
-                    let barang = this.masterBarang.find(b => b.id == item.id_barang);
-                    if (barang) {
-                        let totalQty = this.items.filter(i => i.id_barang == item.id_barang)
-                                                 .reduce((sum, i) => sum + (parseFloat(i.kuantitas) || 0), 0);
-                        
-                        if (totalQty > barang.stok) {
-                            item.errorStock = `Stok tidak cukup! (Sisa: ${barang.stok} ${barang.satuan})`;
-                        }
+                // Cek stok barang (berdasarkan kuantitas konversi "butir")
+                let barang = this.masterBarang.find(b => b.id == item.id_barang);
+                if (barang) {
+                    let totalQty = this.items.filter(i => i.id_barang == item.id_barang)
+                                             .reduce((sum, i) => sum + (parseFloat(i.kuantitas) || 0), 0);
+                    
+                    if (totalQty > barang.stok) {
+                        item.errorStock = `Stok tidak cukup! (Sisa: ${barang.stok} ${barang.satuan})`;
                     }
                 }
             },

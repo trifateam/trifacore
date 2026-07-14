@@ -21,7 +21,6 @@ class Penjualan extends Model
         'metode_pembayaran',
         'total_harga',
         'kategori_penjualan',
-        'id_kandang',
         'catatan',
         'status_order',
         'id_pengguna_gudang',
@@ -49,10 +48,6 @@ class Penjualan extends Model
         return $this->belongsTo(Pengguna::class, 'id_pengguna_gudang', 'id_pengguna');
     }
 
-    public function kandang()
-    {
-        return $this->belongsTo(Kandang::class, 'id_kandang', 'id_kandang');
-    }
 
     public function detailPenjualan()
     {

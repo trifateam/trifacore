@@ -64,7 +64,13 @@
                                     <x-badge variant="success">Aktif</x-badge>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <span class="text-xs text-gray-400 italic">No action</span>
+                                    <form method="POST" action="{{ route('batch.afkir', $batch->id_batch) }}" onsubmit="return confirm('Apakah Anda yakin ingin mengafkirkan SELURUH populasi ayam pada batch ini sejumlah {{ number_format($batch->populasi_saat_ini, 0, ',', '.') }} ekor? Status batch akan menjadi Selesai.')">
+                                        @csrf
+                                        <input type="hidden" name="jumlah_afkir" value="{{ $batch->populasi_saat_ini }}">
+                                        <button type="submit" class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Afkirkan Ayam
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
@@ -82,5 +88,6 @@
                 </x-table>
             </div>
         </x-card>
+
     </div>
 @endsection
